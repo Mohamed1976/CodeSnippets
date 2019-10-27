@@ -1,2 +1,2 @@
-# Code-Snippet
-Code snippet and exercises
+# CodeSnippets
+Code snippets and exercises
