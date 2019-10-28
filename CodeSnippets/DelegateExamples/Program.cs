@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
 
 namespace DelegateExamples
 {
@@ -16,6 +18,8 @@ namespace DelegateExamples
             Console.WriteLine($"7.12 + 6.57 = {string.Format("{0:0.00}", mathDelegate(7.12, 6.57))}. ");
             mathDelegate = Subtract;
             Console.WriteLine($"7.12 - 6.57 =  {string.Format("{0:0.00}", mathDelegate(7.12, 6.57))}. ");
+            PrintDelegate printDelegate = new PrintDelegate(PrintType);
+            printDelegate(1);
 
             #endregion
 
@@ -155,6 +159,58 @@ namespace DelegateExamples
 
             Console.WriteLine($"PredicateIsUpper anonymous method: {predicateIsUpper("Welcome")}");
 
+            //The Predicate delegate is used by several methods of the Array and List<T> classes to 
+            //search for elements in the collection. Typically, the Predicate<T> delegate is represented 
+            //by a lambda expression.Because locally scoped variables are available to the lambda expression, 
+            //it is easy to test for a condition that is not precisely known at compile time.
+            Point[] points =
+            {
+                new Point(100, 200),
+                new Point(150, 250),
+                new Point(250, 375),
+                new Point(275, 395),
+                new Point(295, 450),
+                new Point(1000, 450),
+                new Point(2000, 450),
+            };
+
+            Predicate<Point> predicate = (point) =>
+            {
+                return point.X * point.Y > 100000;
+            };
+
+            //Return points that meet predicate criteria.  
+            Point[] validPoints = Array.FindAll(points, predicate);
+            foreach(Point point in validPoints)
+            {
+                Console.WriteLine($"x[{point.X}], y[{point.Y}], x*y > 100000[{point.X*point.Y > 100000}]");
+            }
+
+            List<HockeyTeam> teams = new List<HockeyTeam>();
+            int[] years = { 1920, 1930, 1980, 2000 };
+            HockeyTeam[] hockeyTeams =
+            {
+                new HockeyTeam("Detroit Red Wings", 1926),
+                new HockeyTeam("Chicago Blackhawks", 1926),
+                new HockeyTeam("San Jose Sharks", 1991),
+                new HockeyTeam("Montreal Canadiens", 1909),
+                new HockeyTeam("St. Louis Blues", 1967)
+            };
+            teams.AddRange(hockeyTeams);
+            Random rnd = new Random();
+            int foundedBeforeYear = years[rnd.Next(0, years.Length)];
+            Console.WriteLine("Teams founded before {0}:", foundedBeforeYear);
+            Predicate<HockeyTeam> hockeyTeamPredicate = (hockeyTeam) =>
+            {
+                return hockeyTeam.Founded < foundedBeforeYear;
+            };
+            List<HockeyTeam> selectedTeams = teams.FindAll(hockeyTeamPredicate);
+            foreach(HockeyTeam hockeyTeam in selectedTeams)
+            {
+                Console.WriteLine("{0}: {1}", hockeyTeam.Name, hockeyTeam.Founded);
+            }
+
+
             #endregion
 
             Console.ReadLine();
@@ -163,7 +219,7 @@ namespace DelegateExamples
         #region [ Example01 ]
 
         public delegate double MathDelegate(double value1, double value2);
-
+        public delegate void PrintDelegate(int value);
         public static double Add(double value1, double value2)
         {
             return value1 + value2;
@@ -171,6 +227,10 @@ namespace DelegateExamples
         public static double Subtract(double value1, double value2)
         {
             return value1 - value2;
+        }
+        public static void PrintType<T>(T a)
+        {
+            Console.WriteLine("From PrintType {0}.", a.GetType());
         }
 
         #endregion
