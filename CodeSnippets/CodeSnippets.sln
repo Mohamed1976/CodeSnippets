@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29418.71
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeSnippets", "CodeSnippets\CodeSnippets.csproj", "{DECEE460-D8C4-4555-9B1F-CDBA65FD9A86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeSnippets", "CodeSnippets\CodeSnippets.csproj", "{DECEE460-D8C4-4555-9B1F-CDBA65FD9A86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DelegateExamples", "DelegateExamples\DelegateExamples.csproj", "{B1F22FBA-66A2-4D0E-8726-9DB068F0A020}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DelegateExamples", "DelegateExamples\DelegateExamples.csproj", "{B1F22FBA-66A2-4D0E-8726-9DB068F0A020}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtensionMethodsExamples", "ExtensionMethodsExamples\ExtensionMethodsExamples.csproj", "{77301ABF-5DF8-4859-9F8E-2636FD1B9C5D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{B1F22FBA-66A2-4D0E-8726-9DB068F0A020}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1F22FBA-66A2-4D0E-8726-9DB068F0A020}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1F22FBA-66A2-4D0E-8726-9DB068F0A020}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77301ABF-5DF8-4859-9F8E-2636FD1B9C5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77301ABF-5DF8-4859-9F8E-2636FD1B9C5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77301ABF-5DF8-4859-9F8E-2636FD1B9C5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77301ABF-5DF8-4859-9F8E-2636FD1B9C5D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
