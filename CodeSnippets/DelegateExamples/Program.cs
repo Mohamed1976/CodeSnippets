@@ -213,6 +213,50 @@ namespace DelegateExamples
 
             #endregion
 
+            #region [ Example05 ]
+
+            //Predicate<T> alternative is Func<T,bool> 
+            //Closure inside a delegate
+            //Closure is a block of code which can be executed at a later time, but which maintains 
+            //the environment in which it was first created - i.e.it can still use the local variables 
+            //etc of the method which created it, even after that method has finished executi
+            //https://stackoverflow.com/questions/428617/what-are-closures-in-net/428621#428621
+            Action actionDel = CreateAction();
+            actionDel();
+            actionDel();
+
+            #endregion
+
+            #region [ Example06 ]
+
+            //Passing delegates as parameters
+            Predicate<int> errorhandler1 = (int errorCode) =>
+            {
+                return errorCode > 10;
+            };
+
+            Predicate<int> errorhandler2 = (int errorCode) =>
+            {
+                return errorCode > 20;
+            };
+
+            ProcessData(errorhandler1);
+            ProcessData(errorhandler2);
+
+            #endregion
+
+            #region [ Example07 ]
+
+            //Encapsulating transformations in funcs
+            //The method ProcessData() uses a class delegate to validate internal class members. 
+            TestObject testObject = new TestObject();
+            testObject.ProcessData();
+            testObject.StartDate = DateTime.Now;
+            testObject.EndDate = DateTime.Now.AddSeconds(10);
+            testObject.ProcessData();
+
+            #endregion
+
             Console.ReadLine();
         }
 
@@ -265,5 +309,30 @@ namespace DelegateExamples
 
         #endregion
 
+        #region [ Example05 ]
+
+        static Action CreateAction()
+        {
+            int counter = 0;
+            return delegate
+            {
+                // Yes, it could be done in one statement; 
+                // but it is clearer like this.
+                counter++;
+                Console.WriteLine("Delegate closure example, counter={0}", counter);
+            };
+        }
+
+        #endregion
+
+        #region [ Example06 ]
+
+        public static void ProcessData(Predicate<int> predicate)
+        {
+            int errorCode = 13;
+            Console.WriteLine($"ProcessData returnVal [{predicate(errorCode)}]");
+        }
+
+        #endregion
     }
 }

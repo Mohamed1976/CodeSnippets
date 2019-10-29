@@ -34,6 +34,16 @@ namespace ExtensionMethodsExamples
             person.Fill().Print();
             double number = 3;
             Console.WriteLine(number.Add(7).Subtract(5).Multiply(4).DivideBy(2));
+            //Extension methods are static methods which behave like instance methods. 
+            //However, unlike what happens when calling an instance method on a null 
+            //reference, when an extension method is called with a null reference, it does
+            //not throw a NullReferenceException.This can be quite useful in some scenarios.
+            string nullString = null;
+            string emptyString = nullString.EmptyIfNull();// will return ""
+            string anotherNullString = emptyString.NullIfEmpty(); // will return null
+
+            StringExtensions.Print("Static method syntax works when calling the static class.");
+
 
             #endregion
 
@@ -59,6 +69,16 @@ namespace ExtensionMethodsExamples
         public static string Excite(this string text)
         {
             return text.Replace(period, exclamtionPoint);
+        }
+
+        public static string EmptyIfNull(this string text)
+        {
+            return text ?? String.Empty;
+        }
+
+        public static string NullIfEmpty(this string text)
+        {
+            return String.Empty == text ? null : text;
         }
     }
 
