@@ -77,6 +77,29 @@ namespace CodeSnippets
 
             #endregion
 
+            #region [ Yield keyword ]
+
+            //When using the Yield method, after each yield, control is returned to the calling method
+            List<string> stringList = new List<string>(new string[] {"Alfa", "Beta", "Gamma", "Een", "Delta", "Ywe" });
+            foreach (string str in Filter(stringList))
+            {
+                Console.WriteLine($"Yield keyword calling method: {str}");
+            }
+
+            List<string> results = Filter(stringList).ToList();
+            foreach (string str in results)
+            {
+                Console.WriteLine($"Yield keyword after results received: {str}");
+            }
+
+            //The Yield method variables retain their value between function calls
+            foreach (int i in RunningTotal())
+            {
+                Console.WriteLine($"Yield keyword RunningTotal(): {i}");
+            }
+
+            #endregion
+
             Console.ReadLine();
         }
 
@@ -165,5 +188,32 @@ namespace CodeSnippets
         }
 
         #endregion
+
+        #region [ Yield keyword ]
+
+        static IEnumerable<string> Filter(List<string> stringList)
+        {
+            foreach(string str in stringList)
+            {
+                if(str.Length > 3)
+                {
+                    Console.WriteLine($"Yield keyword method CALLED: {str}");
+                    yield return str;
+                }
+            }
+        }
+
+        static IEnumerable<int> RunningTotal()
+        {
+            int total = 0;
+
+            for(int i = 0; i < 3; i++)
+            {
+                total++;
+                yield return total;
+            }
+        }
+
+        #endregion
+        }
     }
-}
