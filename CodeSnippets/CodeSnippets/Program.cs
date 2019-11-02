@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using VehicleRegistration;
 
 namespace CodeSnippets
 {
@@ -9,15 +10,13 @@ namespace CodeSnippets
     {
         static void Main(string[] args)
         {
-            #region [ Example01 ]
-
-            //C# 8.0 language
-            //.Net Core 3.0 
+            #region [ What is new in C# 8.0 ]
+            //https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8
             //readonly method
-            Rectangle rectangle = new Rectangle(10,10);
+            Rectangle rectangle = new Rectangle(10, 10);
             Console.WriteLine("Rectangle area: [{0}]", rectangle.Area());
             //Indices and ranges
-            string[] digits = new string[] 
+            string[] digits = new string[]
             {
                 "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"
             };
@@ -74,13 +73,30 @@ namespace CodeSnippets
             numberArrays.Add(new double[] { 45, 85, 32, 324, 97 });
             sumResult = numberArrays?[indexOfSetToSum]?.Sum() ?? double.NaN;
             Console.WriteLine($"Should be {16 + 28 + 39 + 311 + 613}: {sumResult}");
+            //In past do asynchronous call and wait for all the data to be available.
+            //Using IAsyncEnumerable, As the data is available you yield it and return it. 
+            //Gets Data and returns it immediately, then waits for data await async Task.. etc
+            //Async iterators are useful when you have to get some data, process the data and get some more. 
+            /* Uncomment to see behaviour
+            AsyncIterator();
+            */
 
+            try
+            {
+                decimal toll = CalculateToll(new Car { Passengers = 3 }, DateTime.Now.AddDays(3), inbound:true);
+                Console.WriteLine($"CalculateToll {toll}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            
             #endregion
 
             #region [ Yield keyword ]
 
             //When using the Yield method, after each yield, control is returned to the calling method
-            List<string> stringList = new List<string>(new string[] {"Alfa", "Beta", "Gamma", "Een", "Delta", "Ywe" });
+            List<string> stringList = new List<string>(new string[] { "Alfa", "Beta", "Gamma", "Een", "Delta", "Ywe" });
             foreach (string str in Filter(stringList))
             {
                 Console.WriteLine($"Yield keyword calling method: {str}");
@@ -187,11 +203,93 @@ namespace CodeSnippets
 
         }
 
+        //Note async methods should always return Task or use FireAndForget extension method 
+        public static async void AsyncIterator()
+        {
+            AsyncIterators asyncIterators = new AsyncIterators();
+            await asyncIterators.AsyncIterator();
+        }
+
+        private enum TimeBand
+        {
+            MorningRush,
+            Daytime,
+            EveningRush,
+            Overnight
+        }
+
+        public static decimal CalculateToll(object vehicle, DateTime timeOfToll, bool inbound)
+        {
+            bool isWeekDay = timeOfToll.DayOfWeek switch
+            {
+                /*
+                DayOfWeek.Monday => true,
+                DayOfWeek.Tuesday => true,
+                DayOfWeek.Wednesday => true,
+                DayOfWeek.Thursday => true,
+                DayOfWeek.Friday => true,
+                DayOfWeek.Saturday => false,
+                DayOfWeek.Sunday => false,
+                _ => throw new ArgumentException(message: "Not known DayOfWeek", paramName: nameof(timeOfToll))
+                */
+
+                //Above can be simplified to this 
+                DayOfWeek.Saturday => false,
+                DayOfWeek.Sunday => false,
+                _ => true 
+            };
+
+            TimeBand timeBand = TimeBand.Overnight;
+            int hours = timeOfToll.Hour;
+            if(hours < 6)
+            {
+                timeBand = TimeBand.Overnight;
+            }
+            else if(hours < 10)
+            {
+                timeBand = TimeBand.MorningRush;
+            }
+            else if (hours < 16)
+            {
+                timeBand = TimeBand.Daytime;
+            }
+            else if (hours < 20)
+            {
+                timeBand = TimeBand.EveningRush;
+            }
+
+            var peakTimePremium = (isWeekDay, timeBand, inbound) switch
+            {
+                (true, TimeBand.Overnight, _) => 0.75m,
+                (true, TimeBand.Daytime, _) => 1.50m,
+                (true, TimeBand.MorningRush, true) => 2.50m,
+                (true, TimeBand.EveningRush, false) => 2.50m,
+                //All other possibilities
+                (_, _, _) => 1.00m,
+            };
+
+            //Switch on vehicle type  
+            var toll = vehicle switch
+            {
+                Car { Passengers:3 } => 1.00m,
+                Car { Passengers:2  } => 1.50m,
+                Car _ => 2.00m,
+                Taxi _ => 4.50m,
+                Bus _ => 5.50m,
+                Truck _ => 7.50m,
+                //If some other type {}
+                { } => throw new ArgumentException(message: "Not known vehicle type", paramName: nameof(vehicle)),
+                null => throw new ArgumentNullException(nameof(vehicle))
+            };
+
+            return toll + peakTimePremium;
+        }
+
         #endregion
 
-        #region [ Yield keyword ]
+    #region [ Yield keyword ]
 
-        static IEnumerable<string> Filter(List<string> stringList)
+    static IEnumerable<string> Filter(List<string> stringList)
         {
             foreach(string str in stringList)
             {
@@ -217,3 +315,27 @@ namespace CodeSnippets
         #endregion
         }
     }
+
+namespace VehicleRegistration
+{
+    public class Car
+    {
+        public int Passengers { get; set; }
+    }
+
+    public class Taxi
+    {
+        public int Fares { get; set; }
+    }
+
+    public class Bus
+    {
+        public int Capacity { get; set; }
+        public int Riders { get; set; }
+    }
+
+    public class Truck
+    {
+        public int Weight { get; set; }
+    }
+}
