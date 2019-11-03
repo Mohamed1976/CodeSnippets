@@ -17,9 +17,57 @@ namespace CodeSnippets
             Console.WriteLine("Rectangle area: [{0}]", rectangle.Area());
             //Indices and ranges
             string[] digits = new string[]
-            {
-                "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"
+            {                   //Index from start      //Index from end
+                "The",          //0                     //^10    
+                "quick",        //1                     //^9
+                "brown",        //2                     //^8
+                "fox",          //3                     //^7
+                "jumped",       //4                     //^6
+                "over",         //5                     //^5
+                "the",          //6                     //^4
+                "lazy",         //7                     //^3
+                "dog",          //8                     //^2
+                "Ten"           //9                     //^1
             };
+            var allWords = digits[..]; //Contains all the content
+            var firstPhrases = digits[..4]; //Contains digits[0]..digits[3]
+            var lastPhrases = digits[6..]; //Contains digits[6]..digits[9]
+            Index index = ^4;
+            Console.WriteLine($"{index}: {digits[index]}");
+            //The last element is not included in the range
+            Range range = 1..4;
+            var list = digits[range];
+            var _numbers = Enumerable.Range(0, 100).ToArray();
+            int x = 12;
+            int y = 25;
+            int z = 36;
+            Console.WriteLine($"{_numbers[^x]} is the same as {_numbers[_numbers.Length - x]}");
+            Console.WriteLine($"{_numbers[x..y].Length} is the same as {y - x}");
+            Span<int> spanXY = _numbers[x..y];
+            Span<int> spanYZ = _numbers[y..z];
+            Console.WriteLine($"spanXY and spanYZ are consecutive.");
+            foreach (int i in spanXY)
+            {
+                Console.WriteLine($"spanXY: {i}"); 
+            }
+
+            foreach (int i in spanYZ)
+            {
+                Console.WriteLine($"spanYZ: {i}");
+            }
+            
+            Console.WriteLine($"_numbers[x..^x] removes x elements from both ends.");
+            Span<int> spanXX = _numbers[x..^x];
+            Console.WriteLine($"spanXX[0] {spanXX[0]}, spanXX[^1] {spanXX[^1]}.");
+
+            Console.WriteLine($"_numbers[..x] means _numbers[0..x] and means _numbers[x..] means _numbers[x..^0]");
+            Span<int> spanX = _numbers[..x];
+            Span<int> span0X = _numbers[0..x];
+            Console.WriteLine($"\tspanX vs span0X: {spanX[0]}..{spanX[^1]} is the same as {span0X[0]}..{span0X[^1]}");
+            Span<int> spanZ = _numbers[z..];
+            Span<int> spanZEnd = _numbers[z..^0];
+            Console.WriteLine($"\tspanZ vs spanZEnd: {spanZ[0]}..{spanZ[^1]} is the same as {spanZEnd[0]}..{spanZEnd[^1]}");
+
             //Display last digit "Ten"
             Console.WriteLine($"digits[^1]: {digits[^1]}");
             //Display "Nine"
@@ -73,6 +121,7 @@ namespace CodeSnippets
             numberArrays.Add(new double[] { 45, 85, 32, 324, 97 });
             sumResult = numberArrays?[indexOfSetToSum]?.Sum() ?? double.NaN;
             Console.WriteLine($"Should be {16 + 28 + 39 + 311 + 613}: {sumResult}");
+
             //In past do asynchronous call and wait for all the data to be available.
             //Using IAsyncEnumerable, As the data is available you yield it and return it. 
             //Gets Data and returns it immediately, then waits for data await async Task.. etc
@@ -80,7 +129,6 @@ namespace CodeSnippets
             /* Uncomment to see behaviour
             AsyncIterator();
             */
-
             try
             {
                 decimal toll = CalculateToll(new Car { Passengers = 3 }, DateTime.Now.AddDays(3), inbound:true);
@@ -90,7 +138,12 @@ namespace CodeSnippets
             {
                 Console.WriteLine(ex.Message);
             }
-            
+
+            //Using interfaces
+            LoggerFactory loggerFactory = new LoggerFactory();
+            var logger = loggerFactory.GetLogger(LoggerType.Database);
+            logger.Log("Log message");
+
             #endregion
 
             #region [ Yield keyword ]
