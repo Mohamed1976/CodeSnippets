@@ -10,6 +10,12 @@ namespace ExtensionMethodsExamples.Domains
         {
         }
 
+        public Person(string first, string last)
+        {
+            Firstname = first;
+            Lastname = last;
+        }
+
         private string firstname;
 
         public string Firstname

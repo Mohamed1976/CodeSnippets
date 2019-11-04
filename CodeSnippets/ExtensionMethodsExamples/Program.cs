@@ -43,7 +43,12 @@ namespace ExtensionMethodsExamples
             string anotherNullString = emptyString.NullIfEmpty(); // will return null
 
             StringExtensions.Print("Static method syntax works when calling the static class.");
-
+            //Extension method (Deconstruct(this Person p, out string first, out string last)) returns tuple  
+            Person person1 = new Person("myFirstname", "myLastname");
+            //(string fName, string lName) = person1;
+            //(var fName, var lName) = person1;
+            var (fName, lName) = person1;
+            Console.WriteLine($"Deconstruct method is called returning tuple, {fName}, {lName}");
 
             #endregion
 
@@ -101,6 +106,15 @@ namespace ExtensionMethodsExamples
         public static double DivideBy(this double value, double newValue)
         {
             return value / newValue;
+        }
+    }
+
+    public static class PersonExtensions
+    {
+        public static void Deconstruct(this Person p, out string first, out string last)
+        {
+            first = p.Firstname;
+            last = p.Lastname;
         }
     }
 }

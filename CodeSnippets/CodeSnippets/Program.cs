@@ -177,8 +177,110 @@ namespace CodeSnippets
 
             #endregion
 
+            #region [ Tuples ]
+
+            //https://docs.microsoft.com/en-us/dotnet/csharp/tuples
+            TupleExample();
+
+            #endregion
+
             Console.ReadLine();
         }
+
+        #region [ Tuple methods ]
+
+        //To access tuple elements use Item1-Item8 properties.
+        //Tuples are created using generic types Tuple<T1>-Tuple<T1, T2, T3, T4, T5, T6, T7, T8>. 
+        //Each of the types represents a tuple containing 1 to 8 elements.Elements can be of different types.
+        public static void TupleExample()
+        {
+            //Unnamed tuples, you can access the properties using [Item1..ItemX]
+            var tuple = new Tuple<string, int, bool, Car>("foo", 123, true, new Car() { Passengers=6 });
+            string firstProp = tuple.Item1;
+            int secondProp = tuple.Item2;
+            bool thirdProp = tuple.Item3;
+            Car fourthProp = tuple.Item4;
+            Console.WriteLine($"Tuple content: {firstProp}, {secondProp}, {thirdProp}, {fourthProp.GetType()}, {fourthProp.Passengers}   ");
+            //Tuples can also be created using static Tuple.Create methods. In this case, the types of the elements 
+            //are inferred by the C# Compiler.
+            var tuple1 = Tuple.Create<string, int, bool, Car>("foo", 123, true, new Car() { Passengers = 6 });
+            Console.WriteLine($"Tuple1 content: {tuple1.Item1}, {tuple1.Item2}, {tuple1.Item3}, {tuple1.Item4.GetType()}, {tuple1.Item4.Passengers}   ");
+            //Since C# 7.0, Tuples can be easily created using ValueTuple.
+            var tuple2 = ("foo", 123, true, new Car() { Passengers = 6 });
+            Console.WriteLine($"Tuple2 content: {tuple2.Item1}, {tuple2.Item2}, {tuple2.Item3}, {tuple2.Item4.GetType()}, {tuple2.Item4.Passengers}   ");
+            //Elements can be named for easier decomposition, named tuples
+            (string str, int number, bool flag, Car instance) tuple3 = ("foo", 123, true, new Car() { Passengers = 6 });
+            Console.WriteLine($"Tuple3 content: {tuple3.str}, {tuple3.number}, {tuple3.flag}, {tuple3.instance.GetType()}, {tuple3.instance.Passengers}   ");
+            //Tuples can be compared based on their elements.
+            //As an example, an enumerable whose elements are of type Tuple can be sorted based on comparisons operators
+            //defined on a specified element:
+            List<Tuple<int, string>> list = new List<Tuple<int, string>>();
+            list.Add(new Tuple<int, string>(6, "foo"));
+            list.Add(new Tuple<int, string>(5, "bar"));
+            list.Add(new Tuple<int, string>(2, "qux"));
+            list.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+            foreach (var element in list)
+            {
+                Console.WriteLine($"Sorted tuple ascending {element}");
+            }
+
+            list.Sort((x, y) => y.Item1.CompareTo(x.Item1));
+            foreach (var element in list)
+            {
+                Console.WriteLine($"Sorted tuple descending {element}");
+            }
+            //Return multiple values from a method
+            var result = AddMultiply(25, 28);
+            Console.WriteLine($"Tuple x + y = {result.Item1}");
+            Console.WriteLine($"Tuple x * y = {result.Item2}");
+            //Equality and tuples
+            //Beginning with C# 7.3, tuple types support the == and != operators. These operators work by
+            //comparing each member of the left argument to each member of the right argument in order.
+            var left = (a: 5, b: 10);
+            var right = (a: 5, b: 10);
+            Console.WriteLine($"Tuples are equal {left == right}");
+            double stdev = StandardDeviation(new double[] { 12.34, 6.78, 5.67, 7.89, 11.14 });
+            Console.WriteLine($"Calculation stdev {string.Format("{0:0.00}", stdev)}");
+        }
+
+        //Delegate as alternative for function specification
+        public static Tuple<int, int> AddMultiply(int x, int y) =>
+            new Tuple<int, int>(x + y, x * y);
+
+        //For one, the Tuple classes named their properties Item1, Item2, and so on.Those names carry no semantic information.Using these Tuple types does not enable communicating the meaning of each of the properties.The new language features enable you to declare and use semantically meaningful names for the elements in a tuple.
+        //The Tuple classes cause more performance concerns because they are reference types.
+        public static double StandardDeviation(IEnumerable<double> sequence)
+        {
+            var computation = ComputeSumAndSumOfSquares(sequence);
+            //Equal calls
+            //(int count, double sum, double sumOfSquares) = ComputeSumAndSumOfSquares(sequence);
+            //var (sum, sumOfSquares, count) = ComputeSumAndSumOfSquares(sequence);
+            //(double sum, var sumOfSquares, var count) = ComputeSumAndSumOfSquares(sequence);
+            var variance = computation.SumOfSquares - computation.Sum * computation.Sum / computation.Count;
+            return Math.Sqrt(variance / computation.Count);
+        }
+
+        //You can remove the field names from the return value declaration and return an unnamed tuple.
+        //The fields of this return tuple are named Item1, Item2, and Item3. 
+        //It's recommended that you provide semantic names to the elements of tuples returned from methods.
+        //private static (int, double, double) ComputeSumAndSumOfSquares(IEnumerable<double> sequence)
+        private static (int Count, double Sum, double SumOfSquares) ComputeSumAndSumOfSquares(IEnumerable<double> sequence)
+        {
+            double sum = 0;
+            double sumOfSquares = 0;
+            int count = 0;
+
+            foreach (var item in sequence)
+            {
+                count++;
+                sum += item;
+                sumOfSquares += item * item;
+            }
+
+            return (count, sum, sumOfSquares);
+        }
+
+        #endregion
 
         #region [ What is new in C# 8.0 ]
 
