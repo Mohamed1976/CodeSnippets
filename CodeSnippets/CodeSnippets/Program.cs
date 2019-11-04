@@ -68,6 +68,11 @@ namespace CodeSnippets
             Span<int> spanZEnd = _numbers[z..^0];
             Console.WriteLine($"\tspanZ vs spanZEnd: {spanZ[0]}..{spanZ[^1]} is the same as {spanZEnd[0]}..{spanZEnd[^1]}");
 
+            //New range indices allow you to easily iterate through arrays.     
+            IndicesExample();
+            //You can use a static function within a static function.
+            StaticLocalFunc();
+
             //Display last digit "Ten"
             Console.WriteLine($"digits[^1]: {digits[^1]}");
             //Display "Nine"
@@ -108,7 +113,8 @@ namespace CodeSnippets
             List<int> numbers = null;
             //If the list is not allocated, allocate new list 
             numbers ??= new List<int>();
-            numbers.AddRange(new int[] { 5, 9, 11, 17 });
+            int? intNumber = null; 
+            numbers.AddRange(new int[] { intNumber ??= 5, intNumber ??= 9, 11, 17 });
             Console.WriteLine($"After new list is allocated, items [{string.Join(" ", numbers)}]");
             int indexOfSetToSum = 1;
             double sumResult = 0;
@@ -138,6 +144,8 @@ namespace CodeSnippets
             {
                 Console.WriteLine(ex.Message);
             }
+
+            //Interpolated verbatim strings, $@"" == @$"", the @ and $ order doesn't matter  
 
             //Using interfaces
             LoggerFactory loggerFactory = new LoggerFactory();
@@ -172,7 +180,66 @@ namespace CodeSnippets
             Console.ReadLine();
         }
 
-        #region [ Example01 ]
+        #region [ What is new in C# 8.0 ]
+
+        public static void IndicesExample()
+        {
+            int[] sequence = Enumerable.Range(0, 1000).Select(x => (int)(Math.Sqrt(x) * 100)).ToArray(); 
+            
+            for(int i = 0; i < sequence.Length; i += 100)
+            {
+                Range range = i..(i + 10);
+                var (min, max, average) = MovingAverage(sequence, range);
+                Console.WriteLine($"Forward: Range.Start[{range.Start}], " +
+                    $"Range.End[{range.End}] Calculated (min[{min}], max[{max}], average[{average}])  ");
+            }
+
+            for (int i = 0; i < sequence.Length; i += 100)
+            {
+                Range range = ^(i + 10)..^i;
+                var (min, max, average) = MovingAverage(sequence, range);
+                Console.WriteLine($"Backward: Range.Start[{range.Start}], " +
+                    $"Range.End[{range.End}] Calculated (min[{min}], max[{max}], average[{average}])  ");
+            }
+
+            //Local lambda function to calculate moving average, returning Tuple. 
+            (int min, int max, double average) MovingAverage(int[] sequence, Range range) =>
+                (
+                    sequence[range].Min(),
+                    sequence[range].Max(),
+                    sequence[range].Average()
+                );
+        }
+
+        public static void StaticLocalFunc()
+        {
+            foreach(int i in Counter(0, 10))
+            {
+                Console.WriteLine($"StaticLocalFunc() i:[{i}]");
+            }
+        }
+
+        //Local functions were added in c# 7.0
+        //Static local function were added in c# 8.0
+        //By using a static local function, you know that the local static function 
+        //is not using variables in its outer scope, the Just-In-Time (JIT) compiler can then make some optimizations     
+        public static IEnumerable<int> Counter(int start, int end)
+        {
+            if (start > end)
+                throw new ArgumentOutOfRangeException(nameof(start), "Start index should be less than end index.");
+
+            return LocalCounter(start, end);
+
+            static IEnumerable<int> LocalCounter(int start, int end)
+            {
+                for (int i = start; i < end; i++)
+                {
+                    Console.WriteLine($"yield return i:[{i}]");
+                    yield return i;
+                }                
+            }
+        }
+
 
         public static double Calculator(double x, double y, MathOperation operation)
         {
