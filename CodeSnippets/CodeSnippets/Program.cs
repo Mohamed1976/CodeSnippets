@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using VehicleRegistration;
@@ -11,6 +12,7 @@ namespace CodeSnippets
         static void Main(string[] args)
         {
             #region [ What is new in C# 8.0 ]
+
             //https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8
             //readonly method
             Rectangle rectangle = new Rectangle(10, 10);
@@ -181,6 +183,28 @@ namespace CodeSnippets
 
             //https://docs.microsoft.com/en-us/dotnet/csharp/tuples
             TupleExample();
+
+            #endregion
+
+            #region [ ConfigurationManager ]
+
+            //There are different ways to maintain the Configuration file.
+            //1) Read Configuration using ConnectionStrings from App.Config
+            //2) Read Configuration using AppSettings from App.Config
+            //3) Read Configuration from External Config file
+            //https://docs.microsoft.com/en-us/dotnet/api/system.configuration.configurationmanager.appsettings?view=netframework-4.8
+            //You need the nuget System.Configuration.ConfigurationManager
+            //Add Application Configuration File (App.config)
+            Console.WriteLine($"\nConfigurationManager------------------------------------------------------------------");
+            ReadAllSettings();
+            ReadSetting("Username");
+            ReadSetting("NoneExisting");
+            AddUpdateAppSettings("DefaultColor", "Red");
+            //You can encrypt sensitive information in the connection Strings and Configuration Files
+            //https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/connection-strings-and-configuration-files
+            GetConnectionStrings();
+            ReadConnectionString("NoneExistingDB");
+            ReadConnectionString("DBConnection");
 
             #endregion
 
@@ -509,9 +533,9 @@ namespace CodeSnippets
 
         #endregion
 
-    #region [ Yield keyword ]
+        #region [ Yield keyword ]
 
-    static IEnumerable<string> Filter(List<string> stringList)
+        static IEnumerable<string> Filter(List<string> stringList)
         {
             foreach(string str in stringList)
             {
@@ -535,8 +559,118 @@ namespace CodeSnippets
         }
 
         #endregion
+
+        #region [ ConfigurationManager ]
+
+        static void ReadAllSettings()
+        {
+            try
+            {
+                var appSettings = ConfigurationManager.AppSettings;
+
+                if (appSettings.Count == 0)
+                {
+                    Console.WriteLine("AppSettings is empty.");
+                }
+                else
+                {
+                    foreach (var key in appSettings.AllKeys)
+                    {
+                        Console.WriteLine("Key: {0} Value: {1}", key, appSettings[key]);
+                    }
+                }
+            }
+            catch (ConfigurationErrorsException ex)
+            {
+                Console.WriteLine($"Error reading app settings {ex.Message}");
+            }
         }
+
+        static void GetConnectionStrings()
+        {
+            ConnectionStringSettingsCollection connectionSettings = ConfigurationManager.ConnectionStrings;
+
+            if(connectionSettings == null)
+            {
+                Console.WriteLine("ConnectionSettings is empty.");
+            }
+            else
+            {
+                foreach (ConnectionStringSettings cs in connectionSettings)
+                {
+                    Console.WriteLine("Key: {0}, Provider: {1}, Value: {2}", cs.Name, cs.ProviderName, cs.ConnectionString);
+                }
+            }
+        }
+
+        static void ReadConnectionString(string key)
+        {
+            try
+            {
+                var connectionString = ConfigurationManager.ConnectionStrings;
+                if (connectionString == null)
+                {
+                    Console.WriteLine("ConnectionSettings is empty.");
+                }
+                else
+                {
+                    if(connectionString[key] == null)
+                    {
+                        Console.WriteLine($"Key {key}, Not Found");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Key: {0}, Provider: {1}, Value: {2}", connectionString[key].Name, connectionString[key].ProviderName, connectionString[key].ConnectionString);
+                    }
+                }
+            }
+            catch (ConfigurationErrorsException ex)
+            {
+                Console.WriteLine($"Error reading connection string {ex.Message}");
+            }
+        }
+
+        static void ReadSetting(string key)
+        {
+            try
+            {
+                var appSettings = ConfigurationManager.AppSettings;
+                string result = appSettings[key] ?? "Not Found";
+                Console.WriteLine("Key: {0} Value: {1}", key, result);
+            }
+            catch (ConfigurationErrorsException ex)
+            {
+                Console.WriteLine($"Error reading app settings {ex.Message}");
+            }
+        }
+
+        static void AddUpdateAppSettings(string key, string value)
+        {
+            try
+            {
+                var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                var settings = configFile.AppSettings.Settings;
+                if (settings[key] == null)
+                {
+                    settings.Add(key, value);
+                }
+                else
+                {
+                    settings[key].Value = value;
+                }
+                configFile.Save(ConfigurationSaveMode.Modified);
+                ConfigurationManager.RefreshSection(configFile.AppSettings.SectionInformation.Name);
+            }
+            catch (ConfigurationErrorsException ex)
+            {
+                Console.WriteLine($"Error reading app settings {ex.Message}");
+            }
+        }
+
+        #endregion
+
     }
+}
 
 namespace VehicleRegistration
 {
@@ -561,3 +695,5 @@ namespace VehicleRegistration
         public int Weight { get; set; }
     }
 }
+
+
