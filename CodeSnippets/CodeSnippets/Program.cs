@@ -218,6 +218,27 @@ namespace CodeSnippets
 
             #endregion
 
+            #region[ Singleton ]
+
+            //Singleton is registered in autofac as SingleInstance
+            //builder.RegisterType<ApplicationStatus>().As<IApplicationStatus>().SingleInstance();
+            Console.WriteLine($"\nSingleton-----------------------------------------------------------------------------");
+            IApplicationStatus applicationStatus = new ApplicationStatus();
+            applicationStatus.EnterBusy();
+            applicationStatus.SetMessage(SeverityType.Error, "Error message set.");
+            Console.WriteLine($"IApplicationStatus.Busy: {applicationStatus.IsBusy}, Message: {applicationStatus.Message}");
+            //Statically Initialized Singleton 
+            Singleton singleton = Singleton.Instance;
+            Console.WriteLine($"singleton.GetState(): {singleton.GetState()}");
+            Singleton singleton2 = Singleton.Instance;
+            Console.WriteLine($"singleton2.GetDetails(): {singleton2.GetDetails()}");
+            Singleton singleton3 = Singleton.Instance;
+            Console.WriteLine($"singleton3.GetDetails(): {singleton3.GetDetails()}");
+            Singleton singleton4 = Singleton.Instance;
+            Console.WriteLine($"singleton4.AreaOfCircle(2): {singleton4.AreaOfCircle(2)}");
+
+            #endregion
+
             Console.ReadLine();
         }
 
