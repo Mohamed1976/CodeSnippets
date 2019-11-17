@@ -1,8 +1,11 @@
-﻿using System;
+﻿using AbstractClassesNamespace;
+using BankNamespace;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using VehicleRegistration;
 
 namespace CodeSnippets
@@ -236,6 +239,145 @@ namespace CodeSnippets
             Console.WriteLine($"singleton3.GetDetails(): {singleton3.GetDetails()}");
             Singleton singleton4 = Singleton.Instance;
             Console.WriteLine($"singleton4.AreaOfCircle(2): {singleton4.AreaOfCircle(2)}");
+
+            #endregion
+
+            #region [ Abstract classes, inheritance and virtual methods ]
+
+            //Difference and similarity between Virtual and Abstract keywords.
+            //The main and most important difference between Virtual and Abstract Keywords is that Virtual method / property 
+            //may or may not be overriden in the derived class. Whereas, in case of abstract keyword, you have to override 
+            //the method or property, or else the compiler will throw error.
+            //Virtual and Abstract are the only methods/properties that can be overriden in the derived class.
+            //Access modifiers can only be: public, protected, internal or protected internal. Private modifier is not allowed 
+            //because you can not access private methods/properties from derived classes.    
+            //Virtual methods have an implementation and provide the derived classes with the option of overriding it. 
+            //Abstract methods do not provide an implementation and force the derived classes to override the method.
+            //If an abstract method is defined in a class, then the class must be declared as an abstract class.
+            //Virtual Method can reside in an abstract and non-abstract class. It provides the derived classes 
+            //with the option of overriding it. By default, methods defined in the base class are not overridable.
+            //You can apply the sealed keyword to indicate that a class cannot serve as a base class for any additional classes.
+            Console.WriteLine($"\nAbstract and Virtual methods----------------------------------------------------------");
+            UKEUBankCustomer uKEUBankCustomer = new UKEUBankCustomer("MyName");
+            Console.WriteLine($"UKEUBankCustomer.GetName() {uKEUBankCustomer.GetName()}");
+            Console.WriteLine($"UKEUBankCustomer.GetCustomerType() {uKEUBankCustomer.GetCustomerType()}");
+            Console.WriteLine($"UKEUBankCustomer.GetCustomerTypeName() {uKEUBankCustomer.GetCustomerTypeName()}");
+            //The virtual method is called because there is not override  
+            Console.WriteLine($"UKEUBankCustomer.GetCountryRegion() {uKEUBankCustomer.GetCountryRegion()}");
+
+            NonUKEUBankCustomer nonUKEUBankCustomer = new NonUKEUBankCustomer("Another name");
+            Console.WriteLine($"nonUKEUBankCustomer.GetName() {nonUKEUBankCustomer.GetName()}");
+            Console.WriteLine($"nonUKEUBankCustomer.GetCustomerType() {nonUKEUBankCustomer.GetCustomerType()}");
+            Console.WriteLine($"nonUKEUBankCustomer.GetCustomerTypeName() {nonUKEUBankCustomer.GetCustomerTypeName()}");
+            Console.WriteLine($"nonUKEUBankCustomer.GetCountryRegion() {nonUKEUBankCustomer.GetCountryRegion()}");
+
+            //Interfaces imply a "can do" relationship
+            //In C#, A class can implement one or more interfaces. But a class can inherit only one abstract class.
+            //In C#, An interface cannot have the constructor declaration. An abstract class can have the constructor declaration.
+            //An abstract class can be fully, partially or not implemented (methods, fields, constructors). Interfaces should be fully implemented.
+            FulltimeEmployee fulltimeEmployee = new FulltimeEmployee("FG45","MyFirstName", "MyLastName");
+            Console.WriteLine($"FulltimeEmployee.Add(), {fulltimeEmployee.Add()}");
+            Console.WriteLine($"FulltimeEmployee.Delete(), {fulltimeEmployee.Delete()}");
+            fulltimeEmployee.FirstName = "MyFirstName2";
+            fulltimeEmployee.LastName = "MyLastName2";
+            fulltimeEmployee.ID = "AS65";
+            Console.WriteLine($"FulltimeEmployee.Search() after modification, {fulltimeEmployee.Search()}");
+            Console.WriteLine($"FulltimeEmployee.CalculateWage(), {fulltimeEmployee.CalculateWage()}");
+            //abstract Shape class and  derived classes
+            Shape[] shapes = { new AbstractClassesNamespace.Rectangle(10, 12), new Square(5), new Circle(3) };
+            foreach (var shape in shapes)
+            {
+                Console.WriteLine($"{shape}: area, {Shape.GetArea(shape)}; " + $"perimeter, {Shape.GetPerimeter(shape)}");
+                Console.WriteLine($"{shape}: area, {shape.Area}; " + $"perimeter, {shape.Perimeter}");
+
+                var rect = shape as AbstractClassesNamespace.Rectangle;
+                if (rect != null)
+                {
+                    Console.WriteLine($"   Is Square: {rect.IsSquare()}, Diagonal: {rect.Diagonal}");
+                }
+
+                var sq = shape as Square;
+                if (sq != null)
+                {
+                    Console.WriteLine($"   Diagonal: {sq.Diagonal}");
+                }
+
+                var circle = shape as Circle;
+                if (circle != null)
+                {
+                    Console.WriteLine($"   Circumference: {circle.Circumference}, Radius: {circle.Radius}");
+                }
+            }
+
+            //https://docs.microsoft.com/en-us/dotnet/csharp/tutorials/inheritance
+            //https://docs.microsoft.com/en-us/dotnet/api/system.object?view=netframework-4.8
+            //Inheritance applies only to classes and interfaces.Other type categories(structs, delegates, and enums) do not support inheritance.
+            //Inheritance is a feature of object-oriented programming languages that allows you to define a base class 
+            //that provides specific functionality(data and behavior) and to define derived classes that either inherit 
+            //or override that functionality. Inheritance is one of the fundamental attributes of object-oriented programming.
+            //It allows you to define a child class that reuses(inherits), extends, or modifies the behavior of a parent class. 
+            //The class whose members are inherited is called the base class. The class that inherits the members of the base 
+            //class is called the derived class.C# and .NET support single inheritance only. That is, a class can only inherit 
+            //from a single class. However, inheritance is transitive, which allows you to define an inheritance hierarchy for 
+            //a set of types. In other words, type D can inherit from type C, which inherits from type B, which inherits from 
+            //the base class type A. Because inheritance is transitive, the members of type A are available to type D.
+            //GetValue() get private value from base class, possible because of nested class
+            var b = new A.B();
+            Console.WriteLine(b.GetValue());
+
+            //Protected members are visible only in derived classes.
+            //Internal members are visible only in derived classes that are located in the same assembly as the base class. 
+            //They are not visible in derived classes located in a different assembly from the base class.
+            //Public members are visible in derived classes and are part of the derived class' public interface. 
+            //Public inherited members can be called just as if they are defined in the derived class.
+            //Derived classes can also override inherited members by providing an alternate implementation.
+            //In order to be able to override a member, the member in the base class must be marked with the virtual keyword.
+            //You can override inherited member only when marked as virtual, abstract, or override. 
+            //All types in the .NET type system implicitly inherit from Object or a type derived from it. 
+            //For example SimpleClass does not have any members, but when using reflection, we find nine members
+            //One of these members is a parameterless (or default) constructor that is automatically supplied for 
+            //the SimpleClass type by the C# compiler. The remaining eight are members of Object, the type from 
+            //which all classes and interfaces in the .NET type system ultimately implicitly inherit.  
+            Type t = typeof(SimpleClass);
+            BindingFlags flags = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public |
+                                 BindingFlags.NonPublic | BindingFlags.FlattenHierarchy;
+            MemberInfo[] members = t.GetMembers(flags);
+            Console.WriteLine($"Type {t.Name} has {members.Length} members: ");
+            foreach (var member in members)
+            {
+                string access = "";
+                string stat = "";
+                var method = member as MethodBase;
+                if (method != null)
+                {
+                    if (method.IsPublic)
+                        access = " Public";
+                    else if (method.IsPrivate)
+                        access = " Private";
+                    else if (method.IsFamily)
+                        access = " Protected";
+                    else if (method.IsAssembly)
+                        access = " Internal";
+                    else if (method.IsFamilyOrAssembly)
+                        access = " Protected Internal ";
+                    if (method.IsStatic)
+                        stat = " Static";
+                }
+                var output = $"{member.Name} ({member.MemberType}): {access}{stat}, Declared by {member.DeclaringType}";
+                Console.WriteLine(output);
+            }
+
+            //Abstract Publication class and derived book class 
+            var book = new Book("The Tempest", "0971655819", "Shakespeare, William", "Public Domain Press");
+            Console.WriteLine($"{book.Title}, " +
+                $"{(book.GetPublicationDate() == "NYP" ? "Not Yet Published" : "published on " + book.GetPublicationDate()):d} by {book.Publisher}");
+            book.Publish(new DateTime(2016, 8, 18));
+            Console.WriteLine($"{book.Title}, " +
+                $"{(book.GetPublicationDate() == "NYP" ? "Not Yet Published" : "published on " + book.GetPublicationDate()):d} by {book.Publisher}");
+            var book2 = new Book("The Tempest", "Classic Works Press", "Shakespeare, William");
+            Console.WriteLine($"{book.Title} and {book2.Title} are the same publication: " +
+                  $"{book.Equals(book2)}");
+
 
             #endregion
 
