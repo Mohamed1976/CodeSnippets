@@ -242,7 +242,7 @@ namespace CodeSnippets
 
             #endregion
 
-            #region [ Abstract classes, inheritance and virtual methods ]
+            #region [ Abstract classes, Partial classes, inheritance and virtual methods ]
 
             //Difference and similarity between Virtual and Abstract keywords.
             //The main and most important difference between Virtual and Abstract Keywords is that Virtual method / property 
@@ -378,6 +378,88 @@ namespace CodeSnippets
             Console.WriteLine($"{book.Title} and {book2.Title} are the same publication: " +
                   $"{book.Equals(book2)}");
 
+            //https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/partial-classes-and-methods
+            //It is possible to split the definition of a class, a struct, an interface or a method over two or 
+            //more source files.Each source file contains a section of the type or method definition, and all parts 
+            //are combined when the application is compiled. 
+            //There are several situations when splitting a class definition is desirable:
+            //1) When working on large projects, spreading a class over separate files enables multiple 
+            //programmers to work on it at the same time.
+            //2) When working with automatically generated source, code can be added to the class without having to 
+            //recreate the source file. Visual Studio uses this approach when it creates Windows Forms, 
+            //Web service wrapper code, and so on. You can create code that uses these classes without 
+            //having to modify the file created by Visual Studio.
+            Customer customer = new Customer("MyFirstName", "MyLastName");
+            customer.DoWork();
+            customer.GoToLunch();
+            //Partial struct 
+            PartialStruct partialStruct;
+            partialStruct.Struct_Test();
+            partialStruct.Struct_Test2();
+
+            //In C#, a method in a derived class can have the same name as a method in the base class. 
+            //You can specify how the methods interact by using the new and override keywords. The override 
+            //modifier extends the base class virtual method, and the new modifier hides an accessible base 
+            //class method. The difference is illustrated in the examples in this topic.
+            //New Keyword to hide implementation of base class
+            BaseClass baseClass = new BaseClass();
+            //DerivedClass is casted to base class 
+            BaseClass DerivedCastedToBase = new DerivedClass();
+            DerivedClass derivedClass = new DerivedClass();
+            baseClass.Method1();
+            baseClass.Method2();
+            baseClass.Method3();
+            baseClass.Method4();
+            DerivedCastedToBase.Method1();
+            DerivedCastedToBase.Method2();
+            DerivedCastedToBase.Method3();
+            DerivedCastedToBase.Method4();
+            derivedClass.Method1();
+            derivedClass.Method2();
+            derivedClass.Method3();
+            derivedClass.Method4();
+            //Output
+            //BaseClass - Method1
+            //BaseClass - Method2
+            //BaseClass - Method3
+            //BaseClass - Method4
+            //DerivedCastedToBase, when casting derived class to base class the overridde method in the 
+            //derived class is called instead of the method in the base class (DerivedClass - Method3).  
+            //BaseClass - Method1
+            //BaseClass - Method2
+            //DerivedClass - Method3
+            //BaseClass - Method4
+            //BaseClass - Method1
+            //DerivedClass - Method2
+            //DerivedClass - Method3
+            //DerivedClass - Method4
+
+
+            //TestCars1 produces the following output.Notice especially the results for car2, which probably are not 
+            //what you expected.The type of the object is ConvertibleCar, but DescribeCar does not access the version 
+            //of ShowDetails that is defined in the ConvertibleCar class because that method is declared with the new 
+            //modifier, not the override modifier.As a result, a ConvertibleCar object displays the same description 
+            //as a Car object. Contrast the results for car3, which is a Minivan object. In this case, the ShowDetails 
+            //method that is declared in the Minivan class overrides the ShowDetails method that is declared in the 
+            //Car class, and the description that is displayed describes a minivan.
+            StandardCar car1 = new StandardCar();
+            car1.DescribeCar();
+
+            //Notice the output from this test case. The new modifier is  
+            //used in the definition of ShowDetails in the ConvertibleCar class.    
+            //ShowDetails() of the base class is called because of the "public new void ShowDetails()" and not override keyword     
+            ConvertibleCar car2 = new ConvertibleCar();
+            car2.DescribeCar();
+
+            Minivan car3 = new Minivan();
+            car3.DescribeCar();
+
+            //Output is the same as above   
+            var cars = new List<StandardCar> { new StandardCar(), new ConvertibleCar(), new Minivan() };
+            foreach (var car in cars)
+            {
+                car.DescribeCar();
+            }
 
             #endregion
 
