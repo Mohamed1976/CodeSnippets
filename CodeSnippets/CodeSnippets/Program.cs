@@ -1,5 +1,7 @@
 ﻿using AbstractClassesNamespace;
 using BankNamespace;
+using CodeSnippets.Enums;
+using CodeSnippets.Implementing_Value_Equality;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -14,6 +16,180 @@ namespace CodeSnippets
     {
         static void Main(string[] args)
         {
+
+            #region [ Enums ]
+
+            //Console.WriteLine(WeekDays.Friday);
+            //Console.WriteLine((int)WeekDays.Friday);
+
+            //Enum:         Is an abstract class that includes static helper methods to work with enums.
+            //GetNames:     Returns an array of string name of all the constant of specified enum.
+            //GetValues:    Returns an array of the values of all the constants of specified enum.
+            //GetName:      Returns the name of the constant of the specified value of specified enum.
+            //Format:       Converts the specified value of enum type to the specified string format.
+            //object Parse(type, string)    Converts the string representation of the name or numeric 
+            //                              value of one or more enumerated constants to an equivalent enumerated object. 
+            //bool TryParse(string, out TEnum)  Converts the string representation of the name or numeric value 
+            //                                  of one or more enumerated constants to an equivalent enumerated object. 
+            //                                  The return value indicates whether the conversion succeeded. 
+
+            //Calling GetNames 
+            Console.WriteLine($"{nameof(StringComparisonOperators)}: " + Helper.GetEnumNames(typeof(StringComparisonOperators)));
+            Console.WriteLine($"{nameof(NumericComparisonOperators)}: " + Helper.GetEnumNames(typeof(NumericComparisonOperators)));
+            Console.WriteLine($"{nameof(ListComparisonOperators)}: " + Helper.GetEnumNames(typeof(ListComparisonOperators)));
+            Console.WriteLine($"{nameof(OrderStatus)}: " + Helper.GetEnumNames(typeof(OrderStatus)));            
+            Console.WriteLine($"{nameof(OrderStatus)}: " + Helper.GetEnumNames<OrderStatus>()); //Using generics to call GetNames
+            //Calling GetValues retrieves enum values and corresponding name (using GetName())  
+            Dictionary<string, int> enumAndValues = Helper.EnumNamedValues<Moods>();
+            foreach(KeyValuePair<string, int> enumAndValue in enumAndValues)
+            {
+                Console.WriteLine($"{enumAndValue.Key} => {enumAndValue.Value}");
+            }
+
+            //Enum DaysOfWeek
+            enumAndValues = Helper.EnumNamedValues<DaysOfWeek>();
+            foreach (KeyValuePair<string, int> enumAndValue in enumAndValues)
+            {
+                Console.WriteLine($"{enumAndValue.Key} => {enumAndValue.Value}");
+            }
+
+            //Retrieve the description of enum
+            Console.WriteLine($"Description of OrderStatus.InProcess: {Helper.GetDescription(OrderStatus.InProcess)} ");
+            //The function returns the enum name when no description is found
+            Console.WriteLine($"Description of DaysOfWeek.Weekdays: {Helper.GetDescription(DaysOfWeek.Weekdays)} ");
+
+            #endregion
+
+            #region [ Implementing Value Equality ]
+
+            Console.WriteLine($"\nImplementing Value Equality-----------------------------------------------------------");
+            object objectX = new object();
+            //objectY references objectX 
+            object objectY = objectX;
+            ReferenceEquals(objectX, objectY);
+            Console.WriteLine("ReferenceEquals(objectX, objectY): {0} == true (Objects reference the same memory)", ReferenceEquals(objectX, objectY));
+
+            //String is a reference type, the equal operator compares the values not the memory addresses 
+            // Define some strings:
+            string stringX = "hello";
+            string stringY = "hello";
+            // Compare string values of a constant and an instance: True
+            Console.WriteLine("stringX == stringY: {0} == true (Values are compared)", stringX == stringY);
+            Console.WriteLine("ReferenceEquals(stringX, stringY): {0} == false (Different references)", ReferenceEquals(stringX, stringY));
+
+            //https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable.sequenceequal?view=netframework-4.8
+            Pet pet1 = new Pet { Name = "Turbo", Age = 2 };
+            Pet pet2 = new Pet { Name = "Peanut", Age = 8 };
+
+            // Create two lists of pets.
+            List<Pet> pets1 = new List<Pet> { pet1, pet2 };
+            List<Pet> pets2 = new List<Pet> { pet1, pet2 };
+
+            //true if the two source sequences are of equal length and their corresponding elements are equal according to the 
+            //default equality comparer for their type; otherwise, false.
+            bool equal = pets1.SequenceEqual(pets2);
+            //Lists reference the same memory objects, therefore are equal  
+            Console.WriteLine("The lists {0} equal.", equal ? "are" : "are not");
+            List<Pet> pets3 = new List<Pet> { new Pet { Name = "Turbo", Age = 2 }, new Pet { Name = "Peanut", Age = 8 } };
+            //Values are equal, but the two lists reference different memories "are not equal"
+            equal = pets1.SequenceEqual(pets3);
+            Console.WriteLine("The lists {0} equal.", equal ? "are" : "are not");
+
+            //Product class has implemented custom comparator, value comparison instead of reference comparison  
+            Product[] storeA = { new Product { Name = "apple", Code = 9 }, new Product { Name = "orange", Code = 4 } };
+            Product[] storeB = { new Product { Name = "apple", Code = 9 }, new Product { Name = "orange", Code = 4 } };
+            bool equalAB = storeA.SequenceEqual(storeB);
+            Console.WriteLine("storeA.SequenceEqual(storeB) Equal? " + equalAB);
+
+            //https://www.codeproject.com/Articles/5251448/Implementing-Value-Equality-in-Csharp
+            //Reference equality and value equality are two different ways to determine the equality of an object.
+            //With reference equality, two objects are compared by memory address.If both objects point to the same
+            //memory address, they are equivalent. Otherwise, they are not.Using reference equality, the data the object 
+            //holds is not considered. The only time two objects are equal is if they actually refer to the same instance.
+
+            //Often, we would prefer to use value equality.With value equality, two objects are considered equal if all of 
+            //their fields have the same data, whether or not they point to the same memory location. That means multiple 
+            //instances can be equal to each other, unlike with reference equality.
+
+            //A class that implements IEqualityComparer<T> compare class instances using using value semantics like Dictionary<TKey, TValue>.
+            //Normal instance comparisons will use reference equality.
+            Implementing_Value_Equality.Employee employeeX = new Implementing_Value_Equality.Employee(id: 1,
+                firstName: "John",
+                lastName: "Smith",
+                birthday: new DateTime(1981, 11, 19));
+            
+            Implementing_Value_Equality.Employee employeeY = new Implementing_Value_Equality.Employee(id: 1,
+                firstName: "John",
+                lastName: "Smith",
+                birthday: new DateTime(1981, 11, 19));
+
+            List<Implementing_Value_Equality.Employee> employees = new List<Implementing_Value_Equality.Employee>();
+            employees.Add(employeeX);
+            employees.Add(employeeY);
+            //The default comparison is reference, therefore the two object above are seen as different;    
+            int count = employees.Distinct<Implementing_Value_Equality.Employee>().ToList().Count;
+            Console.WriteLine($"employees.Distinct using default reference comparison, 2 == {count}.");
+            //Comparison using value equality, therefore the two object above are seen having the same values;    
+            count = employees.Distinct<Implementing_Value_Equality.Employee>(EmployeeEqualityComparer.Default).ToList().Count;
+            Console.WriteLine($"employees.Distinct using value equality comparison, 1 == {count}.");
+            // These will return false, since the 2 instances have different memory addresses
+            // this is reference equality:
+            Console.WriteLine("employeeX.Equals(employeeY): {0}", employeeX.Equals(employeeY));
+            Console.WriteLine("employeeX==employeeY: {0}", employeeX == employeeY);
+            Console.WriteLine("ReferenceEquals(employeeX, employeeY): {0}", ReferenceEquals(employeeX, employeeY));
+            //EmployeeEqualityComparer employeeEqualityComparer = new EmployeeEqualityComparer();
+            //Alternatively to object creation as above, we can use the singleton instance Default  
+            // this will return true since this class is designed to compare the data in the fields:
+            Console.WriteLine("employeeEqualityComparer.Equals(employeeX, employeeY): {0}", EmployeeEqualityComparer.Default.Equals(employeeX, employeeY));            
+            // Create dictionary and add two employee instances/objects:
+            var d1 = new Dictionary<Implementing_Value_Equality.Employee, int>();            
+            d1.Add(employeeX, 0);
+            //Key matching uses reference matching therefore d1.ContainsKey(employeeX) will return true, same instance   
+            Console.WriteLine("Dictionary.ContainsKey(employeeX): {0} == true (Same memory address)", d1.ContainsKey(employeeX));
+            //Two object with same properties but different memory addresses will return false. 
+            Console.WriteLine("Dictionary.ContainsKey(employeeY): {0} == false (Different memory addresses)", d1.ContainsKey(employeeY));
+            //Create dictionary that uses the custom comparer instead of reference comparison. 
+            Dictionary<Implementing_Value_Equality.Employee, int>  d2 = 
+                new Dictionary<Implementing_Value_Equality.Employee, int>(EmployeeEqualityComparer.Default);
+            d2.Add(employeeX, 0);
+            //Key matching uses custom comparer matching therefore d1.ContainsKey(employeeX) will return true, same value   
+            Console.WriteLine("Dictionary.ContainsKey(employeeX): {0} == true (Same memory address)", d2.ContainsKey(employeeX));
+            //Two object with same properties but different memory addresses will return true in case of custom comparer. 
+            Console.WriteLine("Dictionary.ContainsKey(employeeY): {0} == true (Different memory address, same value properties)", d2.ContainsKey(employeeY));
+
+            //Create two Customer object with the same property values
+            Implementing_Value_Equality.Customer customerX = new Implementing_Value_Equality.Customer(1, "John Smith",
+                "Software Design Engineer in Test",
+                new DateTime(1981, 11, 19));
+
+            Implementing_Value_Equality.Customer customerY = new Implementing_Value_Equality.Customer(1, "John Smith",
+                "Software Design Engineer in Test",
+                new DateTime(1981, 11, 19));
+
+            // these will return true because they are overloaded, in Customer to compare the fields
+            Console.WriteLine("customerX.Equals(customerY): {0} == true (property values are compared)", customerX.Equals(customerY));
+            Console.WriteLine("customerX == customerY: {0} == true (property values are compared)", customerX == customerY);
+            Console.WriteLine("customerX != customerY: {0} == false (property values are compared)", customerX != customerY);
+
+            // Create a dictionary:
+            var customersDict = new Dictionary<Implementing_Value_Equality.Customer, int>();
+            customersDict.Add(customerX, 0);
+            // These will return true, since Customer implements Equals():
+            Console.WriteLine("Dictionary.ContainsKey(customerX): {0} == true", customersDict.ContainsKey(customerX));
+            Console.WriteLine("Dictionary.ContainsKey(customerY): {0} == true", customersDict.ContainsKey(customerY));
+            //Create list and add two customers to it.
+            List<Implementing_Value_Equality.Customer> customers = new List<Implementing_Value_Equality.Customer>();
+            customers.Add(customerX);
+            customers.Add(customerY);
+            Console.WriteLine("customers.Count: {0} == 2 (Two objects were added)", customers.Count);
+            Console.WriteLine("customers.Distinct().ToList().Count: {0} == 1 (One distinct object)", customers.Distinct().ToList().Count);
+
+            //Structs do a kind of value equality semantics by default.They compare each field.This works until the fields 
+            //themselves use reference semantics, so you may find yourself implementing value semantics on a struct anyway 
+            //if you need to compare those fields themselves by value.
+
+            #endregion
+
             #region [ What is new in C# 8.0 ]
 
             //https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-8
