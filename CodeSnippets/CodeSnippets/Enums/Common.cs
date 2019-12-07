@@ -8,12 +8,14 @@ namespace CodeSnippets.Enums
     //Naming convention, StringComparisonOperatorsEnum 
     public enum StringComparisonOperators
     {
+        //By default, the first member of an enum has the value 0 and the value of each successive enum member is increased by 1. 
+        //For example, in the following enumeration, None is 0, Equals is 1, NotEquals is 2 and so forth.
         [Description("Select Operator")]
-        None = 0,
+        None,
         [Description("Equals")]
-        Equals = 0,
+        Equals,
         [Description("Not Equals")]
-        NotEquals = 0,
+        NotEquals,
         [Description("Contains")]
         Contains,
         [Description("Not Contains")]
@@ -71,9 +73,9 @@ namespace CodeSnippets.Enums
     }
 
     [Flags]
-    public enum DaysOfWeek
+    public enum WeekDays
     {
-        None = 0,
+        None = 0, //can be used but not combined in bitwise operations
         Sunday = 1,
         Monday = 2,
         Tuesday = 4,
@@ -82,7 +84,9 @@ namespace CodeSnippets.Enums
         Friday = 32,
         Weekdays = Monday | Tuesday | Wednesday | Thursday | Friday,
         Saturday = 64,
-        Weekend = Sunday | Saturday
+        Weekend = Sunday | Saturday,
+        //you must use powers of two or combinations of powers of two
+        //for bitwise operations to work
     }
 
     public enum Moods
@@ -93,6 +97,16 @@ namespace CodeSnippets.Enums
         Grouchy = Crabby - 1,
         Happy = 42,
         SuperHappy = 2 * Happy
+    }
+
+    //An enum can derive from any of the following types: byte, sbyte, short, ushort, int, uint, long, ulong. The default is
+    //int, and can be changed by specifying the type in the enum definition :
+    //If you use a type other than int, you must specify the type using a colon after the enum name :
+    public enum Volume : byte
+    {
+        Low = 1,
+        Medium,
+        High
     }
 
 }

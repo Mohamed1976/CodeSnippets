@@ -19,8 +19,7 @@ namespace CodeSnippets
 
             #region [ Enums ]
 
-            //Console.WriteLine(WeekDays.Friday);
-            //Console.WriteLine((int)WeekDays.Friday);
+            Console.WriteLine($"\nEnums---------------------------------------------------------------------------------");
 
             //Enum:         Is an abstract class that includes static helper methods to work with enums.
             //GetNames:     Returns an array of string name of all the constant of specified enum.
@@ -47,7 +46,7 @@ namespace CodeSnippets
             }
 
             //Enum DaysOfWeek
-            enumAndValues = Helper.EnumNamedValues<DaysOfWeek>();
+            enumAndValues = Helper.EnumNamedValues<WeekDays>();
             foreach (KeyValuePair<string, int> enumAndValue in enumAndValues)
             {
                 Console.WriteLine($"{enumAndValue.Key} => {enumAndValue.Value}");
@@ -56,7 +55,119 @@ namespace CodeSnippets
             //Retrieve the description of enum
             Console.WriteLine($"Description of OrderStatus.InProcess: {Helper.GetDescription(OrderStatus.InProcess)} ");
             //The function returns the enum name when no description is found
-            Console.WriteLine($"Description of DaysOfWeek.Weekdays: {Helper.GetDescription(DaysOfWeek.Weekdays)} ");
+            Console.WriteLine($"Description of DaysOfWeek.Weekdays: {Helper.GetDescription(WeekDays.Weekdays)} ");
+            Console.WriteLine($"Description of DaysOfWeek.Weekdays: {Helper.GetDescription2(OrderStatus.InProcess)} ");
+            Console.WriteLine($"Description of DaysOfWeek.Weekdays: {Helper.GetDescription3(OrderStatus.InProcess)} ");
+            OrderStatus orderStatus = Helper.GetEnumValueFromDescription<OrderStatus>("In process");
+            Console.WriteLine($"Get enum for description In process: {orderStatus.ToString()} ");
+            Console.WriteLine($"Get description InProcess: {EnumExtensions.GetDescription<OrderStatus>(OrderStatus.InProcess)} ");
+            
+            // Create and initialize instance of enum type
+            Volume myVolume = Volume.Low;
+
+            // Make decision based on enum value
+            switch (myVolume)
+            {
+                case Volume.Low:
+                    Console.WriteLine("The volume has been turned Down.");
+                    break;
+                case Volume.Medium:
+                    Console.WriteLine("The volume is in the middle.");
+                    break;
+                case Volume.High:
+                    Console.WriteLine("The volume has been turned up.");
+                    break;
+            }
+
+            Console.WriteLine("WeekDays.Friday: {0}", WeekDays.Friday);
+            //An explicit cast is necessary to convert from enum type to an integral type. 
+            //For example, to get the int value from an enum:
+            Console.WriteLine("(int)WeekDays.Friday: {0}", (int)WeekDays.Friday);
+
+            WeekDays wdEnum;
+            Enum.TryParse<WeekDays>("1", out wdEnum);
+            Console.WriteLine("Enum.TryParse<WeekDays>(\"1\", out myWeekDays): {0}", wdEnum.ToString());
+            Enum.TryParse<WeekDays>("Friday", out wdEnum); //case-sensitive match)
+            Console.WriteLine("Enum.TryParse<WeekDays>(\"Friday\", out myWeekDays): {0}, iVal: {1}", wdEnum.ToString(), (int)wdEnum);
+            bool matchFound = Enum.TryParse("WEDNESDAY", true, out wdEnum); // case-insensitive match
+            Console.WriteLine("Enum.TryParse(\"WEDNESDAY\", true, out wdEnum): {0}, iVal: {1}", wdEnum.ToString(), (int)wdEnum);
+            DayOfWeek friday = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), "Friday");//Throws exception when error occurs 
+            Dictionary<int, string> enumNamedValues = Helper.GetEnumNamedValues<WeekDays>();
+            foreach(KeyValuePair<int, string> keyValuePair in enumNamedValues)
+            {
+                Console.WriteLine("{0}, {1}", keyValuePair.Value, keyValuePair.Key);
+            }
+
+            //You could get the underlying type of the enum as follows:
+            Console.WriteLine("Enum.GetUnderlyingType(typeof(Volume)): {0}", Enum.GetUnderlyingType(typeof(Volume)));
+
+            var threeFlags = WeekDays.Monday | WeekDays.Tuesday | WeekDays.Friday;
+            // This will enumerate all the flags in the variable: "Monday, Tuesday".
+            Console.WriteLine("WeekDays.Monday | WeekDays.Tuesday | WeekDays.Friday: {0}", threeFlags);
+            //With HasFlag we can check if any of the flags is set
+            if (threeFlags.HasFlag(WeekDays.Monday))
+                Console.WriteLine("WeekDays.Monday is set.");
+            if (threeFlags.HasFlag(WeekDays.Tuesday))
+                Console.WriteLine("WeekDays.Tuesday is set.");
+            if (threeFlags.HasFlag(WeekDays.Friday))
+                Console.WriteLine("WeekDays.Friday is set.");
+
+            //None=0, cannot be used when using flags
+            foreach (WeekDays flagToCheck in Enum.GetValues(typeof(WeekDays)))
+            {
+                if (threeFlags.HasFlag(flagToCheck))
+                {
+                    Console.WriteLine("Foreach check, flag set: " + flagToCheck);
+                }
+            }
+
+            var twoFlags = WeekDays.Monday | WeekDays.Tuesday;
+            //Check if WeekDays.Monday and WeekDays.Tuesday are both set. 
+            if ((threeFlags & twoFlags) == twoFlags)
+            {
+                Console.WriteLine("(threeFlags & twoFlags) == twoFlags");
+            }
+
+            //Add and remove values from flagged enum
+            twoFlags |= WeekDays.Saturday;
+            //Remove flag
+            twoFlags &= ~WeekDays.Saturday;
+
+            //Using << notation for flags makes enums more readable
+            //The left-shift operator (<<) can be used in flag enum declarations to ensure that each flag has exactly one 
+            //1 in binary representation, as flags should.
+            /*[Flags]
+            public enum MyEnum
+            {
+                None = 0,
+                Flag1 = 1 << 0,
+                Flag2 = 1 << 1,
+                Flag3 = 1 << 2,
+                Flag4 = 1 << 3,
+                Flag5 = 1 << 4,
+                ...
+                Flag31 = 1 << 30
+            }*/
+            int resultLeftShiftOperator = 1 << 0;
+            Console.WriteLine("1 << 0: " + resultLeftShiftOperator);
+            resultLeftShiftOperator = 1 << 1;
+            Console.WriteLine("1 << 1: " + resultLeftShiftOperator);
+            resultLeftShiftOperator = 1 << 2;
+            Console.WriteLine("1 << 2: " + resultLeftShiftOperator);
+            resultLeftShiftOperator = 1 << 3;
+            Console.WriteLine("1 << 3: " + resultLeftShiftOperator);
+            resultLeftShiftOperator = 1 << 4;
+            Console.WriteLine("1 << 4: " + resultLeftShiftOperator);
+
+            //Since an enum can be cast to and from its underlying integral type, the value may fall outside the range of values
+            //given in the definition of the enum type. Although the below enum type DaysOfWeek only has 7 defined values, it can still hold any int value.
+            //However, undefined enum values can be detected by using the method Enum.IsDefined. For example,
+            OrderStatus orderStatus1 = (OrderStatus)30; //Although 30 is not defined we still can assign it this value, because of its underlying type is int 
+            Console.WriteLine("(OrderStatus)30: " + orderStatus1 + ", Enum.IsDefined(typeof(OrderStatus),(OrderStatus)30): " + Enum.IsDefined(typeof(OrderStatus), orderStatus1));
+            //The default value for an enum is zero.If an enum does not define an item with a value of zero, its default value will be zero.
+            Console.WriteLine("default(OrderStatus): " + default(OrderStatus).ToString());
+            Console.WriteLine("default(WeekDays): " + default(WeekDays).ToString());
+            Console.WriteLine("OrderStatus.InProcess.GetDescription(): " + OrderStatus.InProcess.GetDescription());
 
             #endregion
 

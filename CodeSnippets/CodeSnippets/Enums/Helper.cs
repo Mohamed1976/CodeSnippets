@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
 using System.Text;
+using System.Linq;
 
 namespace CodeSnippets.Enums
 {
@@ -19,6 +20,56 @@ namespace CodeSnippets.Enums
                     return ((DescriptionAttribute)attrs[0]).Description;
             }
             return genericEnum.ToString();
+        }
+
+        public static string GetDescription2(System.Enum value)
+        {
+            var enumMember = value.GetType().GetMember(value.ToString()).FirstOrDefault();
+            var descriptionAttribute =
+                enumMember == null
+                    ? default(DescriptionAttribute)
+                    : enumMember.GetCustomAttribute(typeof(DescriptionAttribute)) as DescriptionAttribute;
+            return
+                descriptionAttribute == null
+                    ? value.ToString()
+                    : descriptionAttribute.Description;
+        }
+
+        public static string GetDescription3(Enum value)
+        {
+            return
+                value
+                    .GetType()
+                    .GetMember(value.ToString())
+                    .FirstOrDefault()
+                    ?.GetCustomAttribute<DescriptionAttribute>()
+                    ?.Description
+                ?? value.ToString();
+        }
+
+        public static T GetEnumValueFromDescription<T>(string description)
+        {
+            var type = typeof(T);
+            if (!type.IsEnum)
+                throw new ArgumentException();
+            FieldInfo[] fields = type.GetFields();
+            var field = fields
+                            .SelectMany(f => f.GetCustomAttributes(
+                                typeof(DescriptionAttribute), false), (
+                                    f, a) => new { Field = f, Att = a })
+                            .Where(a => ((DescriptionAttribute)a.Att)
+                                .Description == description).SingleOrDefault();
+            return field == null ? default(T) : (T)field.Field.GetRawConstantValue();
+        }
+
+        public static Dictionary<int, string> GetEnumNamedValues<T>() where T : System.Enum
+        {
+            var result = new Dictionary<int, string>();
+            var values = Enum.GetValues(typeof(T));
+
+            foreach (int item in values)
+                result.Add(item, Enum.GetName(typeof(T), item));
+            return result;
         }
 
         //Enum provides the base class for enumerations
