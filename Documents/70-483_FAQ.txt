@@ -1,0 +1,1399 @@
+Frequently asked questions
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+1) Given the difficulties in synchronization and management, is it worth the effort to implement applications using multiple tasks?
+
+Yes, because using multiple tasks allows you to fully utilize multiple CPUs, Cores. In order to fully utilize multiple CPUs
+your work must be able to be split in multiple tasks (parallel processing). Another advantage of using multiple tasks      
+is that it improves responsiveness of UI.  
+
+Book answer:
+Breaking an application into separate tasks is not just something that you
+would do to make use of the performance advantages. Tasks provide a very
+useful level of abstraction. Once the communication between the tasks has
+been designed, each one can be worked on independently. Partitioning an
+application into tasks can be seen as a natural extension of component-based
+design.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+2) Is it still worth the effort to use multiple-tasks if you only have one processor in your computer?
+
+Yes it can improve responsiveness of UI, for example WPF has one UI thread, if this thread is busy with long calculation task, 
+the UI is not updated and not responsive to user.
+
+Book answer:
+Consider a program that is performing a numeric analysis of a particular
+data set. Once the data has been loaded into memory the time it takes to be
+processed is determined by the speed of the CPU. We would say that this
+program was cpu bound. If a system only has one processor, converting the
+program to use a multi-threaded implementation would not improve the rate
+at which the data is processed. However, consider a program that is
+continuously interacting with the file system. We would say this application
+was IO (input/output) bound, in that the rate at which it can work is
+determined by performance of the file system. When an IO bound program
+is active it will frequently be unable to do any work as it waits file
+transactions to complete. A multi-threaded solution would be able to
+perform processing at the times when one task was waiting for an
+input/output operation to complete.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+3) What kind of applications benefit the most from the use of multi-tasking applications?
+
+Applications that can split calculation into multiple tasks (parallelism),
+so you can fully utilize the multiple CPUs, Cores to perform calculations.
+
+Book answer:
+A CPU bound application will benefit from a multi-tasking approach if the
+host system has more than one CPU. Note that the programmer may have to
+spend some effort re-working the application to allow it to work over
+multiple tasks. An application that contains a mix of CPU bound and IO
+bound tasks can benefit most from a multi-threading approach as there will
+always be something for the processor to do.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+4) Are there situations when you really should not use multi-tasking?
+
+If you have a calculation thread that doesnt have processing gaps such as I/O (CPU bound processes), therefore you want the thread to remain on the CPU as long as possible.           
+
+Generally speaking, you would only want to use this type of single-processor multithreading when the task running under the thread will have long gaps in which the processor could be doing something else. For example, I/O from hard disk (and, consequently, from a database system that uses one) is many orders of magnitude slower than memory access. Network access can also be slow, as another example. Multithreading could allow another process to be running while waiting for these slow (compared to the processor) operations to complete.
+Remember that there is some overhead in starting processes on threads, so only use threads when the advantages of doing so outweigh this overhead.
+Consider also the cost that multithreading has to the maintainability of your application. Threaded applications can be harder to debug, for example.
+
+Book answer:
+The asynchronous nature of a multi-threaded application makes it very hard
+to guarantee that a given operation will be completed within a specified
+time. Threads can be given priority levels, but these are not hard and fast.
+Applications with critical timing requirements should not be implemented
+using multiple threads.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+5) I need a background process that is going to compress a large number of data files. Should I use a task or a thread?
+
+You can use parallel.Foreach/parallel.For to compress a large number of data files, it uses tasks, it does does not overwelm the device by creating too much tasks.
+Compressing a file is a CPU process that doesnt have processing gaps, at the end of compression, the file needs to be written to the same disk I/O.
+
+Book answer:
+When choosing between tasks and threads you need to consider what you
+want to achieve. Tasks are good for background processes. Threads can be
+used for background processes but can also run as foreground processes.
+Tasks are easier to create. In this situation a Task would make the most
+sense, because it would be easier to create and will never need to operate in
+the foreground.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+6) What is the difference between the WaitAll and WaitAny method when waiting for a large number of tasks to complete?
+
+WaitAll returns until all tasks specified (passed as argument) are complete, WaitAny returns when one of the tasks is complete.
+
+Book answer:
+The WaitAll method will return when all the tasks that are running have
+completed. The WaitAny method will return when the first of the running
+tasks completes.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+7) What is the difference between a continuation task and a child task?
+
+A continuation task starts when its parent task is complete. Child tasks are created when one or more tasks are attached to a parent task, 
+the parent task only completes when its child tasks are complete.
+
+Book answer:
+A continuation task is a task that is started when an existing task completes.
+A child task is created by a parent task and executes independently of the
+parent.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+8) What is the difference between the WaitAll and WhenAll methods?
+
+Task.WaitAll blocks the current thread until everything has completed.
+Task.WhenAll returns a task which represents the action of waiting until everything has completed.
+await Task.WhenAll(tasks);, means your method will continue when everything's completed, but you won't tie up a thread to just hang around until that time.
+
+Book answer:
+The WaitAll method accepts a list of Task references as an argument and
+returns when all the tasks have completed. The WaitAll method does not
+return a result. The WhenAll method accepts a list of Task references as
+an argument and returns a Task that delivers the results returned by those
+tasks. The WhenAll method is can be awaited, which allows it to be used in
+asynchronous code.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+9) What happens when a method call is awaited?
+
+The await keyword represents “a statement of intent” to perform an action. The keyword precedes a call of a method that will return the task to be
+performed. The compiler will generate code that will cause the async method to return to the caller at the point the await is reached. It will then go on to
+generate code that will perform the awaited action asynchronously and then continue with the body of the async method. 
+
+Book answer:
+Methods that can be awaited return a reference to a Task. When a program
+performs an await in an asynchronous method, the asynchronous method
+returns immediately. When the task returned by the awaited method
+completes the remainder of the asynchronous method will complete. A good
+example of a situation where this can be used to good effect is in user
+interfaces. A user interface method, for example the code that implements a
+behavior when a button is clicked in the user interface, must return as
+quickly as possible. Otherwise the user interface will become unresponsive.
+By using await the button click handler can complete and return, while the
+action initiated by the button click runs in parallel.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+10) What is special about a concurrent collection?
+
+Concurrent collection are thread save, this means that you can update and read the collection from different threads.
+The collection is managed so that threads access and update the data in a synchronized way, no race conditions. 
+This means that an action by one process on a given collection entry cannot be interrupted by another process.
+
+Book answer:
+A concurrent collection is one which has behaviors that can be used by
+multiple processes at the same time. Some concurrent collections, for
+example ConcurrentDictionary, have additional behaviors that allow
+processes to only perform updates to data stored in the collection when it is
+valid to do so.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+11) Will program errors caused by a poor multithreading implementation always manifest themselves as faults in an application?
+
+No, poor multithreading implementation can result in corrupt data such as corrupt calculations, and deadlocks in the application.
+
+Book answer:
+There is no guarantee that the conditions that might cause a race condition to
+cause a problem will arise. Natural delays in a system might mean that
+events occur in an order that means race conditions do not cause a problem.
+For example, if one task is writing a file to a disk, there is a good chance that
+this task will take longer to complete than another which is updating the
+display. However, problems might suddenly appear when the user buys a
+faster disk-drive or installs more memory. This might speed up the write
+action and cause the application to become unstable. In fact, these symptoms
+are the best way of diagnosing problems like this. The first question you
+should ask a user whose program has suddenly become unreliable is “Have
+you made any changes to the underlying system?”     
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+12) Does the fact that the processor is suddenly at 100% loading indicate that two processes are stuck in a deadly embrace?
+
+When a process is in a deadlock, the process does not have 100% CPU loading. When tasks are in a deadlock, each task is waiting for the other’s lock
+object, and neither can continue. Note that this is not the same as creating an infinite loop, in which a program repeats a sequence of statements forever.
+You will not find that the program in a deadlock will use up the entire CPU in the same way as an infinitely repeated loop will do. Instead, these two tasks will
+sit in memory unable to do anything.    
+
+Book answer:
+The simplest form of deadlock occurs when two tasks are waiting for locks
+to be released by each other. More complex deadlocks can be spread over a
+larger number of tasks. However, when a deadlock occurs a program is not
+executing very rapidly, in fact nothing is happening at all, all the tasks are
+waiting for each other, and the application is taking no processor time at all.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+13) Could you make an object thread safe by enclosing the body code of all the methods in lock statements to make all the method actions atomic?
+
+Book answer:
+Making all method calls in an object atomic is a very heavy handed and
+dangerous approach to achieving thread safety. It may well make an
+application vulnerable to deadlocks and could also remove any performance
+advantage that would be gained by using multiple processors. Furthermore,
+it does not protect against issues caused by the use of reference parameters
+to a method.     
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+14) If you’re not sure about potential race conditions, is it best to add lock statements around critical sections of your code “just in case?”
+
+No you need to be sure when use lock statements, because this can lead to deadlocks and performance decline of the application.
+Lock statements should enclose code as small as possible else the performance of the application could suffer because
+other threads could not access the locked code/methods. You also need to remember that when a task is running code protected by a lock,
+the task is in a position to block other tasks. This is similar to how a person taking a long time in the restroom will cause a long queue of people waiting to
+use it. Code in a lock should be as short as possible and should not contain any actions that might take a while to complete. As an example, your program
+should never perform input/output during a locked block of code.
+
+Book answer:
+Adding lock statements around critical pieces of code without thinking
+about what the code actually does is very dangerous. It may well lead to
+performance bottlenecks and deadlocks. It is very difficult to add thread
+safety to a program once it has been written. The only sure-fire way I’ve
+found of writing thread safe code is to design it that way from the start.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+   
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+15) Should a task always generate an exception if it is cancelled?
+
+No, you can cancel a task using a cancellationtoken, but if you have continuation tasks that depend on cancelation exception
+you need to throw a cancelation exception when a task is cancelled. Or if you have custom code that takes action when a cancelation exception is thrown.       
+
+Book answer:
+A task can be cancelled “silently”, in which case it will just end.
+Alternatively, it can be made to generate an exception when cancelled. From
+a design perspective I tend to regard cancelling a task as an exceptional
+action and would therefore expect there to be some way of propagating this
+event through the system so that it can be registered in some way.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+16) Could you make an application that automatically cancelled deadlocked processes?
+
+A deadlocked process does not uses CPU, when a process does not use CPU for a longtime you can stop it using taskmanager (Windows API).
+
+Book answer:
+If you use the Monitor construction to manage entry into atomic actions it is
+possible for a task to retain control when it fails to get a lock and enter an
+atomic action. You can even establish a time-out by adding a timeout value
+to a call of the TryEnter method to try and enter an atomic action. It
+would therefore be possible for a program to recognize that a given lock had
+been unavailable for a more than a certain length of time. It could then use a
+cancellation token to try and stop a task that might have obtained the
+synchronization object. Of course, this would only work correctly if the task
+that is causing the deadlock is checking its cancellation token while it is
+waiting for its lock. In other words, yes it would be possible to do this, but it
+would entail a lot of extra work. The best way to avoid deadlocks is to make
+sure that they are not present in the design of your system.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+17) Is it necessary to have both the while and the do-while looping construction?
+
+The do-while performs the loop at least once and then checks the specified condition, 
+the while performs the loop depending on the specified condition. So both loop construction are
+different and needed. But they are not both necessary, you can skip the do-while.
+
+Book answer:
+The while and do-while loop constructions differ in only one respect. The
+while construction will not execute any code if the control condition is false,
+whereas the do-while construction tests the control condition at the
+completion of the loop, so the code controlled by it is always executed once,
+even if the control condition is false at the start. At the expense of a slightly
+more complicated program, it is possible to only use one form of the loop
+construction, both are provided to make the programmers life slightly easier.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+18) Is a break statement the only way of exiting a loop before it completes?
+
+No, you can use the goto statement in addition you can skip a loop iteration using continue. 
+
+Book answer:
+If a break is used in a loop the program will exit the loop at that point. It is
+also possible to exit a loop by returning from the method in which the loop
+is declared. Finally a program will exit a loop if it throws an exception
+within the loop.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+19) Can you identify a situation where you would use a for loop to iterate through a collection rather than a foreach loop?
+
+If you dont want to iterate through all the collection you can use for loop, in addition in order to use the  
+foreach loop, the collection you want to iterate must implement the IEnumerable interface.
+
+Book answer:
+A foreach construction provides a very convenient way to express a need
+to enumerate each of the items in a collection. However, each enumerated
+item is provided on a “read-only” basis. If the program wants to change the
+value of an enumerated item it is necessary to use a for loop to access each
+item. Note that if the foreach construction is iterating through a collection
+of reference types it is perfectly permissible to change properties of each
+iterated item.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+20) The and(&) logical operator and the or (|) logical operator have “short circuit” versions (&& and ||), 
+which only evaluate elements until it can be determined whether or not a given expression is true or false. Why does the
+exclusive-or(^) operator not have a short circuit version?
+
+The exclusive-or(^) operator needs to evaluate both conditions, because only one condition must be true.
+To determine that only one condition is true, you need to evaluate both conditions.
+
+Book answer:
+There is no short-circuit version of the exclusive-or operator because it is
+not possible to determine whether an exclusive-or is true by just examining
+one of the operands. Remember that an exclusive-or operation returns true if
+the two operands are different. It is not possible to make this determination
+by just examining one of the operands.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+21) Is it true that each C# operator has a behavior that is the same for every context in which it is used?
+
+No, The context of the use of an operator determines the actual behavior that the operator will exhibit. For example, the addition operator can be used to add two numeric operands together, or concatenate two strings together. In addition you can also implement operator overloading to implement your own custom operator behaviour for a given type.    
+
+Book answer:
+No. C# operators have different behaviors depending on the context in which
+they are used. The integer and floating-point types are held in quite different
+ways in the memory of the computer. When arithmetic operators are used
+between these types the compiler will select the correct operator to be used
+depending on the type of the operands in the expression.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+22) Can you always be certain of the precise sequence of operations when an expression is evaluated?
+
+Yes, because each operator has a priority or precedence that determines when it is performed during expression evaluation. This precedence can be overridden by
+the use of parenthesis; elements enclosed in parenthesis are evaluated first. Operators also have an associability, which gives the order (left to right or right
+to left) in which they are evaluated if a number of them appear together.
+
+Book answer:
+The C# compiler guarantees that expressions will be evaluated according to
+the rules of precedence and associability for the operators in the expression.
+However, the precise sequence in which the operations are performed is not
+something that a programmer can make any assumptions about.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+23) How does a delegate actually work?
+
+A delegate is a function pointer, it directs input and output to the linked function.
+
+Book answer:
+A delegate is a type that can refer to a method in an object with a particular
+signature. A delegate can also contain lists of method references. A delegate
+is called in exactly the same way as the method it can refer to. If the delegate
+contains a list of method references, each method is called in no particular
+order. The base type of all delegate objects is the Delegate class.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+24) What happens if a delegate is assigned to a delegate?
+
+Only delegates of the same type can be assigned to each other. If this happens the delegate is assigned a new reference to a method that the other delegate was pointing to.    
+
+Book answer:
+Delegates can be assigned to other delegates, as long as they have the same
+signature. Delegates can also be added to the subscribers of a multi-cast
+delegate.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+25) What happens if a delegate is assigned to itself?
+
+Nothing, you assign the delegate reference to itself. 
+
+Book answer:
+A delegate can be assigned to itself, but this is not a sensible thing to do. If
+the delegate is ever called the program will enter an infinite loop.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+26) Is there an upper limit for the number of subscribers that a publisher delegate can have?
+
+It looks like there is no limit.
+
+Book answer:
+There is no upper limit, over and above the capacity of the data structure in
+the Delegate class which holds references to subscribers.    
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+27) What does the lambda operator (=>) actually do?
+
+It specifies the function that the delegate is pointing to.
+
+Book answer:
+The lambda operator (=>) separates the items that go into the expression (the
+input parameters) from the statement or statement block that implements the
+behavior of the lambda expression.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+28) Can code in a lambda expression access data from the enclosing code?
+
+Yes lambda expression can access data that is in scope.
+
+Book answer:
+Code in a lambda expression can access variables declared in code enclosing
+the lambda expression. Note that code in a lambda expression is not
+executed when the lambda expression is declared, a reference to the lambda
+expression may be followed at a much later time. The C# compiler will
+generate code that maintains variables used by the code in the lambda
+expression even if they would normally be out of scope at the time the code
+in the lambda expression is performed (this is called Closure, my note).
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+29) Is a method receiving a date of “31st of February” something that should cause an exception?
+
+This is not valid data from application user or from other system/interface. This error should not cause an exception, 
+instead the application should validate the date and if not a valid date then ignore it and ask for a new date. 
+
+Book answer:
+It all depends on the context of the action. If the date is being entered by the
+user, it is reasonable for the program to display an error message and request
+that the date be re-entered. In this case no exception will be thrown.
+However, if the date is being supplied to a method that is expected to create
+a transaction with this date, it is reasonable for that method to throw an
+exception if given an invalid date value, as it would not be meaningful for
+the method to generate anything. Throwing an exception, rather than
+returning an error code or a null value, is a way of ensuring that the program
+will fail in a properly noticeable way and maximizes the chances of the
+mistake being detected. From a design perspective, the need for exceptions
+in this situation would be completely removed if the method creating the
+transaction was passed a DateTime structure. This can only contain a valid date.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+30) Should I make sure that all exceptions are always caught by my program?
+
+You should make sure that your code deals with any exceptions that may be thrown by methods, propagating the exception onward if necessary to ensure that
+exception events are not hidden from different parts of your application. If you do not catch an Exception, the foreground process/program will be stopped. 
+
+Book answer:
+No. There is only one thing worse than a program that fails, and that is a
+program that fails silently. You might think it is a good idea to wrap your
+entire program in a try construction. This would mean that the program
+would never fail due to an uncaught exception. However, it would also make
+the program impossible to debug and prone to failing silently. You should
+take care to catch all the exceptions that you know how to deal with, and let
+the remaining ones pass through so that they are either caught by layers
+above (in a managed and designed way) or propagate as errors which can be
+caught and dealt with.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+31) Can you return to the code after an exception has been caught?
+
+Yes depending on where the error was caught, but if its a minor error you can continue with the application. In contrast an uncaught exception stops the application.
+Note that if you catch an exception without taking specific actions to recover from it can leave your program in an indeterminate state.
+
+Book answer:
+There is no way to return to the statements after an exception has been
+thrown. If a program wants to re-try code that may throw exceptions, this
+code must be placed in a loop.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+32) Why do we need the finally clause? Can’t code to be run after the code in a try clause just be put straight after the end of the catch?
+
+Code after the catch statement is not guaranteed to execute in case of exception/error in the catch clause.
+In contrast, code in a finally statement is guaranteed to execute in case of exception/error.
+In addition the catch block can have a return statement resulting in that further code will not be executed.  
+
+Book answer:
+We need a finally clause because code in the catch clause may return from a
+method or throw other exceptions, in which case the program will not reach
+the statements following the catch. The finally clause is guaranteed to be
+executed in all circumstances.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+33) Should my application always use custom exceptions?
+
+No you should only use custom exceptions when standard exceptions cannot meet your requirements
+
+Book answer:
+The standard Exception type provides a great deal of flexibility; it contains a
+Dictionary which can be filled with name-value pairs that describe an error.
+Custom exception types can be useful if none of the existing exception types
+are suitable for the exception context. Because different catch clauses can be
+allocated to different exception types, they also make exceptions easier to
+manage.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+34) You need to build a new application, and you look into multithreading capabili-ties. Your application consists of a client application that communicates with a web server.
+
+Network access can be slow. Multithreading could allow another process to be running while waiting for the slow download(compared to the processor) operations to complete.
+
+Book answer:
+Multithreading can improve the responsiveness in a client application. The UI thread can
+process requests from the user while background threads execute other operations.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+35) What is the difference between CPU and I/O bound operations?
+
+A CPU bound operation is an operation that only needs the CPU to complete its task. The speed of a CPU bound operation can be increased by using multiple CPUs /Cores (split CPU bound operation into multiple Tasks that can be scheduled on different cores, if nature of operation/calculation allows this)               
+A I/O bound operation, means that the operation is performing a lot of I/O operations (for example write to disk) which can take a relative long time (compared to CPU cycle),
+during I/O operation you don't want to bind a thread waiting for the I/O operation, you want to suspend the thread and schedule another CPU bound thread.         
+
+Book answer:
+A CPU-bound operation needs a thread to execute. In a client application, it can make
+sense to execute a CPU-bound operation on another thread to improve responsiveness.
+In a server application, you don’t want an extra thread for a CPU-bound operation.
+Asynchronous I/O operations don’t require a thread while executing. Using
+asynchronous I/O frees the current thread to do other work and improves scalability.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+36) Does using multithreading with the TPL offer the same advantages for your server application?
+
+For server application it is necessary to spawn a lot of threads to serve client requests. By using TPL the server uses a threadpool which cannot overwhelm
+the device by spawning too much threads.      
+
+Book answer:
+Using multithreading in a server environment can help you distribute operations
+over multiple CPUs. This way, you can improve performance. Using the TPL to create
+another thread to execute a CPU-bound operation while the originating thread has to
+wait for it won’t help you with increasing performance.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+37) How can you orchestrate your locking code to avoid deadlocks?
+
+You can for example use Monitor to acquire a lock with a timeout. If the lock is not acquired within the timeout, the code continues and does not further wait on the lock.       
+Make sure that the smallest amount of code is locked.       
+
+Book answer:
+It’s important to make sure that all locking follows the same order when locking multiple
+objects. As soon as you start locking dependent objects in different orders, you
+start getting deadlocks.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+38) How can the Interlocked class help you avoid deadlocks?
+
+CompareExchange method perform an atomic action and does not lock a variable for a long time??
+
+Book answer:
+The Interlocked class can help you to execute small, atomic operations without the
+need for locking. When you use locking a lot for these kind of operations, you can
+replace them with the Interlocked statement.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+39) What is the disadvantage of using goto? How can you avoid using the goto statement?
+
+The use of goto statements makes the flow in a program more difficult to comprehend. Avoid goto statements by better method design. 
+
+Book answer:
+Using the goto statement makes your code much harder to read because the application
+flow jumps around. goto is mostly used in looping statements. You can then
+replace goto with while or do-while.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+40) Which statement can you use to improve the long if statements?
+
+You can for example use a switch statement. 
+
+Book answer:
+The switch statement can be used to improve long if statements.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+41) What are the differences between the for and foreach statement? When should you use which?
+
+In order to use a foreach loop on a collection, the collection must implement IEnumerable, a for loop does not have this limitation.      
+In a foreach loop you cannot modify value types (Reference types can be modified), in a for loop you can also modify value types.     
+
+Book answer:
+The for statement can be used to iterate over a collection by using an index. You can
+modify the collection while iterating. You need to use the index to retrieve each item.
+foreach is syntactic sugar over the iterator pattern. You don’t use an index; instead the
+compiler gives you a variable that points to each iteration item.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+42) You are working on a desktop application that consists of multiple forms. Those
+forms show different views of the same data and they should update in real time.
+Your application is extensible, and third parties can add plug-ins that contain their
+own views of the data. Should you use delegates or events in this system? How can this help you?
+
+In order to provide data in a (loose coupled way) to third parties plug-ins you need to use events, such as: public event EventHandler<CustomEventArgs> OnEvent; 
+In which the EventHandler is a delegate: delegate EventHandler<TEventArgs>(object sender, TEventArgs arg)    
+Plug-ins can subscribe to an event in which it is interested in, when the event is fired/published the handler in the plug-in is executed.        
+Advantage of using events is that it reduces the CPU usage, you dont have to pool data for a change.  
+
+Book answer:
+Events are a nice layer on top of delegates that make them easier and safer to use. In
+this case, you should use events to make sure that other users won’t be able to clear all
+subscriptions. It also makes sure that they can’t raise the event on their own. They can
+only listen to changes.
+The advantage of using an event system in an application like this is that you can
+achieve loose coupling. Your forms don’t have to know anything about each other. The
+class that monitors data changes and raises the event doesn’t have to know how many
+forms are listening and how they look. Third-party plug-ins can easily subscribe to the
+events at runtime to be able to respond to changes without tightly coupling to the
+existing system.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+43)You are designing a new application and you want to implement a proper errorhandling
+strategy. You are discussing the topic with some colleagues, and one of
+them says that you should use regular error codes to signal errors because that’s
+faster and your company has used it in the past.
+You are also having a discussion about when to create a custom exception and when
+to use the built-in .NET Framework exceptions. Explain to your colleague the advantages of Exceptions compared to error codes.
+
+The error infrastructure within c# is based on exceptions, exceptions can contain more information than just the errorcode such as stacktrace.   
+Furthermore you can pass/rethrow Exceptions to the upper layers. In summary Exceptions give you more flexibilty and information than error codes in handling errors.   
+
+Book answer:
+Exceptions are objects, so they can store extra information that can’t be done with only
+an error code. The .NET Framework also offers special support for dealing with exceptions.
+For example, you can use catch blocks to handle certain types of exceptions and
+you can use a finally block to make sure that certain code will always run.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+44) When should you create a custom exception?
+
+If existing exception dont meet your requirements you can define your own custom exceptions that inherit from exception.  
+
+Book answer:
+You should create a custom exception only if you expect developers to handle it or perform
+custom logging. If a developer won’t be able to fix the specific error, it won’t make any
+sense to create a more specific exception. Custom logging can happen when you throw
+more detailed exceptions, so developers can differentiate between the errors that happen.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+45) You have a lot of items that need to be processed. For each item, you need to perform a complex calculation. Which technique should you use?
+A. You create a Task for each item and then wait until all tasks are finished.
+B. You use Parallel.For to process all items concurrently.
+C. You use async/await to process all items concurrently.
+D. You add all items to a BlockingCollection and process them on a thread created by the Thread class.
+
+B) You can use Parallel.For it creates/reuses threads to concurrently process the items. Parallel.For does not overwhelm the device by creating too many threads.     
+Parallel.For creates Task to process the items, background thread. 
+
+Book answer:
+Correct answer: B
+A. Incorrect: Manually creating and managing tasks is not necessary. The Parallel
+class takes care of this and uses the optimal configuration options.
+B. Correct: Parallel.For is ideal for executing parallel operations on a large set of
+items that have to do a lot of work.
+C. Incorrect: async/await does not process items concurrently. Instead it waits until
+the current task has finished and then continues executing the code.
+D. Incorrect: The BlockingCollection can be used to share data between multiple
+threads. Using one producer and one consumer thread, however, won’t improve
+scalability. The Parallel class is designed for this scenario and should be used.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+46) You are creating a complex query that doesn’t require any particular order and you want to run it in parallel. Which method should you use? 
+A. AsParallel
+B. AsSequential
+C. AsOrdered
+D. WithDegreeOfParallelism
+
+A) AsParallel  concurrently executes a plinq query, note the order of the output is different from the order of the input.    
+
+Book answer:
+Correct answer: A
+A. Correct: AsParallel makes a sequential query parallel if the runtime thinks this will
+improve performance.
+B. Incorrect: AsSequential is used to make a parallel query sequential again.
+C. Incorrect: AsOrdered is used to make sure that the results of a parallel query are
+returned in order.
+D. Incorrect: WithDegreeOfParallelism is used to specify how many threads the parallel
+query should use.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+47) You are working on an ASP.NET application that retrieves some data from another web
+server and then writes the response to the database. Should you use async/await?
+A. No, both operations depend on external factors. You need to wait before they are finished.
+B. No, in a server application you don’t have to use async/await. It’s only for responsiveness on the client.
+C. Yes, this will free your thread to serve other requests while waiting for the I/O to complete.
+D. Yes, this put your thread to sleep while waiting for I/O so that it doesn’t use any CPU.
+
+C) By using a Task in combination with async/await you can create dedicated Task to perform a specific task and when the task is I/O bound, the task can be suspenden in favour of CPU bound tasks.    
+
+Book answer:
+Correct answer: C
+A. Incorrect: Because you have to wait for external factors (the database and web
+response), you should use async/await to free your thread. That way your thread
+can do some other work while waiting for the external responses to come back.
+B. Incorrect: Async/await can be used to improve responsiveness on the client but
+it can also be used in server scenarios. Especially when waiting for an I/O-bound
+operation, you can use asynchronous code to free the thread from waiting.
+C. Correct: The operating system waits for the I/O request to complete and then
+activates a thread that can process the response. In the meantime, the thread can
+do other work.
+D. Incorrect: Async/await does not put your thread to sleep in an I/O-bound situation.
+Instead, your thread can process other work while the operating system
+monitors the status of the request. When the request finishes, a thread is used
+to process the response. With a CPU-bound operation, your thread waits for the
+operation to finish on another thread.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+48)You want to synchronize access by using a lock statement. On which member do you lock?
+A. this
+B. string _lock = “mylock”
+C. int _lock = 42;
+D. object _lock = new object();
+
+D)
+
+Book answer:
+Correct answer: D
+A. Incorrect: You should never lock on this. Another part of your code may already
+be using your object to execute a lock.
+B. Incorrect: You shouldn’t use a string for locking. With string-interning, one object
+can be used for multiple strings, so you would be locking on an object that is also
+in use in other locations.
+C. Incorrect: Locking on a value type will generate a compile error. The value type
+will be boxed each time you lock on it, resulting in a unique lock each time.
+D. Correct: A private lock of type object is the best choice.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+49) You need to implement cancellation for a long running task. Which object do you pass to the task?
+A. CancellationTokenSource
+B. CancellationToken
+C. Boolean isCancelled variable
+D. Volatile
+
+B)
+
+Book answer:
+Correct answer: B
+A. Incorrect: The CancellationTokenSource is used to generate a CancellationToken.
+The token should be passed to the task, and the CancellationTokenSource can then
+be used to request cancellation on the token.
+B. Correct: A CancellationToken generated by a CancellationTokenSource should be
+passed to the task.
+C. Incorrect: A Boolean variable can be used to cancel a task, but it’s not the preferred
+way. A CancellationToken offers more flexibility and should be used.
+D. Incorrect: The volatile keyword should be used to signal to the compiler that the
+order of reads and writes on a field is important and that the compiler shouldn’t
+change it.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+50) You are implementing a state machine in a multithreaded class. You need to check
+what the current state is and change it to the new one on each step. Which method do you use?
+A. Volatile.Write(ref currentState)
+B. Interlocked.CompareExchange(ref currentState, ref newState, expectedState)
+C. Interlocked.Exchange(ref currentState, newState)
+D. Interlocked.Decrement(ref newState)
+
+B) The function checks if the current state is as expected, if so then it is modified to the new state.  
+
+Book answer:
+Correct answer: B
+A. Incorrect: Volatile.Write is used to signal to the compiler that writing the value to a
+field should happen at that exact location.
+B. Correct: CompareExchange will see whether the current state is correct and it will
+then change it to the new state in one atomic operation.
+C. Incorrect: Exchange only changes the value; it doesn’t check to see whether the
+current state is correct.
+D. Incorrect: Decrement is used to subtract one off the value in an atomic operation.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+51) You need to iterate over a collection in which you know the number of items. You need to remove certain items from the collection. Which statement do you use?
+A. switch
+B. foreach
+C. for
+D. goto
+
+C) The foreach does not allow you to remove items from the collection in contrast to for loop.      
+
+Book answer:
+Correct answer: C
+A. Incorrect: switch is used as a decision statement. You map a value to certain labels
+to execute specific code; it doesn’t iterate over collections.
+B. Incorrect: Although the foreach statement can be used to iterate over a collection;
+it doesn’t allow changes to the collection while iterating.
+C. Correct: With for, you can iterate over the collection while modifying it. It’s your
+own job to make sure that the index stays correct.
+D. Incorrect: goto is a jump statement that should be avoided.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+52) You have a lot of checks in your application for null values. If a value is not null, you want to call a method on it. You want to simplify your code. Which technique do you use?
+A. for
+B. Conditional operator
+C. Null-coalescing operator A = B ?? C (If B is null, it assigns C to A, otherwise it assigns B to A)
+D. The short-circuiting behavior of the and operator
+
+D) object?.Method(), only if the object != null will the method be called. Using the short-circuiting behavior of the and operator => object != null && object.method();   
+
+Book answer:
+
+Correct answer: D
+A. Incorrect: for is an iteration statement that can’t be used to check for null values.
+B. Incorrect: The conditional operator can be used to shorten if statements. It’s not
+useful to conditionally call a method.
+C. Incorrect: The null-coalescing operator does check for null values but it’s used
+to provide a default value. It’s not useful when calling a method if the value is not null.
+D. Correct: Short-circuiting enables you to see whether a value is null and call a
+member on it in one and statement. If the left value is null, the right operand won’t
+be executed.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+53) You are processing some data from over the network. You use a HasNext and Read method to retrieve the data. You need to run some code on each item. What do you use?
+A. for
+B. foreach
+C. while
+D. do-while
+
+C) while(HasNext) { item = ReadMethod; Run(item); }
+
+Book answer:
+Correct answer: C
+A. Incorrect: A for statement is most useful when iterating over a collection in which
+you know the number of items beforehand.
+B. Incorrect: foreach can be used only on types that implement IEnumerable. It can’t
+be easily used with your two custom methods.
+C. Correct: You can use while (o.HasNext) { var i = o.Read(); } to process the items.
+When o.HasNext returns false, you automatically end the loop.
+D. Incorrect: Do-while will run the code at least once. If there are no items on the
+network, the code doesn’t have to run.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+54) You have a private method in your class and you want to make invocation of the method possible by certain callers. What do you do?
+
+A. Make the method public.
+B. Use an event so outside users can be notified when the method is executed.
+C. Use a method that returns a delegate to authorized callers.
+D. Declare the private method as a lambda.
+
+C) You can have a delegate to the private method, which you return from a method after authorization.
+public delegate void DelegatePrivateMethod(object arg);
+public DelegatePrivateMethod AuthorizationMethod(Object authorization)
+{
+	if(Check(authorization))
+	{
+		return new DelegatePrivateMethod(PrivateMethod); 
+	}
+	else
+	{
+		return null;
+	}
+}
+ 
+Book answer:
+Correct answer: C
+A. Incorrect: Making the method public gives access to all users of your class.
+B. Incorrect: This doesn’t give users of your class the ability to execute the method.
+C. Correct: The method can see whether the caller is authorized and then return a
+delegate to the private method that can be invoked at will.
+D. Incorrect: Changing the method to a lambda doesn’t change the fact that outside
+users can’t access the method.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+55) You have declared an event on your class, and you want outside users of your class to raise this event. What do you do?
+
+A. Make the event public.
+B. Add a public method to your class that raises the event.
+C. Use a public delegate instead of an event.
+D. Use a custom event accessor to give access to outside users.
+
+B)
+
+Book answer:
+Correct answer: B
+A. Incorrect: The compiler restricts the use of events outside of the class where it’s
+defined. They can only add and remove subscribers. Only the class itself can raise
+the event.
+B. Correct: The public method can be called by outside users of your class. Internally
+it can raise the event.
+C. Incorrect: Using a delegate does allow it to be invoked from outside the class.
+However, you lose the protection that an event gives you. A public delegate can be
+completely modified by outside users without any restrictions.
+D. Incorrect: Canonical name (CNAME) records map an alias or nickname to the real
+or canonical name that might lie outside the current zone.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+56) You are using a multicast delegate with multiple subscribers. You want to make sure that all subscribers are notified, even if an exception is thrown. What do you do?
+
+A. Manually raise the events by using GetInvocationList.
+B. Wrap the raising of the event in a try/catch.
+C. Nothing. This is the default behavior.
+D. Let subscribers return true or false instead of throwing an exception.
+
+
+foreach(Delegate del in multicastDelegate.GetInvocationList())
+{
+	try
+	{
+		del?.Invoke();
+	}
+	catch(Exception ex)
+	{
+		//Handle exception 
+		For example aggregate the exception in a list
+	}
+}
+
+A and B
+Correct answer: A
+Book answer:
+A. Correct: You can handle each individual error and make sure that all subscribers
+are called.
+B. Incorrect: Wrapping the raising of the event in one try/catch will still cause the
+invocation to stop at the first exception. Later subscribers won’t be notified.
+C. Incorrect: By default, the invocation of subscribers stops when the first unhandled
+exception happens in one of the subscribers.
+D. Incorrect: Exceptions are the preferred way of dealing with errors. Returning a
+value from each event still requires you to invoke them manually one by one to check the return value.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+57) You are checking the arguments of your method for illegal null values. If you encounter
+a null value, which exception do you throw?
+
+A. ArgumentException.
+B. InvalidOperationException.
+C. NullReferenceException.
+D. ArgumentNullException.
+
+D)
+
+Book answer:
+Correct answer: D
+A. Incorrect: Although the exception has to do with an argument to your method,
+you should throw the more specialized ArgumentNullException.
+B. Incorrect: InvalidOperationException should be used when your class is not in the
+correct state to handle a request.
+C. Incorrect: NullReferenceException is thrown by the runtime when you try to reference
+a null value.
+D. Correct: ArgumentNullException is the most specialized exception that you can use
+to tell which argument was null and what you expect.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+58) Your code catches an IOException when a file cannot be accessed. You want to give more information to the caller of your code. What do you do? 
+
+A. Change the message of the exception and rethrow the exception.
+B. Throw a new exception with extra information that has the IOException as InnerException.
+C. Throw a new exception with more detailed info.
+D. Use throw to rethrow the exception and save the call stack.
+
+B)
+
+Book answer:
+Correct answer: B
+A. Incorrect: The Message property of an exception is read-only. You can’t change it
+after the exception is created.
+B. Correct: The new exception can contain extra info. Setting the InnerException
+makes sure that the original exception stays available.
+C. Incorrect: Throwing a brand-new exception loses the original exception and the
+information that it had.
+D. Incorrect: Using throw without an identifier will rethrow the original exception
+while maintaining the stack trace, but it won’t add any extra information.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+59) You are creating a custom exception called LogonFailedException. Which constructors should you at least add? (Choose all that apply.)
+
+A. LogonFailed()
+B. LogonFailed(string message)
+C. LogonFailed(string message, Exception innerException)
+D. LogonFailed(Exception innerException)
+
+A, B, C
+
+Book answer:
+Correct answers: A, B, C
+A. Correct: You should always add a default empty constructor.
+B. Correct: A second constructor should take a descriptive message of why the error
+occurred.
+C. Correct: An InnerException can be set to correlate two exceptions and show what
+the original error was.
+D. Incorrect: You don’t have to define a constructor that only takes an InnerException
+without a message.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+60) If you use value types rather than reference types, will this stop the garbage collector from being called?
+
+The garbage collector collects and removes objects from the heap that have no reference. The garbage collector is called when the program runs out of avaiable memory.
+If due to the usage of value types your program does not run out of avaiable memory, the garbage collector will not be called.
+
+YES, because you dont run out of avaiable memory.           
+
+Book answer:
+Value types are normally stored on the stack (unless the type is part of a
+closure – see the Closures section in Skill 1.4, “Create and implement events
+and callbacks”). When a program exits from a block the variables on the
+stack are automatically removed. This means creating and destroying types
+such as integer, float, and double will not make any work for the garbage
+collector. However, if the value type is a struct, and the struct contains
+reference types, it will create work for the garbage collector, as the objects
+inside the structure will need to be managed.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+61) Does creating and destroying arrays of value types make work for the garbage collector?
+
+YES
+Array types are reference types which are derived from the abstract base type Array. They are therefore allocated on the heap and when destroyed their memory 
+needs to be freed by the garbage collector.
+
+
+Book answer:
+Arrays of value types are implemented as objects. For example, an array of
+100 integers will be managed as an object that contains 100 integers and an
+array reference to that object. This means that such arrays will be
+implemented on the heap and their removal from memory will involve the
+garbage collector.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+62) Does the garbage collector also collect garbage from the stack?
+
+NO, stack variables of a method are automatically cleared when you leave the method.   
+
+Book answer:
+No. The stack grows and contracts as a program runs. It is not managed by
+the garbage collector.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+63) Can a finalizer be called before the Dispose method in an object?
+
+Yes, when the dispose method of an object is not called in code, the GC calls the finalizer of unreferenced objects when freeing memory, 
+the finalizer in turn calls the dispose(false) method to free unmanaged resources.       
+
+Book answer:
+Yes. It is the application developer’s responsibility to make sure that the
+Dispose method is called to request that the object release any resources that
+it is using, but if this does not happen, and the object is deleted from
+memory, the finalize method will be called first. The dispose pattern has
+been designed to ensure that an object would release resources in a sensible
+way in this situation.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+64) Can the finalizer method in a class be overloaded?
+
+No, GC need a predefined finalizer to call with no arguments   
+
+Book answer:
+No. It would not be meaningful for the finalizer method in a class does to
+accept any parameters, so overloading the method (providing versions with
+different numbers of parameters) is not possible.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+65) Does a finalizer in a child class have to call the finalizer in a base class when it runs?
+
+No, When the finalizer of a child object is called by the GC, the finalizer calls the dispose(bool disposing) method,
+the dispose(bool disposing) method calls the base.dispose(bool disposing) of the parent at the end of the method. 
+   
+Book answer:
+No. There is no need for a finalizer in a child class to make any calls to the
+finalizer in a parent class. Each class in a class hierarchy can have its own
+finalizer and each of them will be called in turn when the object is finalized.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+66) Is it possible for the Dispose method in an instance to be called more than once?
+
+Yes, if programming code decides to call the dispose multiple times it can.
+To avoid releasing resources multiple times, a flag is used so that resources are released only once.         
+
+Book answer:
+When the Dispose method in an instance is called is down to the application
+itself. It may call Dispose multiple times. The dispose pattern uses a flag to
+ensure that this does not cause problems.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+67) What happens if an object finalizer takes a long time to run?
+
+The garbage collecting process is the severely constrained because further calls to other object finalizers are stopped.      
+
+Book answer:
+A long running finalizer will seriously impact on the performance of the
+garbage collection process. In an extreme situation this may result in the
+application running out of memory as the garbage collector cannot recover
+memory faster than it is being used.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+68) What happens if an object finalizer creates a new reference to the object being finalized?
+
+Nothing happens
+
+Book answer:
+It is bad practice for a finalizer to create a new reference to itself. This
+results in the object not being deleted from memory. Remember that the
+garbage collector makes another pass through the heap after the finalizers
+have been called. Any object that has a reference to it will be retained.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+69) Should you design your applications from the start to use the minimum possible memory? 
+
+No, RAM memory is readily available, in addition GC is optimised to release memory of destroyed objects.     
+
+Book answer:
+Security should be designed into an application very carefully from the start.
+However, in regard to performance and memory use, I advise that you don’t
+do much more than avoid obviously stupid solutions that impact on these
+factors, and then just focus on creating an application that is easy to
+understand and test. If you subsequently discover that you have performance
+or memory issues, that is the point that you use your diagnostics tools to
+identify resource hungry elements of your program and then optimize those.
+A lot of developers (including me) have spent a lot of time making programs
+smaller and quicker when there is no need to do this, particularly with
+modern hardware.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+70) Can you hold the text of an entire book in a single string instance?
+
+Yes, the max size of a string content is about 2 GB
+
+Book answer:
+The novel “War and Peace” by Tolstoy is generally accepted to be a long
+book. It contains around half a million words. However, even if each word
+was 20 characters long, this would only equate to around ten million
+characters. Strings are indexed using a 32-bit integer, which makes the
+theoretical limit on string size at around two thousand million characters. So
+you can say that all novels will fit into a single string.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+71) A string object is immutable. Does this mean you can’t assign a new value to a string variable once you have set it to a value?
+
+No, It means that when you assign a new value to a string variable, a new string object is created which holds the new value. 
+The object with the old value is marked for deletion by GC, has no more references to it.      
+
+Book answer:
+The contents of a string object cannot be changed. However; a string
+variable can be made to refer to a different string instance. In other words,
+don’t change the contents of a string variable called name from “Rob” to
+“Robert”. Instead, make the string variable name refer to a new string
+instance that contains “Robert.”
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+72) Are there any disadvantages to interning strings in a C# program?
+
+Yes, when creating a new string you have to check all other strings in the application to find out if the new string is unique or not, 
+this is time consuming. If string content already exists you can return the reference of that existing string.      
+
+Book answer:
+Interning of strings takes place when the compiler notices the same string
+literal is assigned to multiple variables in the program source. The compiler
+makes a single “interned” variable that contains the string literal and all the
+variables assigned that literal are made to refer to this single value. At run
+time this has the advantage that the program may be able to compare strings
+more quickly because two string variables will be equal if they both refer to
+the same interned object. The only disadvantage of interning is that it slows
+down the compilation process.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+73) Is the StringBuilder type based on the string type?
+
+NO If StringBuilder is based on the string type you would not have an efficient string manipulation function performance and memory wise, because strings are immutable.
+StringBuilder is based on a character array which allows easy concatenation and manipulation of strings.        
+
+Book answer:
+The StringBuilder type is not based on string. The StringBuilder
+will use one or more arrays of characters to build a string.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+74) Will using StringBuilder always make your programs go faster?
+
+No, performance benefits of StringBuilder are achieved when you are concatenating a lot of strings.     
+
+Book answer:
+If a program does a lot of string addition to assemble an output string it may
+be that using StringBuilder to assemble the string will improve
+performance and perhaps reduce the number of intermediate objects that will be created.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+75) Can you store binary data in a StringWriter?
+
+Yes its possible to store binary data in a char or string which can the be stored in a StringWriter.  
+
+Book answer:
+You can’t store binary data in a StringWriter because a
+StringWriter implements the TextWriter interface, which can only
+accept strings of text.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+76) Does the Trim method change the contents of a string?
+
+The Trim method remove spaces at the beginning en end of a string and returns a new object free of leading and trailing spaces. 
+
+Book answer:
+The Trim method is used to remove whitespace from an input string and
+return a new string with the whitespace removed. It does not change the
+contents of a string value because strings are immutable.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+77) What does it mean if an object implements the IFormattable interface?
+
+It means that an object implements a ToString(string format,IFormatProvider), it formats the the content of an object using the format specifier and taking into
+account the passed culture (If the object implements culture specific formatting)     
+
+Book answer:
+An object that implements the iFormattable interface contains a
+ToString method that accepts a format string and a format provider that
+can be used to provide culture specific information about the culture for
+which the string is being formatted. Objects that implement
+iFormattable can be used with formatted output which contains
+formatting instructions that are given the ToString methods.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+78) What does a CultureInfo object actually contain?
+
+The CultureInfo class provides culture-specific information, such as the language, sublanguage, country/region, calendar, and conventions associated with a particular culture. This class also provides access to culture-specific instances of the DateTimeFormatInfo, NumberFormatInfo, CompareInfo, and TextInfo objects. These objects contain the information required for culture-specific operations, such as casing, formatting dates and numbers, and comparing strings. The CultureInfo class is used either directly or indirectly by classes that format, parse, or manipulate culture-specific data, such as String, DateTime, DateTimeOffset, and the numeric types.
+
+Book answer:
+A CultureInfo instance contains information describing the formatting
+of output for use by a particular culture. The CultureInfo instance
+contains references to the NumberFormatInfo and
+DateTimeFormatInfo objects for the culture. These specify such things
+as the ordering of dates when printed, the character to be used to mean
+currency and the separators between digits in large numbers. A formatter can
+use those parts of a CultureInfo instances as it needs to produce output
+that reflects different regions of the world.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+79) Can you use string interpolation with strings of text that are created as the program runs?
+
+No, strings that use string interpolation are converted by the compiler as normal string formats and then used.    
+
+Book answer:
+String interpolation takes place when the compiler works on literal string
+values in the program source. A string that is identified as an interpolated
+string by having a dollar character ($) added before the start of the string
+will be parsed and the names of variables to be printed extracted. This all
+happens at compile time, so it is not possible to use interpolation on strings
+that are generated when the program runs.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+80) How can using value types when possible improve your performance? Or could it be that your performance will deteriorate more?
+
+The use of value types could deteriorate performance, imagine if we have a big struct containing a lot of value types and we pass the 
+struct by value to a method, the struct is then copied and passed to the method which is CPU intensive.
+If you pass an object (Reference type) to a method, only the memory adres of the object is passed to the method which is very efficient in terms
+of CPU usage and memory usage. One advantage of using value types is that the variables are allocated on the stack, once you leave a method all
+the stack variables are removed, the GC does not have to release memory when using value types on the stack.            
+
+Book answer:
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+81) Why is implementing IDisposable important to reduce memory pressure? Is it always the best to call Dispose on an element as soon as you are done with it?
+
+Implementing IDisposable makes sure that you release managed and unmanaged resources in a controlled way, thereby reducing memory pressure,
+because released managed resources are ready to be collected by the GC. 
+If you dont need an object any longer, you can call Dispose on an element as soon as you are done with it.
+
+
+Book answer:
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+82) Should you implement a finalizer on all your types that implement IDisposable?
+
+You should only implement a finalizer on types that have unmanaged resources that cannot be freed by the GC.
+
+Book answer:
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+83) You have some items that are used a lot. Would it be wise to put them in a static field so you don’t have to re-create them each time?
+
+It depends, if each instance has its own item than you cannot use a static field, but if all instances have the same item you can use a static field.    
+Another solution would be to cache the items that are used a lot, in this way you dont have to recreate the items.   
+
+Book answer:
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+84)You are about to execute a piece of code that is performance-sensitive. You are afraid that a garbage collection will occur during the execution of this code. Which method should you call before executing your code?
+
+A. GC.RemoveMemoryPressure()
+B. GC.SuppressFinalize()
+C. GC.Collect()
+D. GC.WaitForPendingFinalizers()
+
+A, You communicate to the GC that you have released unmanaged resources and removed Memory Pressure therfore GC collection can wait until App memory usage increased.       
+
+Book answer:
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+85) An object that is implementing IDisposable is passed to your class as an argument. Should you wrap the element in a using statement?
+
+A. Yes, otherwise a memory leak could happen.
+B. No, you should call Close on the object.
+C. No, you should use a try/finally statement and call Dispose yourself.
+D. No, the calling method should use a using statement.
+
+D The method that created the object that is implementing IDisposable should also dispose it. 
+
+Book answer:
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+86) Your application is using a lot of memory. Which solution should you use?
+
+A. Turn all references into WeakReferences.
+B. Set all references to null when you are done with them.
+C. Use a caching algorithm to decide which objects can be freed.
+D. Use a background thread to call GC.Collect() on a scheduled interval.
+
+D) Although the GC is already optimised to free memory.  
+
+Book answer:
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+87) Make a list of the things you have to keep in mind when updating your applica-tion for globalization.
+
+Currencies, DateTime formats should be checked, in addition string comparison when searching a database for example.
+Furthermore application layout and colors used could be subject to localization, for example arab countries write in opposite direction as western.
+Color pallet usage can be subject to localization.      
+
+
+Book answer:
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+88) You want to display only the date portion of a DateTime according to the French culture. What method should you use?
+
+A. dt.ToString(new CultureInfo(“fr-FR”))
+B. dt.ToString(“M”, new CultureInfo(“fr-FR”));
+C. dt.ToString(“d”);
+D. dt.ToString(“d”, new CultureInfo(“fr-FR”));
+
+D) You specify the format (the date portion of a DateTime) and you specify the CultureInfo which implements IFormatProvider (retrieve the DateTime format for French culture)
+
+Book answer:
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+89) You want your type to be able to be converted from string. Which interface should you implement?
+
+A. IFormattable
+B. IFormatProvider
+C. IComparable
+D. IConvertible
+
+A) The interface defines a method ToString(string format, IFormatProvider culture) which you need to implement. 
+
+Book answer:
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+90) You are parsing a large piece of text to replace values based on some complex algorithm. Which class should you use?
+
+A. StringReader
+B. StringBuilder
+C. StringWriter
+D. String
+
+B) StringBuilder is very flexible in replacing pieces of text.  
+
+Book answer:
+----------------------------------------------------------------------------------------------------------------------------------------------------------------

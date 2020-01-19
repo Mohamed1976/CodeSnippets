@@ -33,6 +33,19 @@ namespace _70_483.EventsAndCallbacks
         //public delegate void EventHandler([NullableAttribute(2)] object? sender, EventArgs e);
         public event EventHandler OnAlarmRaisedV3 = delegate { };
 
+        //C# provides an event construction that allows a delegate to be specified as
+        //an event. This is below. The keyword event is added before the
+        //definition of the delegate. The member OnAlarmRaised is now created as a
+        //data field in the Alarm class, rather than a property.OnAlarmRaised no
+        //longer has get or set behaviors.However, it is now not possible for code
+        //external to the Alarm class to assign values to OnAlarmRaised, and the
+        //OnAlarmRaised delegate can only be called from within the class where it is
+        //declared.In other words, adding the event keyword turns a delegate into a
+        //properly useful event.
+        //The code below has one other improvement over previous
+        //versions.It creates a delegate instance and assigns it when OnAlarmRaised is
+        //created, so there is now no need to check whether or not the delegate has a value
+        //before calling it. This simplifies the RaiseAlarm method.
         //public delegate void EventHandler<[NullableAttribute(2)] TEventArgs>([NullableAttribute(2)] object? sender, TEventArgs e);
         public event EventHandler<AlarmEventArgs> OnAlarmRaisedV4 = delegate { };
 
@@ -76,6 +89,28 @@ namespace _70_483.EventsAndCallbacks
             //invoke the methods bound to the delegate.
             //Alternatively you can use 
             //OnAlarmRaised?.Invoke();
+        }
+
+        // Example below
+        // You have a private method in your class and you want to make invocation of the method possible by certain callers. What do you do?
+
+        public delegate void delegateDisplayUserCredentials(string userName);
+
+        public delegateDisplayUserCredentials AuthorizeRequest(string password)
+        {
+            if(password == "Welcome123")
+            {
+                return new delegateDisplayUserCredentials(DisplayUserCredentials);
+            }
+            else
+            {
+                return null;
+            }            
+        }
+
+        private void DisplayUserCredentials(string userName)
+        {
+            Console.WriteLine($"DisplayUserCredentials: {userName}");
         }
     }
 }

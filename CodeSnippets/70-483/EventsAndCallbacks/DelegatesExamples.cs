@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace _70_483.EventsAndCallbacks
 {
@@ -26,7 +29,17 @@ namespace _70_483.EventsAndCallbacks
     //Delegate types are derived from the Delegate class in the.NET Framework.Delegate types are sealed—they cannot be 
     //derived from— and it is not possible to derive custom classes from Delegate.
     //The general delegate format: access-modifier delegate result-type identifier ([parameters])
-
+    //Today events are more frequently used for inter-process communication.
+    //Components of a solution that communicate using events are described as loosely coupled.
+    //The methods in a delegate are not guaranteed to be called in the order that they were added to the delegate.
+    //Delegates added to a published event are called on the same thread as the
+    //thread publishing the event. If a delegate blocks this thread, the entire
+    //publication mechanism is blocked.This means that a malicious or badly written
+    //subscriber has the ability to block the publication of events. This is addressed by
+    //the publisher starting an individual task to run each of the event subscribers.
+    //If the same subscriber is added more than once to the same publisher, it will
+    //be called a corresponding number of times when the event occurs.
+    //The word Delegate with an upper-case D is the abstract class that defines the behavior of delegate instances.
     class DelegatesExamples
     {
         public DelegatesExamples()
@@ -83,6 +96,12 @@ namespace _70_483.EventsAndCallbacks
             Console.WriteLine($"Alarm listener 6 called, Location: {e.Location}");
         }
 
+        //Note that a reference to the same AlarmEventArgs object is passed to each
+        //of the subscribers to the OnAlarmRaised event. This means that if one of the
+        //subscribers modifies the contents of the event description, subsequent
+        //subscribers will see the modified event. This can be useful if subscribers need to
+        //signal that a given event has been dealt with, but it can also be a source of
+        //unwanted side effects.
         private void AlarmListener7(object source, AlarmEventArgs args)
         {
             Console.WriteLine("Alarm listener 1 called");
@@ -158,8 +177,180 @@ namespace _70_483.EventsAndCallbacks
 
         private delegate void printMsgDel(string msg);
 
-        public void Run()
+        delegate int MathFunctions(int a, int b);
+
+        internal Action<int> updateCapturedLocalVariable;
+        internal Action showCapturedLocalVariable;
+
+        private int localCounter = 0;
+
+        public int LocalCounter
         {
+            get { return localCounter; }
+            set { localCounter = value; }
+        }
+
+
+        private void CaptureLocalVariable(int input)
+        {
+            int j = 0;
+
+            //Lambda expression is defined in function and called later in this function 
+            updateCapturedLocalVariable = (x) =>
+            {
+                j = x;
+                LocalCounter++;
+            };
+
+            showCapturedLocalVariable = () =>
+            {
+                Console.WriteLine($"input: [{input}], j: [{j}], LocalCounter: [{LocalCounter}]");
+            };
+
+            Console.WriteLine($"Local variable before lambda invocation: {j}");
+            updateCapturedLocalVariable(10);
+            Console.WriteLine($"Local variable after lambda invocation: {j}");
+        }
+
+
+        public async Task Run()
+        {
+            // You have a private method in your class and you want to make invocation of the method possible by certain callers.
+            //Use a method that returns a delegate to authorized callers
+            Alarm alarm2 = new Alarm();
+            Alarm.delegateDisplayUserCredentials authorizationDelegate = alarm2.AuthorizeRequest("Welcome123");
+            authorizationDelegate.DynamicInvoke("Mohamed");
+
+            //The following example produces a sequence that contains all elements in the numbers array that precede the 9, 
+            //because that's the first number in the sequence that doesn't meet the condition:
+            int[] numbers2 = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
+            var firstNumbersLessThanSix = numbers2.TakeWhile(n => n < 6);
+            Console.WriteLine(string.Join(" ", firstNumbersLessThanSix));
+
+            //The following example specifies multiple input parameters by enclosing them in parentheses. 
+            //The method returns all the elements in the numbers array until it encounters a number whose 
+            //value is less than its ordinal position in the array:
+            int[] numbers3 = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
+            var firstSmallNumbers = numbers3.TakeWhile((n, index) => n >= index);
+            Console.WriteLine(string.Join(" ", firstSmallNumbers));
+
+            List<HockeyTeam> teams1 = new List<HockeyTeam>();
+            teams1.AddRange(new HockeyTeam[] { new HockeyTeam("Detroit Red Wings", 1926),
+                                         new HockeyTeam("Chicago Blackhawks", 1926),
+                                         new HockeyTeam("San Jose Sharks", 1991),
+                                         new HockeyTeam("Montreal Canadiens", 1909),
+                                         new HockeyTeam("St. Louis Blues", 1967) });
+            //Func<HockeyTeam, bool>
+            List<HockeyTeam> selectedTeams1 = teams1.Where((hockeyTeam) => hockeyTeam.Founded == 1909 || hockeyTeam.Founded == 1967).ToList();
+            Console.WriteLine($"HockeyTeams founded in 1909 or 1967: ");
+            foreach (HockeyTeam h in selectedTeams1)
+            {
+                Console.WriteLine($"{h.Name}, {h.Founded} ");
+            }
+            
+            //https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/statements-expressions-operators/lambda-expressions
+            Alarm alarm1 = new Alarm();
+            alarm1.OnAlarmRaisedV4 += async (object sender, AlarmEventArgs e) =>
+            {
+                Console.WriteLine($"async alarm1.OnAlarmRaisedV4: {e.Location}");
+                // The following line simulates a task-returning asynchronous process.
+                await Task.Delay(1000);
+            };
+
+            alarm1.RaiseAlarm();
+
+            int[] numbers1 = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 };
+            //Predicate to determine which digits to count  
+            int oddNumbers = numbers1.Count(n => n % 2 == 1);
+            Console.WriteLine($"There are {oddNumbers} odd numbers in {string.Join(" ", numbers1)}");
+
+            //Sometimes it's impossible for the compiler to infer the input types. You can specify the types 
+            //explicitly as shown in the following example:
+            Func<int, string, bool> isTooLong = (int maxLength, string str) => str.Length > maxLength;
+            isTooLong(3, "Welcome");
+            
+            int[] numbers = { 2, 3, 4, 5 };
+            //Each number is processed using anonymous function: Fun<int,int> square = (x) => x*x;    
+            int[] squaredNumbers = numbers.Select(x => x * x).ToArray();
+            foreach(int i in squaredNumbers)
+            {
+                Console.WriteLine($"SquaredNumbers: {i}");
+            }
+
+            //Closures
+            //https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/statements-expressions-operators/lambda-expressions
+            //The code in a lambda expression can access variables in the code around it.
+            //These are the variables that are in scope in the method that defines the lambda expression, 
+            //or in scope in the type that contains the lambda expression.
+            //These variables must be available when the lambda expression runs, so the
+            //compiler will extend the lifetime of variables used in lambda expressions.         
+            CaptureLocalVariable(5);
+            //The lasttime CaptureLocalVariable was called, j==10, input==5, LocalCounter==1 these values were captured    
+            showCapturedLocalVariable();
+            updateCapturedLocalVariable(3);
+            //Last call input==5, J==3, LocalCounter==2
+            showCapturedLocalVariable();
+
+            //Expression lambda that has an expression as its body:
+            //1) (input-parameters) => expression
+            //2) (input-parameters) => { <sequence-of-statements> }
+            //Use lambda expressions Lambda expressions are a pure way of expressing the “something goes in,
+            //something happens and something comes out” part of behaviors.The types of
+            //the elements and the result to be returned are inferred from the context in which
+            //the lambda expression is used.Consider the following statement.            
+            //The operator => is called the lambda operator.
+            //Any lambda expression can be converted to a delegate type. 
+            MathFunctions AddOperation = (x, y) => x + y;
+            //You can also use statements enclosed in a block.
+            AddOperation = (int a, int b) =>
+            {
+                Console.WriteLine($"Add called");
+                return a + b;
+            };
+            Console.WriteLine($"AddOperation: 9 + 6 = {AddOperation(9,6)}");
+
+            Func<int, int, int> AddOperation2 = (x, y) => x + y;
+            Action<string> printResult = (result) => Console.WriteLine(result);
+            printResult($"AddOperation2: 8 + 11 = {AddOperation2(8, 11)}");
+
+            //Anonymous methods is a lambda expression that is directly used in a context where you just want to 
+            //express a particular behavior. The program below uses Task.Run to start a new task.The code
+            //performed by the task is expressed directly as a lambda expression, which is
+            //given as an argument to the Task.Run method. At no point does this code ever have a name.
+            //Task.Run(Action) method to pass the code that should be executed in the background. 
+            await Task.Run(() =>
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    Console.WriteLine(i);
+                    Thread.Sleep(50);
+                }
+            });
+
+            //https://docs.microsoft.com/en-us/dotnet/api/system.predicate-1?view=netframework-4.8
+            //Predicate<T> Delegate: public delegate bool Predicate<in T>(T obj);
+            //Represents the method that defines a set of criteria and determines whether the specified object meets those criteria.
+            //Typically, the Predicate<T> delegate is represented by a lambda expression. Because locally scoped variables are available 
+            //to the lambda expression, it is easy to test for a condition that is not precisely known at compile time.
+            List<HockeyTeam> teams = new List<HockeyTeam>();
+            teams.AddRange(new HockeyTeam[] { new HockeyTeam("Detroit Red Wings", 1926),
+                                         new HockeyTeam("Chicago Blackhawks", 1926),
+                                         new HockeyTeam("San Jose Sharks", 1991),
+                                         new HockeyTeam("Montreal Canadiens", 1909),
+                                         new HockeyTeam("St. Louis Blues", 1967) });
+
+
+            int[] years = { 1920, 1930, 1980, 2000 };
+            Random rnd = new Random();
+            //rnd.Next(0, years.Length), rnd.Next(0,4), generates numbers between 0 and 3, 4 not included   
+            int foundedBeforeYear = years[rnd.Next(0, years.Length)];
+            Console.WriteLine("Teams founded before {0}:", foundedBeforeYear);
+            List<HockeyTeam> teamsSelected = teams.FindAll((team) => team.Founded < foundedBeforeYear);
+            foreach(HockeyTeam team in teamsSelected)
+            {
+                Console.WriteLine($"{team.Name}, {team.Founded}");
+            }
+             
             //https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/delegates/using-delegates
             //At this point allMethodsDelegate contains three methods in its invocation list—Method1, Method2, and DelegateMethod. 
             //The original three delegates, d1, d2, and d3, remain unchanged. When allMethodsDelegate is invoked, all three methods 
@@ -183,8 +374,7 @@ namespace _70_483.EventsAndCallbacks
             }
 
             allMethodsDelegate("Aanroep door delegate.");
-
-            return;
+            
             //Closure Example
             //The code in a lambda expression can access variables in the code around it.
             //These variables must be available when the lambda expression runs, so the
@@ -240,6 +430,8 @@ namespace _70_483.EventsAndCallbacks
             }
 
             myWay d1 = Method1;
+            //The C# compiler will automatically generate the code to create a delegate instance when a method is 
+            //assigned to the delegate variable.
             myWay d2 = new myWay(Method2);
             //A delegate can call more than one method when invoked. This is referred to as multicasting.
             //To add an extra method to the delegate's list of methods—the invocation list—simply requires 
@@ -415,8 +607,7 @@ namespace _70_483.EventsAndCallbacks
             //used in a C# program that tells the compiler to create a delegate type. 
             //The word Delegate with an upper-case D is the abstract class that defines the behavior of delegate instances.
             //Once the delegate keyword has been used to create a delegate type, objects of that delegate type will be realized as
-            //Delegate instances.
-            IntOperation op;
+            //Delegate instances. IntOperation op;
             //This statement creates an IntOperation value called op. The variable op
             //is an instance of the System.MultiCastDelegate type, which is a child of
             //the Delegate class. A program can use the variable op to either hold a

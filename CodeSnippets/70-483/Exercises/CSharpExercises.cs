@@ -89,7 +89,7 @@ namespace _70_483.Exercises
                     Console.WriteLine($"Exception message: {exception.Message}");
                 }
             }
-            return;
+            
             Console.WriteLine($"CalculateTotal using TPL.ForEach(): {CalculateTotal()}");
             /* Use the multi-core CPU, compute Pi using Task Parallel Library, compute sum using parallel processing. */
             stopwatch = Stopwatch.StartNew();

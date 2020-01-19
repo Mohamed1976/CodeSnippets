@@ -3,6 +3,10 @@ using System;
 using System.Threading.Tasks;
 using _70_483.Exercises;
 using _70_483.EventsAndCallbacks;
+using _70_483.Exceptions;
+using _70_483.ProgramFlow;
+using _70_483.GarbageCollector;
+using _70_483.String_Manipulation;
 
 namespace _70_483
 {
@@ -10,13 +14,85 @@ namespace _70_483
     {
         static void Main(string[] args)
         {
+            #region [ String Manipulation ]
+
+            try
+            {
+                String_Manipulation_Examples string_Manipulation_Examples = new String_Manipulation_Examples();
+                string_Manipulation_Examples.Run();
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"There was an exception in String_Manipulation_Examples.Run(): {ex.ToString()}");
+            }
+
+            #endregion
+
+            #region [ Garbage Collector ]
+
+            try
+            {
+                GarbageCollectorExamples garbageCollectorExamples = new GarbageCollectorExamples();
+                //garbageCollectorExamples.Run();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"There was an exception in GarbageCollectorExamples.Run(): {ex.ToString()}");
+            }
+
+            #endregion
+
+            #region [ Multithreading Examples ]
+
+            try
+            {
+                MultithreadingExamples multithreadingExamples = new MultithreadingExamples();
+                //multithreadingExamples.Run().Wait();
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"There was an exception in MultithreadingExamples.Run(): {ex.ToString()}");
+            }
+
+            #endregion
 
             #region [ Events and Callbacks ]
 
             try
             {
                 DelegatesExamples delegatesExamples = new DelegatesExamples();
-                delegatesExamples.Run();
+                //delegatesExamples.Run().Wait();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"There was an exception in DelegatesExamples.Run(): {ex.ToString()}");
+            }
+
+            #endregion
+
+            #region[ Programm Flow ]
+
+            try
+            {
+                ProgramFlowExamples programFlowExamples = new ProgramFlowExamples();
+                //programFlowExamples.Run();
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"There was an exception in ProgramFlowExamples.Run(): {ex.ToString()}");
+            }
+
+            #endregion
+
+            #region[ Exceptions ]
+
+            try
+            {
+                ExceptionExamples exceptionExamples = new ExceptionExamples();
+                //exceptionExamples.Run().Wait();
             }
             catch (Exception ex)
             {
