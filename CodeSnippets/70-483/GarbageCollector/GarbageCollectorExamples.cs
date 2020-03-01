@@ -57,6 +57,15 @@ namespace _70_483.GarbageCollector
 
         public void Run()
         {
+            //-----------------------------------------------------------------------------------
+            // The Abstract Stream class implements the IDisposable interface. 
+            // This means that any objects derived from the Stream type must also implement the interface.
+            // The disposable procedure is implemented in the AbstractClass DerivedFromAbstractClass
+            // This pattern can also be used in base and derived classes. 
+            //-----------------------------------------------------------------------------------
+            DerivedFromAbstractClass derivedFromAbstractClass = new DerivedFromAbstractClass("MyName");
+            derivedFromAbstractClass.Dispose();
+
             //https://docs.microsoft.com/en-us/dotnet/standard/garbage-collection/implementing-dispose
             //You should only implement a finalizer if you have actual unmanaged resources to dispose.
             //The primary use of this interface is to release unmanaged resources.The garbage collector automatically 

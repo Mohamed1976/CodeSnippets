@@ -1,0 +1,8 @@
+TCP/IP (Transmission Control Protocol/Internet Protocol) network
+UDP (User Datagram Protocol)
+HTTP (HyperText Transport Protocol)
+HTML (HyperText Markup Language)
+ASP (Active Server Pages)
+REST (REpresentational State Transfer) architecture
+JSON (Java Object Notation)
+XML (extensible markup language)

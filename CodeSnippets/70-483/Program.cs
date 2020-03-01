@@ -7,6 +7,19 @@ using _70_483.Exceptions;
 using _70_483.ProgramFlow;
 using _70_483.GarbageCollector;
 using _70_483.String_Manipulation;
+using _70_483.OOP;
+using _70_483.Reflection;
+using _70_483.Validation;
+using _70_483.Encryption;
+using _70_483.ManageAssemblies;
+using _70_483.Debugging;
+using _70_483.Diagnostics;
+using _70_483.IOoperations;
+using _70_483.Encodings;
+using _70_483.ConsumeData;
+using _70_483.DataCollections;
+using _70_483.LinqQuery;
+using _70_483.Serialization;
 
 namespace _70_483
 {
@@ -14,12 +27,224 @@ namespace _70_483
     {
         static void Main(string[] args)
         {
+            #region [ General Exercises ]
+
+            try
+            {
+                GeneralExercises generalExercises = new GeneralExercises();
+                //generalExercises.Run().Wait();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"There was an exception in GeneralExercises.Run(): {ex.ToString()}");
+            }
+            #endregion
+
+            #region [ Exam Exercises ]
+
+            try
+            {
+                _70_483_ExamExercises examExercises = new _70_483_ExamExercises();
+                examExercises.Run().Wait();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"There was an exception in _70_483_ExamExercises.Run(): {ex.ToString()}");
+            }
+
+            #endregion
+
+            #region [ Serialization ]
+
+            try
+            {
+                SerializationExamples serializationExamples = new SerializationExamples();
+                //serializationExamples.Run();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"There was an exception in SerializationExamples.Run(): {ex.ToString()}");
+            }
+
+            #endregion
+
+            #region [ Linq Queries ]
+
+            try
+            {
+                LinqQueryExamples linqQueryExamples = new LinqQueryExamples();
+                //linqQueryExamples.Run();
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"There was an exception in LinqQueryExamples.Run(): {ex.ToString()}");
+            }
+
+            #endregion
+
+            #region [ Data Collections ]
+
+            try
+            {
+                DataCollectionsExamples dataCollectionsExamples = new DataCollectionsExamples();
+                //dataCollectionsExamples.Run().Wait();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"There was an exception in DataCollectionsExamples.Run(): {ex.ToString()}");
+            }
+
+            #endregion
+
+            #region [ Consume data ]
+
+            try
+            {
+                ConsumeDataExamples consumeDataExamples = new ConsumeDataExamples();
+                //consumeDataExamples.Run().Wait();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"There was an exception in ConsumeDataExamples.Run(): {ex.ToString()}");
+            }
+
+            #endregion
+
+            #region [ Encoding ]
+
+            try
+            {
+                EncodingExamples encodingExamples = new EncodingExamples();
+                //encodingExamples.Run();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"There was an exception in EncodingExamples.Run(): {ex.ToString()}");
+            }
+
+            #endregion
+
+            #region [ IO Operations ]
+
+            try
+            {
+                IOoperationsExamples IOoperations = new IOoperationsExamples();
+                ///IOoperations.Run();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"There was an exception in IOoperationsExamples.Run(): {ex.ToString()}");
+            }
+
+            #endregion
+
+            #region [ Diagnostics ]
+
+            try
+            {
+                DiagnosticsExamples diagnosticsExamples = new DiagnosticsExamples();
+                //diagnosticsExamples.Run();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"There was an exception in DiagnosticsExamples.Run(): {ex.ToString()}");
+            }
+
+            #endregion
+
+            #region [ Debugging ] 
+
+            try
+            {
+                DebuggingExamples debuggingExamples = new DebuggingExamples();
+                //debuggingExamples.Run();
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"There was an exception in DebuggingExamples.Run(): {ex.ToString()}");
+            }
+
+            #endregion
+
+            #region [ Manage Assemblies ]
+
+            try
+            {
+                ManageAssembliesExamples manageAssembliesExamples = new ManageAssembliesExamples();
+                ///manageAssembliesExamples.Run();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"There was an exception in ManageAssembliesExamples.Run(): {ex.ToString()}");
+            }
+
+            #endregion
+
+            #region [ Encryption ]
+
+            try
+            {
+                EncryptionExamples encryptionExamples = new EncryptionExamples();
+                //encryptionExamples.Run();
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"There was an exception in EncryptionExamples.Run(): {ex.ToString()}");
+            }
+
+            #endregion
+
+            #region [ Validation ]
+
+            try
+            {
+                ValidationExamples validationExamples = new ValidationExamples();
+                //validationExamples.Run();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"There was an exception in ValidationExamples.Run(): {ex.ToString()}");
+            }
+
+            #endregion
+
+            #region [ Reflection ]
+
+            try
+            {
+                ReflectionExamples reflectionExamples = new ReflectionExamples();
+                //reflectionExamples.Run();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"There was an exception in ReflectionExamples.Run(): {ex.ToString()}");
+            }
+
+            #endregion
+
+            #region [ Class Hierarchy ]
+
+            try
+            {
+                ClassHierarchyExamples classHierarchyExamples = new ClassHierarchyExamples();
+                //classHierarchyExamples.Run();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"There was an exception in ClassHierarchyExamples.Run(): {ex.ToString()}");
+            }
+
+            #endregion
+
             #region [ String Manipulation ]
 
             try
             {
                 String_Manipulation_Examples string_Manipulation_Examples = new String_Manipulation_Examples();
-                string_Manipulation_Examples.Run();
+                //string_Manipulation_Examples.Run();
 
             }
             catch (Exception ex)

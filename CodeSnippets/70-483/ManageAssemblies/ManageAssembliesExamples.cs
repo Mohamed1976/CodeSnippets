@@ -1,0 +1,201 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using MusicStorage;
+
+namespace _70_483.ManageAssemblies
+{
+    //The programmer creates the source code for the program, along
+    //with assets that are required by the application, and are combined by the Visual
+    //Studio compiler to produce assembly file outputs.These assembly files contain
+    //programs expressed in Microsoft Intermediate Language (MSIL), along with the
+    //assets. When an application is executed by the.NET runtime, a Just In Time
+    //(JIT) compiler converts the intermediate language files into machine code that
+    //can be obeyed by the underlying computer hardware.
+
+    //1) The contents of an assembly file are independent of the language that
+    //was used to create it.A single application can be made up of assemblies that
+    //have been compiled from C#, F#, and Visual Basic source code files.
+
+    //2) The second thing to remember is that the intermediate language is
+    //independent of the particular hardware that will actually be running the program.
+    //There is an additional compilation stage that converts the MSIL code stored in
+    //the assembly into the machine code that runs on the host computer. This takes
+    //place just before a method in an assembly is executed and is called Just in Time (JIT) compilation.
+
+    //Visual Studio will not allow you to create
+    //circular dependencies, so it is not possible to make two libraries depend on each other.
+
+    //One other important change is the way assemblies are deployed.If you want, you can deploy an 
+    //application by simply copying it to a new machine. All the assemblies that are required are 
+    //deployed locally in the new application folder.An assembly can even contain resource files, 
+    //such as images, that are directly embedded in the assembly. You can also choose to deploy an 
+    //assembly in a shared way so it can be used by multiple applications.
+    //Assemblies that are local to an application are called private assemblies. 
+    //You can easily deploy an application that depends on private assemblies by copying it to a new location.
+    //Another way to deploy an assembly is to deploy it to the global assembly cache(GAC). 
+    //The GAC is a specialized library for storing assemblies.It is machine-wide and it is 
+    //one of the locations the CLR checks when looking for an assembly. Normally, you want to avoid 
+    //installing assemblies in the GAC. One reason to deploy to the GAC is when an assembly is shared by 
+    //multiple applications. Other reasons for installing an assembly into the GAC can be the enhanced security 
+    //(normally only users with administrator rights can alter the GAC) or the situation where you want to deploy 
+    //multiple versions of the same assembly.
+
+    //Deploying an assembly in the GAC can be done in two ways:
+    //1)For production scenarios, use a specific installation program that has access to the GAC such as the Windows Installer 2.0.
+    //2)In development scenarios, use a tool called the Global Assembly Cache tool (Gacutil.exe).
+
+    //The CLR supports two different types of assemblies: strong-named assemblies and regular assemblies.
+
+    //A regular assembly is what Visual Studio generates for you by default. It’s structurally identical
+    //to a strong-named assembly.They both contain metadata, header, manifest, and all the
+    //types that are in your assembly. A strong-named assembly is signed with a public/private key pair that uniquely identifies
+    //the publisher of the assembly and the content of the assembly.A strong name consists of the
+    //simple text name of the assembly, its version number, and culture information.It also contains
+    //a public key and a digital signature.
+
+    //Strongly naming an assembly has several benefits:
+    //1) Strong names guarantee uniqueness. Your unique private key is used to generate
+    //the name for your assembly.No other assembly can have the exact same strong name.
+
+    //2) Strong names protect your versioning lineage. Because you control the private key,
+    //you are the only one who can distribute updates to your assemblies.Users can be sure
+    //that the new version originates from the same publisher.
+
+    //3) Strong names provide a strong integrity check.The.NET Framework sees whether
+    //a strong-named assembly has changed since the moment it was signed.
+
+    //Overall, you can see that a strong-named assembly ensures a user that they can trust the
+    //origin and content of an assembly.
+
+    //IMPORTANT
+    //A strong-named assembly can reference only other assemblies that are also strongly named. 
+    //This is to avoid security flaws where a depending assembly could be changed to influence the behavior of a strong-named assembly.
+
+    //The public key token is a small string that represents the public key.It is generated by
+    //hashing the public key and taking the last eight bytes.If you reference another assembly,
+    //you store only the public key token, which preserves space in the assembly manifest.The CLR
+    //does not use the public key token when making security decisions because it could happen
+    //that several public keys have the same public key token.
+
+    //One thing that’s important to understand is that a strongly named assembly does not
+    //prove that the assembly comes from the original publisher.It only shows that the person
+    //who created the assembly has access to the private key.
+    //If you want to make sure that users can verify you as the publisher, you have to use something
+    //called Authenticode.Authenticode is a technology that uses digital certificates to
+    //identify the publisher of an application.You need to buy a certificate online and then use
+    //that certificate to sign your application.
+
+    //When referencing a shared assembly from your project, you can add a reference to the file located in the 
+    //GAC or to a local copy of it.When Visual Studio detects that there is a GAC version of the DLL you are 
+    //referencing, it will add a reference to the GAC, not to the local version.
+
+    //In stark contrast with how DLLs worked before the.NET Framework, an assembly has a version number.
+    //Inside the assembly manifest, the assembly records its own version number and the version numbers 
+    //of all the assemblies that it references. {Major Version}.{Minor Version}.{Build Number}.{Revision}
+
+    //1) The Major Version is manually incremented for each major release. A major release
+    //should contain many new features or breaking changes.
+    //2) The Minor Version is incremented for minor releases that introduce only some small
+    //changes to existing features.
+    //3) The Build Number is automatically incremented for each build by the build server. This
+    //way, each build has a unique identification number that can be used to track it.
+    //4) The Revision is used for patches to the production environment.
+
+    public class ManageAssembliesExamples
+    {
+        public ManageAssembliesExamples()
+        {
+        }
+
+        public void Run()
+        {
+            //Add reference to MusicStorage library.
+            MusicTrack musicTrack = new MusicTrack(artist: "Rob Miles", title: "My Way", length: 150);
+            Console.WriteLine(musicTrack);
+            string assemblyName = typeof(MusicTrack).Assembly.FullName;
+            //MusicStorage, Version=1.2.3.5, Culture=neutral, PublicKeyToken=5cff5cb0ad5e4f1c
+            Console.WriteLine(assemblyName);
+            //ildasm to analyse assemblies can be found in the following location
+            //C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools            
+            //The command line tool “sn” can be used to generate public and private keys
+            //that can be used to sign an assembly. sn can also be found in location above
+
+            //SIDE BY SIDE HOSTING
+            //Because the version of an assembly is important when the runtime tries to locate an assembly,
+            //you can deploy multiple versions of the same assembly to the GAC and avoid the
+            //DLL problem that happened with regular DLL files.This is called side - by - side hosting, in which
+            //multiple versions of an assembly are hosted together on one computer.
+            //Three configuration files are used for SIDE BY SIDE HOSTING:
+            //1)Application configuration files
+            //2)Publisher policy files
+            //3)Machine configuration files
+
+            //Those configuration files can be used to influence the binding of referenced assemblies.
+            //Suppose, for example, that you have deployed an assembly to the GAC and a couple of applications
+            //depend on it.Suddenly a bug is discovered and you create a fix for it.The new
+            //assembly has a new version number and you want to make sure that all applications use the
+            //new assembly. You can do this by using a publisher policy file. In such a configuration file, you specify that
+            //if the CLR looks for a specific assembly, it should bind to the new version.
+            /*
+            <configuration>
+                <runtime>
+                    <assemblyBinding xmlns=”urn:schemas-microsoft-com:asm.v1”>
+                        <dependentAssembly>
+                            <assemblyIdentity   name=”myAssembly”
+                                                publicKeyToken=”32ab4ba45e0a69a1”
+                                                culture=”en-us” />
+                            <!-- Redirecting to version 2.0.0.0 of the assembly. -->
+                            <bindingRedirect oldVersion=”1.0.0.0” newVersion=”2.0.0.0”/>
+                        </dependentAssembly>
+                    </assemblyBinding>
+                </runtime>
+            </configuration>               
+            */
+
+            //This file instructs the CLR to bind to version 2 of the assembly instead of version 1. You
+            //need to deploy such a publisher policy to the GAC so that the CLR can use it when binding assemblies.
+
+            //If you have an assembly deployed privately with your application, the CLR starts looking
+            //for it in the current application directory.If it can’t find the assembly, it throws a FileNotFoundException.
+            //You can specify extra locations where the CLR should look in the configuration file of the application.
+            //The following example shows how to specify application base subdirectories the runtime should search for assemblies.
+            //The probing option can be used only to point to locations that are relative to the application
+            //path.If you want to locate assemblies somewhere else, you have to use the codebase element.
+
+            /*
+            <configuration>  
+               <runtime>  
+                  <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">  
+                     <probing privatePath="bin;bin2\subbin;bin3"/>  
+                  </assemblyBinding>  
+               </runtime>  
+            </configuration>  
+            */
+
+            //CODEBASE element
+            //Another option is using the codebase element.A codebase element can specify a location
+            //for an assembly that is outside of the application’s directory.This way you can locate an
+            //assembly that’s on another computer on the network or somewhere on the Internet.These
+            //assemblies have to be strongly named if they are not in the current application’s folder. When
+            //the assembly is located on another computer, it’s downloaded to a special folder in the GAC.
+            /*
+            <configuration>  
+               <runtime>  
+                  <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">  
+                     <dependentAssembly>  
+                        <assemblyIdentity name="myAssembly"  
+                                          publicKeyToken="32ab4ba45e0a69a1"  
+                                          culture="neutral" />  
+                        <bindingRedirect oldVersion="1.0.0.0"  
+                                         newVersion="2.0.0.0"/>  
+                        <codeBase version="2.0.0.0"  
+                                  href="http://www.litwareinc.com/myAssembly.dll"/>  
+                     </dependentAssembly>  
+                  </assemblyBinding>  
+               </runtime>  
+            </configuration> 
+            */
+        }
+    }
+}

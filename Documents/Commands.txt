@@ -1,0 +1,40 @@
+#Signing an assembly can be done both at the command line and by using Visual Studio.
+#The first step you have to take is to generate a key pair. A key pair is usually a file with an .snk
+#extension that contains your public/private key information.
+#When using the developer command prompt, you can run the following command to
+#generate a new key pair file:
+#PATH=C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools
+sn -k myKey.snk
+
+#After signing an assembly, you can view the public key by using the Strong Name tool.
+sn -Tp C:\MusicStorage.dll
+
+#You can view the content of your GAC by running the following command from a developer command prompt:
+gacutil -l
+
+#Installing an assembly in the GAC can be done with the following command:
+gacutil –i [assembly name]//for example, gacutil -i "C:\MusicStorage.dll"
+
+#You can also remove an assembly from the GAC:
+gacutil –u [assembly name] //for example without dll extension, gacutil -u MusicStorage
+
+#You can start Performance Monitor(perfmon) tool in cmd
+perfmon
+
+#You can start the eventviewer  tool in cmd  
+eventvwr.msc
+
+#You can start the regedit tool in cmd
+regedit
+
+#You can start the Disk Management program in cmd
+diskmgmt.msc
+
+#To get a list of all environment variables enter the command:
+set
+
+#To send those variables to a text file enter the command 
+set > filename.txt
+
+To view the PATH environment variable  
+echo %PATH%

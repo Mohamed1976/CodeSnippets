@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -10,12 +11,21 @@ namespace _70_483.Exercises
 {
     public class CSharpExercises
     {
+        public const int cmToMeters = 100; //Compile time constant, must be defined when variable is declared during compile time
+        public readonly double PI = 3.14;  //Runtime constant, can be declared runtime for example in constructor  
+
         public CSharpExercises()
         {
+            //Runtime constant can be set in the constructor
+            PI = 3.14;
+            //Install NuGet package System.Configuration.ConfigurationManager 4.7.0.
+            //TODO check how to read value from configuration file
+            //double PI = Convert.ToDouble(ConfigurationSettings.AppSettings[0]);
+            //double PI = Convert.ToDouble(ConfigurationManager.AppSettings.Get("PI"));
         }
 
         public async Task Run()
-        {
+        {            
             //Sum range in main thread
             var stopwatch = Stopwatch.StartNew();
             addRangeOfValues(0, items.Length);
