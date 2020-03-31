@@ -31,6 +31,35 @@ namespace _70_483
 
             try
             {
+                GeneralExercises2 generalExercises2 = new GeneralExercises2();
+                generalExercises2.Run().Wait();
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"There was an exception in GeneralExercises2.Run(): {ex.ToString()}");
+            }
+
+            #endregion
+
+            #region [ General Exercises ]
+
+            try
+            {
+                GeneralExercises1 generalExercises1 = new GeneralExercises1();
+                //generalExercises1.Run().Wait();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"There was an exception in generalExercises1.Run(): {ex.ToString()}");
+            }
+
+            #endregion
+
+            #region [ General Exercises ]
+
+            try
+            {
                 GeneralExercises generalExercises = new GeneralExercises();
                 //generalExercises.Run().Wait();
             }
@@ -38,6 +67,7 @@ namespace _70_483
             {
                 Console.WriteLine($"There was an exception in GeneralExercises.Run(): {ex.ToString()}");
             }
+
             #endregion
 
             #region [ Exam Exercises ]
@@ -45,7 +75,7 @@ namespace _70_483
             try
             {
                 _70_483_ExamExercises examExercises = new _70_483_ExamExercises();
-                examExercises.Run().Wait();
+                //examExercises.Run().Wait();
             }
             catch (Exception ex)
             {

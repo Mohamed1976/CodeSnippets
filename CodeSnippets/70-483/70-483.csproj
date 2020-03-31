@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>_70_483</RootNamespace>
+    <RootNamespace>_70_483</RootNamespace>    
   </PropertyGroup>
 
   <ItemGroup>

@@ -36,5 +36,21 @@ set
 #To send those variables to a text file enter the command 
 set > filename.txt
 
-To view the PATH environment variable  
+#To view the PATH environment variable  
 echo %PATH%
+
+#Signing an assembly can be done both at the command line and by using Visual Studio.
+#The first step you have to take is to generate a key pair. A key pair is usually a file with an .snk
+#extension that contains your public/private key information. When using the developer command prompt, 
+#you can run the following command to generate a new key pair file:
+sn -k myKey.snk
+
+#After signing an assembly, you can view the public key by using the Strong Name tool (Sn.exe) that’s installed with Visual Studio.
+sn -Tp C:\Users\moham\source\MusicStorage.dll
+
+#Create and sign an assembly with a strong name by using the Assembly Linker
+al /out:MyAssembly.dll MyModule.netmodule /keyfile:sgKey.snk  
+
+
+
+

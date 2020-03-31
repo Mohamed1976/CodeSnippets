@@ -4855,6 +4855,7 @@ C. Option C
 D. Option D
 
 Book answer:D
+Description Explanation: Once an exception is thrown, part of the information it carries is the stack trace. The stack trace is a list of the method call hierarchy that starts with the method that throws the exception and ends with the method that catches the exception. If an exception is re- thrown by specifying the exception in the throw statement, the stack trace is restarted at the current method and the list of method calls between the original method that threw the exception and the current method is lost. To keep the original stack trace information with the exception, use the throw statement without specifying the exception. http://msdn.microsoft.com/en-us/library/ms182363(v=vs.110).aspx
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -5359,42 +5360,1603 @@ The Save() method must be strongly typed. It must allow only types inherited fro
 Animal class that uses a constructor that accepts no parameters.
 You need to implement the Save() method. Which code segment should you use?
 
+A)	public static void Save<T>(T animal) where T : Animal, new()
+    {
+		Console.WriteLine("Type: {0}, Name: {1}", animal.GetType(), animal.Name);
+	}
+
+B)	public static void Save<T>(T animal) where T : new(), Animal 
+    {
+		Console.WriteLine("Type: {0}, Name: {1}", animal.GetType(), animal.Name);
+	}
 
 
+C)	public static void Save(Animal animal) 
+    {
+		Console.WriteLine("Type: {0}, Name: {1}", animal.GetType(), animal.Name);
+	}
+
+D)	public static void Save<T>(T animal) where T : Animal
+    {
+		Console.WriteLine("Type: {0}, Name: {1}", animal.GetType(), animal.Name);
+	}
+
+A, parameterless constructor needs to be defined after the class type hence not B 
+
+Book answer: A
+Description Explanation: When you define a generic class, you can apply restrictions to the kinds of types that client code can use for type arguments when it instantiates your class. If client code tries to instantiate your class by using a type that is not allowed by a constraint, the result is a compile-time error. These restrictions are called constraints. Constraints are specified by using the where contextual keyword. http://msdn.microsoft.com/en-us/library/d5x73970.aspx
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+314)You are debugging an application that calculates loan interest. The application includes the
+following code. (Line numbers are included for reference only.) 
+
+ private static decimal CalculateInterest(decimal loanAmount,int loanTerm, decimal loanRate)
+ {
+	decimal interestAmount = loanAmount * loanRate * loanTerm;
+5
+	return interestAmount;
+ }
+
+You have the following requirements:
+The debugger must break execution within the Calculatelnterest() method when
+the loanAmount variable is less than or equal to zero.
+The release version of the code must not be impacted by any changes.
+You need to meet the requirements. What should you do?
+
+Option A Insert the following code segment at tine 05: Debug.Write(loanAmount > 0);
+
+Option B Insert the following code segment at line 05: Trace.Write(loanAmount > 0); 
+
+Option C Insert the following code segment at line 03: Debug.Assert(loanAmount > 0);
+
+Option D Insert the following code segment at line 03: Trace.Assert(loanAmount > 0);
+
+C, Debug code is only active when Debug is Defined(Is defined by compiler in debuge mode) 
+
+Book answer: C
+Description Explanation: By default, the Debug.Assert method works only in debug builds. Use the Trace.Assert method if you want to do assertions in release builds. For more information, see Assertions in Managed Code. http://msdn.microsoft.com/en-us/library/kssw4w7z.aspx
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+315)  You are testing an application. The application includes methods named CalculateInterest
+and LogLine. The CalculateInterest() method calculates loan interest. The LogLine()
+method sends diagnostic messages to a console window.
+You have the following requirements:
+The CalculateInterest() method must run for all build configurations.
+The LogLine() method must be called only for debug builds.
+You need to ensure that the methods run correctly.
+How should you complete the relevant code? (To answer, drag the appropriate code
+segments to the correct locations in the answer area. Each code segment may be used
+once, more than once, or not at all. You may need to drag the split bar between panes or
+scroll to view content.)
+
+private static decimal CalculateInterest(decimal loanAmount,int loanTerm, decimal loanRate)
+{
+	Debug.Assert(loanAmount > 0, "Loan amount in CalculateInterest() needs to be larger then 0.");
+	decimal interestAmount = loanAmount * loanRate * loanTerm;
+TARGET1
+	LogLine("Interest amount : ", interestAmount.ToString("c")); //Format as currency
+TARGET2
+	return interestAmount;
+}
+
+public static void LogLine(string msg, string details)
+{
+	Console.WriteLine("Log: {0} - {1}", msg, details);
+}
+
+Which code should you include in TARGET1
+A [Conditional("Debug")]
+B [Conditional("RELEASE")]
+C #if DEBUG
+D #region DEBUG
+E #endif
+F #endregion
+
+Which code should you include in TARGET2
+
+A [Conditional("Debug")]
+B [Conditional("RELEASE")]
+C #if DEBUG
+D #region DEBUG
+E #endif
+F #endregion
 
 
+TARGET1 = C #if DEBUG 
+TARGET2 = E #endif 
 
+As shown below: 
+
+        private static decimal CalculateInterest(decimal loanAmount,int loanTerm, decimal loanRate)
+        {
+            Debug.Assert(loanAmount > 0, "Loan amount in CalculateInterest() needs to be larger then 0.");
+            decimal interestAmount = loanAmount * loanRate * loanTerm;
+#if DEBUG
+            LogLine("Interest amount : ", interestAmount.ToString("c")); //Format as currency
+#endif
+            return interestAmount;
+        }
+
+        public static void LogLine(string msg, string details)
+        {
+            Console.WriteLine("Log: {0} - {1}", msg, details);
+        }
+
+Note you could also decorate the LogLine() method with a Conditional attribute [Conditional("Debug")],
+the code is then only executed when DEBUG is defined, note that the method code is included in the release version of the application.
+In contrast #define code is removed or added in the release version of the application.   
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+316)You are developing an application that accepts the input of dates from the user.
+Users enter the date in their local format. The date entered by the user is stored in a string
+variable named inputDate. The valid date value must be placed in a DateTime variable
+named validatedDate. You need to validate the entered date and convert it to Coordinated Universal Time (UTC).
+The code must not cause an exception to be thrown.
+Which code segment should you use?
+
+A)	bool validDate = DateTime.TryParse(inputDate,
+			CultureInfo.CurrentCulture,
+			DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeLocal,
+			out validatedDate);
+
+B)	bool validDate = DateTime.TryParse(inputDate,
+			CultureInfo.CurrentCulture,
+			DateTimeStyles.AssumeUniversal,
+			out validatedDate);
+
+C)	bool validDate = true;
+	try
+	{
+		validatedDate = DateTime.Parse(inputDate);
+
+	}
+	catch (Exception)
+	{
+		validDate = false;
+	}
+
+D)	//"g" format ==	MM/dd/yyyy HH:mm
+	validatedDate = DateTime.ParseExact(inputDate,
+			"g",
+			CultureInfo.CurrentCulture,
+			DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal);
+
+A, we need to assume that the DateTime string format is in the local format, the resulting DateTime needs to be converted to Universal Time (UTC).  
+
+Book answer: A
+Description Explanation: AdjustToUniversal parses s and, if necessary, converts it to UTC. Note: The DateTime.TryParse method converts the specified string representation of a date and time to its DateTime equivalent using the specified culture-specific format information and formatting style, and returns a value that indicates whether the conversion succeeded.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+317)You are developing an application that will include a method named GetData. The
+GetData() method will retrieve several lines of data from a web service by using a
+System.IO.StreamReader object. You have the following requirements:
+The GetData() method must return a string value that contains the entire response from the web service.
+✑ The application must remain responsive while the GetData() method runs.
+You need to implement the GetData() method.
+ 
+public TARGET1 GetData(WebResponse response)
+{
+	using (StreamReader streamReader = new StreamReader(response.GetResponseStream()))
+	{
+		string content = TARGET2 streamReader.TARGET3;
+		Console.WriteLine(content);
+	}            
+}
+
+How should you complete the relevant code? What is the content of TARGET1, TARGET2 and TARGET3 choose from:  
+
+async Task
+await
+ReadToEndAsync()
+ReadToEnd()
+ReadLine()
+ReadLineAsync()
+ToString()
+
+TARGET1 = async Task
+TARGET2 = await 
+TARGET3 = ReadToEndAsync() 
+
+The resulting code is then:
+
+public async Task GetData(WebResponse response)
+{
+	using (StreamReader streamReader = new StreamReader(response.GetResponseStream()))
+	{
+		string content = await streamReader.ReadToEndAsync();
+		Console.WriteLine(content);
+	}            
+}
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+318)You are adding a public method named UpdateScore to a public class named ScoreCard.
+The code region that updates the score field must meet the following requirements:
+It must be accessed by only one thread at a time.
+It must not be vulnerable to a deadlock situation.
+You need to implement the UpdateScore() method. What should you do?
+
+A)	lock(this)
+    {
+    }
+
+B)	lock(lockObject)
+	{
+	}
+	
+C)	lock(typeof(ScoreCard))
+	{
+	}
+
+D)  [MethodImplAttribute(MethodImplOptions.Synchronized)]       
+	public void UpdateScore(int score)
+    {
+	}
+
+B
 
 Book answer:
-----------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-----------------------------------------------------------------------------------------------------------------------------------------------------------------
-Book answer:
+Description Explanation: http://blogs.msdn.com/b/bclteam/archive/2004/01/20/60719.aspx
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-Book answer:
+319) You are developing an application that includes the following code segment. (Line numbers
+are included for reference only.)
+
+	public static bool GetValidInteger(ref int value)
+	{
+		int number;
+		bool success = false;
+		Console.Write("Please enter a integer and press enter: >");
+		string input = Console.ReadLine();
+		Console.WriteLine("Read: {0}", input);
+
+19)----------------------------------------------------		
+		{
+			value = number;
+			success = true;
+		}
+
+		return success;
+	}
+
+You need to ensure that the application accepts only integer input and prompts the user
+each time non-integer input is entered. Which code segment should you add at line 19?
+
+Option A  If (!int.TryParse(input, out number))
+Option B  If ((number = Int32.Parse(input)) == Single.NaN)
+Option C  If ((number = int.Parse(input)) > Int32.MaxValue)
+Option D If (Int32.TryParse(input, out number))
+
+Book answer: D
+Description Explanation: B and C will throw exception when user enters non-integer value. A is exactly the opposite what we want to achieve. Int32.TryParse - Converts the string representation of a number to its 32-bit signed integer equivalent. A return value indicates whether the conversion succeeded. http://msdn.microsoft.com/en-us/library/f02979c7.aspx
+
+The resulting code is:
+
+public static bool GetValidInteger(ref int value)
+{
+	int number;
+	bool success = false;
+	Console.Write("Please enter a integer and press enter: >");
+	string input = Console.ReadLine();
+	Console.WriteLine("Read: {0}", input);
+
+	if(int.TryParse(input, out number))
+	{
+		value = number;
+		success = true;
+	}
+
+	return success;
+}
+
+//In the main
+bool bValidInteger;
+int value1 = default;
+do
+{
+	bValidInteger = GetValidInteger(ref value1);
+}
+while (!bValidInteger);
+Console.Write("Successfully read value: {0}", value1);
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+320) You are developing an application. The application includes a method named ReadFile that
+reads data from a file.
+The ReadFile() method must meet the following requirements:
+It must not make changes to the data file.
+It must allow other processes to access the data file.
+It must not throw an exception if the application attempts to open a data file that
+does not exist.
+You need to implement the ReadFile() method.
+Which code segment should you use?
+
+Option A var fs = File.Open(Filename, FileMode.OpenOrCreate, FileAccess.Read, FileShare.ReadWrite);
+
+Option B var fs = File.Open(Filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+
+Option C var fs = File.Open(Filename, FileMode.OpenOrCreate, FileAccess.Read, FileShare.Write);
+
+Option D var fs = File.ReadAllLines(Filename);
+
+Option E var fs = File.ReadAllBytes(Filename);
+
+Book answer: A
+Description Explanation: FileMode.OpenOrCreate - Specifies that the operating system should open a file if it exists; otherwise, a new file should be created. If the file is opened with FileAccess.Read, FileIOPermissionAccess.Read permission is required. If the file access is FileAccess.Write, FileIOPermissionAccess.Write permission is required. If the file is opened with FileAccess.ReadWrite, both FileIOPermissionAccess.Read and FileIOPermissionAccess.Write permissions are required. http://msdn.microsoft.com/en-us/library/system.io.filemode.aspx FileShare.ReadWrite - Allows subsequent opening of the file for reading or writing.If this flag is not specified, any request to open the file for reading or writing (by this process or another process) will fail until the file is closed.However, even if this flag is specified, additional permissions might still be needed to access the file. http://msdn.microsoft.com/pl-pl/library/system.io.fileshare.aspx
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-Book answer:
+321) You are reviewing the following code:
+
+[System.FlagsAttribute]
+public enum Group
+{
+	Users = 1,
+	Supervisors = 2,
+	Managers = 4,
+	Administrators = 8
+}
+
+Group userGroup = default;
+
+For each of the following statements, select Yes if the statement is true. Otherwise, select No.
+
+1) A user can be a member of more than one of the groups. 
+
+2) If the user belongs to only the Administrators group, the following code will return a value of true:
+	userGroup == Group.Administrators 
+
+3) If the user belongs to only the Supervisors group, the following code will return a value of true: 
+userGroup < Group.Administrators
+
+Answers:
+
+1) A user can be a member of more than one of the groups. YES, Group userGroup1 = Group.Users|Group.Supervisors|Group.Managers|Group.Administrators;     
+
+2) If the user belongs to only the Administrators group, the following code will return a value of true: userGroup == Group.Administrators YES
+
+3) If the user belongs to only the Supervisors group, the following code will return a value of true: YES 
+userGroup < Group.Administrators
+
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+322) You are developing an application that will transmit large amounts of data between a client
+computer and a server. You need to ensure the validity of the data by using a cryptographic
+hashing algorithm. Which algorithm should you use?
+
+Option A	ECDsa
+
+Option B	RNGCryptoServiceProvider
+
+Option C	Rfc2898DeriveBytes
+
+Option D	HMACSHA512
+
+D SHA512 is a hash function that uses sha2 
+
+Book answer: D
+Computes a Hash-based Message Authentication Code (HMAC) using the SHA512 hash function.
+https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha512?view=netframework-4.8
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-Book answer:
+323) You are developing an application. The application includes classes named Employee and
+Person and an interface named IPerson.
+The Employee class must meet the following requirements:
+=> It must either inherit from the Person class or implement the IPerson interface.
+=> It must be inheritable by other classes in the application.
+You need to ensure that the Employee class meets the requirements.
+Which two code segments can you use to achieve this goal? (Each correct answer
+presents a complete solution. Choose two.) 
+
+A)  sealed class Employee : Person
+    {
+    }
+
+B   abstract class Employee : Person
+    {
+    }
+
+C   sealed class Employee : IPerson
+    {
+    }
+
+D   abstract class Employee : IPerson
+    {
+    }
+
+B,D because sealed classes cannot be inherited 
+
+Book answer: B,D
+Description Explanation: Sealed - When applied to a class, the sealed modifier prevents other classes from inheriting from it. http://msdn.microsoft.com/en-us/library/88c54tsw(v=vs.110).aspx
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+324) An application receives JSON data in the following format:
+
+{"Values":[0,1,2],"FirstName":"John","LastName":"Jones"}
+
+The application includes the following code segment. (Line numbers are included for
+reference only.)
+
+public class Name : IPerson
+{
+	public int[] Values { get; set; }
+	public string FirstName { get; set; }
+	public string LastName { get; set; }
+}
+
+public static Name ConvertToName(string json)
+{
+	Name name;
+10)----------------------------------------------------	
+	return name;
+}
+
+
+You need to ensure that the ConvertToName() method returns the JSON input string as a
+Name object. Which code segment should you insert at line 10?
+
+Option A	Name name = JsonConvert.DeserializeObject(json, typeof(Name));
+
+Option B	Name name = JsonConvert.DeserializeObject<Name>(json);
+
+Option C	Name name = JsonConvert.ConvertToType<Name>(json);
+
+Option D	Name name = JsonConvert.ConvertToType(json, typeof (Name));;
+
+B)
+
+The code becomes:
+
+public static Name ConvertToName(string json)
+{
+	Name name = JsonConvert.DeserializeObject<Name>(json);
+	return name;
+} 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-Book answer:
+325) You are developing an assembly that will be used by multiple applications.
+You need to install the assembly in the Global Assembly Cache (GAC).
+Which two actions can you perform to achieve this goal? (Each correct answer presents a
+complete solution. Choose two.)
+
+Option A	Use the Assembly Registration tool (regasm.exe) to register the assembly and to copy the assembly to the GAC.
+
+Option B	Use the Strong Name tool (sn.exe) to copy the assembly into the GAC.
+
+Option C	Use Microsoft Register Server (regsvr32.exe) to add the assembly to the GAC.
+
+Option D	Use the Global Assembly Cache tool (gacutil.exe) to add the assembly to the GAC.
+
+Option E	Use Windows Installer 2.0 to add the assembly to the GAC.
+
+D,E
+
+Book answer: D,E
+Description Explanation: There are two ways to deploy an assembly into the global assembly cache: Use an installer designed to work with the global assembly cache. This is the preferred option for installing assemblies into the global assembly cache. Use a developer tool called the Global Assembly Cache tool (Gacutil.exe), provided by the Windows Software Development Kit (SDK). Note: In deployment scenarios, use Windows Installer 2.0 to install assemblies into the global assembly cache. Use the Global Assembly Cache tool only in development scenarios, because it does not provide assembly reference counting and other features provided when using the Windows Installer. http://msdn.microsoft.com/en-us/library/yf1d93sz%28v=vs.110%29.aspx
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+326) You are creating a console application by using C#.
+You need to access the assembly found in the file named car.dll.
+Which code segment should you use?
+
+Option A	Assembly.Load();
+
+Option B	Assembly.GetExecutingAssembly();
+
+Option C	This.GetType();
+
+Option D	Assembly.LoadFile("car.dll");
+
+D
+
+Book answer: D
+
+Description Explanation: Assembly.LoadFile - Loads the contents of an assembly file on the specified path. http://msdn.microsoft.com/en-us/library/b61s44e8.aspx
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-Book answer:
+327)You are creating a console application by using C#.
+You need to access the application assembly.
+Which code segment should you use?
+
+Option A	Assembly.GetAssembly(this);
+
+Option B	this.GetType();
+
+Option C	Assembly.Load();
+
+Option D	Assembly.GetExecutingAssembly();
+
+D
+
+Book answer: D 
+Description Explanation: Assembly.GetExecutingAssembly - Gets the assembly that contains the code that is currently executing. http://msdn.microsoft.com/en- us/library/system.reflection.assembly.getexecutingassembly(v=vs.110).aspx Assembly.GetAssembly - Gets the currently loaded assembly in which the specified class is defined. http://msdn.microsoft.com/en-us/library/system.reflection.assembly.getassembly.aspx
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+328) You need to create a method that can be called by using a varying number of parameters.
+What should you use?
+
+Option A	derived classes
+
+Option B	interface
+
+Option C	enumeration
+
+Option D	method overloading
+
+D
+
+Book answer: D
+Description Explanation: Member overloading means creating two or more members on the same type that differ only in the number or type of parameters but have the same name. Overloading is one of the most important techniques for improving usability, productivity, and readability of reusable libraries. Overloading on the number of parameters makes it possible to provide simpler versions of constructors and methods. Overloading on the parameter type makes it possible to use the same member name for members performing identical operations on a selected set of different types.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+329) You are creating an app that will process orders. You need to ensure 
+all orders are processed in the order in which they are received.
+What collection should you use.
+
+A) Stack
+B) Queue
+C) Dictionary  
+D) Hashtable
+
+Queue, First in First out (FIFO)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+330) You are developing an application that will process personnel records.
+The application must encrypt highly sensitive data.
+You need to ensure that the application uses the strongest available encryption.
+Which class should you use?
+
+A. System.Security.Cryptography.DES
+B. System.Security.Cryptography.Aes
+C. System.Security.Cryptography.TripleDES
+D. System.Security.Cryptography.RC2
+
+B
+
+Book answer: B
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+331) You plan to store passwords in a Windows Azure SQL Database database.
+You need to ensure that the passwords are stored in the database by using a hash algorithm,
+Which cryptographic algorithm should you use?
+
+A. ECDSA
+B. RSA-768
+C. AES-256
+D. SHA-256
+
+D
+Book answer:D
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+332)You are debugging a 64-bit C# application.
+Users report System.OutOfMemoryException exceptions. The system is attempting to use arrays larger
+than 2 GB in size. You need to ensure that the application can use arrays larger than 2 GB.
+What should you do?
+
+A. Add the /3GB switch to the boot.ini file for the operating system.
+B. set the IMAGE_FILE_LARGE_ADDRESS_AWARE flag in the image header for the application
+executable file.
+C. set the value of the gcAllowVeryLargeObjects property to true in the application configuration file.
+D. Set the value of the user-mode virtual address space setting for the operating system to MAX.
+
+C
+Book answer: C 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+333) You have a C# application.
+The application requires 500 MB of available memory.
+You need to identify whether there is enough available memory when the application starts.
+Which class should you use?
+
+A. OutOfmemoryException
+B. MemoryStream
+C. PerformanceCounter
+D. DiagnosticsConfigurationHandler
+
+C
+Book answer: C
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+334) You are developing a Windows Forms (WinForms) application. The application displays a TreeView that has 1,000 nodes.
+You need to ensure that if a user expands a node, and then collapses the TreeView, the node object is kept in memory unless the Garbage Collector requires additional memory.
+Which object should you use to store the node?
+A. GC
+B. Handle
+C. Cache
+D. WeakReference
+
+D
+Book answer: D
+References: https://msdn.microsoft.com/en-us/library/ms404247.aspx
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+335) You are developing a C# application named Application1 by using Microsoft Visual Studio 2017.
+You plan to compare the memory usage between different builds of Application1.
+You need to record the memory usage of each build.
+
+What should you use from Visual Studio?
+A. IntelliTrace
+B. Memory Usage from Performance Profiler
+C. Performance Wizard from Performance Profiler
+D. Code Analysis
+
+B
+Book answer:B
+Reference: https://msdn.microsoft.com/en-US/library/dn645469(VS.140).aspx
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+336) You are developing an application by using C#. You provide a public key to the development team during development.
+You need to specify that the assembly is not fully signed when it is built.
+Which two assembly attributes should you include in the source code? (Each correct answer presents part of the solution. Choose two.)
+
+A. AssemblyKeyNameAttribute
+B. ObfuscateAssemblyAttribute
+C. AssemblyDelaySignAttribute
+D. AssemblyKeyFileAttribute
+
+CD
+Book answer:CD
+* AssemblyDelaySignAttribute
+Specifies that the assembly is not fully signed when created.
+* The following code example shows the use of the AssemblyDelaySignAttribute attribute with the AssemblyKeyFileAttribute.
+
+using System;
+using System.Refilection; 
+
+[assembly:AssemblyKeyFileAttribute(“TestPublicKey.snk”)] 
+[assembly:AssemblyDelaySignAttribute(true)]
+namespace DelaySign
+{
+	public class Test { }
+}
+
+Reference: http://msdn.microsoft.com/en-us/library/t07a3dye(v=vs.110).aspx
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+337)You are developing an application.
+You need to declare a delegate for a method that accepts an integer as a parameter, and then returns an integer. Which type of delegate should you use?
+
+A. Action< string, string>
+B. Func<string, string>
+C. Func< string>
+D. Action< string>
+
+B
+Book answer: B
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+338) You have a lot of items that need to be processed. For each item, you need to perform a complex
+calculation. Which technique should you use?
+
+A. You create a Task for each item and then wait until all tasks are finished.
+B. You use Parallel.For to process all items concurrently.
+C. You use async/await to process all items concurrently.
+D. You add all items to a BlockingCollection and process them on a thread created by the Thread class.
+
+B
+Book answer: B
+Note CPU intensive tasks can be best performed using Parallel.For, if you perform IO bound tasks you need to use Async/Await.       
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+339) You are creating a complex query that doesn’t require any particular order and you want to run it
+in parallel. Which method should you use?
+A. AsParallel
+B. AsSequential
+C. AsOrdered
+D. WithDegreeOfParallelism
+
+A
+Book answer: A
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+340) You are working on an ASP.NET application that retrieves some data from another web server and
+then writes the response to the database. Should you use async/await?
+
+A. No, both operations depend on external factors. You need to wait before they are finished.
+B. No, in a server application you don’t have to use async/await. It’s only for responsiveness on the client.
+C. Yes, this will free your thread to serve other requests while waiting for the I/O to complete.
+D. Yes, this put your thread to sleep while waiting for I/O so that it doesn’t use any CPU.
+
+C
+Book answer: C
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+341) You need to implement cancellation for a long running task. Which object do you pass to the task?
+A. CancellationTokenSource
+B. CancellationToken
+C. Boolean isCancelled variable
+D. Volatile
+
+Book answer: B
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+342) You are implementing a state machine in a multithreaded class. You need to check what the
+current state is and change it to the new one on each step. Which method do you use?
+A. Volatile.Write(ref currentState)
+B. Interlocked.CompareExchange(ref currentState, ref newState, expectedState)
+C. Interlocked.Exchange(ref currentState, newState)
+D. Interlocked.Decrement(ref newState)
+
+B
+Book answer: B
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+343) You need to iterate over a collection in which you know the number of items. You need to remove
+certain items from the collection. Which statement do you use?
+
+A. switch
+B. foreach
+C. for
+D. goto
+
+C
+Book answer: C
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+344)You have a lot of checks in your application for null values. If a value is not null, you want to call a
+method on it. You want to simplify your code. Which technique do you use?
+
+A. for
+B. Conditional operator
+C. Null coalescing operator
+D. The short circuiting behavior of the and operator
+
+Correct Answer: D
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+345) You are processing some data from over the network. You use a HasNext and Read method to
+retrieve the data. You need to run some code on each item. What do you use?
+A. for
+B. foraech
+C. while
+D. do while
+
+C
+
+For example:
+string sentence = "The fox just ran the marathon.";
+IEnumerator<char> enumerator = sentence.GetEnumerator();
+while(enumerator.MoveNext())
+{
+	Console.WriteLine(enumerator.Current);
+}
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+346) What access modifier should you use to make sure that a method in a class can only be accessed
+inside the same assembly by derived types?
+A. Make the class public and its members public.
+B. Make the class public and its members protected.
+C. Make the class internal and its members internal.
+D. Make the class internal and its members protected.
+
+Correct Answer: D
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+347) You need to expose some data from a class. The data can be read by other types but can be
+changed only by derived types. What should you use?
+A. A protected field
+B. A public property with a protected set modifier
+C. A protected property
+D. A protected property with a public get modifier
+
+Correct Answer: B
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+348) You have a class that implements two interfaces that both have a method with the same name.
+Interface IA should be the default implementation. Interface IB should be used only in special
+situations. How do you implement those interfaces?
+
+A. Implement IA implicitly and IB explicitly.
+B. Implement both IA and IB explicitly.
+C. Implement both IA and IB implicitly.
+D. Implement IA explicitly and IB implicitly.
+
+Correct Answer: A
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+349) You want to read the value of a private field on a class. Which BindingFlags do you need? (Choose
+all that apply.)
+
+A. Instance
+B. DeclaredOnly
+C. Static
+D. NonPublic
+
+Correct Answer: AD
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+350) You are about to execute a piece of code that is performance‐sensitive. You are afraid that a
+garbage collection will occur during the execution of this code. Which method should you call
+before executing your code?
+
+A. GC.RemoveMemoryPressure()
+B. GC. SuppressFinalize()
+C. GC.Collect()
+D. GC.WaitForPendingFinalizers()
+
+Correct Answer: C
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+351) You are trying to use a LINQ query, but you are getting a compile error that the Where method
+cannot be found. What should you do? (Choose all that apply.)
+
+A. Add a using System.Linq statement.
+B. Check that you are using a type that implements IEnumerable.
+C. Change your query from query to method syntax.
+D. Change the type of your query to var.
+
+Correct Answer: AB
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+352) You are developing an assembly that will be used by multiple applications. You need to install the
+assembly in the Global Assembly Cache (GAC). Which two actions can you perform to achieve this
+goal? (Each correct answer presents a complete solution. Choose two.)
+
+A. Use the Assembly Registration tool (regasm.exe) to register the assembly and to copy the assembly to the GA
+B. Use the Strong Name tool (sn.exe) to copy the assembly into the GAC.
+C. Use Microsoft Register Server (regsvr32.exe) to add the assembly to the GAC.
+D. Use the Global Assembly Cache tool (gacutil.exe) to add the assembly to the GAC.
+E. Use Windows Installer 2.0 to add the assembly to the GAC.
+
+Correct Answer: DE
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+353) You need to create a method that can be called by using a varying number of parameters. What
+should you use? 
+
+A. method overloading
+B. interface
+C. named parameters
+D. lambda expressions
+
+Correct Answer: A
+Member overloading means creating two or more members on the same type that differ only in
+the number or type of parameters but have the same name. Overloading is one of the most
+important techniques for improving usability, productivity, and readability of reusable libraries.
+Overloading on the number of parameters makes it possible to provide simpler versions of
+constructors and methods. Overloading on the parameter type makes it possible to use the same
+member name for members performing identical operations on a selected set of different types.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+354) You have an application that will send confidential information to a Web server. You need to
+ensure that the data is encrypted when it is sent across the network. Which class should you use?
+
+A. CryptoStream
+B. AuthenticatedStream
+C. PipeStream
+D. NegotiateStream
+
+Correct Answer:A
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+355) You are developing an application that produces an executable named MyApp.exe and an
+assembly named MyApp.dll. The application will be sold to several customers. You need to ensure
+that enough debugging information is available for MyApp.exe, so that if the application throws
+an error in a customer’s environment, you can debug the error in your own development
+environment. What should you do?
+
+A. Digitally sign MyApp.dll.
+B. Produce program database (PDB) information when you compile the code.
+C. Compile MyApp.exe by using the /unsafe compiler option.
+D. Initializes a new instance of the AssemblyDelaySignAttribute class in the MyApp.dll constructor.
+
+Correct Answer: B
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+356) You are using the TraceSource class to trace data for your application. You want to trace data when an order cannot 
+be submitted to the database and you are going to perform a retry. Which TraceEventType should you use?
+
+A. Information
+B. Verbose
+C. Critical
+D. Error
+
+Correct Answer: D
+
+A. Incorrect: A failing order is not something that should be seen as only an informative
+event. It should be treated as something critical.
+B. Incorrect: Verbose should be used only for very detailed tracing messages.
+C. Incorrect: You can still recover from the error, which makes it a severity of Error, not Critical.
+D. Correct: You should let the operators know that something is wrong and that you
+are trying to recover. If recovery fails, you should log a Critical event.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+357) Users are reporting errors in your application, and you want to configure your application to output more trace data. 
+Which configuration setting should you change?
+
+A. NumberOfItems32
+B. Listener
+C. Filter
+D. Switch
+
+Correct Answer: D
+A. Incorrect: NumberOfItems32 is an option for creating a performance counter.
+B. Incorrect: A listener determines what is done with the tracing events. It doesn’t
+influence which events are traced.
+C. Incorrect: A filter is used to filter the message that a listener processes. It doesn’t
+influence which events are traced.
+D. Correct: The switch value determines which trace events should be handled. By
+lowering the severity for the switch, you will see more trace events in your output.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+358) You are working on a global application with lots of users. The operation staff requests information 
+on how many user logons per second are occurring. What should you do?
+
+A. Add a TraceSource and write each logon to a text file.
+B. Implement a performance counter using the RateOfCountsPerSecond64 type.
+C. Instrument your application with the profiler so you can see exactly how many times the logon method is called.
+D. Use the EventLog class to write an event to the event log for each logon.
+
+Correct Answer: B
+A. Incorrect: Writing the events to a text file will still require a tool to parse the text
+file and give results to the operation staff.
+B. Correct: This performance counter will help the operation staff to see exactly what
+happens every second.
+C. Incorrect: Profiler instrumentation will really slow down the performance of your
+application. It’s also something that’s not easy readable by your operations staff.
+D. Incorrect: Although the event log can be read by the operation staff, they will
+have to manually count all events to calculate the logons per second.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+359) You are developing an application by using C#. You provide a public key to the development team during development.
+You need to specify that the assembly is not fully signed when it is built.
+Which two assembly attributes should you include in the source code? (Each correct answer presents part of the solution. Choose two.)
+
+A. AssemblyKeyNameAttribute
+B. ObfuscateAssemblyAttribute
+C. AssemblyDelaySignAttribute
+D. AssemblyKeyFileAttribute
+
+Correct Answer: C D
+AssemblyDelaySignAttribute Specifies that the assembly is not fully signed when created.
+The following code example shows the use of the AssemblyDelaySignAttribute attribute with the AssemblyKeyFileAttribute.
+
+using System;
+using System.Refilection; 
+[assembly:AssemblyKeyFileAttribute(“TestPublicKey.snk”)] 
+[assembly:AssemblyDelaySignAttribute(true)]
+namespace DelaySign
+{
+	public class Test { }
+}
+
+Reference: http://msdn.microsoft.com/en-us/library/t07a3dye(v=vs.110).aspx
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+360) You are developing an assembly that will be used by multiple applications.
+You need to install the assembly in the Global Assembly Cache (GAC).
+Which two actions can you perform to achieve this goal? (Each correct answer presents a complete solution. Choose two.)
+
+A. Use the Assembly Registration tool (regasm.exe) to register the assembly and to copy the assembly to the GAC.
+B. Use the Strong Name tool (sn.exe) to copy the assembly into the GAC.
+C. Use Microsoft Register Server (regsvr32.exe) to add the assembly to the GAC.
+D. Use the Global Assembly Cache tool (gacutil.exe) to add the assembly to the GAC.
+E. Use Windows Installer 2.0 to add the assembly to the GAC.
+
+Correct Answer: D E
+
+There are two ways to deploy an assembly into the global assembly cache:
+Use an installer designed to work with the global assembly cache. This is the preferred option for installing assemblies into the global assembly cache. Use a developer tool called the Global Assembly Cache tool (Gacutil.exe), provided by the Windows Software Development Kit (SDK).
+Note: In deployment scenarios, use Windows Installer 2.0 to install assemblies into the global assembly cache. Use the Global Assembly Cache tool only in development scenarios, because it does not provide assembly reference counting and other features provided when using the Windows Installer.
+References: http://msdn.microsoft.com/en-us/library/yf1d93sz%28v=vs.110%29.aspx
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+361) You are developing an application that will be deployed to multiple computers. You set the assembly name.
+You need to create a unique identity for the application assembly.
+Which two assembly identity attributes should you include in the source code? (Each correct answer presents part of the solution. Choose two.)
+
+A. AssemblyTitleAttribute
+B. AssemblyCultureAttribute
+C. AssemblyVersionAttribute
+D. AssemblyKeyNameAttribute
+E. AssemblyFileVersion
+
+Correct Answer: BC
+The AssemblyName object contains information about an assembly, which you can use to bind to that assembly. An assembly's identity consists of the following:
+1)Simple name
+2)Version number
+3)Cryptographic key pair
+4)Supported culture
+
+B: AssemblyCultureAttribute
+Specifies which culture the assembly supports.
+The attribute is used by compilers to distinguish between a main assembly and a satellite assembly. A main assembly contains code and the neutral culture's resources. A satellite assembly contains only resources for a particular culture, as in [assembly:AssemblyCultureAttribute("de")]
+C: AssemblyVersionAttribute
+Specifies the version of the assembly being attributed.
+The assembly version number is part of an assembly's identity and plays a key part in binding to the assembly and in version policy.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+362) You need to insert code at line 04. The code must load the assembly. Once the assembly is loaded, the code must be able to read the assembly metadata, but the code must be denied access from executing code from the assembly.
+Which code segment should you insert at line 04?
+
+public void ViewMetaData(string filePath)
+{
+	bytes[] content = System.IO.File.ReadAllBytes(filePath);
+04) ------------------------------------------------------	
+}
+
+A. Assembly.ReflectionOnlyLoadFrom(bytes);
+B. Assembly.ReflectionOniyLoad(bytes);
+C. Assembly.Load(bytes);
+D. Assembly.LoadFrom(bytes);
+
+Correct Answer: B
+You cannot execute code from an assembly that has been loaded into the reflection-only context. To execute the code, load the assembly with the LoadFile method.
+https://docs.microsoft.com/en-us/dotnet/api/system.reflection.assembly.reflectiononlyloadfrom?view=netframework-4.8
+https://docs.microsoft.com/en-us/dotnet/framework/app-domains/how-to-load-assemblies-into-an-application-domain
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+363) You are creating a class library that will be used in a web application.  
+You need to ensure that the class library assembly is strongly named. What should you do?
+
+A. Use the gacutil.exe command-line tool.
+B. Use the xsd.exe command-line tool.
+C. Use the aspnet_regiis.exe command-line tool.
+D. Use assembly attributes.
+
+Correct Answer: D
+
+Explanation:
+The Windows Software Development Kit (SDK) provides several ways to sign an assembly with a strong name:
+Using the Assembly Linker (Al.exe) provided by the Windows SDK. Using assembly attributes to insert the strong name information in your code. 
+You can use either the AssemblyKeyFileAttribute or the AssemblyKeyNameAttribute, depending on where the key file to be used is located.
+Using compiler options such /keyfile or /delaysign in C# and Visual Basic, or the /KEYFILE or /DELAYSIGN linker option in C++. 
+(For information on delay signing, see Delay Signing an Assembly.)
+
+Note:
+A strong name consists of the assembly's identity—its simple text name, version number, and culture information (if provided)—plus a public key and a digital signature. It is generated from an assembly file (the file that contains the assembly manifest, which in turn contains the names and hashes of all the files that make up the assembly), using the corresponding private key. Microsoft® Visual Studio® .NET and other development tools provided in the .NET Framework SDK can assign strong names to an assembly. Assemblies with the same strong name are expected to be identical.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+364)You are developing an application that produces an executable named MyApp.exe and an assembly named MyApp.dll.
+The application will be sold to several customers.
+You need to ensure that enough debugging information is available for MyApp.exe, so that if the application throws an error in a customer's environment, you can debug the error in your own development environment. What should you do? 
+
+A. Digitally sign MyApp.dll.
+B. Produce program database (PDB) information when you compile the code.
+C. Compile MyApp.exe by using the /unsafe compiler option.
+D. Initializes a new instance of the AssemblyDelaySignAttribute class in the MyApp.dll constructor.
+
+Correct Answer: B
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+365)You are developing an assembly. You plan to sign the assembly when the assembly is developed.
+You need to reserve space in the assembly for the signature. What should you do?
+
+A. Run the Assembly Linker tool from the Windows Software Development Kit (Windows SDK).
+B. Run the Strong Name tool from the Windows Software Development Kit (Windows SDK).
+C. Add the AssemblySignatureKeyAttribute attribute the assembly.
+D. Add the AssemblyDelaySignAttribute attribute to the assembly.
+
+Correct Answer: D
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+366) You are creating a class library that will be used in a web application.
+You need to ensure that the class library assembly is strongly named. What should you do?
+
+A. Use the csc.exe /target:Library option when building the application.
+B. Use the AL.exe command-line tool.
+C. Use the aspnet_regiis.exe command-line tool.
+D. Use the EdmGen.exe command-line tool.
+
+Correct Answer: B
+The Windows Software Development Kit (SDK) provides several ways to sign an assembly with a strong name:
+Using the Assembly Linker (Al.exe) provided by the Windows SDK.
+Using assembly attributes to insert the strong name information in your code. You can use either the AssemblyKeyFileAttribute or the AssemblyKeyNameAttribute, depending on where the key file to be used is located. Using compiler options such /keyfile or /delaysign in C# and Visual Basic, or the /KEYFILE or /DELAYSIGN linker option in C++. (For information on delay signing, see Delay Signing an Assembly.) 
+Note: A strong name consists of the assembly's identity—it’s simple text name, version number, and culture information (if provided)—plus a public key and a digital signature. It is generated from an assembly file (the file that contains the assembly manifest, which in turn contains the names and hashes of all the files that make up the assembly), using the corresponding private key. Microsoft® Visual Studio® .NET and other development tools provided in the .NET Framework SDK can assign strong names to an assembly. Assemblies with the same strong name are expected to be identical.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+367) The application requires 500 MB of available memory.
+You need to identify whether there is enough available memory when the application starts. Which class should you use?
+
+A. OutOfmemoryException
+B. MemoryStream
+C. PerformanceCounter
+D. DiagnosticsConfigurationHandler
+
+Correct Answer: C
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+368) You are creating a console application by using C#. You need to access the application assembly. Which
+code segment should you use?
+
+A. Assembly.GetAssembly(this);
+B. This.GetType();
+C. Assembly.Load();
+D. Assembly.GetExecutingAssembly();
+
+Correct Answer: D
+
+Explanation
+Assembly.GetExecutingAssembly - Gets the assembly that contains the code that is currently
+executing. http://msdn.microsoft.com/en-us/library/system.reflection.assembly.getexecutingassembly(v=vs.110).aspx
+Assembly.GetAssembly - Gets the currently loaded assembly in which the specified class is defined.
+http://msdn.microsoft.com/en-us/library/system.reflection.assembly.getassembly.aspx
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+369) You are developing an application by using C#. You have the following requirements:
+support 32-bit and 64-bit system configurations.
+include pre-processor directives that are specific to the system configuration.
+deploy an application version that includes both system configurations to testers.
+ensure that stack traces include accurate line numbers.
+You need to configure the project to avoid changing individual configuration settings every time you deploy
+the application to testers. Which two actions should you perform? (Each correct answer presents part of the
+solution. Choose two.)
+
+A. Update the platform target and conditional compilation symbols for each application configuration.
+B. Create two application configurations based on the default Release configuration.
+C. Optimize the application through address rebasing in the 64-bit configuration.
+D. Create two application configurations based on the default Debug configuration.
+
+Correct Answer: B D
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+370) You are developing an assembly that will be used by multiple applications. You need to install the assembly
+in the Global Assembly Cache (GAC). Which two actions can you perform to achieve this goal? (Each
+correct answer presents a complete solution. Choose two.)
+
+A. Use the Assembly Registration tool (regasm.exe) to register the assembly and to copy the assembly to the GAC.
+B. Use the Strong Name tool (sn.exe) to copy the assembly into the GAC.
+C. Use Microsoft Register Server (regsvr32.exe) to add the assembly to the GAC.
+D. Use the Global Assembly Cache tool (gacutil.exe) to add the assembly to the GAC.
+E. Use Windows Installer 2.0 to add the assembly to the GAC.
+
+Correct Answer: D E
+
+There are two ways to deploy an assembly into the global assembly cache:
+Use an installer designed to work with the global assembly cache. This is the preferred option for
+installing assemblies into the global assembly cache.
+Use a developer tool called the Global Assembly Cache tool (Gacutil.exe), provided by the Windows
+Software Development Kit (SDK).
+
+Note:
+In deployment scenarios, use Windows Installer 2.0 to install assemblies into the global assembly cache.
+Use the Global Assembly Cache tool only in development scenarios, because it does not provide assembly
+reference counting and other features provided when using the Windows Installer.
+http://msdn.microsoft.com/en-us/library/yf1d93sz%28v=vs.110%29.aspx
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+371) You are creating a console application by using C#. You need to access the assembly found in the file
+named car.dll. Which code segment should you use?
+
+A. Assembly.Load();
+B. Assembly.GetExecutingAssembly();
+C. this.GetType();
+D. Assembly.LoadFile("car.dll");
+
+Correct Answer: D
+
+Explanation/Reference:
+Assembly.LoadFile - Loads the contents of an assembly file on the specified path. 
+http://msdn.microsoft.com/en-us/library/b61s44e8.aspx
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+372) You are developing an application that includes a class named Order. The application will store a collection of Order objects.
+The collection must meet the following requirements:
+-> Use strongly typed members.
+-> Process Order objects in first-in-first-out order.
+-> Store values for each Order object.
+-> Use zero-based indices.
+You need to use a collection type that meets the requirements. Which collection type should you use?
+
+A. Queue<T>
+B. SortedList
+C. LinkedList<T>
+D. HashTable
+E. Array<T>
+
+Correct Answer: A
+
+Queues are useful for storing messages in the order they were received for sequential processing. 
+Objects stored in a Queue<T> are inserted at one end and removed from the other.
+References:
+http://msdn.microsoft.com/en-us/library/7977ey2c.aspx
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+373) You are developing an application. The application includes a method named ReadFile that reads data from a file.
+The ReadFile() method must meet the following requirements:
+-> It must not make changes to the data file.
+-> It must allow other processes to access the data file.
+-> It must not throw an exception if the application attempts to open a data file that does not exist.
+You need to implement the ReadFile() method.
+Which code segment should you use?
+
+A. var fs = File.Open(Filename, FileMode.OpenOrCreate, FileAccess.Read,FileShare.ReadWrite);
+B. var fs = File.Open(Filename, FileMode.Open, FileAccess.Read,FileShare.ReadWrite);
+C. var fs = File.Open(Filename, FileMode.OpenOrCreate, FileAccess.Read,FileShare.Write);
+D. var fs = File.ReadAllLines(Filename);
+E. var fs = File.ReadAllBytes(Filename);
+
+Answer : A
+
+Explanation:
+FileMode.OpenOrCreate - Specifies that the operating system should open a file if it exists; otherwise, a new file should be created. If the file is opened with
+FileAccess.Read, FileIOPermissionAccess.Read permission is required. If the file access is FileAccess.Write, FileIOPermissionAccess.Write permission is required. If the file is opened with FileAccess.ReadWrite, both FileIOPermissionAccess.Read and FileIOPermissionAccess.Write permissions are required.
+FileShare.ReadWrite - Allows subsequent opening of the file for reading or writing. If this flag is not specified, any request to open the file for reading or writing (by this process or another process) will fail until the file is closed. However, even if this flag is specified, additional permissions might still be needed to access the file.
+References:
+http://msdn.microsoft.com/pl-pl/library/system.io.fileshare.aspx http://msdn.microsoft.com/en-us/library/system.io.filemode.aspx
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+374) You are developing an application by using C#.
+The application includes an object that performs a long running process.
+You need to ensure that the garbage collector does not release the object's resources until the process completes.
+Which garbage collector method should you use?
+
+A. WaitForFullGCComplete()
+B. WaitForFullGCApproach()
+C. KeepAlive()
+D. WaitForPendingFinalizers()
+
+Answer : C
+Explanation:
+The GC.KeepAlive method references the specified object, which makes it ineligible for garbage collection from the start of the current routine to the point where this method is called. The purpose of the KeepAlive method is to ensure the existence of a reference to an object that is at risk of being prematurely reclaimed by the garbage collector.
+The KeepAlive method performs no operation and produces no side effects other than extending the lifetime of the object passed in as a parameter.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+375) StringBuilder sb = new StringBuilder(reallyLongString);
+The reallyLongString variable is a string in which a very long string is stored.
+You need to identify whether a string stored in an object named StringToFind is within the
+StringBuilder sb object. Which code should you use?
+
+A. sb.Equals(stringToFind);
+B. sb.ToString().IndexOf(stringToFind);
+C. sb.ToString().CompareTo(stringToFind);
+D. sb.ToString().Substring(stringToFind.Length);
+
+Answer : B
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+376) You have an assembly named Assembly1 that is written in C#. Assembly1 has a method named
+Method1. You add a new method named Method2 to Assembly1. Method2 is a newer version of Method1 and
+must be used by applications in the future. You need to ensure that if a developer builds a project 
+that uses Method1, the developer is notified that Method1 is deprecated. What should you do?
+
+A. Set an #if DEPRECATED preprocessor directive above Method1. Set a #endif preprocessor directive after Method1.
+B. Set a #pragma warning disable preprocessor inside of Method1.
+C. Mark Method1 with an ObsoleteAttribute attribute.
+D. Mark Method1 with a Conditional attribute that is set to WARNING.
+
+Correct Answer: C
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+377) You are developing an application. The application contains the following code segment (line numbers are included for reference only):
+
+	ArrayList arrayList = new ArrayList();
+	int var1 = 10;
+	int var2;
+	arrayList.Add(var1);
+05) var2 = arrayList[0];
+
+When you run the code, you receive the following error message: "Cannot implicitly convert type 'object'' to
+'int'. An explicit conversion exists (are you missing a cast?)." You need to ensure that the code can be compiled.
+Which code should you use to replace line 05?
+
+A. var2 = ((List<int>)array1)[0];
+B. var2 = (int)array1[0];
+C. var2 = int.Parse(array1[0]);
+D. var2 = array1[0] as int;
+
+Correct Answer: B
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+378) You have an application that will send confidential information to a Web server.
+You need to ensure that the data is encrypted when it is sent across the network. Which class should you use?
+
+A. CryptoStream
+B. AuthenticatedStream
+C. PipeStream
+D. NegotiateStream
+
+Correct Answer: A
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+379) You are developing an application that will process personnel records.
+The application must encrypt highly sensitive data.
+You need to ensure that the application uses the strongest available encryption.
+Which class should you use?
+
+A. System.Security.Cryptography.DES
+B. System.Security.Cryptography.Aes
+C. System.Security.Cryptography.TripleDES
+D. System.Security.Cryptography.RC2
+
+Correct Answer: B
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+380) You are developing an application that will manage the inventory of a warehouse. The application includes
+a method named FindItem. Users must be able to locate item records by using the customer identifier, customer name, or a
+combination of the two values. You need to implement the FindItem() method to meet the requirement.
+Which two sets of method signatures can you use to achieve this goal? Each correct answer presents a complete solution.
+NOTE: Each correct selection is worth one point 
+
+A. 	public static Item FindItem(int id)
+	public static Item FindItem(string name)
+	public static Item FindItem(Int32 id)
+
+B. 	public static Item FindItem(int id)
+	public static Item FindItem(int? id, string name)
+
+C. 	public static Item FindItem(int id)
+	public static Item FindItem(string name)
+	public static Item FindItem(int id, String name)
+
+D. 	public static Item FindItem(int id)
+	public static Item FindItem(string name)
+	public static void FindItem(int id)
+
+Correct Answer: B C
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+381) You need to write a method that combines an unknown number of strings. The solution must minimize the
+amount of memory used by the method when the method executes. What should you include in the code?
+
+A. The String.Concat method
+B. The StringBuilder.Append method
+C. The + operator
+D. The += operator
+
+Correct Answer: B
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+382) You need to create a method that can be called by using a varying number of parameters. What should you use?
+
+A. enumeration
+B. Language-Integrated Query (LINQ) query expressions
+C. interface
+D. optional parameters
+E. named parameters
+
+Correct Answer: D
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+383) You use the Task.Run() method to launch a long-running data processing operation. The data
+processing operation often fails in times of heavy network congestion. If the data processing operation fails,
+a second operation must clean up any results of the first operation. You need to ensure that the second
+operation is invoked only if the data processing operation throws an unhandled exception. What should you do?
+
+A. Create a TaskCompletionSource<T> object and call the TrySetException() method of the object.
+B. Create a task by calling the Task.ContinueWith() method
+C. Examine the Task.Status property immediately after the call to the Task.Run() method.
+D. Create a task inside the existing Task.Run() method by using the AttachedToParent option.
+
+Correct Answer: B
+
+Task.ContinueWith - Creates a continuation that executes asynchronously when the target Task
+completes.The returned Task will not be scheduled for execution until the current task has completed,
+whether it completes due to running to completion successfully, faulting due to an unhandled exception, or
+exiting out early due to being canceled. http://msdn.microsoft.com/en-us/library/dd270696.aspx
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+384)You are developing a C# application that has a requirement to validate some string input data by using the
+Regex class. The application includes a method named ContainsHyperlink. The
+ContainsHyperlink() method will verify the presence of a URI and surrounding markup. The following
+code segment defines the ContainsHyperlink() method. (Line numbers are included for reference
+only.)
+
+01 bool ContainsHyperlink(string inputData)
+02 {
+03 string regExPattern = "href\\s*=\\s*(?:\"(?<1>[^\"]*)\"|(?<1>\\S+))";
+04
+05 return evaluator.IsMatch(inputData);
+06 }
+
+The expression patterns used for each validation function are constant. You need to ensure that the
+expression syntax is evaluated only once when the Regex object is initially instantiated. Which code
+segment should you insert at line 04?
+
+A. 	var evaluator = new Regex(regExPattern, RegexOptions.CultureInvariant);
+B. 	var evaluator = new Regex(inputData);
+C. 	var assemblyName = "Validation";
+	var compilationInfo = new RegexCompilationInfo(inputData,
+	RegexOptions.IgnoreCase, "Href", assemblyName, true);
+	Regex.CompileToAssembly(new[] { compilationInfo }, new AssemblyName (assemblyName));
+	var evaluator = new Regex(regExPattern, RegexOptions.CultureInvariant);
+D. 	var evaluator = new Regex(regExPattern, RegexOptions.Compiled);
+
+Correct Answer: D
+
+RegexOptions.Compiled - Specifies that the regular expression is compiled to an assembly.This yields
+faster execution but increases startup time.This value should not be assigned to the Options property when
+calling the CompileToAssembly method. http://msdn.microsoft.com/en-us/library/
+system.text.regularexpressions.regexoptions.aspx
+Additional info http://stackoverflow.com/questions/513412/how-does-regexoptions-compiled-work
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+385) You are developing an application by using C#. The application includes an object that performs a long
+running process. You need to ensure that the garbage collector does not release the object's resources
+until the process completes. Which garbage collector method should you use?
+
+A. WaitForFullGCComplete()
+B. WaitForFullGCApproach()
+C. KeepAlive()
+D. WaitForPendingFinalizers()
+
+Correct Answer: C
+GC.KeepAlive - References the specified object, which makes it ineligible for garbage collection from the
+start of the current routine to the point where this method is called. The purpose of the KeepAlive method is
+to ensure the existence of a reference to an object that is at risk of being prematurely reclaimed by the
+garbage collector.A common scenario where this might happen is when there are no references to the
+object in managed code or data, but the object is still in use in unmanaged code such as Win32 APIs,
+unmanaged DLLs, or methods using COM. http://msdn.microsoft.com/en-us/library/system.gc.keepalive.aspx
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+386) An application includes a class named Person. The Person class includes a method named GetData.
+You need to ensure that the GetData() method can be used only by the Person class and not by any
+class derived from the Person class. Which access modifier should you use for the GetData() method?
+
+A. public
+B. protected internal
+C. internal
+D. private
+E. protected
+
+Correct Answer: D
+private - The type or member can be accessed only by code in the same class or struct. 
+http://msdn.microsoft.com/en-us/library/ms173121.aspx
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+387) You are implementing a method named ProcessReports that performs a long-running task. The
+ProcessReports() method has the following method signature:
+public void ProcessReports(List<decimal> values,CancellationTokenSource cts, CancellationToken ct)
+If the calling code requests cancellation, the method must perform the following actions:
+• Cancel the long-running task.
+• Set the task status to TaskStatus.Canceled.
+You need to ensure that the ProcessReports() method performs the required actions. Which code segment
+should you use in the method body?
+
+A. if (ct.IsCancellationRequested) return;
+B. ct.ThrowIfCancellationRequested() ;
+C. cts.Cancel();
+D. throw new AggregateException();
+
+Correct Answer: B
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+388) You are developing an application that will parse a large amount of text.
+You need to parse the text into separate lines and minimize memory use while processing data.
+Which object type should you use?
+
+A. DataContractSerializer
+B. StringBuilder
+C. StringReader
+D. JsonSerializer
+
+Correct Answer: C
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+389) You are developing an application that will process personnel records.
+The application must encrypt highly sensitive data.
+You need to ensure that the application uses the strongest available encryption.
+Which class should you use?
+
+A. System.Security.Cryptography.DES
+B. System.Security.Cryptography.Aes
+C. System.Security.Cryptography.TripleDES
+D. System.Security.Cryptography.RC2
+
+Correct Answer: B
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+390) You are developing a class named Account that will be used by several applications.
+The applications that will consume the Account class will make asynchronous calls to the Account class to
+execute several different methods. You need to ensure that only one call to the methods is executed at a time.
+Which keyword should you use?
+
+A. sealed
+B. protected
+C. checked
+D. lock
+
+Correct Answer: D
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+391) You plan to store passwords in a Windows Azure SQL Database database.
+You need to ensure that the passwords are stored in the database by using a hash algorithm,
+Which cryptographic algorithm should you use?
+
+A. ECDSA
+B. RSA-768
+C. AES-256
+D. SHA-256
+
+Correct Answer: D
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+392) You are debugging a 64-bit C# application. Users report System.OutOfMemoryException exceptions. The system is attempting to use arrays larger
+than 2 GB in size. You need to ensure that the application can use arrays larger than 2 GB.
+What should you do?
+
+A. Add the /3GB switch to the boot.ini file for the operating system.
+B. set the IMAGE_FILE_LARGE_ADDRESS_AWARE flag in the image header for the application executable file.
+C. set the value of the gcAllowVeryLargeObjects property to true in the application configuration file.
+D. Set the value of the user-mode virtual address space setting for the operating system to MAX.
+
+Correct Answer: C
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+393) You need to create a method that can be called by using a varying number of parameters.
+What should you use?
+
+A. enumeration
+B. Language-Integrated Query (LINQ) query expressions
+C. interface
+D. optional parameters
+E. named parameters
+
+Correct Answer: D
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
