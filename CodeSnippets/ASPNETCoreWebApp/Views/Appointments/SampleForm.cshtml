@@ -1,0 +1,29 @@
+﻿@model ASPNETCoreWebApp.Models.SampleViewModel
+
+@{
+    ViewData["Title"] = "SampleForm";
+}
+
+<h1>Sample Form</h1>
+
+<div class="container">
+    <div class="col-md-6 col-md-offset-3">
+        <h1>ASP.NET MVC - Aria-described by</h1>
+
+        @using (Html.BeginForm())
+        {
+            <div class="form-group">
+                @Html.LabelFor(x => x.inputtext)
+                @Html.TextBoxFor(x => x.inputtext)
+                @Html.ValidationMessageFor(x => x.inputtext)
+                <br />
+                @Html.LabelFor(x => x.inputtext2)
+                @Html.TextBoxFor(x => x.inputtext2)
+                @Html.ValidationMessageFor(x => x.inputtext2)
+            </div>
+
+            <button type="submit" class="btn btn-success submit">Submit</button>
+        }
+    </div>
+</div>
+<hr />

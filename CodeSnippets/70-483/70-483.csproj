@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.94.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.1" />
@@ -22,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MusicStorage\MusicStorage.csproj" />
+    <ProjectReference Include="..\WebServiceProvider\WebServiceProvider.csproj" />
   </ItemGroup>
 
   <ItemGroup>

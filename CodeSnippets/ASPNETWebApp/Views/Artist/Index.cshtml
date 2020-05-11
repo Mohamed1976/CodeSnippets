@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "Artist list";
+}
+
+<!--h2>Overview Artists</h2-->
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+@*<@model IEnumerable<ASPNETWebApp.Models.Artist>
+    <ul>
+        @foreach (ASPNETWebApp.Models.Artist p in Model)
+        {
+            <li>@p.FirstName</li>
+        }
+    </ul>
+    <br/><br/>
+    To avoid needing to specify a fully qualifi ed type name for the model, you can make use of the
+    @using declaration.
+*@
+
+@using ASPNETWebApp.Models
+@model IEnumerable<Artist>
+<ul>
+    @foreach (Artist p in Model)
+    {
+        <li>@p.FirstName</li>
+    }
+</ul>

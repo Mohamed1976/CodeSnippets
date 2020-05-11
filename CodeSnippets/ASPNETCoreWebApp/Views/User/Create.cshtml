@@ -1,0 +1,17 @@
+﻿@model ASPNETCoreWebApp.Models.User
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<form asp-action="Create" asp-controller="User">
+    <label asp-for="FirstName"></label>
+    <input asp-for="FirstName" placeholder="Your name goes here" />
+    <label asp-for="LastName"></label>
+    <input asp-for="LastName" placeholder="Your name goes here" />
+    <label asp-for="Salary"></label>
+    <input asp-for="Salary" placeholder="Your name goes here" />
+    <input type="submit" />
+</form>

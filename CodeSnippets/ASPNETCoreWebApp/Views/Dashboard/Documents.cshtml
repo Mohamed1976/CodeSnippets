@@ -1,0 +1,63 @@
+﻿@model IEnumerable<System.IO.FileInfo>
+
+@{
+    ViewData["Title"] = "Documents";
+}
+
+<h1>Document overview</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                <p>@Html.DisplayNameFor(model => model.Length) (bytes)</p>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Length)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Name">Details</a>
+                    <a asp-action="Download" asp-route-id="@item.Name">Download</a> 
+                    <a asp-action="Delete" asp-route-id="@item.Name">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<hr/>
+<form method="post" enctype="multipart/form-data" asp-controller="Dashboard" asp-action="UploadFiles">
+    <div class="form-group">
+        <div class="col-md-10">
+            <p>Upload one or more files using this form:</p>
+            <input type="file" name="files" multiple="">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            <input type="submit" value="Upload">
+        </div>
+    </div>
+</form>
+<br />
+<hr />
+<br />
+<h3>Upload your files</h3>
+<form enctype="multipart/form-data" method="post" asp-controller="Dashboard" asp-action="UploadFilesV2">
+    <input type="file" name="file" />
+    <input type="submit" />
+</form>
+
+

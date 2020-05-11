@@ -1,0 +1,16 @@
+﻿@page
+@model AspNetCoreRazorPages.Pages.Forms.AddAddressModel
+@{
+    ViewData["Title"] = "Add Address";
+}
+
+<h1>Add Address</h1>
+ 
+<form method="post">
+    <input type="text" asp-for="SelectedCustomer.FirstName" placeholder="FirstName" />
+    <input type="text" asp-for="SelectedCustomer.LastName" placeholder="LastName" />
+    <input type="text" asp-for="SelectedCustomer.StreetAddress" placeholder="Street Address" />
+    <input type="text" asp-for="SelectedCustomer.City" placeholder="City" />
+    <input type="text" asp-for="SelectedCustomer.ZipCode" placeholder="Zip Code" />
+    <button type="submit">Submit</button>
+</form>

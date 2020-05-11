@@ -24,6 +24,8 @@ using System.CodeDom.Compiler;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Globalization;
 using System.Collections.Concurrent;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 namespace _70_483_USING_NET_FRAMEWORK.Exercises
 {
@@ -368,12 +370,172 @@ namespace _70_483_USING_NET_FRAMEWORK.Exercises
             {
                 return false;
             }
+        }
 
+        public int Calc(int i, int j)
+        {
+            if(i == 0)
+            {
+                return j;
+            }
+            else
+            {
+                return Calc(i - 1, i + j);
+            }
+        }
+
+        public int Calc(int n)
+        {
+            if (n == 0)
+            {
+                return 0;
+            }
+            else if(n == 1)
+            {
+                return 1;
+            }
+            else
+            {
+                return Calc(n - 1) + Calc(n - 2);
+            }
         }
 
         public delegate void AddBookCallback(int i);
+        
+        //private 
+        
+        
         public async Task Run()
         {
+            //--------------------------------------------------------------------------------------------------------
+            // Download Json response from website
+            //
+            // http://json2csharp.com/  generate c# classes from json
+            //--------------------------------------------------------------------------------------------------------
+            const string keyToken = "6f1aa5a06770929433faa4911e4334a1";
+            string city = "Amsterdam";
+
+            try
+            {
+                string weatherUrl = @"https://api.openweathermap.org/data/2.5/weather?q="+city+
+                    "&units=metric&appid="+ keyToken;
+                Console.WriteLine(weatherUrl);
+                WebClient client = new WebClient();
+                string json = client.DownloadString(weatherUrl);
+                Console.WriteLine(json);
+                RootObject weather = JsonConvert.DeserializeObject<RootObject>(json);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception in WebClient.UploadValues(): {ex.Message}");
+                throw;
+            }
+            
+            //--------------------------------------------------------------------------------------------------------
+            // Static class, virtual class
+            //--------------------------------------------------------------------------------------------------------
+            double weightInKilos = 80;
+            double weightInPounds = Conversions.KilosToPounds(weightInKilos);
+            Console.WriteLine("weightInPounds: {0:N2}", weightInPounds);
+            DrinksMachine drinksMachine = new DrinksMachine("John");
+            drinksMachine.MakeCappuccino();
+            drinksMachine.MakeEspresso();
+            
+            //--------------------------------------------------------------------------------------------------------
+            // How many stars will be printed by the following code; 
+            //
+            //a) 1
+            //b) 2
+            //c) 3
+            //d) 4
+            //e) Code Throws an error 
+            //--------------------------------------------------------------------------------------------------------
+            int loops = 7;
+
+            while(loops > 0)
+            {
+                loops -= 3;
+                Console.Write("*");
+                if(loops <= 2)
+                {
+                    break;
+                }
+                else
+                {
+                    Console.Write("*");
+                }
+            };
+            Console.WriteLine();
+
+            Collection<NetflixWatcher> watchers = new Collection<NetflixWatcher>();
+            watchers.Add(new NetflixWatcher("John", "Deer",
+                new Collection<Movie>()
+                {
+                    new Movie(1,"The Stand",new DateTime(2008,4,12),"Thriller",4.50m),
+                    new Movie(2,"It",new DateTime(2009,6,11),"Horror",5.50m),
+                    new Movie(3,"The Usual Suspects",new DateTime(2010,4,12),"Thriller",6.50m),
+                    new Movie(4,"Contagion",new DateTime(2011,3,15),"Thriller",7.50m),
+                }));
+
+            watchers.Add(new NetflixWatcher("Deborah", "Brooks",
+                new Collection<Movie>()
+                {
+                    new Movie(5,"Pulp Fiction",new DateTime(2012,5,15),"Thriller",7.50m),
+                    new Movie(6,"Interstellar",new DateTime(2013,6,17),"Horror",5.50m),
+                    new Movie(7,"The Matrix",new DateTime(2014,7,16),"Thriller",6.50m),
+                }));
+
+            foreach (NetflixWatcher watcher in watchers)
+                Console.WriteLine(watcher);
+            
+            //NetflixWatcher that watched a movie with a ReleaseDate of 2010
+            List<NetflixWatcher> selectedWatchers = (from watcher in watchers
+                                                     where watcher.Movies.Any(m => m.ReleaseDate.Year == 2010)
+                                                     select watcher).ToList();
+
+            foreach (NetflixWatcher watcher in selectedWatchers)
+                Console.WriteLine(watcher);
+
+            //NetflixWatcher that watched a movie with a ReleaseDate of 2010
+            List<NetflixWatcher> selectedWatchers1 = watchers.Where(x => x.Movies
+            .Any(y => y.ReleaseDate.Year == 2010)).ToList();
+
+            foreach (NetflixWatcher watcher in selectedWatchers1)
+                Console.WriteLine(watcher);
+
+            //--------------------------------------------------------------------------------------------------------
+            // What will be the output of the code below
+            //
+            //a) 13
+            //b) 7
+            //c) infinite loop
+            //d) 17
+            //--------------------------------------------------------------------------------------------------------
+            Console.WriteLine("Calc: {0}", Calc(4, 7));
+
+            //--------------------------------------------------------------------------------------------------------
+            // What will be the output of the code below
+            //
+            //a) 0 1 2 3
+            //b) An exception will be thrown
+            //c) 0 1 1 2 3
+            //d) 0 1 1 2
+            //--------------------------------------------------------------------------------------------------------
+            for (int i = 0; i < 4; i++)
+                Console.Write(Calc(i) + " ");
+
+            //try
+            //{
+            //    //Assembly.LoadFile exception: The module was expected to contain an assembly manifest. (Exception from HRESULT: 0x80131018)
+            //    Assembly assembly3 = Assembly.LoadFile(@"C:\Program Files (x86)\VCE Exam Simulator Demo\libeay32.dll");
+            //    foreach (Type type1 in assembly3.GetTypes())
+            //        Console.WriteLine(type1);
+            //}
+            //catch(Exception ex)
+            //{
+            //    Console.WriteLine("Assembly.LoadFile exception: {0}", ex.Message);
+            //}
+
             ConcurrentDictionary<string, int> ages = new ConcurrentDictionary<string, int>();
             if (ages.TryAdd("Rob", 21))
                 Console.WriteLine("Rob added successfully.");
@@ -2298,4 +2460,162 @@ namespace _70_483_USING_NET_FRAMEWORK.Exercises
             }
         }
     }
+
+    public class NetflixWatcher
+    {
+        public NetflixWatcher(string firstName, string lastName, Collection<Movie> movies)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            Movies = movies;
+        }
+
+        public string FirstName { get; private set; }
+        public string LastName { get; private set; }
+        public Collection<Movie> Movies { get; private set; }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(FirstName + ", " + LastName);
+            foreach (Movie movie in Movies)
+                sb.AppendLine("\t"+ movie);
+            
+            return sb.ToString();
+        }
+    }
+
+    public class Movie
+    {
+        public Movie(int id, string title, DateTime releaseDate, string genre, decimal price)
+        {
+            ID = id;
+            Title = title;
+            ReleaseDate = releaseDate;
+            Genre = genre;
+            Price = price;
+        }
+
+        public int ID { get; set; }
+        public string Title { get; set; }
+        public DateTime ReleaseDate { get; set; }
+        public string Genre { get; set; }
+        public decimal Price { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("ID: {0}, Title: {1}, ReleaseDate: {2}, Genre: {3}, Price: {4:N2}", 
+                ID, Title, ReleaseDate.ToString("dd-MM-yyyy"), Genre, Price);
+        }
+    }
+
+    public static class Conversions
+    {
+        public static double PoundsToKilos(double pounds)
+        {
+            // Convert argument from pounds to kilograms
+            double kilos = pounds * 0.4536;
+            return kilos;
+        }
+        public static double KilosToPounds(double kilos)
+        {
+            // Convert argument from kilograms to pounds
+            double pounds = kilos * 2.205;
+            return pounds;
+        }
+    }
+
+    public partial class DrinksMachine
+    {
+        public DrinksMachine(string name)
+        {
+            Name = name;
+        }
+
+        public string Name { get; private set; }
+
+        public void MakeCappuccino()
+        {
+            Console.WriteLine("Cappuccino for: {0}",Name);
+            // Method logic goes here.
+        }
+    }
+
+    public partial class DrinksMachine
+    {
+
+        public void MakeEspresso()
+        {
+            Console.WriteLine("Espresso for: {0}", Name);
+            // Method logic goes here.
+        }
+    }
+
+    //-----------------------------------------------------------------------------------
+    //Deserialization of 
+    // https://api.openweathermap.org/data/2.5/weather?q=Amsterdam&units=metric&appid=6f1aa5a06770929433faa4911e4334a1
+    //Created classes with http://json2csharp.com/#
+    //-----------------------------------------------------------------------------------
+    public class Coord
+    {
+        public double lon { get; set; }
+        public double lat { get; set; }
+    }
+
+    public class Weather
+    {
+        public int id { get; set; }
+        public string main { get; set; }
+        public string description { get; set; }
+        public string icon { get; set; }
+    }
+
+    public class Main
+    {
+        public double temp { get; set; }
+        public double feels_like { get; set; }
+        public double temp_min { get; set; }
+        public double temp_max { get; set; }
+        public int pressure { get; set; }
+        public int humidity { get; set; }
+    }
+
+    public class Wind
+    {
+        public double speed { get; set; }
+        public int deg { get; set; }
+    }
+
+    public class Clouds
+    {
+        public int all { get; set; }
+    }
+
+    public class Sys
+    {
+        public int type { get; set; }
+        public int id { get; set; }
+        public string country { get; set; }
+        public int sunrise { get; set; }
+        public int sunset { get; set; }
+    }
+
+    public class RootObject
+    {
+        public Coord coord { get; set; }
+        public List<Weather> weather { get; set; }
+        public string @base { get; set; }
+        public Main main { get; set; }
+        public int visibility { get; set; }
+        public Wind wind { get; set; }
+        public Clouds clouds { get; set; }
+        public int dt { get; set; }
+        public Sys sys { get; set; }
+        public int timezone { get; set; }
+        public int id { get; set; }
+        public string name { get; set; }
+        public int cod { get; set; }
+    }
+
+    //-----------------------------------------------------------------------------------
 }

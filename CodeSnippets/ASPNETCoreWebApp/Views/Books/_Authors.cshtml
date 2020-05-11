@@ -1,0 +1,29 @@
+﻿@model Book
+
+@*
+For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+A partial view is a Razor markup file (.cshtml) that renders HTML output within another view’s rendered output.
+Partial views are extremely useful in two scenarios. The first scenario is when we want to break up large 
+markup files into smaller components. If our markup file is large, complex and composed of several logical 
+pieces, we should split each piece into a partial view. Then the code in the markup file will be manageable 
+because the markup will only contain the overall page structure and references to the partial views.
+The second scenario is when we want to reduce the duplication of common markup content across markup files. 
+When we need to use the same markup elements across markup files, we can move that markup content into a 
+partial view and reuse it. That way the future changes to that markup need to be done in just one place 
+and we improved the modularity of our code. However, Partial view is not the recommended approach to 
+maintain common layout elements. We’ll learn the best practice to create common layout elements in the next section.
+*@
+
+<h3>Authors</h3>
+
+<p>This section is used to display information about authors.</p>
+<div>Today is @DateTime.Now.ToString()</div>
+<strong>Author @ViewData["Name"]</strong>
+<strong>Book title @Model.Title</strong>
+<br/>
+<ul>
+    @foreach (string s in @ViewData["Phones"] as IEnumerable<string>)
+    {
+        <li>@s</li>
+    }
+</ul>

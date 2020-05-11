@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "Files overview";
+}
+
+<h2>List of available files</h2>
+
+<table>
+    <tr>
+        <th>
+            ID
+            @*@Html.DisplayNameFor(modelItem => item.Id)*@
+        </th>
+        <th>
+            FileName
+            @*@Html.DisplayNameFor(modelItem => item.FileName)*@
+        </th>
+        <th>
+            Link
+            @*@Html.DisplayNameFor(modelItem => item.FileName)*@
+        </th>
+        <th>
+            Link
+            @*@Html.DisplayNameFor(modelItem => item.FileName)*@
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Id
+                @*@Html.DisplayFor(modelItem => item.Id)*@
+            </td>
+            <td>
+                @item.FileName
+                @*@Html.DisplayFor(modelItem => item.FileName)*@
+            </td>
+            <td>
+                @Html.ActionLink("Download", "Download", new { id = item.Id })
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.Id })
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+</table>
+<br/>
+<strong>@Html.ActionLink("CNN website", "RedirectToOtherSite")</strong>
+<br />
+<strong>@Html.ActionLink("Home", "RedirectToHomePage")</strong>
+<br/>
+
+<div>
+    @Html.Partial("EmpList")
+</div> 

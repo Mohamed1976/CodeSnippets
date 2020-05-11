@@ -1,0 +1,844 @@
+------------------------------------------------------------------------------------------------------------------------
+1) You are a consultant helping a municipal government bring some of its services
+onto the Internet. The first application you will work on enables pet licensing
+over the web. The initial work was done by a volunteer from the local pet shelter.
+Although it is an attractive website that was very well received by the public, it provides
+only downloadable forms that must be filled out and returned manually.
+
+Answer the following questions about your approach to enhancing this website:
+
+A) The client received positive feedback on its current website design and wants to
+keep it. How would you plan to maintain the look and feel across the new application?
+What components need to be included in your architecture?
+
+Answer:
+To maintain the same look and feel across the website you need to use the same
+style for your HTML pages and forms across the website. The best way to maintain a website'a style is to 
+use CSS files. Furthermore you can use a _Layout page to give the user a familiar
+navigation view when the user navigates through the website.             
+Finally you can use partial views in order to reuse view content, so that simmilar
+views have the same look and feel. Also the navigation structure of the website matters,
+you need to make sure that the controllers and actions have easy/logical names.    
+
+Book answer: 
+By default, most of the HTML design that went into the original site would be put into
+the views. Common areas such as navigation or boilerplate text could be put into a
+layout page if there is a lot of reuse. Also, any areas that might need independent
+functionality could be put into a partial view.
+
+B)The department currently files submitted forms in alphabetical order by pet
+owner. What could you do with the information so the employees would have
+real-time access to it?
+
+Answer:
+You can scan and store the returned forms in a database, and provide access to them
+via the website or via a standalone application. It would be much easier
+to let the Pet owners fill in an online form on the website, the entered
+data will be processed and put into a database and employees can directly
+access the data via a separate custom made webpage.          
+
+Book answer:
+There are several ways that this could be done. The first is to simply put the form
+online and email the form results to the department. This gives them minimal advantage
+over their current process and is not in real time. The next is to use a data storage
+mechanism such as SQL Server to store the information in a database. This enables
+them to have reports built as needed as well as giving them real-time access into the
+data.
+
+C)You realize you would be best served by creating a separate business layer. How
+would you manage this layer?
+
+Answer:
+The ASP Net Core framework provides a certain level of SoC by breaking the application
+responsibilities down into models, views, and controllers. Many aspects of each
+can be customized if necessary by overriding the base classes and creating your own.
+Therefore you can create models that represent you business layer, and use those
+models in your controllers to provide the the requested information to the views. 
+
+Book answer:
+A typical breakdown of models for this situation could be a model for the user, a
+model for the pet, and a model for the license year. The user might have multiple
+pets and each pet might have multiple licenses, one for each year. The models would
+handle the access into and out of the database. This application is a candidate for using
+the Repository pattern because the system used to manage the backend might be
+replaced as more departments go online and the municipality might standardize in a
+different direction.
+------------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------------
+2) You are designing an application in which a section of the main page will be populated
+by content from a third-party provider. You do not have control over the responsiveness
+of the client or how much information will be returned with each request. The call
+is to a RESTful service and will return the information formatted in Extensible Markup
+Language (XML). What is the best way to implement this application?
+
+A. Design a model that handles the data call to populate the model. Create a partial
+view containing only this display area and put an asynchronous service call that
+returns this model in the partial view controller.
+B. Put a synchronous service call into the main page controller.
+C. Create a partial view containing only this display area and put a synchronous service
+call in the partial view controller.
+D. Create a partial view containing only this display area and put an asynchronous
+service call in the partial view controller.
+
+Answer:
+A. You have more control over the request to the third-party service. 
+You create an asynchronous action method in the controller that returns a partial view.
+The partial view is rendered in a separate thread. 
+Alternatively you can use a view component instead of a partial view. 
+
+Book answer: 
+Correct answer: A
+A. Correct: Because you do not have control over the responsiveness of the thirdparty
+provider and you do not know how much data might be returned from each
+call, you should wrap the call in the asynchronous framework. Providing the data in
+a strongly-typed model gives it more flexibility than working with the raw XML on
+the client side.
+B. Incorrect: You do not know how long the call to the third party will take, and putting
+a synchronous call into the main page will not give any response until the call
+is completed.
+C. Incorrect: You do not want to use a synchronous call in this case due to the unknown
+response time.
+D. Incorrect: Although you can take this approach, it infers that you will manipulate
+the third-party response data in either the controller or the view. SoC recommends
+that this manipulation occur in a model.
+------------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------------
+3) You have been given requirements for a dashboard page that will contain summary information from your order processing system in a single display table. However, this summarization needs to be done by combining data requests from the order system, the shipping system, and the accounting system. The dashboard page will be the only place you use this combined data. What is the best way to implement this requirement?
+
+A.Make the various data requests and compile the information in the controller for display.
+B.Create an individual model for each of the data requests, and then create a view-specific model that calls those models and merges the data.
+C.Create a model for the summary data and handle the various data requests within that model as well as the merging of the data.
+D.Create an individual model for each of the data requests and then merge the data on the client side for display.
+
+Answer:
+A, Create a ViewModel that contains summary data that the view needs, in the controller 
+make the various data requests to different services and put the information in the ViewModel 
+that will then be passed to the view.
+
+Book answer: 
+Correct answer: B
+A. Incorrect: You should not perform any data manipulation in the controller.
+B. Correct: You will have a better chance of code reuse if you break down the
+separate calls into their own models and then create another model to pull them
+together and compile them.
+C. Incorrect: Although this would be a plausible way to implement the solution, it is
+not the best. If any other work came up that uses any of the calls within this model,
+you will either have to refactor the code to extract it at that point or have duplicate
+code.
+D. Incorrect: The fact that this data can be merged into a single table display shows
+there is some intrinsic business worth to the information in this format. Merging on
+the client side goes against SoC considerations.      
+------------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------------
+4) A significant change has been requested in an application maintained within your company. The application is a classic ASP application that uses custom Open Database Connectivity (ODBC) drivers to connect to a relational data repository on a mainframe computer. The CIO decided that the company needs to replace this 30-year-old system. The team that worked on the original project is made up of developers who have never worked with an object-oriented approach before. Which approaches would be the best to use when designing your initial schema in Entity Framework? (Choose all that apply.)
+
+A. Create your own custom design because it’s too much work to manage an inexperienced staff.
+B. Use Code First.
+C. Use Model First.
+D. Use Database First.
+
+Answer:
+D (Developers have experience with this database model, hence Entity Framework Models generated from the database are well understood by developers.)
+B (The developers can model the database in a designer and generate the Entity Framework Models from the created design.)
+
+Book answer:
+Correct answers: C, D
+A. Incorrect: You should incorporate your team into the project as soon as possible.
+B. Incorrect: Because the team has no experience with object-oriented programming,
+the Code First approach is unlikely to be the most efficient way to create the
+new schema.
+C. Correct: The use of the Entity Designer as an integral component in the Model
+First approach will help unfamiliar users to walk through the process.
+D. Correct: There is already a working relational database for the application,
+although it is in a system that will be replaced. A port of the design should be
+considered.
+------------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------------
+5) You are designing an application that allows employees to change their human resources (HR) information, such as next of kin and direct deposit information. The requirements state that the application should talk directly to the HR systems’ database. However, at a recent company meeting, the CFO announced that the company will be converting to a new HR system over the next two years. They will take an additional year to move employees to the new system, one department at a time. How will this affect your design?
+
+A. It won’t; the requirements state that the application should talk directly to the HR systems’ database.
+B. You should ensure your naming convention for the database as clearly as possible so you can rework your data calls with minimal changes.
+C. You should implement the Repository pattern with the current HR system being the first repository that is built. When the 
+second system comes online, you implement that data access using the same pattern.
+D. You should map the model directly to the database calls, anticipating that you will
+have to change the model as the new system rolls out.
+
+Answer:
+C, The Repository pattern gives application designers the proper level of abstraction (a lot of flexibility).
+
+Book answer:
+Correct answer: C
+A. Incorrect: It is the designer’s job to ensure that any known enhancements or future
+changes are accounted for. Although this approach follows the requirements,
+it is not the best long-term solution.
+B. Incorrect: This solution does not provide the proper level of abstraction; it requires
+either a “one or the other” approach to supporting the HR system, or an
+approach in which you have to manage which database you are calling from within
+each data call.
+C. Correct: Using the Repository pattern will give you a level of abstraction into the
+data layer. When you create the second data access component for the new HR
+system, you can then differentiate on a user or departmental level which implementation
+to use.
+D. Incorrect: This solution does not provide the proper level of abstraction; it requires
+either a “one or the other approach” to supporting the HR system, or an
+approach in which you have to manage which database you are calling from within
+each data call.
+------------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------------
+6) You are the new technical architect at a large custom home building firm with offices
+in North America, South America, and Europe. Your firm is expanding, both by
+opening new offices and by buying smaller custom home builders. Although each
+main geographic region stores its own data in its own systems, your CIO wants you
+to build an application that displays information from each region in different widgets
+on a dashboard. She does not want SQL queries run from the corporate office
+where the dashboard will be hosted.
+
+A. You will have to deploy some software in the various regions. What will the
+software do? 
+ 
+You can deploy WCF/WEB Api software to the various regions, the software will   
+run SQL queries on the local databases and create Dashboard information that is needed by the main office.
+When WCF/WEB Api is called by the main office application, it returns information that can then be displayed      
+in the dashboard.  
+
+Book answer:
+Yes, because you cannot query the databases directly, you need to deploy some kind
+of solution that gives you access to the data. This could be a web services wrapper to
+enable you to call the data remotely or an application that will manage aggregating
+the data.
+ 
+B. What are some primary concerns of building an ASP.NET MVC application that
+gathers information from such disparate sources? 
+
+Some primary concerns are: connection latency (delay, Latency is how long it takes data to travel between its source and destination, measured in milliseconds. ),  
+Connection resiliency becomes a point of concern when building a distributed application (connection loss and retry, you need to manage the concept of a retry.). 
+Authorization and access are also complicated because you need to manage access into multiple domains. 
+
+Book answer:
+The primary concerns would be the inability to guarantee responsiveness and the need
+to manage connection issues.
+ 
+C. What is the benefit of adding Windows Azure AppFabric?
+
+A distributed environment can improve availability, reliability, and scalability.
+It allows for better scalability of the application servers.
+Because application servers and data are distributed and redundantly stored
+there is no single point of failure.   
+
+Book answer:
+AppFabric acts as a service bus, so it provides a single point of contact/service connector
+that would manage the calls out to the remote systems by routing the requests to
+the appropriate server.
+------------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------------
+7)You are developing an application. One requirement is that part of your data access
+layer needs to be available to a third party, that wants to get this information from a
+REST URL in XML. Your company does not have experience with web services, but you
+have several websites running ASP.NET MVC 4. How could you design and provide
+these new services? (Choose all that apply.)
+
+A. Task an individual on staff to learn WCF, and have this individual develop and deploy
+these new services using WCF.
+B. Use the Web API to create REST services using ApiController in which the serialization
+type is defined by the Accepts property of the browser.
+C. Build a basic ASP.NET MVC 4 project in which the view simply passes through the
+information provided by the controller, and the controller manages the code for
+serializing the response.
+D. Create an ASP.NET ASMX services file to get, serialize, and return the data.
+
+answer: 
+B) 	The ASP.NET Web API comes with its own controller called ApiController.
+	By decorating a controller with the [ApiController] attribute in Asp Net Core, 
+	it can directly return requested information.    
+A) 	You can also use WCF (SOAP protocol) service to make the data available
+
+book answer:
+Correct answers: B, C
+
+A. Incorrect: Although you would eventually be able to get a WCF REST services, it would not be efficient.
+B. Correct: Using the Web API is a straightforward way to present REST services.
+C. Correct: Using ASP.NET MVC is another way to create a controller that will return XML.
+D. Incorrect: An ASMX web service is SOAP-based, not REST-based.
+------------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------------
+8)How could you traditionally consume an ASMX web service from your application?
+(Choose all that apply.)
+
+A. Generate a proxy by selecting Add Reference In Visual Studio.
+B. Create an HttpService and connect using Get(URL).
+C. Generate a proxy by selecting Add A Service Reference in Visual Studio.
+D. Create a WCF proxy class.
+
+Answer: 
+B	Create an HttpService and connect using Get(URL), you can also use WebClient  
+C	Add connected service in dependecies lets you create client-side code easily using direct Service .asmx URI (If available) 
+	or using the WSDL file (If shared by the vendor or third party).
+
+
+book answer:
+Correct answers: B, C
+A. Incorrect: Selecting Add Reference does not enable you to create a proxy.
+B. Correct: HttpService.Get gets the output of a REST service.
+C. Correct: Visual Studio creates a proxy for you from the WSDL at the site you select.
+D. Incorrect: A WCF proxy class needs endpoints and bindings. REST services do not
+use, nor understand, WCF endpoints and bindings.	
+------------------------------------------------------------------------------------------------------------------------
+ 
+------------------------------------------------------------------------------------------------------------------------
+9)What are examples of hybrid applications using Windows Azure? (Choose all that apply.)
+
+A. An application where the local network hosts the IIS server while the database is
+being run from the corporate IT office
+B. An application where Windows Azure is used to host the IIS process, and Windows
+Azure SQL is used to store the data
+C. An application where the IIS process is run on a local web server, whereas the data
+is stored in Windows Azure SQL
+D. An application where the web part of the application is run on Windows Azure,
+whereas the confidential data is stored in the company’s network
+
+Answer:
+C, D
+A hybrid application is an application that is partially deployed on-premise and partly off-premise.
+Answer: C, D in these cases the application is distributed over multiple premises.
+
+book answer
+Correct answers: C, D
+A. Incorrect: Both the web application and the database storage are being run from
+within the company network. Although this is a distributed design, it is not a hybrid
+application.
+B. Incorrect: Both the web instance and the data repository are using Windows
+Azure technology. This is not a hybrid app; it is a fully deployed Windows Azure
+application.
+C. Correct: Part of the application is being run in the Windows Azure environment;
+the other part is being run in the corporate network environment.
+D. Correct: Part of the application is being run in the Windows Azure environment;
+the other part is being run in the corporate network environment.
+------------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------------
+10) Your company wants to refactor its mission critical line-of-business (LOB) application
+to make it more robust and scalable as well as to increase performance.
+The CIO wants to investigate hosting the item in Windows Azure. Currently, the
+application has a lot of maintenance processes running in the background, such as
+processes to ensure that there is no orphaned data by running queries against the
+database, processes that check website availability with an email sent if a website
+is non-responsive; and a process that counts how many users logged in during the
+previous hour and sends an email to the IT support staff.
+ 
+A. Where in the Windows Azure process would it make the most sense to put the
+orphaned data check? 
+
+You can override the Run method of the RoleEntryPoint to run code for
+the life of the role instance. Because the Run method is void, your override of the Run method
+can run in parallel with the default Run method if desired. You might want to do this if you
+want to have background tasks running throughout the life of your application, such as 
+continuously running queries against the database to ensure that there is no orphaned data.  
+
+public class WorkerRole : RoleEntryPoint
+{
+	public override Run()
+	{
+		try
+		{
+			Trace.WriteLine("WorkerRole entrypoint called", "Information");
+			while (true)
+			{
+				Thread.Sleep(250);
+				CheckForOrphanedData();			
+			}
+			catch (Exception e)
+			{
+				Trace.WriteLine("Exception during Run: " + e.ToString());
+			}
+		}
+	}
+} 
+
+Book answer
+When you need something to run the lifetime of the application, putting it into the
+override of the Run method is the best solution. It enables you to create a timer that
+fires an event every x minutes that you want to run the check.
+
+B. Would it make more sense to put these processes in a Worker role or within the Web role? 
+
+These processes should be put in a web role.  
+Web Sites is a good choice for simple web hosting, and is a good solution for hosting and
+running your ASP.NET MVC 4 applications without the overhead of maintaining a full virtual
+machine. Web Sites enables a scalable experience, with fast deployment and an almost immediate
+startup, and you can upgrade or downgrade this solution quickly and easily as needed.
+
+Book answer
+They both would work. The advantage to putting them in a worker process is that they
+can continue to function if the Web role has stopped for some reason. This is particularly
+useful if there are other non-web ways of getting information into the database,
+and you are still at risk for orphaned data.
+
+C. Assuming that these processes were all C# console programs, do you think it
+would be difficult to migrate them for use in the cloud? Why or why not?
+
+I think it is doable/feasible, you need to check if the resulting website does not have any latency. 
+
+Book answer
+ovided that the processes are console applications, it should be relatively straightforward
+to move them into methods that can be called from within startup process.
+------------------------------------------------------------------------------------------------------------------------
+ 
+------------------------------------------------------------------------------------------------------------------------ 
+11) What occurs if an unhandled error is fired on a startup task?
+
+A. The startup role consumes the error during its load; if there is no event handler configured, it is set to Handled as the task completes.
+B. The startup is cancelled and the role does not start.
+C. The OnStop method automatically runs.
+D. The startup task goes to the lowest security setting and continues to run, if possible.
+
+Answer B  
+
+Book answer
+Correct answer: B
+A. Incorrect: If the startup task fires an unhandled error, the role startup stops in a
+failure. The task will not complete successfully.
+B. Correct: The task will stop processing and return a non-zero value.
+C. Incorrect: The task will stop in error. The OnStop process will not run because the
+role will not get that far.
+D. Incorrect: The task will stop processing. It will not try to continue to run on a
+lower security setting.
+------------------------------------------------------------------------------------------------------------------------ 
+ 
+------------------------------------------------------------------------------------------------------------------------ 
+12) AppCmd.exe is an application that helps you work with which objects? (Choose all that apply.)
+
+A. Site
+B. Users
+C. Config
+D. App
+
+Answer 
+A, C and D
+
+Book Answer
+Correct answers: A, C, D
+A. Correct: AppCmd.exe enables the configuration of virtual sites.
+B. Incorrect: There is no capability to manage users in AppCmd.exe.
+C. Correct: AppCmd.exe supports the administration of general configuration sections.
+D. Correct: AppCmd.exe manages the support of applications.
+------------------------------------------------------------------------------------------------------------------------ 
+
+------------------------------------------------------------------------------------------------------------------------ 
+13) Which of the following are valid reasons for overriding the Run method? (Choose all that apply.)
+
+A. Creating and starting a messaging service that will work in parallel with the Web role to manage queued messages
+B. Creating an always-running service that periodically makes HTTP calls to other websites to determine their availability
+C. Managing error handling for the application
+D. Starting and supporting a logging application for use by the Worker role
+
+Answer
+A, D
+
+Book answer
+Correct answers: A, B, D
+A. Correct: Creating and running an application in parallel is what the Run method
+was designed to allow.
+B. Correct: The polling service is a good example of an activity in which the Run
+method enables a process to work independently of the main role.
+C. Incorrect: The error handling will be managed in the OnError event and will not
+involve the overridden Run method.
+D. Correct: Creating and running an application in parallel is what the Run method
+was designed to allow.
+------------------------------------------------------------------------------------------------------------------------ 
+
+------------------------------------------------------------------------------------------------------------------------
+14) You are an architect for a Fortune 1000 company that wants to create an internal
+task and process management system. The concept of the system is to give visibility
+to daily tasks that are performed throughout the company. Every employee is expected
+to use the system and be diligent about inputting tasks and to manage the
+statuses of the tasks as they move through the process. Your team was instructed
+to design an architecture that would support hundreds of simultaneous users. You
+have been given five physical servers and an old load balancer to run the system.
+You also have several licenses for SQL Server.
+
+A. How would you provision these servers for maximum reliability, safety, and performance?
+
+You can implement a web farm architecture, this means that the five physical servers
+will each host an IIS Webserver that runs the ASP Net Core Website. The loadbalancer
+will direct incoming requests to the Webserver with the least workload.
+Furthermore, data such as tasks and statuses need to be persisted in the SQL database.
+These SQL database (lets assume three SQL database) can be installed on the webservers.
+Alternatively, we could install the SQL databases separately on two of the five physical servers and 
+install three webservers on the other three physical servers. It is important that the
+SQL databases mirror/cluster their data, so in case that one of the SQL databases 
+goes down, the other SQL databases have the same data.
+
+Book answer
+There are many different ways that you could provision the servers. A typical approach
+would be to use two servers for SQL Server, with the data replicated between the
+servers. One of the servers would be the primary SQL server while the other would be
+the secondary, redundant fallback SQL server. Two other machines could be set up as
+a web farm to handle the web requests. A fifth server could be added to the web farm,
+or kept in reserve in case of a failure in either of the server blocks.
+
+B. How would you manage the state in this situation?
+
+Because we have a web farm architecture, the state of each request should be managed
+central in the SQL server (outproc session).   
+
+Book answer
+There does not appear to be any real special cases for state management, so an Out-
+Proc solution in which IIS is configured to use SQL Server to manage sessions should
+be acceptable. This would enable the application to send requests to any server in the
+farm without a loss of state data. Typically, it is best to use the IIS built-in state management
+systems where available because it frees your team from having to write code
+that might be redundant.
+
+C. If two servers shut down at the same time because of hardware issues, and the
+problem took several days to resolve, how would your application be affected?
+
+The web farm be able to handle less requests, it could als be that the latency increases when an 
+incoming request is handled because of the increased workload of the webservers.
+
+Book answer
+It depends on the two servers that were lost. Using at least two servers for the data tier
+and the web tier should give you some contingency for hardware failures because it is
+rare that more than one server goes out at a time. However, if two servers are lost at
+the same time, the only real risk would be some downtime as you roll the fifth server
+in to replace one of the ones that was lost. The only real data loss might be if both
+servers in the database tier were lost, in which case it is likely that there will be some
+data loss. If you lose one in each tier, or even both web servers in the farm, you can
+provision the fifth server as a web server without any loss of data other than in those
+requests that the server was processing as it went down.
+------------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------------
+15)You are designing an ASP.NET MVC 4 application that uses an Oracle database for persistence. What session configuration 
+choices enable you to deploy your application on a web farm? (Choose all that apply.)
+
+A. InProc
+B. SQLServer
+C. StateServer
+D. Custom session provider
+
+B, C and D  Outproc which means a central storage of the session information so that each webserver in the web farm has 
+access to all the avaiable session information.
+
+If your ASP.NET MVC application runs on an Oracle database, there is no built-in support for managing state that is shared by multiple servers. 
+If you want to store the session information in a table in your Oracle database, you need to write a Custom session provider.
+
+Book answer
+Correct answers: C, D
+A. Incorrect: InProc does not support web farms as session items are stored only in
+the individual server’s memory.
+B. Incorrect: SQLServer is not available in the application stack. This means that using
+the default SQLServer state is not possible.
+C. Correct: Using a shared state server across the web farm is an available option.
+Using a state server designates one server to maintain state for all the servers that
+connect to it.
+D. Correct: A custom session provider enables you to maintain state as necessary by
+doing the work in your custom code. It is generally used when you try to use a different
+RDBMS system or when you do not want to use the default session database
+design.
+------------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------------
+16) You are creating an ASP.NET MVC 4 web application that will be accessed by a large number of traditional consumers. 
+If you need to be able to access state information on the client side in JavaScript/jQuery, where can you store it? (Choose all that apply.)
+
+A. localStorage
+B. QueryString
+C. ViewState
+D. Cookies
+
+A, B and D (Not sure of JavaScript/jQuery is able to read the Cookies on the client side, cookies could be for example encrypted.)
+
+Book answer
+Correct answers: B, D
+A. Incorrect: localStorage is HTML5 and is not available in all browsers.
+B. Correct: Query string information is available across all browsers and is usable on
+both the client and server.
+C. Incorrect: Although ViewState is available in a form field on the page, it is encrypted
+and cannot be used on the client side. It is also not used by many ASP.NET
+MVC 4 constructs.
+D. Correct: Cookies can be stored for a period of time on the client and be read from
+either client- or server-side operations.
+------------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------------
+17) As you design a sessionless state management system, what do you need to ensure that your application manages? (Choose all that apply.)
+
+A. Access to the state management system, whether it is a database, a web service, or other type of system
+B. The HTTP headers
+C. The session setting within the Web.config file
+D. An identifier used by the server to identify the request
+
+D
+
+Book answer
+Correct answers: A, D
+A. Correct: Your application needs to manage whatever information might be required
+to access the state management system.
+B. Incorrect: The HTTP headers are usually not used as part of state management.
+C. Incorrect: Because your application is sessionless, there is no need to manage session
+in the Web.config file.
+D. Correct: Your application needs to manage the passing of the identifier between
+requests.
+------------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------------
+18)You are working at a company that has a custom inventory management system
+that has been used for years. Company personnel recently completed an overhaul
+of the web-based application that provides access into the system. Although they
+are comfortable with the look, feel, and usability of the application, they are unhappy
+with the performance, even after updating all their users to the most recent
+hardware equipment and software. They find that every interaction with the server
+is taking seconds. At times, this renders the application almost unusable. When you
+look into the application, you see that all the models in the MVC structure do calls
+into the database whenever they need data, even down to the level of the user’s
+name, shift, and building, which are calls into different tables and displayed on
+every page the user visits.
+
+A. As you look into the system more carefully, you see 15 calls into the database for
+every time a page is rendered that is strictly to provide basically static information
+to the page. How could you use caching to improve this?
+
+Data caching is an important form of caching that can decrease the load on your database and increase application responsiveness.
+Static queries, in which the data is unlikely to change often, are excellent candidates for implementing data caching.
+Introducing a caching layer on top of the persistence layer, can improve performance if your application requeries the same data.
+If the same Data is accessed multiple time within a small timeframe (5 minutes),
+you can cache the data in memory that is requested. If the data requested is
+static for a long time (such as user’s name, shift, and building data), you can
+cach data in memory for a longer time (One day, week), set expiration period for longer time.      
+
+Book answer
+There are several ways that caching could help this process. The first is to get the information
+from the database and store it in localStorage. That way you never need to call
+the server again unless the client realizes it does not have the information any more.
+You could also use donut caching or donut hole caching, whichever is more appropriate,
+to cache that area of the page where the information doesn’t change. If you assign
+a duration of 30 minutes, you decrease a lot of redundant database calls.
+
+B. After you have eliminated the redundant calls, you see that the application
+makes calls into the database for every request to get supporting information
+such as colors, product sizes, and box sizes. The application gets the complete
+list from the database every time and then gets the necessary size, color, and so
+on from that longer listing. How could caching be used to help this process?
+
+You can cache the supporting information Query result, the cached supporting information can 
+then be queried to retrieve the necessary size, color, and so on from the cached information.
+
+Book answer
+Because the list of colors, sizes, and so on is the same for all users, you could store this
+information in a data cache layer in which the system will make only one call into the
+database every x minutes and will make that same set of returned information available
+to all users of the system. This gives you an immediate performance gain across all
+users.
+------------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------------
+19) You are designing a work order management application for a mid-size repair company. The application will be used by repair personnel in the field on their laptops with wireless phone connections. The connections are slow, and the laptops are several years out of date. There will never be more than 15 users at any one time, and rarely more than 2 concurrent users. What kind of caching will give the repair personnel a better user experience? (Choose all that apply.)
+
+A. Page output caching
+B. Application caching
+C. Data caching
+D. HTTP caching
+
+B (If you store assets (such as css, js , pics) on the client, Application caching can lower the amount of data that you need to download each time.)
+D Using HTTP caching the server can detect whether any changes need to be returned, to the client.
+
+Book answer
+Correct answers: A, D
+
+A. Correct: Page output caching will cache content at the client side to eliminate
+some of the required downloads. It is useful in a limited bandwidth environment. It
+can also be used in donut hole and donut caching scenarios for partial client-side
+caching.
+B. Incorrect: Application caching is an HTML5 feature, and it is unlikely that the older
+laptops will be able to support the feature.
+C. Incorrect: Data caching might decrease some server time, but with the limited
+number of users, it is unlikely that the data access would be an issue.
+D. Correct: HTTP caching will help response time even though there is not much a
+developer needs to do to implement the caching.
+------------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------------
+20) You are creating a solution in which the majority of the application is dynamic, but some areas can be cached for a long time. What kind of approach would you take? (Choose all that apply.)
+
+A. Data caching
+B. Donut hole caching
+C. Donut caching
+D. Windows AppFabric caching
+
+B, C The static parts of the view can be cached (by using a PartialView or View Component).
+
+Book answer
+Correct answers: B, C
+A. Incorrect: Although data caching can add some support in a highly dynamic situation,
+it does not support the capability to have long-term caching.
+B. Correct: Donut hole caching provides the ability to cache parts of each page.
+C. Correct: Donut caching is another approach that gives the ability to cache parts of
+the application.
+D. Incorrect: AppFabric caching would provide some support in a highly dynamic
+situation, but it does not suit the need to store some of the page output.
+------------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------------
+21) You are adding a reporting vertical to an enterprise application. Many of the reports will be run every morning by a set of users. Some of the reports will be identical as every member of a team will get the same report sometime in the morning. What kind of caching will provide an improvement in performance? (Choose all that apply.)
+
+A. Data caching
+B. Page output caching with a duration of two minutes
+C. Page output caching with a duration of four hours
+D. Windows AppFabric caching
+
+C, A (If the same data is requested from the database multiple times.)
+
+Book answer
+Correct answers: A, C, D
+A. Correct: Data caching with the appropriate timeout will enable the data needed
+for the reports to be stored so that the call to the database is not necessary.
+B. Incorrect: Although a page output caching would be useful, the short time
+frame of two minutes means that the cache will likely expire before the next user
+requests the page.
+C. Correct: A page output caching of four hours caches the output of the report
+for the whole morning and should eliminate the need for the report to be run a
+second time.
+D. Correct: AppFabric caching acts much like data caching to eliminate the need for
+additional calls to the database to generate the reports.
+------------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------------
+22)You are a consultant hired by an insurance and financial services firm, to create an
+online system for employees to get breaking financial news as well as to communicate
+with each other. The company already has a news tracking system that stores
+relevant news articles and sends an email with the content of the articles to some
+of the fund managers. The company wants to include this information as well as an
+instant messenger application and create a simple site for communications for all
+employees.
+
+A. Although HTML5 WebSockets appears to be a natural fit to fulfill these requirements,
+what kind of issues could you run into?
+
+Although these days most browsers support HTML5 Websockets, it could be that some dont.
+Furthermore, firewalls could block Websockets data traffic because the traffic does
+not contain HTTP header information.       
+
+Book answer
+The most common set of issues you would encounter when creating a solution that
+includes WebSockets is the nonuniversal support for HTML5. It is possible aspects of
+the company’s business still run on non-HTML5-compliant browsers. Other issues you
+could encounter include proxy servers, firewall filters, and other security systems that
+might look at nontraditional HTML communications as a threat.
+
+B. There appear to be two different communications processes going on. Would
+you use a different socket connection for each one or share the same connection?
+Explain your answer.
+
+There are two different communications processes going on.
+1) Financial news provider.
+2) Messenger application so that employees can communicate with each other.
+
+I would use two different socket connection because the functionality of the
+two services is different, therefore they need to be handled differently on the
+server.    
+
+Book answer
+When following a traditional SoC route, the design should manage each different type
+of communication separately, even though it might be on the same page. This would
+give them the opportunity to change independently of each other, perhaps by moving
+to a different server or even starting to take the news feed from a third-party service
+directly.
+
+C. What kind of server-side services do you have to create?
+
+A service that sends news information to the clients. 
+A Messenger service that allows different employees to communicate with each other.  
+
+Book answer
+You need to create the server-side application that will be notified of news articles
+and send the information to the users. You also need to create a server-side application
+that will manage the instant messaging part of the application. Theoretically they
+could be the same application, but it would be prudent to design them in such a way
+that they could scale separately and independently.
+------------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------------
+23) What is the technique in which the client sends a request to the server, and the server holds the response until it either times out or has information to send to the client is?
+
+A. HTTP polling
+B. HTTP long polling
+C. WebSockets
+D. HTTP request-response
+
+B You send a request and wait until you receive an answer or timeout.
+
+Book answer
+Correct answer: B
+A. Incorrect: In HTTP polling, the client sends a request to the server, and as soon as
+the response is returned, it sends a new request.
+B. Correct: In HTTP long polling, the client sends a request to the server, and the
+server holds it open until it either has something to return to the client or the connection
+times out.
+C. Incorrect: WebSockets are a way for two-way communication between the client
+and the server. The server does not hold onto the response.
+D. Incorrect: The request-response path is a traditional HTTP connection.
+------------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------------
+24) You are building an application in which you want to display updated information to a website every 15 minutes. What are efficient ways to manage the update? (Choose all that apply.)
+
+A. WebSockets
+B. HTTP polling with 1-minute intervals
+C. HTTP long polling
+D. HTTP polling with 15-minute intervals 
+
+A, D (When polling goes out of sync, in worse case you would get information that is 15 minutes old.) 
+
+Book answer
+Correct answers: A, D
+A. Correct: WebSockets can be used to pass information between the client and
+server.
+B. Incorrect: HTTP polling can provide the need, but the 1-minute refresh interval
+would not be efficient.
+C. Incorrect: HTTP long polling is not a valid strategy. The typical timeout on a
+single request is less than 15 minutes, and chaining multiple requests to get the
+15-minute timespan is resource intensive.
+D. Correct: HTTP polling with 15-minute intervals is a valid way to get the information
+within the required time frame.
+------------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------------
+25)What is the first request sent to start HTTP polling?
+
+A. HTTP DELETE
+B. HTTP GET
+C. HTTP CONNECT
+D. Upgrade request 
+
+In client-server protocols, like HTTP, sessions consist of three phases:
+
+-The client establishes a TCP connection (or the appropriate connection if the transport layer is not TCP).
+-The client sends its request, and waits for the answer.
+-The server processes the request, sending back its answer, providing a status code and appropriate data.
+
+As of HTTP/1.1, the connection is no longer closed after completing the third phase, and the client is now granted a further request: this means the second and third phases can now be performed any number of times.
+
+The TCP layer sets up a connection not the HTTP layer.
+
+B HTTP GET is the first request sent to start HTTP polling. 
+
+Book answer
+Correct answer: B
+A. Incorrect: HTTP DELETE is not used to start the WebSocket connection; it is instead
+used to perform a delete on a discrete item.
+B. Correct: The first request to open a WebSocket connection is a standard HTTP
+GET. After the request is received, the browser sends a separate upgrade request.
+C. Incorrect: HTTP CONNECT converts the request connection to a transparent TCP/
+IP tunnel.
+D. Incorrect: The upgrade request is sent after the server has responded to an HTTP
+GET request.
+------------------------------------------------------------------------------------------------------------------------
+
+

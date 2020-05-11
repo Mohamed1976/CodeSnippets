@@ -1,0 +1,122 @@
+﻿@model IEnumerable<Book>
+@{
+    ViewData["Title"] = "Index";
+    Book firstBook = Model.ToList().FirstOrDefault();
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Genre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PublishDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Genre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PublishDate)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+
+@*
+    <label asp-for="@firstBook.Id"></label>
+    The asp-for attribute extracts the name of the specified model property into the rendered HTML.
+    So let’s see how to render a label with the name of the Title property:
+
+    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+    For For creating action links, we can use the asp-action attribute and for passing parameters,
+    we can use asp-route-{parametername} format. So in this case, for id parameter we use asp-route-id:
+*@
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <label asp-for="@firstBook.Id"></label>
+            </th>
+            <th>
+                <label asp-for="@firstBook.Title"></label>
+            </th>
+            <th>
+                <label asp-for="@firstBook.Genre"></label>
+            </th>
+            <th>
+                <label asp-for="@firstBook.Price"></label>
+            </th>
+            <th>
+                <label asp-for="@firstBook.PublishDate"></label>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <label>@item.Id</label>
+                </td>
+                <td>
+                    <label>@item.Title</label>
+                </td>
+                <td>
+                    <label>@item.Genre</label>
+                </td>
+                <td>
+                    <label>@item.Price</label>
+                </td>
+                <td>
+                    <label>@item.PublishDate</label>
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

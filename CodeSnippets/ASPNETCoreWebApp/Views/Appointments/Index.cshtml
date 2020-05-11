@@ -1,0 +1,113 @@
+﻿@model IEnumerable<ASPNETCoreWebApp.Models.Appointment>
+@*@{
+
+        Is set in the action method
+        ViewData["Title"] = "Index";
+    }*@
+
+<h1>Index page Appointments</h1>
+
+<p>
+    <a asp-action="Create">Create new Appointment</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AppointmentDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AppointmentDate)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<hr>
+<h2>Data from API</h2>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        Test Data from API
+    </div>   <!--en dof panel-heading -->
+    <div class="panel-body">
+        <table class="table table-bordered" id="Table">
+            <tr>
+                <th>Regd No</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Phone No</th>
+                <th>Admission Date</th>
+            </tr>   <!--end of table-row -->
+        </table>   <!--end of table -->
+    </div> <!--end of Panel-body -->
+</div> <!--end of Panel -->
+<hr />
+
+
+
+
+@*
+    https://www.c-sharpcorner.com/article/call-web-api-using-jquery-ajax-in-asp-net-core/
+    Note the order in which scripts are declared matters.
+    If we dont declare jquery.min.js below, we get the following error
+    Uncaught ReferenceError: $ is not defined
+    $(document).ready(function () {
+*@
+<script src="/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "/api/Patients",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                //alert(JSON.stringify(data));
+                $("#DIV").html('');
+                var DIV = '';
+                $.each(data, function (i, item) {
+                    var rows = "<tr>" +
+                        "<td id='RegdNo'>" + item.regNo + "</td>" +
+                        "<td id='Name'>" + item.name + "</td>" +
+                        "<td id='Address'>" + item.address + "</td>" +
+                        "<td id='PhoneNo'>" + item.phoneNo + "</td>" +
+                        "<td id='AdmissionDate'>" + Date(item.admissionDate,
+                            "dd-MM-yyyy") + "</td>" +
+                        "</tr>";
+                    $('#Table').append(rows);
+                }); //End of foreach Loop
+                console.log(data);
+            }, //End of AJAX Success function
+
+            failure: function (data) {
+                alert(data.responseText);
+            }, //End of AJAX failure function
+            error: function (data) {
+                alert(data.responseText);
+            } //End of AJAX error function
+
+        });
+    });
+</script>
+
+

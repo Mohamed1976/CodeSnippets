@@ -3,6 +3,38 @@ UDP (User Datagram Protocol)
 HTTP (HyperText Transport Protocol)
 HTML (HyperText Markup Language)
 ASP (Active Server Pages)
-REST (REpresentational State Transfer) architecture
-JSON (Java Object Notation)
+REST  Representational State Transfer
+JSON (JavaScript Object Notation)
 XML (extensible markup language)
+SoC: separation of concern N-tier development is an example of SoC in which the user interface
+	(UI) is separated from both the business layer and the data access layer.
+	A term closely associated with SoC is loose coupling (limit the amount of interdependencies between various parts of a system).
+MVC: Model-View-Controller 
+ORM: object relational mapper (for example Entity Framework, NHibernate)
+RDBMS relational database management system 
+POCO: plain old CLR object
+Loose coupling: is an architectural approach in which the designer seeks to limit the amount of interdependencies between various
+	parts of a system. By reducing interdependencies, changes to one area of an application are
+	less likely to affect another area. Also, by eliminating interdependencies, you ensure that your
+	application is more maintainable, testable, and flexible, which tends to result in a more stable system.
+CSS Cascading Style Sheets.	
+UI	user interface
+WAI-ARIA Web Accessibility Initiative-Accessible Rich Internet Applications	
+	With the advent of jQuery libraries and AJAX, more and more content is
+	hidden behind JavaScript, not rendered in HTML. Web Accessibility Initiative-Accessible Rich
+	Internet Applications (WAI-ARIA) is a set of descriptions on how to make active content more accessible.
+URL Uniform Resource Locator
+CDN content delivery network
+UX	User Experience
+SEO Search engine optimization, is the process of making a website rank high on the list of unpaid search results.
+NPM Note Package Manager (npm Configuration File in VS2019, package.json file) you can define client libraries such as jquery, bootstrap  
+PaaS Platform as a Service. With PaaS, cloud providers deliver a computing platform, typically including an operating
+	system, a programming language execution environment, a database, and a web server.
+IaaS Infrastructure as a Service, IaaS offers virtual machines.
+SaaS Software as a Service
+JIT just-in-time
+ASMX ASP.NET Web Services is an older Microsoft technology that enables a developer
+	 to quickly roll out a Simple Object Access Protocol (SOAP)–based web service.	
+SOAP Simple Object Access Protocol	
+WSDL Web Services Description Language
+SOA service-oriented architecture

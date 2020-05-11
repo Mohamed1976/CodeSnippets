@@ -1,0 +1,15 @@
+﻿@model ASPNETCoreWebApp.Data.Entities.Product
+
+<div class="col-md-3">
+    <div class="border bg-light rounded p-1">
+        <img src="~/img/@(Model.ArtId).jpg" class="img-fluid" alt="@Model.Title" />
+        <h3>@Model.Category - @Model.Size</h3>
+        <ul>
+            <li>Price: $@Model.Price</li>
+            <li>Artist: @Model.Artist</li>
+            <li>Title: @Model.Title</li>
+            <li>Description: @Model.ArtDescription</li>
+        </ul>
+        <button id="buyButton" class="btn btn-success">Buy</button>
+    </div>
+</div>

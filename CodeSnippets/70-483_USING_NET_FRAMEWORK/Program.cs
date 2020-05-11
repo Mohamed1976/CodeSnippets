@@ -13,6 +13,21 @@ namespace _70_483_USING_NET_FRAMEWORK
         {
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
 
+            #region [ Linq Exercises ]
+
+            try
+            {
+                LinqExercises linqExercises = new LinqExercises();
+                //linqExercises.Run();
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception occured in LinqExercises.Run: {0}", ex.Message);
+                throw;
+            }
+            #endregion
+
             #region [ General Exercises ]
 
             try

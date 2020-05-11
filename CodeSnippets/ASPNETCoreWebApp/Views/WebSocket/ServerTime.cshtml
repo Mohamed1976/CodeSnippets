@@ -1,0 +1,31 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<h1>@ViewBag.Message</h1>
+
+<!-- TODO, Note jquery.min.js is also declared in Layout page -->
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript">
+    setInterval(function () {
+        $.ajax({
+            url: '@Url.Action("Time", "WebSocket")',
+            type: "GET",
+            success: function (result) {
+                console.log("Ajax get of PartialView");
+                console.log(result);
+                $("#partialView").html(result);
+                //partialView.html(data);                 
+                //alert(result)
+            },
+            error: function (result) { alert("Problem Occured"); },
+        });
+    }, 3000);
+</script>
+
+<div id="partialView">
+</div>
+

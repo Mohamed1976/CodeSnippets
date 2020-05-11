@@ -1,0 +1,60 @@
+﻿@model ASPNETWebApp.Models.User
+
+@{
+    ViewBag.Title = "RegisterUser";
+}
+
+<h2>Register User</h2>
+
+@*
+    How to get data from an HTML form to your ASP.NET MVC Core Controller
+    #1 The manual way (using plain old HTML forms)
+    For the value of the input to be submitted as form data, it needs to have a name attribute.
+    With the name attribute in place, ASP.NET MVC spots the incoming “firstName” value
+    (in the submitted form data) and binds it to the firstName parameter we specified in
+    the Index (POST) method on our controller.
+    https://jonhilton.net/2017/08/17/how-to-get-data-from-an-html-form-to-your-asp.net-mvc-core-controller/
+
+*@
+<form method="POST">
+    <label for="firstName">Your first name</label>
+    <input type="text" id="firstName" placeholder="Your name goes here" name="firstName" />
+    <label for="lastName">Your last name</label>
+    <input type="text" id="lastName" placeholder="Your name goes here" name="lastName" />
+    <input type="submit" />
+</form>
+
+<br />
+
+@*
+            First we’ve explicitly defined the action and controller that this form will post back to,
+            using asp-action and asp-controller. This isn’t strictly necessary, but it doesn’t hurt
+            to be explicit, just in case we start moving things around, the form will continue to
+            post to the correct controller action. Secondly, because this page now knows about its
+            model, we can use the asp-for tag helper on our input and label elements, specifying
+            the relevant property name from our model.
+
+
+        <form asp-action="RegisterUser" asp-controller="Document" method="POST">
+            <label asp-for="FirstName"></label>
+            <input asp-for="FirstName" placeholder="Your name goes here" />
+            <label asp-for="LastName"></label>
+            <input asp-for="LastName" placeholder="Your name goes here" />
+            <input type="submit" />
+        </form>
+
+
+    <form asp-action="RegisterUser" method="post">
+        <div class="form-group">
+            <label asp-for="FirstName" class="control-label"></label>
+            <input asp-for="FirstName" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="LastName" class="control-label"></label>
+            <input asp-for="LastName" class="form-control" />
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
+    </form>
+*@

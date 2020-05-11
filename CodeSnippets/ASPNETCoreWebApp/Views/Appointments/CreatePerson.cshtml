@@ -1,0 +1,61 @@
+﻿
+@*@{
+    ViewData["Title"] = "CreatePerson";
+}*@
+
+<h1>CreatePerson</h1>
+
+<form asp-action="DisplayPerson" method="post">
+    <table>
+        <tr>
+            <td>First Name: </td>
+            <td><input type="text" id="txtFirstName" name="FirstName" /></td>
+        </tr>
+        <tr>
+            <td>Last Name: </td>
+            <td><input type="text" id="txtLastName" name="LastName" /></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Submit" /></td>
+        </tr>
+    </table>
+</form>
+<br />
+<hr />
+
+<form asp-action="DisplayPerson" method="post">
+<table>
+    <tr>
+        <td>First Name: </td>
+        <td>@Html.TextBox("FirstName")</td>
+    </tr>
+    <tr>
+        <td>Last Name: </td>
+        <td>@Html.TextBox("LastName")</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td><input type="submit" value="Submit" /></td>
+    </tr>
+</table>
+</form>
+<br/>
+<hr />
+
+<form asp-action="DisplayPersonFromModel" method="post">
+    <table>
+        <tr>
+            <td>First Name: </td>
+            <td>@Html.TextBox("HomeAddress.City")</td>
+        </tr>
+        <tr>
+            <td>Last Name: </td>
+            <td>@Html.TextBox("HomeAddress.Country")</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Submit" /></td>
+        </tr>
+    </table>
+</form>

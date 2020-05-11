@@ -1,0 +1,116 @@
+﻿@model Book
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Book</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            <label asp-for="Title"></label>
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Title
+        </dd>
+        <dt class="col-sm-2">
+            <label asp-for="Genre"></label>
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Genre
+        </dd>
+        <dt class="col-sm-2">
+            <label asp-for="Price"></label>
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Price.ToString("C")
+        </dd>
+        <dt class="col-sm-2">
+            <label asp-for="PublishDate"></label>
+        </dt>
+        <dd class="col-sm-10">
+            @Model.PublishDate.ToShortDateString()
+        </dd>
+    </dl>
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>|
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+
+<br />
+
+
+<div>
+    <h4>Student</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Genre)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Genre)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PublishDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PublishDate)
+        </dd>
+    </dl>
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@*
+    Add this partial view into the book details view using the partial tag helper:
+    By default, you can automatically access the same ViewData in your Partial View
+    as in the parent View, but as illustrated by the example above, you are of course free to pass in new data.
+
+    For example pass Address object of current
+    @Html.Partial("_Address.cshtml", Model.Address)
+
+    @for (int i = 0; i < 3; i++)
+    {
+        @await Html.PartialAsync("_Greeting", Model, new ViewDataDictionary(ViewData) { { "index", i } })
+    }
+
+    Render partial View
+    <partial name="_Authors" />
+    @Html.Partial("_Authors")
+
+    @{
+      Html.RenderPartial("_HeaderNavBar");
+    }
+*@
+<br />
+
+<div>
+    @await Html.PartialAsync("_Authors", Model,
+    new ViewDataDictionary(ViewData)
+    {
+        { "Name", "John Beers" },
+        { "Phones", new List<string> { "Lumia 950", "iPhone 6S", "Samsung Galaxy s 6", "LG G 4" }}
+    })
+</div>
