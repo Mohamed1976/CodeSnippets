@@ -1,0 +1,27 @@
+﻿@model IEnumerable<ASPNETCoreWebApp.Models.BankAccount>
+@{ 
+    ASPNETCoreWebApp.Helpers.CustomEncryptor custEncryptor =
+        new ASPNETCoreWebApp.Helpers.CustomEncryptor();
+}
+
+<h2>GetAccounts</h2>
+
+<table>
+    <tr>
+        <th>Account Name</th>
+        <th>Balance</th>
+    </tr>
+    @foreach(BankAccount bankAccount in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => bankAccount.AccountName)</td>
+            <td>@Html.DisplayFor(modelItem => bankAccount.Balance)</td>
+            <td>@Html.ActionLink("Edit",
+                "EditAccount",
+                "BankAccount",
+                new { maskedAccountNum = custEncryptor.Encrypt(bankAccount.AccountNumber) })
+            </td>
+        </tr>
+    }
+
+</table>

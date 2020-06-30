@@ -1,0 +1,8 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model ASPNETCoreWebApp.Models.LogModel
+@(Convert.ToInt32(Model.Time.TotalMinutes / Model.Distance)) Min/km
+@(Convert.ToInt32(Model.Time.TotalSeconds % 60 / Model.Distance)) Seconds/km

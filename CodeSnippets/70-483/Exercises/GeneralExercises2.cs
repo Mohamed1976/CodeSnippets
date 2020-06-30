@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Collections;
 using CalculatorService;
 using PersonLookupService;
+using System.Security.Cryptography;
 
 namespace _70_483.Exercises
 {
@@ -16,8 +17,75 @@ namespace _70_483.Exercises
         {
         }
 
+        public string FileHash(string filename, string hashAlgorithm)
+        {
+            HashAlgorithm hashAlgorithm1 = HashAlgorithm.Create(hashAlgorithm);
+            byte[] content = File.ReadAllBytes(filename);
+            byte[] hash = hashAlgorithm1.ComputeHash(content);
+            return BitConverter.ToString(hash).Replace("-", "");
+        }
+
+        // https://docs.microsoft.com/en-us/dotnet/api/system.io.directory.getfiles?view=netcore-3.1
+        // Compares all files in the sourceDirectory, 
+        // Checks if file is duplicate, if so moves it to the targetDirectory
+        public void ProcessDirectory(string[] sourceDirectories, string targetDirectory)
+        {
+            const string hashAlgorithm = "SHA256";
+            Dictionary<string, string> files = new Dictionary<string, string>();
+
+            foreach (string sourceDirectory in sourceDirectories)
+            {
+                // Make a reference to a directory.
+                DirectoryInfo di = new DirectoryInfo(sourceDirectory);
+                FileInfo[] fileEntries = di.GetFiles();
+                // Process the list of files found in the directory.
+                foreach (FileInfo fileName in fileEntries)
+                {
+                    string hash = FileHash(fileName.FullName, hashAlgorithm);
+                    if (files.ContainsKey(hash))
+                    { //Duplicate file move to targetDirectory  
+                        FileInfo sourceFile = new FileInfo(files[hash]);
+                        Console.WriteLine($"Duplicate file found:");
+                        Console.WriteLine($"\tSource: {sourceFile.Name}, size: {sourceFile.Length}");
+                        Console.WriteLine($"\tDuplicate: {fileName.Name}, size: {fileName.Length}");
+                        string destination = Path.Combine(targetDirectory, fileName.Name);
+                        //Check if file already exists
+                        if(File.Exists(destination)) //Create unique name
+                        {
+                            destination = Path.Combine(targetDirectory, Path.GetRandomFileName() + "_" + fileName.Name);
+                        }
+                        Console.WriteLine($"\tMoved to: {destination}");                        
+                        fileName.MoveTo(destination);
+                    }
+                    else // Unique file, add hash and path to dictionary
+                    {
+                        files.Add(hash, fileName.FullName);
+                    }
+                }
+            }
+        }
+        
+        private readonly string[] sourceDirectory =
+        {
+            @"C:\Users\moham\Desktop\70-486\Exercises",
+            @"C:\Users\moham\Desktop\70-486\Duplicate1",
+            @"C:\Users\moham\Desktop\70-486\Duplicates",
+        };
+
+        private const string targetDirectory = @"C:\Users\moham\Desktop\70-486\Remove";
+
         public async Task Run()
         {
+
+            Console.WriteLine("public async Task Run() @Work.");
+            return;
+            //--------------------------------------------------------------------------------------------------
+            // Check for duplicate files in folder, if so move them to the remove directory  
+            // Check if files have the same content is done using hash function
+            //--------------------------------------------------------------------------------------------------
+            ProcessDirectory(sourceDirectory, targetDirectory);
+            Console.WriteLine("Finished processing files.");
+
             //--------------------------------------------------------------------------------------------------
             // Consuming ASMX Web Services in ASP.NET Core
             // https://github.com/dotnet/wcf/blob/master/release-notes/WCF-Web-Service-Reference-notes.md
@@ -37,8 +105,7 @@ namespace _70_483.Exercises
             Console.WriteLine($"Name: {person1.Name}");
             Console.WriteLine($"City: {person1.Home.City}");
             Console.WriteLine($"Street: {person1.Home.Street}");
-
-            return;
+            
             List<Teacher> persons = new List<Teacher>()
             {
                 new Teacher("David"),

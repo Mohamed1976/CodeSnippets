@@ -22,6 +22,11 @@ Layouts help in reducing duplicate code in views.
         https://stackoverflow.com/questions/57275813/font-awesome-icons-not-showing-up-in-asp-net-core-mvc-project
     *@
     <link rel="stylesheet" href="~/css/site.css" />
+
+    @*https://stackoverflow.com/questions/5021552/how-to-reference-a-css-file-on-a-razor-view
+    How to render styles in core is different from asp 
+    @Styles.Render("~/styles/myStylesheet.css")*@
+
 </head>
 <body>
     <header>
@@ -47,7 +52,13 @@ Layouts help in reducing duplicate code in views.
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
                         </li>
-                        @await Component.InvokeAsync("CategoryMenu")
+
+                        <li class="nav-item">
+                            @await Component.InvokeAsync("CategoryMenu")
+                        </li>
+                        <li class="nav-item">
+                            @await Html.PartialAsync("_LoginPartial")
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -63,6 +74,7 @@ Layouts help in reducing duplicate code in views.
         <div class="container">
             &copy; 2020 - ASPNETCoreWebApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
+
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

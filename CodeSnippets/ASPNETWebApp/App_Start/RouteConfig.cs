@@ -37,6 +37,29 @@ namespace ASPNETWebApp
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            //https://stackoverflow.com/questions/47887384/routeprefix-does-not-work-asp-net-mvc
+            //Needed for ProductController 
+            routes.MapMvcAttributeRoutes();
+
+            const string DefaultName = "United Colors Of Benetton";
+
+            //You need to update the routes to ensure that a Article is always displayed on the Article page.
+            //So if you choose localhost/article, you would see the default productName 
+            routes.MapRoute(
+                name: "Article",
+                url: "Article/{action}/{productName}",
+                defaults: new { controller = "Article", action = "Show", productName = DefaultName });
+
+            //The GetBagel action is the only action that should be accessed via a URL pattern. 
+            //Routes to the other actions in the controller must be suppressed.
+            routes.MapRoute(
+                name: "Bagels",
+                url: "Bagel/GetBagel/{bagelName}",
+                defaults: new { controller = "Bagel", action = "GetBagel" }
+            );
+
+            routes.IgnoreRoute("Bagel/{*pathInfo}");
+
             //An Ignore should always be added to the route collection before any routes are identified, 
             //or it is possible your Ignore will not be reached because the route handler has already 
             //matched the URL and made the call to the action.However, because Ignores are generally 

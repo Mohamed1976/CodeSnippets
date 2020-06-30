@@ -16,6 +16,14 @@ namespace ASPNETCoreWebApp.Models
 {
     public class RegisterViewModel
     {
+        [Required(ErrorMessage = "The First Name field is required.")]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required(ErrorMessage = "The Last Name field is required.")]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
         [Required(ErrorMessage = "The Email field is required.")]
         [EmailAddress(ErrorMessage = "The Email field is not a valid email address.")]
         [Display(Name = "Email")]

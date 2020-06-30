@@ -1,3 +1,18 @@
+#You can use the aspnet_regiis.exe tool with the provider encryption (–pe) command 
+#option to encrypt sections of the Web.config file, as follows:
+
+aspnet_regiis -pe "ConnectionStrings" -app "/MachineDPAPI" -prov "RsaProtectedConfigurationProvider"
+
+#In this command, -pe indicates which configuration section to encrypt, -app indicates the virtual path 
+#to the application that will be using the config file, and -prov is the name of the provider.
+
+If you need to decrypt the configuration file, you can use the aspnet_regiis program that you used to encrypt the values. 
+Use the -pd command rather than the -pe command, as follows:
+
+aspnet_regiis -pd "ConnectionStrings" -app "/MachineDPAPI" -prov "RsaProtectedConfigurationProvider"
+
+You do not need to specify the protected configuration provider because that is known from the Web.config file.
+
 #Signing an assembly can be done both at the command line and by using Visual Studio.
 #The first step you have to take is to generate a key pair. A key pair is usually a file with an .snk
 #extension that contains your public/private key information.

@@ -1,0 +1,50 @@
+﻿@model List<ASPNETCoreWebApp.Models.LogModel>
+<h2>View Runs</h2>
+<table>
+    <tr>
+        <th>Id </th>
+        <th>Date </th>
+        <th>Distance </th>
+        <th>Duration </th>
+        <th>Avg Mile Pace</th>
+    </tr>
+    @foreach (ASPNETCoreWebApp.Models.LogModel log in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(model => log.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(model => log.ShortDate)
+            </td>
+            <td>
+                @Html.DisplayFor(model => log.Distance) miles and @log.Distance miles
+            </td>
+            <td>
+                @Html.DisplayFor(model => log.Time)
+            </td>
+            <td>
+                @{
+                    await Html.RenderPartialAsync("_CalculatePacePartial", log);
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditLog", new { id = log.Id })
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "DeleteLog", new { id = log.Id })
+            </td>
+        </tr>
+    }
+</table>
+
+<canvas id="myCanvas">London 2012 from Canvas</canvas>
+
+<script type="text/javascript">
+                var c = document.getElementById("myCanvas");
+                var ctx = c.getContext("2d");
+                ctx.font = "30px Arial";
+                ctx.strokeStyle = "gray";
+                ctx.lineWidth = 3;
+                ctx.strokeText("London 2012", 80, 30);
+</script>

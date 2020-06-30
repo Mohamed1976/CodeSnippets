@@ -122,15 +122,20 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Dashboard\Controllers\HomeController.cs" />
     <Compile Include="Areas\Dashboard\DashboardAreaRegistration.cs" />
+    <Compile Include="Controllers\ArticleController.cs" />
     <Compile Include="Controllers\ArtistController.cs" />
+    <Compile Include="Controllers\BagelController.cs" />
     <Compile Include="Controllers\BlogController.cs" />
     <Compile Include="Controllers\DocumentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\BankAccountManager.cs" />
     <Compile Include="Models\Artist.cs" />
     <Compile Include="Models\Car.cs" />
+    <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\File.cs" />
     <Compile Include="Models\StorageFolder.cs" />
     <Compile Include="Models\User.cs" />
@@ -184,6 +189,13 @@
     <Content Include="Views\Document\EmpList.cshtml" />
     <Content Include="Views\Document\ListCars.cshtml" />
     <Content Include="Views\Document\RegisterUser.cshtml" />
+    <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\Product\GetProducts.cshtml" />
+    <Content Include="Views\Article\Index.cshtml" />
+    <Content Include="Views\Article\Show.cshtml" />
+    <Content Include="Views\Bagel\Index.cshtml" />
+    <Content Include="Views\Bagel\GetBagel.cshtml" />
+    <Content Include="Views\Home\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

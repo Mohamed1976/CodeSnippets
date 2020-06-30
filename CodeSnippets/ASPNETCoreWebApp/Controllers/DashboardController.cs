@@ -85,6 +85,14 @@ namespace ASPNETCoreWebApp.Controllers
 
             Trace.WriteLine($"download fileName: {fileName}");
 
+            string AcceptEncoding = HttpContext.Request.Headers["Accept-Encoding"];
+
+            //Check "Accept-Encoding" and zip file to make is smaller 
+            if (!string.IsNullOrEmpty(AcceptEncoding) &&
+                (AcceptEncoding.Contains("gzip") || AcceptEncoding.Contains("deflate")))
+            {
+            }
+
             //var fs = System.IO.File.OpenRead(filepath);
             return File(fileContents: content,
                 contentType: contentType,

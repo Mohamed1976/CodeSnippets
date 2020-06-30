@@ -1,0 +1,97 @@
+﻿@model ASPNETCoreWebApp.Models.LogModel
+<h2>Edit Log Item</h2>
+
+@using (Html.BeginForm("EditLog", "RunLog", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>LogModel</legend>
+        <h3>
+            Log Id: @Model.Id;
+        </h3>
+        <div>
+            @Html.LabelFor(model => model.Distance)
+        </div>
+        <div>
+            @Html.EditorFor(model => model.Distance)
+            @Html.ValidationMessageFor(model => model.Distance)
+        </div>
+        <div>
+            @Html.LabelFor(model => model.Time)
+        </div>
+        <div>
+            @Html.EditorFor(model => model.Time)
+            @Html.ValidationMessageFor(model => model.Time)
+        </div>
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<hr />
+
+<fieldset>
+    <legend>Demo 2</legend>
+    Full Name <input type="text" id="fullName" />
+    <input type="button" value="Demo 2" id="buttonDemo2" />
+    <br />
+    <span id="result2"></span>
+</fieldset>
+
+<fieldset>
+    <legend>Demo 1</legend>
+    Full Name <input type="text" id="fullName1" />
+    <input type="button" value="Demo 2" id="buttonDemo1" />
+    <br />
+    <span id="result1"></span>
+    <span class="class1"></span>
+
+</fieldset>
+
+<!-- http://learningprogramming.net/net/asp-net-core-mvc/ajax-in-asp-net-core-mvc/ -->
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            console.log("EditLog: $(document).ready(function ()");
+            $('#buttonDemo2').click(function () {
+                var fullName = $('#fullName').val();
+                console.log("fullName: " + fullName);
+                $.ajax({
+                    type: 'GET',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    url: '/api/Patients/GetDealPrice/' + fullName,
+                    success: function (response) {
+                        console.log("success: " + response);
+                        $('#result2').html(response);
+                    },
+                    failure: function (response) {
+                        console.log("failure: " + response);
+                        //handle the error
+                    }
+                });
+            });
+
+            $('#buttonDemo1').click(function () {
+                var fullName1 = $('#fullName1').val();
+                console.log("fullName1: " + fullName1);
+
+                $.getJSON('/api/Patients/GetDealPrice/' + fullName1,
+                    function (response) {
+                        console.log("success: " + response);
+                        $('#result1').html(response);
+                        $('.class1').html(response);
+                    }
+                );
+            });
+        });
+    </script>
+}
+
+
+
+
+
+

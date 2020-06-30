@@ -1,0 +1,23 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<h1>Movie Homepage</h1>
+
+@*TODO checken how movie can be played, loaded correctly but is not played*@
+
+<!--video width="320" height="240"-->
+<video width="320" height="240" controls preload="auto" autoplay>
+    <source src="~/Documents/hale_bopp_1.mpg" type="video/mp4" />
+    <source src="~/Documents/hale_bopp_1.ogv" type="video/ogg" />
+    <source src="~/Documents/hale_bopp_1.webm" type="video/webm" />
+    <div class="fallback"> 
+        <p>Your browser does not support the video element. Kindly update it to latest version.</p> 
+    </div> 
+    <!--object width="320" height="240">
+        <param name="movie" value="map.swf" />
+        <embed src="map.swf" />
+    </object-->
+</video>

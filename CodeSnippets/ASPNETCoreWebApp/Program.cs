@@ -8,7 +8,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using ASPNETCoreWebApp.Data;
+using System.Diagnostics;
+using ASPNETCoreWebApp.Middleware;
 
+//Publish and RUN Website
 //You can for example publish website to directory and start it using dotnet   
 //C:\temp\TempWebsite>dotnet ASPNETCoreWebApp.dll
 
@@ -16,8 +19,16 @@ namespace ASPNETCoreWebApp
 {
     public class Program
     {
+        private static int exceptionCount = 0;
+
         public static void Main(string[] args)
         {
+            //You maintain an ASP.NET MVC application. Errors are logged to the Trace object. 
+            AppDomain.CurrentDomain.FirstChanceException += (sender, args) =>
+            {
+                Trace.TraceError($"Exception Count: {++exceptionCount} exception: {args.Exception.Message}");
+            };
+
             var host = CreateHostBuilder(args).Build();
             
             //Run seeders
@@ -65,10 +76,15 @@ namespace ASPNETCoreWebApp
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration(SetupConfiguration)
+                .ConfigureServices(services =>
+                {
+                    services.AddTransient<IStartupFilter, AutoLogStartupFilter>();
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+
 
         //ASP NET legacy used webconfig xml based file
         //ASP NEt core is very flexable, JSON, XML, INI, flat files that need parsing, DB, Enviroment variables etc

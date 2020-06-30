@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,6 +22,15 @@ namespace ASPNETCoreWebApp.Controllers
         public PatientsController(ILogger<ProductsController> logger)
         {
             this._logger = logger;
+        }
+
+        [Route("GetDealPrice/{productId}")]
+        [HttpGet]
+        public IActionResult GetDealPrice(string productId)
+        {
+            string currencySymbol = CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol;
+            Debug.WriteLine($"GetDealPrice(string productId), productId: {productId}");
+            return new JsonResult(currencySymbol + ", Hello: " + productId);
         }
 
         // GET: api/Get

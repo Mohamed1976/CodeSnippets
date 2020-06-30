@@ -20,17 +20,36 @@ using _70_483.ConsumeData;
 using _70_483.DataCollections;
 using _70_483.LinqQuery;
 using _70_483.Serialization;
+using System.Runtime.ExceptionServices;
 
 namespace _70_483
 {
     class Program
     {
+
+        private static void CurrentDomain_FirstChanceException(object sender, FirstChanceExceptionEventArgs args)
+        {
+            Console.WriteLine($"FirstChanceException raised in {AppDomain.CurrentDomain.FriendlyName}: " +
+                $"{args.Exception.Message}");
+        }
+
         static void Main(string[] args)
         {
             #region [ General Exercises ]
 
             try
             {
+                //You are developing an ASP.NET MVC application. You must handle any first chance exceptions 
+                //that the application throws.The exception handler has the following requirements:
+                //
+                //✑ Catch any first chance exceptions thrown by the default app domain.
+                //✑ Display the name of the app domain that caused the exception.
+                //✑ Display the message for the exception.
+                //
+                //You need to implement the exception handler.
+                //
+                AppDomain.CurrentDomain.FirstChanceException += CurrentDomain_FirstChanceException;
+
                 GeneralExercises2 generalExercises2 = new GeneralExercises2();
                 generalExercises2.Run().Wait();
 

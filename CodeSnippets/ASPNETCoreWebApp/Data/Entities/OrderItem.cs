@@ -20,6 +20,9 @@
 //CREATE NONCLUSTERED INDEX[IX_OrderItem_ProductId]
 //    ON[dbo].[OrderItem] ([ProductId] ASC);
 
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace ASPNETCoreWebApp.Data.Entities
 {
   public class OrderItem
@@ -27,6 +30,9 @@ namespace ASPNETCoreWebApp.Data.Entities
     public int Id { get; set; }
     public Product Product { get; set; }
     public int Quantity { get; set; }
+    [Column(TypeName = "decimal(18, 2)")]
+    [DataType(DataType.Currency)]
+    [Range(1, 100)]
     public decimal UnitPrice { get; set; }
     public Order Order { get; set; }
   }

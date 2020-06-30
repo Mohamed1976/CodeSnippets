@@ -27,7 +27,9 @@ URL Uniform Resource Locator
 CDN content delivery network
 UX	User Experience
 SEO Search engine optimization, is the process of making a website rank high on the list of unpaid search results.
-NPM Note Package Manager (npm Configuration File in VS2019, package.json file) you can define client libraries such as jquery, bootstrap  
+SERP Search Engine Results Pages are the pages displayed by search engines in response to a query by a user. The main component of the 
+	 SERP is the listing of results that are returned by the search engine in response to a keyword query.
+NPM Node Package Manager (npm Configuration File in VS2019, package.json file) you can define client libraries such as jquery, bootstrap  
 PaaS Platform as a Service. With PaaS, cloud providers deliver a computing platform, typically including an operating
 	system, a programming language execution environment, a database, and a web server.
 IaaS Infrastructure as a Service, IaaS offers virtual machines.
@@ -38,3 +40,40 @@ ASMX ASP.NET Web Services is an older Microsoft technology that enables a develo
 SOAP Simple Object Access Protocol	
 WSDL Web Services Description Language
 SOA service-oriented architecture
+TDD test-driven development
+MOCK Mimic software behaviour/response with expectations that can be set.  
+STUB Mimic a fixed software behaviour/response. 
+SDK	 Software Development Kit.
+RDP	 Remote Desktop Protocol
+API  Application programming interface
+SSL	 Secure Sockets Layer
+DPAPI Windows Data Protection API (DPAPIProtectedConfigurationProvider)
+nonrepudiation	Nonrepudiation is the assurance that someone cannot deny something. Typically, nonrepudiation refers to the 
+				ability to ensure that a party to a contract or a communication cannot deny the authenticity of their signature 
+				on a document or the sending of a message that they originated. To repudiate means to deny.
+PKI	public key infrastructure
+CA	certificate authority
+CSR Certificate Signing Request
+CSPRNG Cryptographically Secure Pseudo-Random Number Generator (Used to generate the salt)
+key-stretching Is the process of adding computational work to the process of hashing a password to make a password harder to crack.
+PBKDF2	Password-Based Key Derivation Function 2
+HMAC	Hash-based Message Authentication Code
+XSRF	Cross-site request forgery
+CSRF	Cross-site reference forgery
+XSS		Cross-site scripting attacks
+ACS		Access Control Service (Windows Azure Active Directory Access Control)
+WIF		Windows Identity Foundation
+ADFS	Active Directory Federation Services
+JWT		JSON Web Token
+JWE		JSON Web Encryption
+JWS		JSON Web Signature
+SAML 	Security Assertion Markup Language
+SWT		Simple Web Token
+STS		security token service Windows Azure ACS is an example of a commonly used STS.
+VHD 	(Virtual Hard Disk) is a file format representing a virtual hard disk drive (HDD). 
+		It may contain what is found on a physical HDD, such as disk partitions and a file system, 
+		which in turn can contain files and folders. It is typically used as the hard disk of a virtual machine.
+  	
+	
+	
+	

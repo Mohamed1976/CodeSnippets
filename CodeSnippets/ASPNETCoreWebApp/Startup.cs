@@ -23,6 +23,16 @@ using ASPNETCoreWebApp.Services;
 using System.Net.WebSockets;
 using System.Threading;
 using System.Diagnostics;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using ASPNETCoreWebApp.Models;
+using Microsoft.AspNetCore.Identity;
+using AutoMapper;
+using System.Reflection;
+using ASPNETCoreWebApp.Middleware;
+using ASPNETCoreWebApp.SignalRHub;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 namespace ASPNETCoreWebApp
 {
@@ -38,29 +48,107 @@ namespace ASPNETCoreWebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //DbContext/DutchContext registration
             services.AddDbContext<DutchContext>(options =>
             { 
                 options.UseSqlServer(Configuration.GetConnectionString("DutchConnectionString"));
             });
 
+            //DbContext/StudentDataContext registration
+            services.AddDbContext<StudentDataContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("StudentDataContext"));
+            });
+
+            services.AddDbContext<AppIdentityDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection"));
+            });
+
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            //services.AddAutoMapper(typeof(Startup));
+            //Registered service, are primarily used in controllers
+            services.AddTransient<IEmailSender, AuthMessageSender>();
+            services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddTransient<DutchSeeder>();
-
             services.AddScoped<IDutchRepository, DutchRepository>();
-
             services.AddSingleton<ICustomersRepository, CustomersRepository>();
-
             services.AddSingleton<IWebServiceReader, WebServiceReader>();
 
-            services.AddControllersWithViews();
-
-            services.AddDbContext<StudentDataContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("StudentDataContext")));
-
-            //register the Model provider at the beginning of the list in Startup.ConfigureServices:
+            //Register the Model provider at the beginning of the list in Startup.ConfigureServices:
             services.AddMvc((options) =>
             {
                 options.ModelBinderProviders.Insert(0, new SplitDateTimeModelBinderProvider());
             }).SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
+
+            //The SignalR server must be configured to pass SignalR requests to SignalR.
+            services.AddSignalR();
+
+            //Step by step configuring ASP.NET core Identity
+            //services.AddIdentity<ApplicationUser, IdentityRole>();
+            //services.Configure<IdentityOptions>(options =>
+            //{
+            //    options.Password.RequireDigit = true;
+            //    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+            //});
+
+            //Add ASP.NET core Identity 
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequiredUniqueChars = 0;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+            })
+           .AddEntityFrameworkStores<AppIdentityDbContext>()
+           .AddDefaultTokenProviders();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.HttpOnly = true;
+                //OptionsValidationException: Cookie.Expiration is ignored, use ExpireTimeSpan instead.
+                //options.Cookie.Expiration = TimeSpan.FromDays(90);
+                options.ExpireTimeSpan = TimeSpan.FromDays(90);
+                options.SlidingExpiration = true;
+            });
+
+            //Use JSON Web Tokens (JWT) to authenticate the method callers to Web API  
+            services.AddAuthentication(options =>
+            {
+                //options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                //options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddCookie()
+                .AddJwtBearer(cfg => //"JwtBearer", cfg =>
+                {
+                    cfg.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateActor = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = Configuration["Tokens:Issuer"],
+                        ValidAudience = Configuration["Tokens:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]))
+                    };
+                });
+            
+            Debug.WriteLine($"Tokens:Issuer {Configuration["Tokens:Issuer"]}");
+            Debug.WriteLine($"Tokens:Audience {Configuration["Tokens:Audience"]}");
+            Debug.WriteLine($"Tokens:Key {Configuration["Tokens:Key"]}");
+
+            services.AddAuthorization(config =>
+            {
+                config.AddPolicy("UserPolicy", policy =>
+                {
+                    //policy.AddAuthenticationSchemes(IdentityServerConstants.LocalApi.AuthenticationScheme);
+                    policy.RequireAuthenticatedUser();
+                    policy.RequireClaim("IsAdult", "Yes");
+                });
+            });
 
             //ProductsController
             //By setting CompatibilityVersion, we can use features to validate response type,
@@ -72,31 +160,30 @@ namespace ASPNETCoreWebApp
             //AddAuthentication(string defaultScheme
             //services.AddAuthentication(IISDefaults.AuthenticationScheme);
             //https://gist.github.com/Gimly/74bd82e0f8990646a8b3751c43efbf81
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(o =>
-            {
-                o.Authority = Configuration["Jwt:Authority"];
-                o.Audience = Configuration["Jwt:Audience"];
-                o.Events = new JwtBearerEvents()
-                {
-                    OnAuthenticationFailed = c =>
-                    {
-                        c.NoResult();
+            //services.AddAuthentication(options =>
+            //{
+            //    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            //    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            //}).AddJwtBearer(o =>
+            //{
+            //    o.Authority = Configuration["Jwt:Authority"];
+            //    o.Audience = Configuration["Jwt:Audience"];
+            //    o.Events = new JwtBearerEvents()
+            //    {
+            //        OnAuthenticationFailed = c =>
+            //        {
+            //            c.NoResult();
 
-                        c.Response.StatusCode = 500;
-                        c.Response.ContentType = "text/plain";
-                        //if (Environment.IsDevelopment())
-                        //{
-                            return c.Response.WriteAsync(c.Exception.ToString());
-                        //}
-
-                        return c.Response.WriteAsync("An error occured processing your authentication.");
-                    }
-                };
-            });
+            //            c.Response.StatusCode = 500;
+            //            c.Response.ContentType = "text/plain";
+            //            //if (Environment.IsDevelopment())
+            //            //{
+            //                return c.Response.WriteAsync(c.Exception.ToString());
+            //            //}
+            //            return c.Response.WriteAsync("An error occured processing your authentication.");
+            //        }
+            //    };
+            //});
 
             #region [ Localization ]
 
@@ -126,8 +213,6 @@ namespace ASPNETCoreWebApp
 
             #endregion
 
-            services.AddTransient<IEmailSender, AuthMessageSender>();
-            services.AddTransient<ISmsSender, AuthMessageSender>();
 
             //QueryStringRequestCultureProvider
             //Some apps will use a query string to set the culture and UI culture. 
@@ -196,6 +281,11 @@ namespace ASPNETCoreWebApp
             //In the preceding code, SharedResource is the class corresponding to the resx 
             //where your validation messages are stored.With this approach, DataAnnotations 
             //will only use SharedResource, rather than the resource for each class.
+
+            //Using respone caching
+            services.AddResponseCaching();
+
+            services.AddControllersWithViews();
         }
 
         //Configure order of middleware is important, middleware is loosly coupled 
@@ -205,6 +295,9 @@ namespace ASPNETCoreWebApp
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
+            app.UseNotFoundMiddleware();
+
             //Catch all requests and return Hello World
             //app.Run(async context =>
             //{
@@ -264,6 +357,7 @@ namespace ASPNETCoreWebApp
 
             #region [ AcceptWebSocket ]
 
+            //To access Websocket enter url: http://localhost:5001/websocket
             app.Use(async (context, next) =>
             {
                 if (context.Request.Path == "/ws")
@@ -288,6 +382,12 @@ namespace ASPNETCoreWebApp
             });
 
             #endregion
+            //Add SignalR to the ASP.NET Core dependency injection system and the middleware pipeline.
+            //Todo [Obsolete] Should use Map
+            //app.UseSignalR(routes =>
+            //{
+            //    routes.MapHub<ChatHub>("/chathub");
+            //});
 
             // app.UseFileServer();
 
@@ -310,17 +410,55 @@ namespace ASPNETCoreWebApp
 
             app.UseHttpsRedirection();
 
+            //The UseDefaultFiles configures the DefaultFiles middleware which is a part of StaticFiles 
+            //middleware. This will automatically serve html file named default.html, default.htm, 
+            //index.html or index.htm
+            //https://www.tutorialsteacher.com/core/aspnet-core-static-file
+            //https://stackoverflow.com/questions/47351712/app-usedefaultfiles-in-kestrel-not-doing-anything
+            //app.UseDefaultFiles();
             app.UseStaticFiles();
 
+            //To use static files uncomment below.
+/*          var cachePeriod = env.IsDevelopment() ? "60" : "604800";
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    // Requires the following import:
+                    // using Microsoft.AspNetCore.Http;
+                    ctx.Context.Response.Headers.Append("Cache-Control", $"public, max-age={cachePeriod}");
+                }
+            });
+
+            //https://docs.microsoft.com/en-us/aspnet/core/fundamentals/static-files?view=aspnetcore-3.1
+            //https://github.com/dotnet/AspNetCore.Docs/tree/master/aspnetcore/fundamentals/static-files/samples/1x/MyStaticFiles
+            //In the preceding code, the MyStaticFiles directory hierarchy is exposed publicly via the StaticFiles 
+            //URI segment.A request to http://<server_address>/StaticFiles/images/image.jpg serves the image.jpg file.
+            //The following markup references StaticFiles/images/image.jpg:
+            //<img src="~/StaticFiles/images/image.jpg" alt="ASP.NET" class="img-responsive" />
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(Directory.GetCurrentDirectory(), "ContentFiles")),
+                RequestPath = "/StaticFiles"
+            });
+*/            
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseResponseCaching();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                //https://stackoverflow.com/questions/48185985/aspnetcore-signalr-2-1-and-cors
+                //https://github.com/dotnet/docs/issues/14928
+                endpoints.MapHub<ChatHub>("/chathub");
             });
         }
 

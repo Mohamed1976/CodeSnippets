@@ -9,6 +9,22 @@
     {
       "library": "jquery-ajax-unobtrusive@3.2.6",
       "destination": "wwwroot/lib/jquery-ajax-unobtrusive/"
+    } //,
+    //{
+    //  "provider": "unpkg",
+    //  "library": "@microsoft/signalr@3.1.5",
+    //  "destination": "wwwroot/lib/signalr/"
+    //}
+    //How to remove package https://stackoverflow.com/questions/47560123/removing-bootstrap-from-asp-net-core-2-mvc-project
+    ,
+    {
+      "provider": "unpkg",
+      "library": "@microsoft/signalr@3.1.5",
+      "destination": "wwwroot/lib/signalr/",
+      "files": [
+        "dist/browser/signalr.js",
+        "dist/browser/signalr.min.js"
+      ]
     }
   ]
 }

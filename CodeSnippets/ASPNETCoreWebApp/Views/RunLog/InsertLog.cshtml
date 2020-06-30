@@ -1,0 +1,39 @@
+﻿@model ASPNETCoreWebApp.Models.LogModel
+<h2>Insert Log Item</h2>
+
+@using (Html.BeginForm("InsertLog", "RunLog", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+<fieldset>
+    <legend>LogModel</legend>
+    <!-- https://stackoverflow.com/questions/49409238/how-to-pass-background-image-url-from-database-to-view-in-mvc -->
+    <div style="width:130px; height:100px; background:url('@Url.Content("~/img/SK-A-1595.jpg")');">
+    </div>
+    <h3>Insert Run Data</h3>
+    <div>
+        @Html.LabelFor(model => model.RunDate)
+    </div>
+    <div>
+        @Html.EditorFor(model => model.RunDate)
+        @Html.ValidationMessageFor(model => model.RunDate)
+    </div>
+    <div>
+        @Html.LabelFor(model => model.Distance)
+    </div>
+    <div>
+        @Html.EditorFor(model => model.Distance)
+        @Html.ValidationMessageFor(model => model.Distance)
+    </div>
+    <div>
+        @Html.LabelFor(model => model.Time) HH:MM:SS
+    </div>
+    <div>
+        @Html.EditorFor(model => model.Time)
+        @Html.ValidationMessageFor(model => model.Time)
+    </div>
+    <p>
+        <input type="submit" value="Create" />
+    </p>
+</fieldset>
+}
