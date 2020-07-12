@@ -8,6 +8,8 @@ using System.Collections;
 using CalculatorService;
 using PersonLookupService;
 using System.Security.Cryptography;
+using DataLibrary.Data;
+using System.Linq;
 
 namespace _70_483.Exercises
 {
@@ -76,8 +78,19 @@ namespace _70_483.Exercises
 
         public async Task Run()
         {
-
             Console.WriteLine("public async Task Run() @Work.");
+            //Create a .Net standard library to access database data
+            //DataLibrary can then be used in multiple projects 
+            //https://rajbos.github.io/blog/2020/04/23/EntityFramework-Core-NET-Standard-Migrations
+            //https://stackoverflow.com/questions/52517607/how-to-install-entity-framework-of-standard-library
+            AdventureWorksContext adventureWorksContext = new AdventureWorksContext();
+            var customers = adventureWorksContext.Customer.ToList();
+
+            foreach (var customer in customers)
+            {
+                Console.WriteLine($"\tFirstName: {customer.FirstName}, LastName: {customer.LastName}");
+            }
+
             return;
             //--------------------------------------------------------------------------------------------------
             // Check for duplicate files in folder, if so move them to the remove directory  
