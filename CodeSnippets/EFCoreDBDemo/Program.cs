@@ -35,8 +35,37 @@ namespace EFCoreDBDemo
     {
         static void Main(string[] args)
         {
-            LinqExamples linqExamples = new LinqExamples();
-            linqExamples.Run();
+            try
+            {
+                WCFExamples wCFExamples = new WCFExamples();
+                wCFExamples.Run().Wait();
+
+                EFExamples eFExamples = new EFExamples();
+                eFExamples.Run().Wait();
+
+                LinqToXmlExamples linqToXmlExamples = new LinqToXmlExamples();
+                linqToXmlExamples.Run().Wait();
+
+                DBPerformance dBPerformance = new DBPerformance();
+                dBPerformance.Run().Wait();
+
+                LinqExamples linqExamples = new LinqExamples();
+                linqExamples.Run();
+
+                AdoNetCodeExamples adoNetCodeExamples = new AdoNetCodeExamples();
+                adoNetCodeExamples.Run();
+
+                CacheExamples cacheExamples = new CacheExamples();
+                cacheExamples.Run();
+
+                TransactionExamples transactionExamples = new TransactionExamples();
+                transactionExamples.Run();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+                //throw;
+            }
 
             Console.ReadLine();
         }

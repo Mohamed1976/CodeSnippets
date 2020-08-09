@@ -52,6 +52,10 @@ namespace AspNetCoreWebApi
 
             services.AddRazorPages();
 
+            //http://www.binaryintellect.net/articles/a7d9edfd-1f86-45f8-a668-64cc86d8e248.aspx
+            //In-memory caching needs to enabled in the Startup class
+            services.AddMemoryCache();
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddSingleton<ICommanderRepo, MockCommanderRepo>();

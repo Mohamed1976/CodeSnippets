@@ -1,0 +1,1655 @@
+All query questions of this module are based on the classes below and a variable dbContext declared as:
+
+public class WorldContext : DbContext {
+    public virtual DbSet<City> City { get; set; }
+    public virtual DbSet<Continent> Continent { get; set; }
+    public virtual DbSet<Country> Country { get; set; }
+}
+
+public class City {
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string CountryCode { get; set; }
+    public int Population { get; set; }
+}
+
+public partial class Continent {
+    public int Id { get; set; }
+    public string Name { get; set; }
+}
+
+public partial class Country {
+    public string Code { get; set; }
+    public string Name { get; set; }
+    public int ContinentId { get; set; }
+    public float SurfaceArea { get; set; }
+    public int Population { get; set; }
+}
+
+--------------------------------------------------------------------------------------------------------------------------------
+1) Select ALL LINQ queries that can tell us whether there is a city named Cairo
+
+A) var result = dbContext.City.Contains("Cairo"); 
+B) var result = dbContext.City.Where(c => c.Name == "Cairo").Any(); 
+C) var result = dbContext.City.Any(c => c.Name == "Cairo"); 
+D) var result = dbContext.City.Count(c => c.Name == "Cairo") > 0;
+
+Answer BCD
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+2) Select ALL LINQ queries that can find out the cities with a population greater than 1 million?
+
+A) var cities = dbContext.City.Select(c => c.Population > 1000000); 
+B) var cities = dbContext.City.Where(c => c.Population > 1000000); 
+C) var cities = dbContext.Country.City.Where(c => c.Population > 1000000); 
+D) var cities = from c in dbContext.City where c.Population > 1000000 select c;
+
+Answer BD
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+3) How to get the names of all continents?
+
+A) var names = dbContext.Continent.ToArray(); 
+B) var names = dbContext.Continent.Name.ToList(); 
+C) var names = dbContext.Continent.Select(c => c.Name); 
+D) var names = dbContext.Continent.Join(c => c.Name);
+
+Answer C
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+4) How to get the countries with population and surface area both greater than 1 million?
+
+A) var result = dbContext.Country.Where(c => c.Population > 1000000 && c.SurfaceArea > 1000000); 
+B) var result = dbContext.Country.Where(c => c.Population > 1000000).Union(dbContext.Country.Where(c => c.SurfaceArea > 1000000)); 
+C) var result = dbContext.Country.Where(c => c.Population > 1000000).Join(dbContext.Country.Where(c => c.SurfaceArea > 1000000)); 
+D) var result = dbContext.Country.Where(c => c.Population > 1000000).Intersect(dbContext.Country.Where(c => c.SurfaceArea > 1000000));
+
+Answer AD
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+5) Select the LINQ operators that can force the LINQ query execute immediately
+
+A) All, Any
+B) Select, Where
+C) OrderBy, GroupBy
+D) ToArray, ToList
+
+Answer D
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+6) If we show n cities on one page, how to get the cities to be shown on the m th page?
+
+A) var cities = dbContext.City.Skip(n * m).Take(n); 
+B) var cities = dbContext.City.Skip(n * (m - 1)).Take(n); 
+C) var cities = dbContext.City.ElementAt(n * m); 
+D) var cities = dbContext.City.ElementAt(n * m - 1);
+
+Answer B
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+7) Select ALL correct queries that can get city names sorted alphabiyaclly
+
+A) var names = dbContext.City.OrderBy(c => c.Name).Select(c => c.Name).Distinct(); 
+B) var names = dbContext.City.Select(c => c.Name).Distinct().OrderBy(n => n); 
+C) var names = (from c in dbContext.City orderby c.Name select c.Name).Distinct(); 
+D) var names = from n in (from c in dbContext.City select c.Name).Distinct() orderby n select n;
+
+Answer ABCD
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+8) Select ALL correct queries that can get the city name with its country name
+
+A) var result = dbContext.City.Join(dbContext.Country, c => c.Name, c => c.Name, (c1, c2) => new { City = c1.Name, Country = c2.Name }); 
+B) var result = dbContext.City.Join(dbContext.Country, c => c.CountryCode, c => c.Code, (c1, c2) => new { City = c1.Name, Country = c2.Name }); 
+C) var result = from c1 in dbContext.City join c2 in dbContext.Country on c1.CountryCode == c2.Code select new { City = c1.Name, Country = c2.Name }; 
+D) var result = from c1 in dbContext.City join c2 in dbContext.Country on c1.CountryCode equals c2.Code select new { City = c1.Name, Country = c2.Name };
+
+Answer BD
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+9) The LINQ to database operators are extension methods of which class?
+
+A) Queryable 
+B) IQueryable 
+C) DbContext 
+D) DbSet<T>
+
+Answer A
+
+//
+// Summary:
+//     Provides a set of static (Shared in Visual Basic) methods for querying data structures
+//     that implement System.Linq.IQueryable`1.
+public static class Queryable
+{
+		//
+        // Summary:
+        //     Determines whether a sequence contains any elements.
+        //
+        // Parameters:
+        //   source:
+        //     A sequence to check for being empty.
+        //
+        // Type parameters:
+        //   TSource:
+        //     The type of the elements of source.
+        //
+        // Returns:
+        //     true if the source sequence contains any elements; otherwise, false.
+        //
+        // Exceptions:
+        //   T:System.ArgumentNullException:
+        //     source is null.
+        public static bool Any<TSource>(this IQueryable<TSource> source);
+}
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+10) What is the data type that LINQ to database operators attach to?
+
+A) Queryable 
+B) IQueryable 
+C) IQueryable<T> 
+D) IEnumerable<T>
+
+Answer C
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+11) Contoso has several applications that currently use ADO.NET to interact with the
+database. Each application used to run locally inside the corporate network. Now,
+there’s tremendous pressure to expose many of them to the outside world. You’re
+tasked with deciding whether ADO.NET should continue to be used or whether
+a move should be made to another technology. If a move away from ADO.NET is
+made, you need to decide which other technology should be used.
+
+With this in mind, answer the following questions:
+
+1. Should you continue building applications with ADO.NET?
+Yes, it is a proven technology that continues to be supported.  
+ADO.NET has been around the longest and has several advantages. It does not require
+persistent connections to the underlying data store, enables you to access virtually
+all major database implementations, and enables you to access data through custom
+objects or through objects specifically suited to the tasks at hand (DataSet and
+DataTable).
+
+If you continue to build using ADO.NET, meeting application requirements will be increasingly
+difficult. It would provide consistency, but any functionality that needs to be
+exposed to the outside world will take more and more effort (arguably wasted effort
+to accomplish).
+
+2. Does using the EF provide any benefit toward the stated goal that ADO.NET doesn’t?
+When using EF you can focus on using entities in the application instead of using sql
+to query data and populate entities using the retrieved data.   
+By using the EF, developers can focus on the conceptual model (solving business logic
+and dealing with business issues) without being overly concerned with the underlying
+data store. EF is specifically focused on working with an entity, but not quite as much
+as working with bulk data all at once. 
+
+In and of itself, the EF doesn’t get you closer to the goal, but it would enable easier
+interoperability with WCF Data Services, for instance. It would set the groundwork for
+moving to OData.
+
+3. Would WCF Data Services provide any benefit toward the stated goal that ADO. NET doesn’t?
+ADO. NET cannot provide the same easy data access to the the outside world as WCF Data Services do.
+WCF Data Services let your applications provide universal data access. The consumption
+of WCF Data Services is not tied to any proprietary technology, so can be
+consumed by both Microsoft and non-Microsoft technologies. WCF Data Services are
+meant to be used in conjunction with the EF on the back end. They provide a very
+fast and easy way to build applications and make the data easily accessible to any
+consumer.
+
+Moving legacy applications to WCF Data Services would not be trivial. They are already
+built and tested. However, moving them so they could be consumed externally will
+require changes, no matter how it is accomplished. WCF Data Services would allow for
+all the required features that don’t currently exist.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+12) You are building an ADO.NET EF application. You need to add a property of type
+NVARCHAR(50) named Notes to the underlying database table named Customer and
+have it reflected in the Customer entity. What should you do?
+
+A. Drop the Customer table and re-create it with the new field; then choose the
+Generate Database From Model option.
+B. Add the field to the underlying table, add a Scalar property of type String to the
+Customer entity, and update the mapping.
+C. Run the Update Model Wizard.
+D. Run the EDM Generator.
+
+C
+
+Correct answers: A, B, C, D
+A. Correct: This is technically correct, but dropping the table means that all the data
+goes with it. That could work in some development environments, but in production
+it is a terrible idea. Because the environment wasn’t mentioned, this is still a
+correct answer.
+B. Correct: This would update the entity and the data source correctly.
+C. Correct: This would update the entity and the data source correctly.
+D. Correct: This would update the entity and the data source correctly.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+13) You have been asked to choose a data access technology to retrieve data from a SQL
+Server database and have it exposed over the web. The application will be consumed
+exclusively by external parties that have no access to the internal database. Which data
+access technologies should you recommend? (Choose all that apply.)
+
+A. LINQ-to-SQL
+B. ADO.NET Entity Framework
+C. WCF Data Services
+D. ADO.NET Data Services
+
+C
+
+Correct answer: C
+A. Incorrect: LINQ-to-SQL will facilitate data access, but does nothing to expose the
+data to the web.
+B. Incorrect: The EF will facilitate data access, but does nothing to expose the data to
+the web.
+C. Correct: This would enables you to meet all the data requirements as well as the
+transmission requirements.
+D. Incorrect: This technology no longer exists.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+14) You are working with an EDM and suspect there’s a problem with the mappings. Which
+file should you look at to see the underlying code?
+
+A. CSDL file
+B. SSDL file
+C. MSL file
+D. EDMX file
+
+D
+
+The conceptual model is handled via what’s known as the conceptual schema definition
+language (CSDL). In older versions of EF, it existed in a file with a .csdl extension. The data
+storage aspect is handled through the store schema definition language (SSDL). In older versions
+of EF, it existed in a file with an .ssdl file extension. The mapping between the CSDL
+and SSDL is handled via the mapping specification language (MSL). In older versions of EF, it
+existed in a file with an .msl file extension. In modern versions of EF, the CSDL, MSL, and SSDL
+all exist in a file with an .edmx file extension. However, even though all three are in a single
+file, it is important to understand the differences between the three.
+
+Correct answer: D
+A. Incorrect: This file technically no longer exists, so wouldn’t be appropriate.
+B. Incorrect: This file technically no longer exists, so wouldn’t be appropriate.
+C. Incorrect: This file technically no longer exists, so wouldn’t be appropriate.
+D. Correct: Each of the preexisting files, including the mapping files, is included here.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+15) Contoso has determined that its primary database is experiencing tremendous traffic
+volumes. Upon analysis, it determines that much of the traffic is around identical requests.
+
+With this in mind, answer the following questions:
+
+1. What type of data would you consider as a candidate for caching?
+Serializable and binary(such as movies, bin files) data that are frequently requested 
+and does not change that often.   
+
+The more static and less volatile it is, the better the candidate is for caching.
+
+2. What factors would you consider when determining a caching strategy?
+Determine which data in the application is frequently requested.
+Determine if data caching does not result in unaccaptable "old" data,
+for example patient data in hospital needs to be the most recent data 
+and not the cached data from a few hours ago.         
+
+How frequent repeat trips are to the source coupled with the size of it. At some point,
+reducing trips to the database can be offset by size of the data. Local storage or cache
+storage sizes can be burdensome, so caching isn’t a magic bullet.
+
+3. What would you contemplate regarding data changes?
+You can use ChangeMonitors to monitor the underlying data that is cached,
+if the source data is changed, invalidate the cache, 
+after which the cache data can be refreshed
+
+The more frequently data changes, the less likely it is to be a viable candidate for caching.
+Monitoring is not inexpensive, and although very helpful in some cases, it would
+offset the benefit of caching. In the same respect, if the expiration policy is very small,
+the benefit of caching is diminished. If monitoring needs to happen in most cases,
+any benefit from caching will be greatly reduced, and a scenario could arise in which
+things are much worse because of it. Such scenarios are atypical and usually arise from
+overuse, but they do happen.     
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+16) Which of the following are provided for use by the .NET Framework as ChangeMonitors when defining a CacheItemPolicy? (Choose all that apply.)
+
+A. CacheEntryChangeMonitor
+B. FileChangeMonitor
+C. MsmqChangeMonitor
+D. SqlChangeMonitor
+
+ABD 
+
+Correct answers: A, B, D
+A. Correct: CacheEntryChangeMonitor is a valid option.
+B. Correct: FileChangeMonitor is a valid option.
+C. Incorrect: There is no such thing as an MsmqChangeMonitor.
+D. Correct: SqlChangeMonitor is a valid option.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+17) Which values are valid choices when defining the Priority property of the CacheItemPolicy using the System.Runtime.Caching version of the Cache? (Choose all that apply.)
+
+A. Normal
+B. High
+C. NotRemovable
+D. Low
+
+C
+
+Correct answer: C
+A. Incorrect: The System.Runtime.Caching.CacheItemPriority enum does not have
+a Normal option. It does exist, however, in the System.Web.Caching.CacheItem
+Priority enum.
+B. Incorrect: The System.Runtime.Caching.CacheItemPriority enum does not
+have a High option. It does exist, however, in the System.Web.Caching.
+CacheItemPriority enum.
+C. Correct: There is a NotRemovable option.
+D. Incorrect: The System.Runtime.Caching.CacheItemPriority enum does
+not have a Low option. It does exist, however, in the System.Web.Caching.
+CacheItemPriority enum.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+18)You have set up an ObjectCache instance using the following code:
+
+List<String> fileList = new List<String>();
+fileList.Add(@"C:\SomeDirectory\SampleFile.txt");
+ObjectCache cacheInstance = MemoryCache.Default;
+CacheItemPolicy accountPolicy = new CacheItemPolicy();
+accountPolicy.Priority = CacheItemPriority.Default;
+accountPolicy.AbsoluteExpiration = DateTime.Now.AddMinutes(60);
+accountPolicy.ChangeMonitors.Add(new HostFileChangeMonitor(fileList));
+CacheItem exampleItem1 = new CacheItem("ExampleItemId", "Example Item Value", "AccountObjects");
+
+Which of the following items add an item to the cache with a key named “ExampleItemId,” a value of “Example Item Value,” 
+a region named “AccountObjects,” and a CacheItemPolicy with a Default CacheItemPriority? (Choose all that apply.)
+
+A. cacheInstance.Add(exampleItem1, accountPolicy);
+B. cacheInstance.Add(exampleItem1, accountPolicy.Priority.Default);
+C. cacheInstance.Add(“ExampleItemId”, “Example Item Value”, accountPolicy);
+D. cacheInstance.Add(“ExampleItemId”, “Example Item Value”, accountPolicy, “AccountObjects”);
+
+AD
+
+Correct answers: A, D
+A. Correct: This would accomplish the requirements.
+B. Incorrect: The second parameter cannot be a CacheItemPriority. It will not
+compile.
+C. Incorrect: This does not set the Region name.
+D. Correct: This would accomplish the requirements.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+19) Contoso has several mission-critical processes that are starting to cause problems.
+Users are reporting increasingly frequent processing errors. Additionally, there are
+several problems with partial or incomplete records being created. For instance,
+users are receiving Order Processing Failure messages and then getting tracking
+numbers for their order.
+
+With this in mind, answer the following questions:
+1. What would make an operation a good candidate for a transaction?
+If an operation contains multiple database action that all must complete correctly,
+in case one operation fails, all operations must be rolledback.     
+Transactions serve to make database interactions all-or-nothing propositions. Once
+executed, they need to complete successfully, or they need to be completely undone and
+leave things exactly as they were had the change attempt not been made if they failed.
+
+Clearly defined boundaries are the main consideration. The more items affected in a
+transaction and the longer an operation takes, the more problems you’ll see related to
+making it transactional.
+
+2. Why not make every operation transactional?
+It does not make sense to make each operation transactional, if one operation fails, it already means it 
+is not entered in the database. Transactions only make sense if you have multiple database operations      
+that all need to succeed or be rollbacked completely.
+
+There are several costs associated with implementing transactions, and these costs can
+add up quickly. If every operation were transactional, it would add tremendous cost
+without necessary benefit.
+
+3. What considerations would guide the choice of transaction implementation?
+Operations that encompass data modification in multiple database tables.
+The operations must completely succeed or rollback completely.   
+
+The importance of the data is one main consideration. How long-running the process
+is would be another consideration. The number of resources affected would be
+another one.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+20)You are developing an ASP.NET application that reads data from and writes data to a
+SQL Server database. You should avoid nonrepeatable reads and not concern yourself
+with phantom data. Which isolation level should you use?
+
+A. ReadUncommitted
+B. RepeatableRead
+C. Chaos
+D. Snapshot
+
+D
+
+Correct answers: B, D
+A. Incorrect: ReadUncommitted would result in nonrepeatable reads.
+B. Correct: RepeatableRead would be the loosest IsolationLevel that would meet
+these requirements.
+C. Incorrect: Chaos does not work with SQL Server.
+D. Correct: Snapshot would meet these requirements but might be overkill.
+
+A non-repeatable read is one in which data read twice inside the same transaction cannot be guaranteed to contain the same value. 
+Depending on the isolation level, another transaction could have nipped in and updated the value between the two reads.
+Non-repeatable reads occur because at lower isolation levels reading data only locks the data for the duration of the read, 
+rather than for the duration of the transaction. Sometimes this behavior might be completely desirable. Some applications may 
+want to know the absolute, real-time value, even mid transaction, whereas other types of transactions might need to read the same value multiple times.
+
+RepeatableRead:
+Locks are placed on all data used in the query, which completely prevents others from updating any data covered by the lock. 
+It stops nonrepeatable reads, but the phantom data problem is still possible.
+
+Snapshot:
+An effective copy of the data is made, so one version of the application can read
+the data while another is modifying the same data. You can’t see data from one 
+transaction in another one, even if you run the query again. The size of them can also cause problems if overused.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+21) Which items would benefit from being made transactional?
+
+A. Long-running queries that span multiple tables
+B. Quick-running queries that involve only one table
+C. Queries that make use of the file system on a Windows operating system.
+D. Queries that make use of the file system of a non-Windows operating system.
+
+A
+
+Correct answer: B
+A. Incorrect: Long running operations that span several tables may necessitate transactional
+support, but the duration and complexity would generally pose serious
+locking and contention issues.
+B. Correct: Small fast operations are generally the best candidates for transactions.
+C. Incorrect: Operations that involve the file system would generally be problematic
+and would not benefit from transactions.
+D. Incorrect: A non-Windows operating system would present many problems and
+would not be a good candidate for transactional support.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+22) Your company is looking to move its core applications to the cloud. You have two
+primary applications: one that hosts video training files and another that provides
+advanced statistics about user interaction patterns. All the consumers of the application
+are currently clustered around three major metropolitan U.S. cities.
+With these items in mind, answer the following questions:
+
+1. What storage options would you consider for each of the two scenarios?
+Use Blob(Block or Page) storage to store video training files.
+Use SQL Azure or Table storage to store user interaction patterns. 
+
+Blog storage for the video and table storage for the statistical information would probably
+be best here.
+ 
+2. Would one storage option suffice or would you want more than one?
+I would use two storage options, Blob storage and SQL Azure or Table storage.   
+
+It might be possible to use just one approach. However, although you could use Blob
+storage to store the statistical information, you couldn’t use table storage for the media
+files in any practical sense.
+
+3. Would this be a good candidate for the CDN? Why or why not?
+Video training files are not often updated/changed, so they could be cached
+in a CDN (around three major metropolitan U.S. cities).  
+Statistics about user interaction patterns could change often, making the data
+more difficult to cache using CDN.
+
+If consumption is all clustered in well-defined areas, using CDN could be very
+beneficial.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+23) You are developing an ASP.NET application that hosts an online chat room. 
+What Windows Azure Storage options should you consider for storing the contents of these chat rooms?
+
+A. Table storage
+B. Queue storage
+C. Blob storage
+D. CDN storage
+
+A
+
+Correct answer: A
+A. Correct: Chatroom data is mostly nonrelational conversations that have structure
+to them. This is a perfect candidate for Table storage.
+B. Incorrect: Queues are not a good mechanism at all for this type of data because
+there is no way to query and fetch data based on those results.
+C. Incorrect: Blob storage is a terrible option for this type of data because it would
+lose any structure the data had and would be on a slow medium.
+D. Incorrect: The CDN would not work for this type of data.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+24) Benefits of using Windows Azure Content Delivery Network include (choose all that apply)?
+
+A. Increased performance for users geographically close to the content source.
+B. Increased performance for users geographically far from a content source.
+C. Large distributed scale to better handle instanteously increased loads.
+D. Improved security.
+
+BC
+
+Correct answers: B, C
+A. Incorrect: CDN allows manipulation of nodes to reduce intermediate traffic. The
+whole idea is to have nodes closer to the traffic source. Little or no benefit will be
+realized if the traffic source is already close.
+B. Correct: By specifying nodes closer to the traffic source, increased performance
+can be realized.
+C. Correct: CDN helps distributed scale issues and is particularly well suited to traffic
+spikes and surges (such as ones associated with product launches).
+D. Incorrect: CDN doesn’t offer any security advantages that aren’t already present
+in Azure offerings that do not take advantage of it.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+25) Which of the following queries take advantage of the Content Delivery network?
+
+A. http://atlanta.vo.mysite.net/documents
+B. http://myaccount.blob.core.windows.net/documents
+C. http://myaccount.atlanta.blob.core.windows.net/documents
+D. http://atlanta.mysite.net/documents
+
+BC
+
+Correct answer: A
+A. Correct: An Azure CDN URL is in the format http://<identifier>.vo.mscend.net/.
+B. Incorrect: This is a standard Azure storage URL.
+C. Incorrect: This is a standard Azure storage URI with a misplaced identifier.
+D. Incorrect: This is a completely malformed Azure storage URI.
+
+To access the content directly from the blob service, the URI is identical to what it was originally:
+http://<storage account name>.blob.core.windows.net/<container>/<blob>
+To access it directly through the Windows Azure CDN URL, use the following syntax, which is almost identical:
+http://<storage account name>.vo.msecnd.net/<container>/<blob>
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+26) Your company has an application that currently is consumed by in-house applications.
+There is a need to make it accessible to outside parties that use this in-house
+application but extend it. As such, the capability to consume and manipulate the
+data is critical. Enabling users to accomplish this through URI-based semantics
+seems like the optimal solution.
+With these facts in mind, answer the following questions:
+
+1. Would it be possible to provide access through URI-based semantics using Data Services?
+You can use ASP.NET with a WCF data service, to make data available to outside parties using URI-based semantics.
+OData Support is one of the main reasons to use WCF Data Services, and it is URI addressable. 
+You can query data and do quite a bit with it by changing and manipulating URIs.
+
+Yes, in fact, that’s the primary benefit. Items can be accessed using traditional code or
+using URI-based semantics, but in this case, URI semantics would be particularly useful.
+
+2. What operations are easily supported?
+QueryOperations are easily supported. QueryOperations are denoted with the $ at the beginning of an operation and can
+control a wide variety of functions, including the number of items returned to specifying the TOP x of the resultset.
+
+All Create, Retrieve, Update, and Delete (CRUD) operations.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+27) You need to create an interceptor that runs each time you try to return Topic items. Which items should you use? (Choose all that apply.)
+
+A. ChangeInterceptor
+B. QueryInterceptor
+C. DataServiceProtocolVersion
+D. SetEntitySetAccessRule
+
+B
+
+Correct answer: B
+A. Incorrect: This would be right only if the data were being changed. It’s just being
+queried.
+B. Correct: This is the only one that can handle items when they are queried.
+C. Incorrect: This simply would not work for the task at hand or even come close
+to it.
+D. Incorrect: This simply would not work for the task at hand or even come close
+to it.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+28) You need to return all questions that have an Id greater than 5. Which query should you use?
+
+A. http://servicehost/ExamPrepService.svc/Questions?$filter=Id gt 5
+B. http://servicehost/ExamPrepService.svc/Questions?$filter(ID> 5)
+C. http://servicehost/ExamPrepService.svc/Questions(>5)
+D. http://servicehost/ExamPrepService.svc/Questions?$select(Id) gt 5
+
+A
+
+Correct answer: A
+A. Correct: The entity name, followed by a filter condition using gt for greater than 5
+is what’s required here.
+B. Incorrect: The query and filter syntax is incorrect.
+C. Incorrect: No mention is made of a filter here, and the syntax is incorrect.
+D. Incorrect: The id field and operator are correct, but the syntax is incorrect.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+29) Assume you have the following C# code snippet.
+var selectedQuestions = from q in context.Questions
+						where q.QuestionNumber > 30
+						orderby q.QuestionId descending
+						select q;
+
+Which of the following URI queries is the equivalent?
+
+A. http://Service/Question.svc/Questions?Orderby=QuestionId&?$QuestionNumber ( gt 30)
+B. http://Service/Question.svc/Questions?Orderby=QuestionId&?$QuestionNumber gt 30
+C. http://Service/Question.svc/Questions?Orderby=QuestionId&?filter=(QuestionNumber > 30)
+D. http://Service/Question.svc/Questions?Orderby=QuestionId&?filter=QuestionNumber gt 30
+
+D
+
+Correct answer: D
+A. Incorrect: The filter and query syntax are incorrect.
+B. Incorrect: The filter and query syntax are incorrect.
+C. Incorrect: The filter syntax is incorrect.
+D. Correct: The OrderBy field is specified correctly, as is the filter field.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+30) You are building an application that makes extensive use of XML. The document
+structures follow very consistent patterns, and sometimes large applications to
+manipulate these structures are similar.
+With this in mind, answer the following questions:
+
+1. Would your application benefit from using LINQ-to-XML?
+Yes you can then use XElement(represents an XML fragment.) classes to create XML documents  
+You can use LINQ-to-XML features to query  XML files.
+
+The more consistent the structures are, the more any approach will be simplified. LINQ
+semantics allow much simpler interaction with the documents, although any of the
+existing .NET XML libraries can work.
+
+2. What could be done to simplify consumption of the documents?
+Make sure that the structure of the XML documents are validated using a schema xsd.
+In this way we are guaranteed that the XML documents have a certain structure. 
+Furthermore consumption/processing of XML files can be simplified if you dont use deep nested structures.     
+
+The more consistent the data, the more one approach can be reused. Because the
+documents are all similar, the hard part, so to speak, is largely addressed. You might
+consider doing an intermediate transform on the documents, though, to render them
+as one very consistent format that might make it even simpler.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+31) You need to use an ampersand (&) in the name of an element you create with an XElement
+item. Which of the following allows a correctly created element name?
+
+A. Just pass in the string to the XElement constructor; it handles it automatically by
+calling the XmlConvert class transparently.
+B. Manually escape the character sequence.
+C. Use the XmlConvert.Encode method to create the string to pass into the constructor.
+D. All of the above.
+
+D
+
+Correct answer: D
+A. Incorrect: Technically correct, but other answers are all correct, so choice D is the
+only one.
+B. Incorrect: Technically correct, but other answers are all correct, so choice D is the
+only one.
+C. Incorrect: Technically correct, but other answers are all correct, so choice D is the
+only one.
+D. Correct: Because each of the other answers is correct, this one is the right answer.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+32) Which of the following are requirements for a valid and well-formed XML document?
+
+A. Every element must have a corresponding closing element.
+B. Every element must have at least one attribute.
+C. Every attribute must have a corresponding closing attribute.
+D. Elements and attributes can be used interchangeably as long as they have open and closing tags.
+
+A
+Correct answer: A
+A. Correct: An element can self-close, but each opening element must be closed.
+B. Incorrect: Elements might have attributes, but there is no requirement for an element
+to have an attribute.
+C. Incorrect: Attributes don’t require matching closure tags.
+D. Incorrect: Elements can be nested and structured in a way that accomplishes the
+same goal as attributes, but attributes can’t contain elements.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+33) You have an object model that has a relational hierarchy three levels deep. 
+In ad-dition to one chain that nests three levels deep (parent, child, and grandchild), 
+you have four other child relations. In total, you have a parent and five related children, 
+and the first child has two children of its own. With this in mind, answer the following questions:
+
+1. Should you pull back the entire chain and all the data, or pull back only a portion and then make roundtrips for the additional data as needed?
+
+There are cases that require you to pull down an entire data set and work with it. There are other times when
+you might deal with huge amounts of data that you might never need. If you know
+exactly what data you need, lazy loading can actually hurt performance, even when there
+are several related entities, because it requires multiple roundtrips to the database instead of
+just one. On the other hand, if you aren’t sure of the number of roundtrips and have a high
+probability that you won’t need all the data pulled back, lazy loading is generally a better option
+because you pull back only the data you need. If you’re not making many roundtrips, the
+performance loss is likely going to be trivial.
+
+The answer depends on how the data is used. Chances are that only a portion of the
+items in the chain will be referenced frequently. You might have an application that
+needs all the data or most of it for every typical use case, however. It depends on the
+nature of the application. It should be tested extensively, and logging and tracing
+should be used to see how frequently the nonparent data is referenced.
+
+2. If you pull back all the data, what problems might you face?
+
+You could retrieve a huge amount of data resulting in memory usage problems because 
+the retrieved data is stored in RAM.   
+
+If you pull back all the data, you might have performance or responsiveness issues,
+especially if you have network constraints. If each of the children or grandchildren has
+only a few records and is small in size, this will be minimized. However, if there are
+substantially sized records or high record counts on any of the descendants, it might
+take a lot longer to query and update and could cause serious issues with application
+responsiveness.
+
+3. If you choose to lazy load, what problems might you face?
+
+You might need multiple roundtrips to the database. If you’re not making many roundtrips, the
+performance loss is likely going to be trivial. 
+
+If you chose to lazy load the data, and it is necessary for the majority of the use cases,
+you will cause several roundtrips to the server. Over a constrained network or a lowpowered
+device, these frequent roundtrips could easily cause wait times that greatly
+exceed the overhead of pulling all the data back at once.
+
+4. How should you go about determining which approach should be used?
+
+You should observe/log data usage in your application. The data used can give you an indication
+which data is often used and which is data is used sometimes (low probability of usage).
+Highly used data should be loaded and data that is used sometimes, can be loaded using lazy loading.      
+
+Several factors should go into your decision. First, the number of records should be
+considered. If you have only one or two records for each of the child relations, and the
+record sizes are small, pulling it all down at once will probably be beneficial. But even if
+the record count is small or the record size is small, if you don’t need the data, there’s
+no use of pulling it down. As such, the typical use cases should be tested extensively,
+and you should have logging in place to help build frequency distributions of usage.
+This necessitates a good bit more work up front, both in testing and analyzing, but
+will pay huge dividends down the road because getting it wrong is very expensive to
+correct.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+34) You create a LINQ query as follows. Which of the statements is correct?
+
+	var query = (from acct in context.Accounts
+	where acct.AccountAlias == "Primary"
+	select Acct).FirstOrDefault();
+
+A. A foreach loop is needed before this query executes against the database.
+B. NavigationProperty needs to be referenced before this query executes against the database.
+C. The query returns results immediately.
+D. It depends on whether the LazyLoadingEnabled property is set.
+
+C
+The use of FirstOrDefault method to ensure that you bypass deferred execution because it
+requests a scalar value.
+
+Correct answer: C
+A. Incorrect: Because of the FirstOrDefault, it is executed immediately.
+B. Incorrect: With the FirstOrDefault, it is executed immediately and does not need to be iterated.
+C. Correct: Because the value is returned immediately, it works without any iteration.
+D. Incorrect: Lazy loading is important, but not here.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+35) Assume you call the Add method of a context on an entity that already exists in the database. 
+Which of the following is true? (Choose all that apply.)
+
+A. A duplicate entry is created in the database if there is no key violation.
+B. If there is a key violation, an exception is thrown.
+C. The values are merged using a first-in wins approach.
+D. The values are merged using a last-in wins approach. 
+
+AB
+
+Correct answers: A, B
+A. Correct: If there is no key constraint violation, a second copy of the entity will be
+created in the database.
+B. Correct: If there is a key constraint violation, an exception will be thrown.
+C. Incorrect: The values will not be merged
+D. Incorrect: The values will not be merged.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+36) What happens if you attempt to Attach an entity to a context when it already exists in
+the context with an EntityState of unchanged?
+
+A. A copy of the entity is added to the context with an EntityState of unchanged.
+B. A copy of the entity is added to the context with an EntityState of Added.
+C. Nothing happens and the call is ignored.
+D. The original entity is updated with the values from the new entity, but a copy is not
+made. The entity has an EntityState of Unchanged.
+
+D
+
+Correct answer: C
+A. Incorrect: A copy is not added with an EntityState of Unchanged.
+B. Incorrect: A copy is not added with an EntityState of Added.
+C. Correct: There isn’t an operation because it already exists.
+D. Incorrect: The original entity is not updated or merged.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+37) You have several applications that have been built using older versions of ADO.NET.
+Your development team is not very familiar with the EF and is still in the learning
+process. Your CTO has decided that everything should be ported to the newest version
+of the .NET Framework and all data access should use the EF.
+With this in mind, answer the following questions:
+
+1. Would using the Entity providers help facilitate the transition?
+
+The syntax is much closer to old ADO.NET, and it would make some sense to take
+an incremental approach. By using similar objects, testing is minimized and there is
+a higher likelihood that no new bugs will be introduced. You can make the converse
+argument that completely revamping everything saves some time and effort, but using
+an incremental approach is probably best in this case.
+
+2. Is the decision to move all code to the EF a sound decision?
+No, it would result in a lot of additional work, while ADO.NET is still supported and capable to do the job.   
+
+“Sound” is somewhat relative, and if existing applications are already in place, tested,
+and working, any changes introduce the possibility of new bugs. On the other hand,
+the EF is clearly the choice that Microsoft has made for data access, and if it is not
+done, two skill sets are ultimately needed. It really depends on how important consistency
+is and how much legacy code is in place.
+
+3. Should you employ any existing operations as asynchronous?
+Asynchronous processing can enhance (UI) responsiveness of an application. 
+When changing synchronous operations to asynchronous operations, you need
+to make sure that you not create/introduce any concurrency issues      
+
+Asynchronous operations have been available since the inception of .NET. If the operations
+should have been asynchronous initially and were implemented statically, this
+provides an opportunity to fix it. On the other hand, asynchronous programming is
+much more complicated, and bugs are often much harder to find and diagnose. Under
+the circumstances, it is prudent to replace the existing provider code with entity data
+provider code as closely as possible, unless big mistakes were made originally by overlooking
+asynchronous operations.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+38) You need to execute a query against a SQL Server database and populate a set of objects. 
+The retrieval operation is time-consuming, and users are complaining about sluggishness. 
+You need to make sure the application doesn’t seem to “hang” while the operation is taking place. 
+Which of the following would accomplish that task? (Choose all that apply.)
+
+A. Use the ExecuteReader method of the EntityCommand class.
+B. Use the ExecuteScalarAsync method of the EntityCommand class.
+C. Use the ExecuteReaderAsync method of the SqlCommand class.
+D. Use the ExecuteReaderAsync method of the System.Data.OleDb.Command class.
+
+Use the Async Readers BC
+
+Correct answer: C
+A. Incorrect: Using the ExecuteReader method, the EntityCommand would carry as
+much, and likely more, overhead than the ADO.NET equivalent. There is no benefit
+in processing or on the client side.
+B. Incorrect: Using the async call can keep the operation from blocking, but the type
+here is incorrect.
+C. Correct: Using the ExecuteReaderAsync in conjunction with the SqlCommand
+class would accomplish this goal. Overall processing wouldn’t speed up, but the
+blocking on the client would be reduced, giving the impression of a much more
+responsive UI.
+D. Incorrect: Provider-specific libraries are always the fastest. Because this database
+is SQL Server, the SqlClient namespace can be used, and it would operate more
+quickly and with more features than the more generic OleDb equivalent.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+39) The application you’re working on uses the EF to generate a specific DbContext instance. 
+The application enables users to edit several items in a grid and then submit the changes. 
+Because the database is overloaded, you frequently experience situations that result in only partial updates. 
+
+What should you do?
+
+A. Call the SaveChanges method of the DbContext instance, specifying the UpdateBehavior.All enumeration value for the Update behavior.
+B. Use a TransactionScope class to wrap the call to update on the DbContext instance.
+C. Create a Transaction instance by calling the BeginTransaction method of the DbContext Database property. 
+Call the SaveChanges method; if it is successful, call the Commit method of the transaction; if not, call the Rollback method.
+D. Use a TransactionScope class to wrap the call to SaveChanges on the DbContext. Call Complete if SaveChanges completes without an exception.
+
+CD
+
+Correct answer: D
+A. Incorrect: SaveChanges can help the scenario, but only if done in the context of
+another transaction. Without one, it is of no value in this case.
+B. Incorrect: A TransactionScope would be a good choice, but the DbContext doesn’t
+have an Update method, so it is irrelevant.
+C. Incorrect: This approach could work, but the transaction would need to be established
+on the connection, not on the context.
+D. Correct: Calling SaveChanges inside of a TransactionScope and selecting the Complete
+property if things are successful accomplishes this goal perfectly.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+40) The application you’re working on uses the EF. You need to ensure that operations can be rolled back if 
+there is a failure and you need to specify an isolation level. Which of the following would allow you to accomplish this? 
+(Choose all that apply.)
+
+A. A EntityTransaction
+B. A TransactionScope
+C. A SqlTransaction
+D. A DatabaseTransaction
+
+ABC
+
+Correct answers: A, B
+A. Correct: An EntityTransaction would accomplish each goal as it provides rollback
+functionality and setting of an isolation level.
+B. Correct: A TransactionScope would accomplish each goal as it provides rollback
+functionality and setting of an isolation level.
+C. Incorrect: A SqlTransaction would work, but not in this context.
+D. Incorrect: There is not a valid class called DatabaseTransaction.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+41) You’re using LINQ to Entities and are experiencing serious performance problems.
+Your database administrators (DBAs) insist that your queries are the problem, but
+your developers tell you the opposite.
+
+With this in mind, answer the following questions:
+
+1. How can you determine the problem source?
+First you can time the duration of executed queries (not using deferred execution).
+Furthermore you can inspect the generated SQL query to see if it does not have any faults.  
+
+Obviously, logging is needed to determine what SQL is being sent back to the database.
+It is possible that the problem is the queries, the database, or both. The only way
+to know is to rule out one thing at a time—in this case, start with the entity logging.
+
+2. What features should you implement?
+
+Depending on the source, the LINQ queries might need restructuring. Lazy loading
+and caching might be in order. Moving the queries to stored procedures might help
+(not because stored procedures are inherently faster, but because they would yield the
+same queries each time, which in turn might help with cached execution plans).
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+42) You are executing a query against a LINQ to EDM that contains an Account entity, among others. 
+Which of the following are valid choices for storing the data?
+
+A. IListCollection<Account>
+B. ObjectQuery<Account>
+C. ObjectContext.Account
+D. IQueryable<Account>
+
+D
+
+Correct answers: B, D
+A. Incorrect: IListCollection is not a valid interface and would not work.
+B. Correct: ObjectQuery implements IOrderedQueryable, IQueryable, IEnumerable,
+IListSource, and Account is a valid type.
+C. Incorrect: The ObjectContext base class does not have or use a custom Account
+entity.
+D. Correct: IQueryable passing in the Account type will definitely work.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+43) Which interfaces must be implemented in order for something to be queried by LINQ? (Choose all that apply.)
+
+A. IEnumerable
+B. IQueryable
+C. IEntityItem
+D. IDbContextItem
+
+AB
+
+Correct answers: A, B
+A. Correct: The item must be either IEnumerable or IQueryable.
+B. Correct: The item must be IEnumerable or IQueryable.
+C. Incorrect: IEntityItem will not work and has no value here.
+D. Incorrect: IDbContextItem will not work and has no value here outside of the current zone.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+44) You’ve made extensive use of DataAdapters, and your application has been performing
+well. Lately, though, it has started to slow down dramatically, and users
+report that the longer they use the application, the more sluggish it becomes.
+
+With this in mind, answer the following questions:
+
+1. One manager is sure that it is a memory leak or something related to not closing
+connections, How can you determine the validity of such a statement?
+
+Using the databaseprofier, you can determine the number of open database connection.
+Furtheremore you can use the Application profiler of VS to monitor the application 
+(Nr of connections, memory usage etc.). Finally you can use Windows Performance counters
+to monitor. In the application you can add logging to time method calls, and see which one
+takes a long time.         
+
+If you’re opening the adapters, there’s a possibility they aren’t being closed and
+disposed of properly. However, if you’re relying on the adapter to open and close the
+connection, it is unlikely that it is the problem. The more likely issue is that you are
+caching too much data locally, and it is being held on to well past its useful life. Less
+caching and more round trips to the database might actually help in this case, depending
+on the exact nature of the problem, but each area should be looked at.
+
+2. What might you do to speed things up?
+First you need to determine the cause of the delays before you can fix it.
+You can use SQL server Connection pools to speed up connection with the database.  
+Make sure that you connect to the database for the least amount of time.
+In order to avoid memory leaks, make sure you dispose objects that are no longer needed.    
+
+Overuse of a DataAdapter could be a problem. Remember that an adapter always uses
+a DataReader. There might be times when individual values are being queried using
+an adapter that could be replaced with a DataReader. You might be able to determine
+counts and aggregates from the returned data instead of executing aggregate queries.
+You might be able to rely less on joins and use DataRelations locally to enforce constraints.
+You could also consider disabling and reenabling constraints before and after
+load operations.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+45) You need to execute the following SELECT query using the COUNT aggregate to determine
+the total record count in a table:
+SELECT COUNT(*) FROM ExamQuestions;
+Which of the following enables you to do that? (Choose all that apply.)
+
+A. SqlDataAdapter in conjunction with a SqlDataReader
+B. SqlDataAdapter in conjunction with a DataTable
+C. SqlDataAdapter in conjunction with a DataSet
+D. The SqlDataReader ExecuteScalar method
+
+D
+
+https://docs.microsoft.com/en-us/dotnet/api/system.data.sqlclient.sqldataadapter?view=dotnet-plat-ext-3.1
+https://docs.microsoft.com/en-us/dotnet/api/system.data.sqlclient.sqldatareader?view=dotnet-plat-ext-
+https://docs.microsoft.com/en-us/dotnet/api/system.data.sqlclient.sqlcommand.executescalar?view=dotnet-plat-ext-3.1
+
+Correct answers: B, C, D
+A. Incorrect: A SqlDataAdapter cannot be used with a SqlDataReader together at all.
+B. Correct: A SqlDataAdapter and a DataSet will work for this (use the Rows property
+of the primary DataTable).
+C. Correct: A SqlDataAdapter and a DataTable will work for this (use the Rows property
+of the DataTable).
+D. Correct: ExecuteScalar would work assuming that the COUNT aggregate function
+was used, which it was.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+46) Which of the following are true about SqlConnection objects? (Choose all that apply.)
+
+A. They should be opened at the last possible moment and closed at the earliest opportunity.
+B. They should be opened as early as possible and closed as early as possible.
+C. They should be opened as late as possible and closed as late as possible.
+D. As long as the Close statement is called in a catch block, the object will be closed and disposed of correctly.
+
+A
+
+Correct answer: A
+A. Correct: Leaving connections open when they aren’t being used is wasteful and
+can cause serious performance problems. Accordingly, they should always be
+opened at the last possible moment before they are needed and closed immediately
+when they are no longer needed.
+B. Incorrect: Opening a connection before it is needed is wasteful and could have
+serious performance implications.
+C. Incorrect: Leaving a connection open when it is no longer needed is wasteful and
+could cause serious performance problems.
+D. Incorrect: Calling Close in a Finally block, or wrapping it in a using statement
+would ensure that it is closed properly. If Close is called inside a Catch block, it is
+entirely possible that another exception could be thrown there, leading to the connection
+dangling unclosed.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+47) What are the advantages of a compiled query?
+
+A. None. Every time you run the query you will hit the database.
+B. The results of the query are cached making the querying a lot faster.
+C. The translation of your query into SQL is cached.
+D. None. You can’t change any of the parameters you use in a query, rendering the compiled query useless.
+
+C
+
+Correct answer: C
+A. Incorrect: It’s true that you will hit the database each time you execute the query.
+But there is still a performance gain because a compiled query caches the steps
+required to convert your query to SQL.
+B. Incorrect: It’s not the results of the query that are cached. Instead the generated
+SQL is cached. This can be parameterized to get specific data from the database.
+C. Correct: By caching the generated SQL a compiled query can execute faster.
+D. Incorrect: The generated SQL is cached but it’s also parameterized so you can
+specify new values for your parameters on each execution.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+48) You have a huge set of legacy code that employs traditional ADO.NET. You have
+been charged with moving it to the EF.
+With this in mind, answer the following questions:
+
+1. Should you use POCOs or use entities exclusively?
+
+The most easy way to implement EF in a legacy system is to use EF to populate your existing business objects and
+leave everything else in place, hence you would use POCOs that are already present in the legacy system. 
+
+POCOs might make sense; they might not. The more you’re moving to Entities, the less
+relevant POCOs will generally be, although that’s a general statement and there are
+plenty of exceptions. If you have the POCOs already, it would help make the case to
+continue their use. If not, and you’re using DataSets and DataTables exclusively, moving
+to Entities completely would probably make more sense.
+
+2. Would it make sense to use EF to populate your existing business objects and leave everything else in place?
+
+If your existing business objects can be mapped to the DataBase using EF, you can use EF to populate your business objects.   
+
+One could make the case that just changing the plumbing, so to speak, would be a
+good intermediate strategy. But generally it is not worth the effort. If there’s a ton
+of code with a lot of complex UI behavior, it could provide some benefit because
+you wouldn’t need to regression test as much. On the other hand, for smaller-sized
+projects, it is probably just a waste of extra effort with very little value proposition.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+49) Which of the following are necessary components of an EDM? (Choose all that apply.)
+
+A. SSDL
+B. MSL
+C. CSDL
+D. .edmx
+
+ABCD
+
+Correct answers: A, B, C, D
+A. Correct: The SSDL file is necessary to define the database schema information.
+B. Correct: The MSL file is necessary to define the mappings between the other two
+files.
+C. Correct: The CSDL file is necessary to define the entity layer of the application.
+D. Correct: The MSL, CSDL, and SSDL files are all necessary and are rolled into the
+.edmx file.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+50)You have been tasked with completing a coworker’s data model. You are told that
+there are some specific issues in the .ssdl file and the .msl file, but when you look at the
+project, you don’t see either of them. What is the problem?
+
+A. The actual .csdl file no longer exists because it has been consolidated in the .edmx
+files. Its logical purpose is still contained and present, however.
+B. The actual .msl file no longer exists because it has been consolidated in the .edmx
+files. Its logical purpose is still contained and present, however.
+C. The actual .csdl file no longer exists because it has been consolidated in the .edmx
+files. Because it is no longer needed, there is no need to reference it or for anything
+to try to replace it.
+D. The actual .msl file no longer exists because it has been consolidated in the .edmx
+files. Because it is no longer needed, there is no need to reference it or for anything
+to try to replace it.
+
+AB
+
+Correct answers: A, B
+A. Correct: The CSDL file doesn’t physically exist in later versions of EF. However, the
+core of what they do is still needed; they just take a different form and are consolidated
+inside the .edmx model.
+B. Correct: The MSL file doesn’t physically exist in later versions of EF. However, the
+core of what they do is still needed; they just take a different form and are consolidated
+inside the .edmx model.
+C. Incorrect: The CSDL file contents might be incorporated into the .edmx file, but
+the service it provides is still necessary. Without an equivalent functionality, the
+model will not work.
+D. Incorrect: The MSL file contents might be incorporated into the .edmx file, but the
+service it provides is still necessary. Without an equivalent functionality, the model
+will not work.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+51) You are building an ADO.NET Entity Framework application. You need to validate each
+of the models. Which Entity Data Model tool can you use to accomplish this?
+
+A. The EDM Generator (EdmGen.exe)
+B. ADO.NET Entity Data Model Designer
+C. Entity Data Model Wizard
+D. Update Model Wizard
+
+A
+
+Correct answers: A, B
+A. Correct The EdmGen.exe tool can be used with the ValidateArtifacts switch to
+validate a model.
+B. Correct: The ADO.NET entity model designer can be used to validate models.
+C. Incorrect: The entity data model wizard may validate a model during creation but
+will not perform the validation after the fact.
+D. Incorrect: The Update Model Wizard is intended to let you update an .edmx file
+after changes have been made to the underlying database. It is not intended to
+perform validation.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+52) You are building a WCF Service. There are several methods that you do not want to
+expose to clients but need to use internally. Several complex types, including enumerations,
+will be transferred between the client and server. Although the majority
+of your clients are using .NET, you want to make sure that any decision errs on the
+side of interoperability. With this in mind, answer the following questions:
+
+1. How should you handle the methods that you don’t want publicly exposed?
+
+You can have methods that are defined in the service that are not defined in the interface, 
+but they are not accessible from a client application. Similarly, you can have members defined 
+in the interface that are not decorated with the OperationContract attribute, but if they are 
+not decorated accordingly, they aren’t part of the service as far as the rest of the world is concerned.
+
+2. How should you handle the enumeration types and the complex types?
+
+Types that participate in WCF operations must be serializable. 
+When using DataContracts, you indicate that the .NET type decorated with the
+DataContract attribute is serialized. The DataContract explicitly puts forth
+all necessary information about how the data it represents will be serialized.
+You can use the KnownTypeAttribute (or just KnownType)
+to specify that a given type be included during deserialization.
+You need to specify either the DataMember attribute or EnumMember in case of enumerations
+for each property you want serialized.
+If any data types are defined, they must specify a serialization format (the most common
+being the DataContract attribute on the class, with the DataMember attribute
+decorating each of the supported members). You might not need to define any types
+as DataContracts, but unless you’re going to work exclusively with primitive types,
+you’ll need to use it (or another serialization counterpart).
+
+
+3. Should anything special be done to deal with exceptions?
+
+In order not to expose the details of the implementation, you need to use FaultContract attribute.
+Furtheremore, FaultContract attribute Provide information on exceptions in a platform-agnostic manner.
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+53) You’ve implemented a method named GetQuestionText that can throw an
+IndexOutOfRangeException or a SqlException. Which of the following items would
+correctly expose these exceptions?
+
+A. 	[FaultContract(typeof(IndexOutOfRangeException))]
+	[FaultContract(typeof(SqlException))]
+	[OperationContract]
+	String GetQuestionText(Int32 questionNumber);
+B.	[FaultMapping(new FaultMappingCollection[]{IndexOutOfRangeException,SqlException})]
+	[OperationContract]
+	String GetQuestionText(Int32 questionNumber);
+C.	[FaultMapping(new FaultMappingCollection[]{typeof(IndexOutOfRangeException), typeof(SqlException)})]
+	[OperationContract]
+	String GetQuestionText(Int32 questionNumber);
+D.	[FaultContract(IndexOutOfRangeException)]
+	[FaultContract(SqlException)]
+	[OperationContract]
+	String GetQuestionText(Int32 questionNumber);
+
+A
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+54) Which of the following are true regarding WCF Services and their contracts? 
+(Choose all that apply.)
+
+A. Each service must have a corresponding Interface class.
+B. The ServiceContract and OperationContract attributes must be applied to the
+contract, not the implementation.
+C. The ServiceContract and OperationContract attributes can be applied to either the
+contract or the implementation.
+D. A complex type does not need to be serializable as long as all its properties are
+serializable.
+
+AC
+
+The ServiceContract and OperationContract attributes can be defined on the service
+implementation or the contract, but not both.
+A service is denoted by the use of the ServiceContract attribute. You can decorate your
+class definition with the ServiceContract attribute, but it makes much more sense to add the
+definition to the interface instead. Because the Service has to implement the interface, applying
+the ServiceContract attribute to the interface definition has the effect of basically marking
+the class as a ServiceContract.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+55) You are tasked with adding a method named GetCurrentStockPrice to an existing service.
+The Service is named QuoteService and it implements the IQuoteService Contract.
+How should you go about adding this new method? (Choose all that apply.)
+
+A. Add the method definition to the IQuoteService Contract.
+B. Add the OperationContract attribute to the method definition.
+C. Add the OperationBehavior attribute to the method definition.
+D. Create a new ServiceContract class and add the GetCurrentStockPrice method to it.
+
+AB
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+56) You are building a WCF Service. You expect a tremendous growth in clients and will
+likely have to support and change quite a few different features. Your service will be
+hosted internally, so you have full access to it without any real restrictions.
+With this in mind, answer the following questions:
+
+1. Would it make sense to use configuration to host custom bindings?
+
+Yes, you can specify just about everything needed to make a service operate as desired using
+a configuration file without having to rebuild it and redeploy it.
+
+2. What bindings would you choose to configure? 
+
+The communication mode you want to use HTTP, named pipes, TCP, MSMQ.
+Interoperability mode, you can for example specify Basic, Duplex or Simplex communication. 
+EndpointBehavior related to security: (clientCredentials) by using for example wsHttpEndpoint
+
+<behaviors>
+	<endpointBehaviors>
+		<behavior name="wsHttpBehaviorSample">
+			<clientCredentials />
+		</behavior>
+	</endpointBehaviors>
+	<serviceBehaviors>
+		<behavior name="Debug">
+			<serviceDebug />
+		</behavior>
+	</serviceBehaviors>
+</behaviors>
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+57) What are the minimum steps that must be performed to configure a service using the WCF Service Configuration Editor? (Choose all that apply.)
+
+A. Specify a new service.
+B. Specify a MetadataExchange endpoint.
+C. Specify a security configuration.
+D. Specify a contract.
+
+ABD
+
+The Metadata Exchange endpoint is used by the service to describe itself to clients,
+and if you hit the endpoint you’ll see the wsdl of the service, which clients can use 
+to gather whatever information you made available about the service.
+
+Specifying security configuration is optional.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+58) Which of the following items can be handled through configuration? (Choose all that apply.)
+
+A. Defining the service’s type.
+B. Defining the service’s contract.
+C. Specifying a security configuration.
+D. Adding metadata exchange.
+
+CD 
+
+NOT B You can specify the service and service contract in the App.config but you cannot define a service contract, 
+you define a service contract in code (the interface).
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+59) Which of the following is not a benefit of configuration?
+
+A. Ability to change Endpoint URIs
+B. Ability to modify security settings
+C. Ability to redefine metadata exchange
+D. Ability to add new method definitions 
+
+D
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+60) You are building a WCF Service, and you have all the requirements for the service’s
+foreseeable future clearly defined. You have all your options open with respect to
+implementation.
+
+With this in mind, answer the following questions:
+
+1. Should you lean toward a configuration-based approach, try to define everything
+imperatively (hardcoding settings), or use a mixed approach?
+
+You can use a mixed approach, hard-coded values when necessary else use configuration-based values.     
+The more you hard-code, the less flexibility there is. You can define a binding in code, for example,
+and use a configuration element to specify an endpoint address. Doing this would give
+you more flexibility than hard-coding all the values, but it would still force your hand in terms
+of what bindings were used. If you use configuration, you can accomplish most of the same
+things you would through hard-coding, but not the other way around.
+
+2. What downside would you experience if you defined everything imperatively?
+
+You have no flexibility to change application settings without recompiling the application. 
+
+3. What downside would you experience if you defined everything in configuration?
+
+You have more flexibility to change application settings, hence the application users can 
+also change settings that were not meant to be changed.   
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+61) You are creating a CustomBinding that will be consumed only by .NET clients. Performance is the primary concern. 
+Which of the following are true? (Choose all that apply.)
+
+A. You must define a TextMessageEncodingBindingElement to the binding.
+B. You must define a BinaryMessageEncodingBindingElement to the binding.
+C. You must not define either the TextMessageEncodingBindingElement or the MTOMMessageEncodingBindingElement.
+D. You must define the BinaryMessageEncodingBindingElement. 
+
+B
+
+TextMessageEncodingBinding is the simplest of the available items, and it’s the most
+interoperable. That’s easy to understand because text is universally accessible. Although
+it’s the best for interoperability, it’s the worst for performance and efficiency precisely
+because it transports everything as text—so its biggest strength is also its greatest weakness.
+
+BinaryMessageEncodingFormat does exactly what its name implies; it serializes and
+deserializes messages through binary. However, it uses a .NET-specific format, so it’s least
+interoperable but the most efficient of the available formats.
+
+MTOMMessageEncoding-BindingElement tries to strike a balance between efficiency and interoperability. It transmits
+most of the XML as text, but it leaves large blocks of binary data as they are without
+converting them to base64 encoding.
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+62) The ServiceOperation attribute is defined on both the service implementation and the interface definition. 
+Each of the property settings is explicitly defined, and each property matches its counterpart in the other definition. 
+Which of the following is true?
+
+A. As long as the property values are identical or don’t conflict with each other, the service will behave as desired.
+B. The items defined on the interface will override the ones on the implementation class.
+C. The items defined in the implementation class will override the ones on the interface definition.
+D. The service will throw an InvalidOperationException because this attribute cannot be defined on both items.
+
+D
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+63) Which of the following are valid transport binding elements when defining a custom binding?
+
+A. TcpTransportBindingElement
+B. TcpBinding
+C. HttpTransportBindingElement
+D. MTOMTransportBindingElement
+
+AC
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+64) You are building several WCF Services, and some will employ sensitive information.
+Others transfer information that is completely public and are intended to be as easy
+to use as possible. Your service will be hosted internally, so you have full access to it
+without any real restrictions.
+
+With this in mind, answer the following questions:
+
+1. For the secure information, would you choose message level security, transport level security, or both?
+
+The most usual way to secure information is using transport level security. Depending on how sensitive
+the information is, you can choose both (message and transport level security).       
+
+2. For the less-sensitive information, would you still want to implement any security?
+
+Yes you want service Integrity, because you dont want that message sent by the WCF service be tampered with without being detected.  
+
+3. Would certificate-based security be a good fit for either scenario?
+
+No because some of the services are public so you dont know the clients. In order to use
+certificate-based security you need to install certificates on the client.      
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+65) You are using IIS to host a WCF Service. Which of the following would help implement transport security 
+over http (https) without removing previously existing functionality?
+
+A. The new Https protocol mapping feature
+B. Use of a wsHttpsBinding instead of a wsHttpBinding
+C. Enabling https for the virtual directory that contained the WCF Service items
+D. Ensuring that a metadata is enabled for the service
+
+D (If metadata means adding the security node in the app.config or WCF Service Configuration Editor)
+
+To secure the message, you simply need to set the Security.Mode property to the corresponding binding’s 
+SecurityMode enumeration indicating that message security should be set.
+https://docs.microsoft.com/en-us/dotnet/framework/wcf/samples/ws-transport-security
+<bindings>  
+  <wsHttpBinding>  
+	<!-- configure wsHttpbinding with Transport security mode  
+			   and clientCredentialType as None -->  
+	<binding name="Binding1">  
+	  <security mode="Transport">  
+		<transport clientCredentialType="None"/>  
+	  </security>  
+	</binding>  
+  </wsHttpBinding>  
+</bindings>  
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+66) Which of the following are true regarding WCF security? (Choose all that apply.)
+
+A. You can implement message level security
+B. You can implement transport level security
+C. You can implement both transport level and message level security
+D. Transport security can be enabled, and message security can be enabled, but they cannot both be enabled at the same time
+
+ABC
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+67) You are developing a WCF Service. The service must implement transport security, NTLM authentication, and NetTcpBindings. 
+Which of the following do you need? (Choose all that apply.)
+
+A. binding value of netTcpBinding
+B. clientCredentialType of netTcpBinding
+C. clientCredentialType of Transport
+D. security mode value of Transport
+
+AD
+https://docs.microsoft.com/en-us/dotnet/framework/wcf/feature-details/transport-security-with-windows-authentication
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+68) You are building several WCF Services. You have several different clients on several
+different operating system versions.
+
+With this in mind, answer the following questions:
+
+1. Do you recommend the Add Service Reference feature or Svcutil.exe?
+2. Do you recommend that the client proxies support generics or arrays?
+3. What other considerations might you find?
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+69) You need to build a client-side proxy class in VB.NET for a WCF Service named TestService that is hosted by one of your vendors. 
+Which of the following options would accomplish that task? (Choose all that apply.)
+
+A. Use the Svcutil.exe command-line tool with the following command: Svcutil.exe http://www.myvendor.com/TestService.svc
+B. Use the Svcutil.exe command-line tool with the following command: Svcutil.exe /l:visualbasic http://www.myvendor.com/TestService.svc.
+C. Use the Add Service Reference dialog box.
+D. Use the ChannelFactory class.
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+70) You are building a client to consume a WCF Service named TestService, and many of the methods have return types that 
+are generic list collections. You are expecting List<Type> return types for the calls, but the proxy class has implemented 
+each as an array. You want this type implemented specifically as the List<Type>. What should you do? (Choose all that apply.)
+
+A. Use the ToList<> extension method at the end of each call to the methods that are currently being returned as arrays.
+B. Change the Settings in the Add Service Reference dialog box using the Advanced screen. Change the Collection type to List.
+C. Regenerate the proxy class after changing the settings.
+D. Use the Add Web Reference dialog box to generate the proxy because it automatically respects the return type definitions.
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+71) Svcutil.exe provides which of the following features? (Choose all that apply.)
+
+A. Validates compiled service code.
+B. Downloads metadata documents from deployed services.
+C. Generates serialization code.
+D. Adds metadata exchange endpoints to deployed services.
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+72) You are building several WCF Services. You have to get the service out immediately, but there’s strong 
+reason to believe you’re going to have to quickly implement many new features and additional versions.
+With this in mind, answer the following questions:
+
+1. How can you avoid breaking changes?
+2. If you have breaking changes that you are forced to implement, how would you handle them?
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+73) Version 10 of the TestService (which implements the ITestService interface) is about to be updated and deployed. 
+The ITestService interface adds two new methods, both of which are scoped with the public modifier and are decorated 
+with the OperationContract attribute. Which of the following is true?
+
+A. The two additions will be considered breaking changes unless each assembly includes the correct version number.
+B. The two additions will not be breaking changes because they leave all previous functionality in place and just add new functionality.
+C. As long as the service and contract pairs are both deployed with their respective version numbers (versions 10, 11), clients will not encounter any problems.
+D. Answers B and C. 
+
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+74) Version 10 of the TestService assembly (which also includes the ITestService interface and implements it) 
+adds two new methods to the interface definition. The new methods use the Protected modifier and do not currently 
+contain the OperationContract attribute (on either the interface or the implementation). 
+
+Which of the following is true?
+
+A. There will not be breaking changes on any items that statically link to the assembly.
+B. There will not be breaking changes because the access modifiers are set to Protected.
+C. There will not break changes because they don’t implement the OperationContract attribute.
+D. It will be a breaking change to any assembly statically linked to it unless the new methods are also added to the implementation.
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+75) Which versioning strategies are supported through WCF?
+
+A. Strict Versioning
+B. Lax Versioning
+C. Mixed-Mode Versioning
+D. Contract Versioning
+
+--------------------------------------------------------------------------------------------------------------------------------

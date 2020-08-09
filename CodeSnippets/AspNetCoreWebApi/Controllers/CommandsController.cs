@@ -9,6 +9,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 
 //https://docs.microsoft.com/en-us/aspnet/core/web-api/?view=aspnetcore-3.1
 //https://docs.microsoft.com/en-us/aspnet/core/mvc/models/model-binding?view=aspnetcore-3.1
@@ -22,11 +23,14 @@ namespace AspNetCoreWebApi.Controllers
     {
         private readonly ICommanderRepo _repository;
         private readonly IMapper _mapper;
+        private readonly IMemoryCache _cache;
 
-        public CommandsController(ICommanderRepo commanderRepo, IMapper mapper)
+        public CommandsController(ICommanderRepo commanderRepo, 
+            IMapper mapper, IMemoryCache cache)
         {
             _repository = commanderRepo;
             _mapper = mapper;
+            _cache = cache;
         }
 
         //GET api/commands
@@ -148,6 +152,51 @@ namespace AspNetCoreWebApi.Controllers
             _repository.SaveChanges();
 
             return NoContent();
+        }
+
+        private readonly MemoryCacheEntryOptions options = new MemoryCacheEntryOptions()
+        {
+            AbsoluteExpiration = DateTime.Now.AddMinutes(1),
+            Priority = CacheItemPriority.Normal
+            //SlidingExpiration = TimeSpan.FromMinutes(1)
+        };
+
+        //api/commands/GetDate
+        [HttpGet]
+        [Route("GetDate")]
+        public ActionResult GetDate()
+        {
+            string greeting = _cache.Get<string>("greeting");
+            if(string.IsNullOrEmpty(greeting))
+            {
+                greeting = $"Greeting, the time is: {DateTime.Now.ToString()}";
+                _cache.Set<string>("greeting", greeting, options);
+            }
+
+            return Ok(greeting);
+        }
+
+        //api/Commands/GetCountries/Africa
+        [HttpGet]
+        [Route("GetCountries/{name}")]
+        public IActionResult GetCountries(string name)
+        {
+            Dictionary<string, long> lookup = new Dictionary<string, long>()
+            {
+                { "Africa",11189090 },
+                { "Asia",233432300 },
+                { "Europe",5000780},
+                { "America",795292579 },
+            };
+
+            if(lookup.ContainsKey(name))
+            {
+                return Ok(lookup[name]);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
     }
 }

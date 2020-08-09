@@ -73,7 +73,42 @@ STS		security token service Windows Azure ACS is an example of a commonly used S
 VHD 	(Virtual Hard Disk) is a file format representing a virtual hard disk drive (HDD). 
 		It may contain what is found on a physical HDD, such as disk partitions and a file system, 
 		which in turn can contain files and folders. It is typically used as the hard disk of a virtual machine.
-  	
-	
-	
-	
+OData	Open Data Protocol  	
+RDBMS	Relational Database Management	
+OOP 	object oriented programming
+SQL		Structured Query Language, The major vendors typically provided their own flavor in addition to basic support for ANSI SQL.
+		In the case of Microsoft, it was named Transact SQL or, as it’s commonly known, T-SQL.
+ORM O/RM, or O/R Mapping object-relational mapping, LINQ-to-SQL was one of the first major Microsoft initiatives to build an ORM tool.		
+EF 		Entity Framework: The primary benefit of using EF is that it enables developers to manipulate data as
+		domain-specific objects without regard to the underlying structure of the data store.
+		Ways to use EF is via a Code First technique, DataBase First technique and Model First technique. 
+TPH		Table per Hierarchy It creates a single table for all objects in an inheritance hierarchy, and it simply
+		has nullable columns for fields that aren’t common across all types. It also adds a Discriminator
+		column so EF can keep track of the type of each individual record.
+TPT		Table per Type. Creates a table for your base type that has all common fields in it, a table for each child type that stores the additional
+		fields, as well as an ID to the base type’s record that stores the common fields. The multiple
+		inheriting types’ tables are linked to one another via a foreign key that has a shared primary
+		key value. In this case, to get all the data for a single entity, EF must perform a join across multiple tables.		
+TPC		Table per Concrete Type		
+SOA		Service-Oriented Architecture
+WCF		Windows Communication Foundation
+WSDL	Web Service Definition Language
+EDM		Entity Data Model
+ACID	acronym for atomic, consistent, isolated, and durable, criteria for a database transaction
+TCO		total cost of ownership
+SLA		Service Level Agreement
+CDN		Content Delivery Network
+TTL		Time To Live
+transient	meaning will go away after some time.
+XPath	XML Path Language.
+LINQ to Entities
+LINQ to Objects 
+LINQ to SQL Language Integrated Query
+LINQ to XML Language Integrated Query
+CRUD	Create, Retrieve, Update, Delete
+MSMQ	Microsoft Message Queue		
+WAS		Windows Activation Service		
+SAML	Security Assertion Markup Language is an open standard that allows identity providers (IdP) to pass authorization 
+		credentials to service providers (SP). What that jargon means is that you can use one set of credentials to log into many different websites.
+BLOB	Binary Large Object
+LTS		Long-term support

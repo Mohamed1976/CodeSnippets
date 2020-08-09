@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Data;
+using System.Threading.Tasks;
+using EFCoreDBDemo.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace EFCoreDBDemo.Models
 {
@@ -15,6 +19,71 @@ namespace EFCoreDBDemo.Models
         {
         }
 
+        /* DbTransaction
+        * The first choice you have is to use the DbTransaction directly. Note that this is an
+        * IDbTransaction instance, not EntityTransaction or something with EF-specific nomenclature.
+        * How does it work? If you examine the DbContext class, you do not find a BeginTransaction
+        * method or anything nominally similar. The SaveChanges method initiates a Save on all the
+        * modified items and initiates a transaction on an item-by-item basis, but that’s similar to what
+        * DataAdapters do when you call their Update method.
+        * You have to get a hook to the underlying EntityConnection, which is exposed through the
+        * DbContext’s Database property. From there, you call the BeginTransaction. Now note that
+        * there’s no corresponding Commit or Rollback method on the EntityConnection. The Begin-
+        * Transaction returns an instance of a DBTransaction (if successful), so you need to provide an
+        * IDBTransaction variable to hold the reference to it. This reference is what you use to call either
+        * the Commit or Rollback methods:
+        */
+        private IDbContextTransaction _currentTransaction;
+
+        public async Task BeginTransactionAsync()
+        {
+            if (_currentTransaction == null)
+            {
+                _currentTransaction = await Database.BeginTransactionAsync(IsolationLevel.ReadCommitted)
+                    .ConfigureAwait(false);
+            }
+        }
+
+        public async Task CommitTransactionAsync()
+        {
+            try
+            {
+                await SaveChangesAsync().ConfigureAwait(false);
+
+                _currentTransaction?.Commit();
+            }
+            catch
+            {
+                RollbackTransaction();
+                throw;
+            }
+            finally
+            {
+                if (_currentTransaction != null)
+                {
+                    _currentTransaction.Dispose();
+                    _currentTransaction = null;
+                }
+            }
+        }
+
+        public void RollbackTransaction()
+        {
+            try
+            {
+                _currentTransaction?.Rollback();
+            }
+            finally
+            {
+                if (_currentTransaction != null)
+                {
+                    _currentTransaction.Dispose();
+                    _currentTransaction = null;
+                }
+            }
+        }
+
+        public virtual DbSet<ProductViewModel> ProductViewModels { get; set; }
         public virtual DbSet<Address> Address { get; set; }
         public virtual DbSet<BuildVersion> BuildVersion { get; set; }
         public virtual DbSet<Customer> Customer { get; set; }
@@ -30,6 +99,7 @@ namespace EFCoreDBDemo.Models
         public virtual DbSet<VGetAllCategories> VGetAllCategories { get; set; }
         public virtual DbSet<VProductAndDescription> VProductAndDescription { get; set; }
         public virtual DbSet<VProductModelCatalogDescription> VProductModelCatalogDescription { get; set; }
+        public virtual DbSet<SimpleCustomer> SimpleCustomer { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -42,6 +112,11 @@ namespace EFCoreDBDemo.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            modelBuilder.Entity<SimpleCustomer>().HasNoKey();
+
+            modelBuilder.Entity<ProductViewModel>().HasNoKey();
+
             modelBuilder.Entity<Address>(entity =>
             {
                 entity.ToTable("Address", "SalesLT");
