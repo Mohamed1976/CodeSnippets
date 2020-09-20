@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
+using System.ServiceModel.Web;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,7 +15,7 @@ namespace WcfServiceLibrary
         [OperationContract]
         bool InsertCustomer(Customer obj);
 
-        [OperationContract]
+        [OperationContract, WebGet] //Check when to use WebGet, WCF as rest service 
         List<Customer> GetAllCustomer();
 
         [OperationContract]

@@ -1,0 +1,5 @@
+﻿C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef migrations add InitialCreate -o BlogDemo\Data\Migrations -c DataLibrary.BlogDemo.Data.BloggingContext --project DataLibrary --startup-project EFCoreDBDemo
+C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef database update InitialCreate -c DataLibrary.BlogDemo.Data.BloggingContext --project DataLibrary --startup-project EFCoreDBDemo
+
+
+

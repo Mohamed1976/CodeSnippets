@@ -13,6 +13,33 @@ namespace _70_483_USING_NET_FRAMEWORK
         {
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
 
+            try
+            {
+                DataBaseExamples dataBaseExamples = new DataBaseExamples();
+                dataBaseExamples.Run();
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"{ex.Message}");
+                //throw;
+            }
+
+            try
+            {
+                WcfExamples wcfExamples = new WcfExamples();
+                wcfExamples.Run();
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"{ex.Message}");
+                //throw;
+            }
+
+            Console.ReadLine();
+            return;
+
             #region [ Linq Exercises ]
 
             try

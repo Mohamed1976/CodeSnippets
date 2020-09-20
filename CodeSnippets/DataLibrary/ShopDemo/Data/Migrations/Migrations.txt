@@ -1,0 +1,9 @@
+﻿C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef migrations add InitialCreate -o ShopDemo\Data\Migrations -c DataLibrary.ShopDemo.Data.ShopContext --project DataLibrary --startup-project EFCoreDBDemo
+C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef database update InitialCreate -c DataLibrary.ShopDemo.Data.ShopContext --project DataLibrary --startup-project EFCoreDBDemo
+
+C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef migrations add SQL_AddUdf -o ShopDemo\Data\Migrations -c DataLibrary.ShopDemo.Data.ShopContext --project DataLibrary --startup-project EFCoreDBDemo
+C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef database update SQL_AddUdf -c DataLibrary.ShopDemo.Data.ShopContext --project DataLibrary --startup-project EFCoreDBDemo
+
+C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef migrations add AddComputedColumn -o ShopDemo\Data\Migrations -c DataLibrary.ShopDemo.Data.ShopContext --project DataLibrary --startup-project EFCoreDBDemo
+C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef database update AddComputedColumn -c DataLibrary.ShopDemo.Data.ShopContext --project DataLibrary --startup-project EFCoreDBDemo
+

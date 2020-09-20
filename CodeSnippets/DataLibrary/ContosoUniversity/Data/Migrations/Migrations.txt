@@ -1,0 +1,34 @@
+﻿dotnet tool uninstall --global dotnet-ef
+dotnet tool install --global dotnet-ef
+dotnet tool update --global dotnet-ef
+
+C:\source\repos\CodeSnippets\CodeSnippets>dotnet ef migrations add InitialCreate -o ContosoUniversity\Data\Migrations -c DataLibrary.ContosoUniversity.Data.SchoolContext --project DataLibrary --startup-project EFCoreDBDemo
+C:\source\repos\CodeSnippets\CodeSnippets>dotnet ef database update InitialCreate -c DataLibrary.ContosoUniversity.Data.SchoolContext --project DataLibrary --startup-project EFCoreDBDemo
+
+C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef migrations add OwnedEntity -o ContosoUniversity\Data\Migrations -c DataLibrary.ContosoUniversity.Data.SchoolContext --project DataLibrary --startup-project EFCoreDBDemo
+C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef database update OwnedEntity -c DataLibrary.ContosoUniversity.Data.SchoolContext --project DataLibrary --startup-project EFCoreDBDemo
+
+C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef migrations add AddedDepartmentNavigation -o ContosoUniversity\Data\Migrations -c DataLibrary.ContosoUniversity.Data.SchoolContext --project DataLibrary --startup-project EFCoreDBDemo
+C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef database update AddedDepartmentNavigation -c DataLibrary.ContosoUniversity.Data.SchoolContext --project DataLibrary --startup-project EFCoreDBDemo
+
+C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef migrations add AddedInstructorNavigation -o ContosoUniversity\Data\Migrations -c DataLibrary.ContosoUniversity.Data.SchoolContext --project DataLibrary --startup-project EFCoreDBDemo
+C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef database update AddedInstructorNavigation -c DataLibrary.ContosoUniversity.Data.SchoolContext --project DataLibrary --startup-project EFCoreDBDemo
+
+C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef migrations add AddedEmailAddress -o ContosoUniversity\Data\Migrations -c DataLibrary.ContosoUniversity.Data.SchoolContext --project DataLibrary --startup-project EFCoreDBDemo
+C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef database update AddedEmailAddress --context DataLibrary.ContosoUniversity.Data.SchoolContext --project DataLibrary --startup-project EFCoreDBDemo
+
+C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef migrations add RenamedColumns -o ContosoUniversity\Data\Migrations -c DataLibrary.ContosoUniversity.Data.SchoolContext --project DataLibrary --startup-project EFCoreDBDemo
+C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef database update RenamedColumns --context DataLibrary.ContosoUniversity.Data.SchoolContext --project DataLibrary --startup-project EFCoreDBDemo
+
+C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef migrations add IsDeletedColumn -o ContosoUniversity\Data\Migrations -c DataLibrary.ContosoUniversity.Data.SchoolContext --project DataLibrary --startup-project EFCoreDBDemo
+C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef database update IsDeletedColumn --context DataLibrary.ContosoUniversity.Data.SchoolContext --project DataLibrary --startup-project EFCoreDBDemo
+
+
+
+
+
+
+
+
+
+

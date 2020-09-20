@@ -16,6 +16,16 @@ using AutoMapper;
 using Newtonsoft.Json.Serialization;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
+using DataLibrary.BankDemo.Data;
+using DataLibrary.Repository.Interfaces;
+using DataLibrary.Repository;
+using DataLibrary.MusicStore.Data;
+using Microsoft.AspNet.OData.Extensions;
+using Microsoft.OData.Edm;
+using Microsoft.AspNet.OData.Builder;
+using DataLibrary.MusicStore.Models;
+using Microsoft.AspNet.OData.Formatter;
+using Microsoft.Net.Http.Headers;
 
 namespace AspNetCoreWebApi
 {
@@ -31,9 +41,62 @@ namespace AspNetCoreWebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //OutputCache for ASP Net Core
+            //WebEssentials.AspNetCore.OutputCaching
+            //services.AddOutputCaching();
+
+            //Used for OData, see details in AlbumsController 
+            //services.AddMvc(option => option.EnableEndpointRouting = false);
+            //services.AddMvcCore(op =>
+            //services.AddMvc(op =>
+            //{
+            //    op.EnableEndpointRouting = false;
+
+            //    foreach (var formatter in op.OutputFormatters
+            //        .OfType<ODataOutputFormatter>()
+            //        .Where(it => !it.SupportedMediaTypes.Any()))
+            //    {
+            //        formatter.SupportedMediaTypes.Add(
+            //            new MediaTypeHeaderValue("application/prs.mock-odata"));
+            //    }
+            //    foreach (var formatter in op.InputFormatters
+            //        .OfType<ODataInputFormatter>()
+            //        .Where(it => !it.SupportedMediaTypes.Any()))
+            //    {
+            //        formatter.SupportedMediaTypes.Add(
+            //            new MediaTypeHeaderValue("application/prs.mock-odata"));
+            //    }
+
+            //    //foreach (var outputFormatter in options.OutputFormatters.OfType<ODataOutputFormatter>().Where(_ => _.SupportedMediaTypes.Count == 0))
+            //    //{
+            //    //    outputFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/prs.odatatestxx-odata"));
+            //    //}
+            //    //foreach (var inputFormatter in options.InputFormatters.OfType<ODataInputFormatter>().Where(_ => _.SupportedMediaTypes.Count == 0))
+            //    //{
+            //    //    inputFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/prs.odatatestxx-odata"));
+            //    //}
+            //});
+
+            /* Add the BankContext */
+            //services.AddDbContext<BankContext>(options =>
+            //    options.UseSqlServer(
+            //        Configuration.GetConnectionString("BankDBConnection")));
+
+            string connectionString = Configuration.GetConnectionString("BankDBConnection");
+
+            //We can use dbcontext-pooling, has some advantages as can be read here 
+            //https://docs.microsoft.com/en-us/ef/core/what-is-new/ef-core-2.0#dbcontext-pooling
+            //https://stackoverflow.com/questions/48443567/adddbcontext-or-adddbcontextpool
+            services.AddDbContextPool<BankContext>(
+                options => options.UseSqlServer(connectionString, so => so.EnableRetryOnFailure()));
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+
+            //Created repository will be injected with BankContext, 
+            //BankContext is registered as a dependency in the service container. 
+            services.AddScoped<ICustomerRepo, CustomerRepo>();
 
             //Retrieve ConnectionString using secret manager tool
             //https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-2.2&tabs=windows
@@ -41,6 +104,15 @@ namespace AspNetCoreWebApi
             services.AddDbContext<CommanderContext>(options =>
                 options.UseSqlServer(
                     Configuration["CommanderConnection:ConnectionString"]));
+
+            //For a quick run, I used in-memory database provided by EF Core.
+            //dotnet add package Microsoft.EntityFrameworkCore.InMemory
+            //Register context to DI interface.
+            services.AddDbContext<MusicContext>(opts => opts.UseInMemoryDatabase("AlbumsDB"));
+
+            //Used for OData, see details in AlbumsController 
+            //Register OData to DI interface.
+            //services.AddOData();
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -96,6 +168,11 @@ namespace AspNetCoreWebApi
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            //OutputCache for ASP Net Core
+            //WebEssentials.AspNetCore.OutputCaching
+            //app.UseOutputCaching();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -103,6 +180,17 @@ namespace AspNetCoreWebApi
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            //Used for OData, see details in AlbumsController
+            //Because of adding (app.UseMvc(routeBuilder), I needed to add:
+            //services.AddMvc(option => option.EnableEndpointRouting = false);
+            //https://docs.microsoft.com/en-us/aspnet/core/migration/22-to-30?view=aspnetcore-3.1&tabs=visual-studio#use-mvc-without-endpoint-routing
+            //https://stackoverflow.com/questions/57684093/using-usemvc-to-configure-mvc-is-not-supported-while-using-endpoint-routing
+            //app.UseMvc(routeBuilder =>
+            //{
+            //    routeBuilder.Select().Expand().Count().Filter().OrderBy().MaxTop(100).SkipToken().Build();
+            //    routeBuilder.MapODataServiceRoute("odata", "odata", GetEdmModel());
+            //});
 
             app.UseSwagger();
             app.UseSwaggerUI(x =>
@@ -117,6 +205,15 @@ namespace AspNetCoreWebApi
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+        }
+
+        //Used for OData, see details in AlbumsController
+        private static IEdmModel GetEdmModel()
+        {
+            ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
+            builder.EntitySet<Album>("Albums");
+            builder.EntitySet<Song>("Songs");
+            return builder.GetEdmModel();
         }
     }
 }

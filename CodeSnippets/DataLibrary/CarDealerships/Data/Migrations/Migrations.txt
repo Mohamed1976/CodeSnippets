@@ -1,0 +1,15 @@
+﻿C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef migrations add InitialCreate -o CarDealerships\Data\Migrations -c DataLibrary.CarDealerships.Data.CarDealershipsContext --project DataLibrary --startup-project EFCoreDBDemo
+C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef database update InitialCreate -c DataLibrary.CarDealerships.Data.CarDealershipsContext --project DataLibrary --startup-project EFCoreDBDemo
+
+C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef migrations add AddSproc -o CarDealerships\Data\Migrations -c DataLibrary.CarDealerships.Data.CarDealershipsContext --project DataLibrary --startup-project EFCoreDBDemo
+C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef database update AddSproc -c DataLibrary.CarDealerships.Data.CarDealershipsContext --project DataLibrary --startup-project EFCoreDBDemo
+
+
+
+
+
+
+
+
+
+

@@ -1253,28 +1253,56 @@ but they are not accessible from a client application. Similarly, you can have m
 in the interface that are not decorated with the OperationContract attribute, but if they are 
 not decorated accordingly, they aren’t part of the service as far as the rest of the world is concerned.
 
+You have a few options here. One straightforward method would be to mark only the
+methods you want publicly exposed with the OperationContract attribute and leave
+the other ones undefined. You could alternately move all the private methods to another
+interface and have the service implement both the original interface and the new
+one.
+
 2. How should you handle the enumeration types and the complex types?
 
 Types that participate in WCF operations must be serializable. 
 When using DataContracts, you indicate that the .NET type decorated with the
 DataContract attribute is serialized. The DataContract explicitly puts forth
 all necessary information about how the data it represents will be serialized.
-You can use the KnownTypeAttribute (or just KnownType)
-to specify that a given type be included during deserialization.
-You need to specify either the DataMember attribute or EnumMember in case of enumerations
-for each property you want serialized.
-If any data types are defined, they must specify a serialization format (the most common
-being the DataContract attribute on the class, with the DataMember attribute
-decorating each of the supported members). You might not need to define any types
-as DataContracts, but unless you’re going to work exclusively with primitive types,
-you’ll need to use it (or another serialization counterpart).
+You can use the KnownTypeAttribute (or just KnownType) to specify that a given 
+type be included during deserialization. Furtheremore, you need to specify either 
+the DataMember attribute or EnumMember in case of enumerations for each property 
+you want serialized.
 
+You have several options, but the most straightforward would be to use the
+DataContract serializer for both the complex types and the enumeration types. This
+would add a layer of consistency while keeping things simple. On the enumeration
+values, you would decorate them with the EnumMember attribute. On the members of
+the complex type you want exposed, you would decorate them with the DataMember
+attribute.
 
 3. Should anything special be done to deal with exceptions?
 
-In order not to expose the details of the implementation, you need to use FaultContract attribute.
-Furtheremore, FaultContract attribute Provide information on exceptions in a platform-agnostic manner.
+In order not to expose the details of the implementation, you need to use FaultContract attributes.
+FaultContract attribute Provide information on exceptions in a platform-agnostic manner.
+The reason we use FaultContracts is that as helpful as structured exception handling is, 
+.NET exceptions are technology-specific to the .NET Framework. That means that Java, Python, 
+Visual Basic 6.0, and so on have no idea what a .NET exception is (even if the other language 
+features structured exception handling). FaultContracts enable services to communicate failures 
+to the client in a safe, intentional, and mutually acceptable fashion.
 
+Furtheremore, .NET exceptions contain a lot of detailed information about your services inner workings,
+information that you dont want to expose to the outside world. Now, if you specifically decide that
+certain information can be conveyed, you can use FaultContracts to define when information
+can be sent and what information is sent. This enables you to give the clients some information
+they might need for their applications without exposing your service to unnecessary risk.  
+
+Furtheremore, there are cases in which you might want to exert control over fault handling at a much
+more granular level than what is provided out of the box. As noted previously, you can specify
+the FaultReason or FaultCode to do this. If you want more control, you can use the Message-
+Fault class, which gives you an in-memory representation of the fault. It enables you to tailor
+the details of the fault as specifically as you want.
+
+To maximize interoperability, there are several things that can be done including the
+choice of bindings (however, that’s not been covered yet). The main thing so far would
+be to make sure that you use FaultContracts to wrap exceptions and pass them back to
+the client.
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
@@ -1298,6 +1326,14 @@ D.	[FaultContract(IndexOutOfRangeException)]
 	String GetQuestionText(Int32 questionNumber);
 
 A
+
+Correct answer: A
+A. Correct: A FaultContract is specified using each of the two types that need to be
+supported.
+B. Incorrect: There is no relevant FaultMapping attribute.
+C. Incorrect: There is no relevant FaultMapping attribute.
+D. Incorrect: The FaultContract definition attribute is the correct one to use, but the
+type needs to be specified in conjunction with the Type.
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
@@ -1305,22 +1341,27 @@ A
 (Choose all that apply.)
 
 A. Each service must have a corresponding Interface class.
-B. The ServiceContract and OperationContract attributes must be applied to the
-contract, not the implementation.
-C. The ServiceContract and OperationContract attributes can be applied to either the
-contract or the implementation.
-D. A complex type does not need to be serializable as long as all its properties are
-serializable.
+B. The ServiceContract and OperationContract attributes must be applied to the contract, not the implementation.
+C. The ServiceContract and OperationContract attributes can be applied to either the contract or the implementation.
+D. A complex type does not need to be serializable as long as all its properties are serializable.
 
 AC
 
-The ServiceContract and OperationContract attributes can be defined on the service
-implementation or the contract, but not both.
+The ServiceContract and OperationContract attributes can be defined on the service implementation or the contract, but not both.
 A service is denoted by the use of the ServiceContract attribute. You can decorate your
 class definition with the ServiceContract attribute, but it makes much more sense to add the
 definition to the interface instead. Because the Service has to implement the interface, applying
 the ServiceContract attribute to the interface definition has the effect of basically marking
 the class as a ServiceContract.
+
+Correct answer: C
+A. Incorrect: A service needs a “contract,” and that’s usually handled via an interface,
+but it does not necessarily have to be an interface.
+B. Incorrect: The ServiceContract and OperationContract attributes need to be applied
+to either the interface or the class definition.
+C. Correct: The ServiceContract attribute and the OperationContract attribute can be
+applied to either the interface or the implementation, but not both.
+D. Incorrect: Any type transferred through the service must be serializable.
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
@@ -1334,6 +1375,14 @@ C. Add the OperationBehavior attribute to the method definition.
 D. Create a new ServiceContract class and add the GetCurrentStockPrice method to it.
 
 AB
+
+Correct answers: A, B
+A. Correct: The method definition should be added to the service contract .
+B. Correct: The OperationContract attribute must be added to the method or the
+method definition. In this case, it should be the method.
+C. Incorrect: Adding an OperationBehavior would be of no benefit here.
+D. Incorrect: Adding a new ServiceContract would not do any good without making
+the service implement the contract as well.
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
@@ -1347,11 +1396,17 @@ With this in mind, answer the following questions:
 Yes, you can specify just about everything needed to make a service operate as desired using
 a configuration file without having to rebuild it and redeploy it.
 
+It would definitely make sense to use configuration for custom bindings (and any others,
+for that matter). You could use an imperative approach for items you are absolutely
+sure of, but you can do everything discussed here through configuration, so there’s
+probably a big benefit to keeping things consistent.
+
 2. What bindings would you choose to configure? 
 
 The communication mode you want to use HTTP, named pipes, TCP, MSMQ.
 Interoperability mode, you can for example specify Basic, Duplex or Simplex communication. 
-EndpointBehavior related to security: (clientCredentials) by using for example wsHttpEndpoint
+EndpointBehavior such as security: (clientCredentials) by using for example wsHttpEndpoint, transaction batching, the DataContract serializer, and much more.
+ServiceBehaviors enable you to control several aspects of the service at a granular level.
 
 <behaviors>
 	<endpointBehaviors>
@@ -1365,6 +1420,14 @@ EndpointBehavior related to security: (clientCredentials) by using for example w
 		</behavior>
 	</serviceBehaviors>
 </behaviors>
+
+You could certainly go ahead and add every binding you can imagine that you’ll need.
+Multiple bindings can be supported, although the particular host can limit what is
+supported. The best approach, however, is to go ahead and set up the items that you
+know for sure you need now. You can easily add new bindings and tweak the configuration
+as you go along and find out about new requirements. Configuring everything
+up-front has many downsides, and the cost of adding a new configuration binding is
+relatively small.
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
@@ -1375,13 +1438,23 @@ B. Specify a MetadataExchange endpoint.
 C. Specify a security configuration.
 D. Specify a contract.
 
-ABD
+AD
 
 The Metadata Exchange endpoint is used by the service to describe itself to clients,
 and if you hit the endpoint you’ll see the wsdl of the service, which clients can use 
 to gather whatever information you made available about the service.
 
-Specifying security configuration is optional.
+Specifying security configuration and Specifying a MetadataExchange endpointis are optional.
+
+Objective 3.2: Review
+1. Correct answers: A, D
+A. Correct: A new service must be specified.
+B. Incorrect: Although useful, particularly for discovery, a MetadataExchange endpoint
+does not need to be configured for a service to correctly operate.
+C. Incorrect: Not specifying security is ill-advised, but the default settings work if no
+security values are configured. Hence, it is not absolutely necessary to operate.
+D. Correct: A contract absolutely must be specified, along with defining the service
+itself.
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
@@ -1396,6 +1469,12 @@ CD
 
 NOT B You can specify the service and service contract in the App.config but you cannot define a service contract, 
 you define a service contract in code (the interface).
+
+Correct answers: A, B, C, D
+A. Correct: A new service can be defined through configuration.
+B. Correct: A service’s contract type can be defined through configuration.
+C. Correct: A service’s security configuration can be defined through configuration.
+D. Correct: Adding metadata exchange can be implemented through configuration.
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
@@ -1407,6 +1486,15 @@ C. Ability to redefine metadata exchange
 D. Ability to add new method definitions 
 
 D
+
+Correct answer: D
+A. Incorrect: Endpoint URIs can be easily changed through configuration.
+B. Incorrect: A service’s security settings can be easily changed through
+configuration.
+C. Incorrect: Metadata exchange can be added, removed, or modified through
+configuration.
+D. Correct: Changes to a method definition or implementation can be made cited
+through code.
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
@@ -1435,6 +1523,14 @@ You have no flexibility to change application settings without recompiling the a
 You have more flexibility to change application settings, hence the application users can 
 also change settings that were not meant to be changed.   
 
+There are good reasons to use every one of the mentioned approaches. The more
+well-defined the application requirements, the less risk there is to using a completely
+imperative approach. The less clear the requirements, the more likely you are to benefit
+from using configuration. Using a hybrid approach can enable you to have the best
+of both worlds, and you don’t have to make a definitive choice one way or the other.
+If you’re hosting the service internally and have full access to it, configuration carries
+little cost or risk. In some Windows Azure-based hosting scenarios, you have to use a
+more imperative approach, although you can still use a hybrid approach here.
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
@@ -1474,6 +1570,14 @@ C. The items defined in the implementation class will override the ones on the i
 D. The service will throw an InvalidOperationException because this attribute cannot be defined on both items.
 
 D
+
+Correct answer: D
+A. Incorrect: Even if they’re defined in an identical manner, there would be a conflict
+and resulting exception.
+B. Incorrect: There would be a conflict; they can’t co-exist without a problem.
+C. Incorrect: There would be a conflict; they can’t co-exist without a problem.
+D. Correct: The service would definitely throw an InvalidOperationException, as
+indicated.
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
@@ -1485,6 +1589,14 @@ C. HttpTransportBindingElement
 D. MTOMTransportBindingElement
 
 AC
+
+Correct answers: A, C
+A. Correct: A TcpTransportBindingElement can be used with a CustomBinding.
+B. Incorrect: A TcpBinding can be used, but it is not a binding element; it is an actual
+binding.
+C. Correct: A HttpTransportBindingElement can be used with a CustomBinding.
+D. Incorrect: While MTOM can be used, it is not a specific BindingElement that can
+be used with a CustomBinding.
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
@@ -1500,14 +1612,32 @@ With this in mind, answer the following questions:
 The most usual way to secure information is using transport level security. Depending on how sensitive
 the information is, you can choose both (message and transport level security).       
 
+Message and transport security aren’t mutually exclusive; they are complementary, in
+fact. There is additional overhead with more security implemented, but that overhead
+can be worked around. Getting it wrong can destroy your company and cause many
+problems for your clients, and estimating the full scope of damage is difficult to do.
+Generally speaking, people are much more tolerant of a slight performance loss (especially
+if they understand why) than they are of a data breach.
+
 2. For the less-sensitive information, would you still want to implement any security?
 
 Yes you want service Integrity, because you dont want that message sent by the WCF service be tampered with without being detected.  
 
+You can go overboard with anything, but there is little inconvenience to implementing
+either approach. Moreover, even if something is intended to be public, you still would
+have an incentive to keep some level of control over it. Many people are inherently
+concerned about any insecure communication. You have complete control here, so
+there’s quite a bit of flexibility in terms of what you want to identify.
+
 3. Would certificate-based security be a good fit for either scenario?
 
-No because some of the services are public so you dont know the clients. In order to use
-certificate-based security you need to install certificates on the client.      
+No because some of the services are public so there are a lot of clients that need the certificate. 
+Because in order to use certificate-based security you need to install certificates on the client.      
+If you distribute the service certificate on a large scale to clients, it difficult to avoid abuse.   
+
+Certificate-based security has many upsides and it’s desirable in many circumstances,
+but it does add a level of implementation complexity that many find inconvenient and
+cumbersome. If it’s not necessary, it’s probably more hassle than benefit.
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
@@ -1536,6 +1666,11 @@ https://docs.microsoft.com/en-us/dotnet/framework/wcf/samples/ws-transport-secur
   </wsHttpBinding>  
 </bindings>  
 
+1. Correct answers: A, B, C
+A. Correct: Using protocol mapping will help in this situation.
+B. Correct: Using a secure binding will help in this situation.
+C. Correct: Enabling https on the virtual directory will help in this situation.
+D. Incorrect: Enabling metadata will do nothing to help facilitate transport security.
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
@@ -1547,6 +1682,13 @@ C. You can implement both transport level and message level security
 D. Transport security can be enabled, and message security can be enabled, but they cannot both be enabled at the same time
 
 ABC
+
+Correct answers: A, B, C
+A. Correct: You can implement message level security in WCF.
+B. Correct: Transport level security can be implemented.
+C. Correct: Message and transport security can be implemented together.
+D. Incorrect: Both can be implemented together and often are; they are not in conflict
+with each other.
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
@@ -1560,6 +1702,12 @@ D. security mode value of Transport
 
 AD
 https://docs.microsoft.com/en-us/dotnet/framework/wcf/feature-details/transport-security-with-windows-authentication
+
+Correct answers: A, B, D
+A. Correct: A netTcpBinding must be defined.
+B. Correct: A clientCredentialType of netTcpBinding must be defined.
+C. Incorrect: A clientCredentialType of Transport is not needed.
+D. Correct: A SecurityMode value of Transport must be specified.
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
@@ -1569,9 +1717,39 @@ different operating system versions.
 With this in mind, answer the following questions:
 
 1. Do you recommend the Add Service Reference feature or Svcutil.exe?
+
+I would recommend using Svcutil.exe, because this tool allows you to create client code in different programming languages, such as:
+c#, vb and c++.
+
+Both can get you to the same place, but the Add Service Reference dialog box has a
+few restrictions. First, it necessitates having Visual Studio, which won’t be a problem
+for clients using .NET, but might be a problem for others. Similarly, the Add Service
+Reference dialog box walks you through the nuances of creating a proxy class, but its
+strength is its weakness. Because it is visual, it is a manual process and cannot be easily
+called in a build script or through process automation.
+
 2. Do you recommend that the client proxies support generics or arrays?
+
+I would recommend that the client proxies support arrays, because arrays are more universal used in services and hence clients should support it.
+
+Generics are powerful and make development a lot more attractive. However, only
+.NET languages support generics. Using arrays maximizes interoperability. Moreover,
+converting an array to a generic is simple to do, particularly if you’re using a .NET
+language.
+
 3. What other considerations might you find?
 
+Older versions of the .NET Framework did not support generics. LINQ was introduced
+in version 3.0 of the Framework as well. You have the power to use Svcutil.exe to generate
+several different languages, which is beneficial. Additionally, if you need to work
+with a WCF Service as a traditional web service, you can easily have that done.
+
+Note: 
+There are three ways to interact with the service,
+two of which accomplish the same task, just doing it slightly differently. The first is using the
+Svcutil.exe application to generate a proxy class. The next is to generate the proxy using the
+Add Service Reference feature of Visual Studio. These two do the same thing, but entail different
+actions on your part. The final way is to use the ChannelFactory class.
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
@@ -1583,6 +1761,15 @@ B. Use the Svcutil.exe command-line tool with the following command: Svcutil.exe
 C. Use the Add Service Reference dialog box.
 D. Use the ChannelFactory class.
 
+BCD
+
+Correct answers: B, C, D
+A. Incorrect: Although the proxy would be successfully generated, absent a specific
+switch for Visual Basic, C# code would be generated.
+B. Correct: Using Svcutil with the l switch and indicating a valid language works.
+C. Correct: Using the Add Service Reference dialog box works because it’s designed
+to handle this use case in particular.
+D. Correct: ChannelFactory works in this case.
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
@@ -1595,6 +1782,21 @@ B. Change the Settings in the Add Service Reference dialog box using the Advance
 C. Regenerate the proxy class after changing the settings.
 D. Use the Add Web Reference dialog box to generate the proxy because it automatically respects the return type definitions.
 
+AB
+
+Use the ToList<> extension method:
+int[] array = { 1, 2, 3, 4, 5 };
+List<int> list = array.ToList();
+Console.WriteLine(String.Join(",", list));
+
+Correct answer: B
+A. Incorrect: Calling ToList works, but it’s an extra step and doesn’t directly address
+the problem.
+B. Correct: This is the feature designed specifically to handle this situation.
+C. Incorrect: Regenerating the proxy alone does nothing.
+D. Incorrect: The default behavior of the Add Web Reference dialog box is used to
+add an older form of the service; it does not handle the conversions correctly.
+
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
@@ -1605,6 +1807,14 @@ B. Downloads metadata documents from deployed services.
 C. Generates serialization code.
 D. Adds metadata exchange endpoints to deployed services.
 
+BC
+
+Correct answers: A, B, C
+A. Correct: Svcutil.exe can be used to validate compiled service code.
+B. Correct: Downloading metadata documents from deployed services is one of the
+features of Svcutil.exe.
+C. Correct: .Generating serialization code is one of the features of SvcUtil.exe.
+D. Incorrect: Svcutil.exe does not add metadata exchange to running services.
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
@@ -1613,8 +1823,46 @@ reason to believe you’re going to have to quickly implement many new features 
 With this in mind, answer the following questions:
 
 1. How can you avoid breaking changes?
+
+If you implement a change to a service, and there is no disruption of service or functionality
+with any of the consumers, it’s a nonbreaking change. Everything else is a breaking change.
+You need to make sure that the changes are compatible. Data contracts need to be compatible. 
+Hence the addition of some new types to the Data contract would present no problems.   
+However, the modification of an existing DataContract or the removal of an existing DataContract 
+would present problems because changes to the interface will cause compilation to fail.
+
+Breaking changes are a part of life. There’s often no way to avoid them, particularly
+when you have to deploy something immediately that you know will change frequently.
+Breaking changes are inconvenient, and many people refuse to move to new
+products because of them. Planning and thinking about future features helps reduce
+the probability that you’ll run into them, but it’s no guarantee that you won’t have to
+implement them. In some cases, it might be advisable to try to consolidate breaking
+changes in another service and have the existing service make calls to it. The more you
+can consolidate and obscure from clients, the less of a problem they’ll be. You are always
+in a position to deal with internal breaking changes more easily than your clients
+will be.
+
 2. If you have breaking changes that you are forced to implement, how would you handle them?
 
+You should have a clear strategy for rolling breaking changes out, making consumers aware of them, 
+and informing consumers how to deal with the consequences of such changes. 
+
+Communication is the only way to mitigate problems associated with breaking
+changes. An extensive testing plan is needed to avoid breaking changes and the problems
+associated with them. Breaking changes are bad enough, but coupled with bugs,
+you’ll have angry customers in all likelihood. There are several articles that deal with
+the issue, and becoming familiar with the process is absolutely critical. Telling clients
+of the breaking changes with as much advance notice as possible is one mitigation
+strategy. Making sure that everyone knows about them so no one is surprised will also
+help. Precise details about what the changes will be; what will be affected; and, ideally,
+suggestions on how best to deal the changes will also help. If you have to deal with a
+breaking change, it’s much easier to do with a clear definition of what’s changing and a
+six-month planning window. Flip it around and imagine that you find out the changes
+have already been made and your users are already dealing with problems. Imagine
+that you get an early notice, but you get several updates that change the nature of
+what you’ve already changed. In the final analysis, the fewer interruptions, the more
+predictability, and the more certainty clients have, the easier it will be for them to deal
+with the changes.
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
@@ -1627,7 +1875,14 @@ B. The two additions will not be breaking changes because they leave all previou
 C. As long as the service and contract pairs are both deployed with their respective version numbers (versions 10, 11), clients will not encounter any problems.
 D. Answers B and C. 
 
+B
 
+Correct answers: A, C
+A. Correct: Contract changes are a breaking change.
+B. Incorrect: Additions don’t remove functionality, but are still a breaking change.
+C. Correct: As long as the old service with its old definitions is still in place, the addition
+of a new service will not cause a problem.
+D. Incorrect: Because B is incorrect, this item is incorrect.
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
@@ -1642,6 +1897,14 @@ B. There will not be breaking changes because the access modifiers are set to Pr
 C. There will not break changes because they don’t implement the OperationContract attribute.
 D. It will be a breaking change to any assembly statically linked to it unless the new methods are also added to the implementation.
 
+C: From a WCF service perspective, because of the lack of the OperationContract attribute.  
+
+D If you add methods to an interface, the service that implements the interface must add the new methods.  
+Because the new methods do not currently contain the OperationContract attribute, they are not visible to 
+the outside world (WCF clients who connect to service). 
+
+Methods defined in an interface are always public? Prior to C# 8, interface members were public by default. 
+In fact, if you put an access modifier on an interface member (including public), it would generate a compiler error.  
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
@@ -1652,4 +1915,1997 @@ B. Lax Versioning
 C. Mixed-Mode Versioning
 D. Contract Versioning
 
+AB
+
+Lax versioning
+WCF and even .asmx web services have support for lax versioning. Lax versioning means that minor changes 
+can often be made without breaking the existing contract. It’s possible, for example, that you can add 
+a new member and the data will just be ignored.
+
+Strict Versioning
+To make sure that you don’t cause any problems, you must ensure that any newly generated messages from your 
+updated service validate against the old schema. The safest way to have this assurance is to never change 
+existing contracts and just create new contracts, ideally ones with new and assuredly distinct XML namespaces.
+
+Correct answers: A, B, D
+A. Correct: Strict versioning can be implemented with WCF.
+B. Correct: Lax versioning can be implemented with WCF.
+C. Incorrect: Mixed-mode versioning would defeat the purpose or either approach.
+D. Correct: Contract versioning is supported and necessary in most cases.
 --------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+76) You are consulting for a customer that is thinking about how to expose his private
+and confidential data to employees who work remotely. The customer is currently
+hosting his data in his own datacenter. Currently, employees can synchronize a copy
+of their data only when they are at the office.
+
+With this in mind, answer the following questions:
+
+1. Would you recommend the customer use a cloud or for a hybrid solution? Why?
+
+I Would recommend a hybrid solution because the customer is currently
+hosting his data in his own datacenter. Furtheremore the customer can
+be reluctant to host his private and confidential data in the cloud.      
+
+Because the customer is dealing with private and confidential data, a cloud-only solution
+will probably not appeal to them. By offering a hybrid solution, he can control the
+data while having all the benefits of a secure public interface hosted in Azure.
+
+2. How can the relaying capabilities of the service bus help your customer?
+
+Employees can also synchronize a copy of their data outside the office.
+The benefit with using the service bus functionality is that it complements your
+already existing WCF bindings. This means that you can expose internal endpoints for your
+service that can be used to integrate with on-premise applications and that you can expose
+special endpoints to connect to the service bus. You can use the the service bus functionality 
+and send a message to it. The relay takes your message and passes it to the hosting service that can run anywhere.
+
+One of the key features of the Azure Service Bus is its capability to create secure connections
+through a firewall. This means that you won’t have to make any changes to your onpremise
+configuration to allow the Service Bus to communicate with your service. Normally,
+this is done using TCP ports (both over SSL or unencrypted). If those ports aren’t available,
+relaying can also use the default HTPP (port 80) or HTTPS (port 443) ports.
+
+The service bus can offer a relaying endpoint to client applications that run on the
+devices of the employees The relay then securely forwards messages to the on-premise
+datacenter. This creates a secured way of exposing data.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+77) Which elements do you need from the management portal when configuring your
+host service? (Choose all that apply.)
+
+A. Namespace
+B. NetTcpRelayBinding
+C. ServiceHost
+D. Default Key
+
+BCD
+
+The benefit with using the service bus functionality is that it complements your
+already existing WCF bindings. This means that you can expose internal endpoints for your
+service that can be used to integrate with on-premise applications and that you can expose
+special endpoints to connect to the service bus. To host your service, you create an instance
+of a ServiceHost, define your endpoints, and then open your server. You need to configure
+the name of your service and the Default Key.
+
+Microsoft recommends using the NetTcpRelayBinding unless you have other specific requirements.
+
+Correct answers: A, D
+A. Correct: The namespace is required to access your service. You specify the
+namespace when creating your bindings and addresses.
+B. Incorrect: The binding is specified at the host side for connecting to Azure Service
+Bus. This is not something that you configure in the Management Portal.
+C. Incorrect: ServiceHost is required to host your WCF service. It’s not something
+that you configure in the Management Portal.
+D. Correct: The Default Key is used for authentication both your server and client applications
+to the service bus.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+78) You want to use a SharedSecretToken for authentication. Which method and parameters do you use?
+
+A. TokenProvider.CreateSharedSecretTokenProvider(namespace, key)
+B. TokenProvider.CreateSamlTokenProvider(samltoken)
+C. TokenProvider.CreateSharedSecretTokenProvider(owner, key)
+D. TokenProvider.CreateWindowsTokenProvider(uris)
+
+BC
+
+Correct answer: C
+A. Incorrect: You do need the CreateSharedSecretTokenProvider method. However,
+you need to pass it the owner and key. The namespace is used in the service URI.
+B. Incorrect: This method creates a SAML token.
+C. Correct: CreateSharedSecretTokenProvider with the owner and key creates the
+correct token.
+D. Incorrect: This creates a Windows token.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+79) You want to connect a client to the service bus. Which elements do you need? 
+(Choose all that apply.)
+
+A. Namespace
+B. Service path
+C. Owner name
+D. Default Key
+
+ACD
+When building a client to communicate with your relay, you need the namespace name
+that you used for hosting the service and the default key. Using the name of your namespace, 
+the owners name (default: owner), and the Default Key, you use a security mechanism that 
+resembles the idea of a username and password.
+
+Correct answers: A, B, C, D
+A. Correct: The namespace is required to access your service. You specify the
+namespace.
+B. Correct: The service path is required as a part of your endpoint address.
+C. Correct: The owner name is required when creating your SharedSecretToken.
+D. Correct: The Default Key is also used for authentication and is required to create
+your SharedSecretToken.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+80) You are building several WCF Services. You have several calls that are for logging
+purposes only, and the application is known to be chatty. Responsiveness is critical,
+and you need real-time responses for much of the application.
+
+With this in mind, answer the following questions:
+
+1. Do logging calls warrant the use of a different messaging pattern than other calls?
+
+Several calls need real-time responses, logging does not require a real-time response. 
+Hence you can use fire and forget to log information as shown in the method definition below.     
+
+[OperationContract(IsOneWay = true)]
+void LogMessage(String messsage);
+
+Logging calls are great candidates for OneWay implementation. The less important the
+data is, the better candidate it is for a OneWay call. You lose the ability to have return
+types on OneWay calls, but for logging operations, particularly ones that fire frequently,
+if a few don’t make it to the server, it will likely have little impact. On the other
+hand, the time it takes just to deal with a response type can exacerbate the problems
+associated with chatty applications.
+
+2. Why wouldn’t you just make everything employ duplex communication patterns?
+
+Duplex communication occurs when a client connects to a service and provides the service with a channel on which the 
+service can send messages back to the client.” In order for this to happen, all the communication must occur within the context of one session.
+Regardless of whether duplexing is being implemented, a WCF Service needs a contract, and the contract requirement is handled by using an interface 
+and the ServiceContract attribute. When using duplexing, an additional interface is required. This necessity entails a callback contract, and this 
+contract must be specified in the service contract by way of the CallbackContract property.
+
+Duplex communication is useful and, in some cases, it is the only option you have.
+However, it is neither free nor cheap. Although WCF makes duplex communication appear
+simple, quite a bit has to happen to make it work right. This happens largely out
+of the user’s view, but it still happens. Implementing duplexing when it’s not needed
+is the logical inverse of using a OneWay call. It adds overhead with no benefit and can
+greatly hinder scalability. Although it’s powerful and useful, it should be used judiciously
+and only when necessary.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+81) You have the following method signature. You are told that it should execute as quickly as possible and advised it would 
+be a good candidate for a OneWay method. Which of the following are true (choose all that apply):
+
+[OperationContract(IsOneWay = true)]
+Boolean LogMessage(String messsage);
+
+A. This method is not a valid candidate to execute with the OneWay pattern because it has a return type.
+B. This method is not a valid candidate to execute with the OneWay pattern because it accepts a parameter.
+C. Simple logging operations that just accept a String parameter and return a Success or Failure message are 
+ideally suited for the OneWay pattern. However, to work a Callback contract would be needed to work properly.
+D. There’s not enough information to know for sure whether this method would be a good candidate to use to implement the OneWay pattern.
+
+A
+
+Correct answer: B
+A. Incorrect: Having a return type negates the use of the OneWay attribute.
+B. Correct: OneWay can be used in conjunction with an input parameter.
+C. Incorrect: Simple operations might be good candidates, but not if they return a
+message.
+D. Incorrect: The method has a return type that automatically disqualifies it.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+82) Your service needs to let clients open a channel to it and allow back and forth communication throughout the session. 
+Which is true?
+
+A. Any binding that supports streaming would be a work here.
+B. Only bindings with the IsOneWay property set to true would be valid.
+C. As long as the service can stream back to the client, this would work.
+D. Duplex communication cannot be implemented with Http because it’s a stateful protocol.
+
+D
+
+Correct answers: A, C
+A. Correct: Any binding that enables clients to open a channel with it and have backand-
+forth communication would work here.
+B. Incorrect: OneWay goes completely against the desired goal here.
+C. Correct: As long as the service can call back to the client, it should work.
+D. Incorrect: Http is a stateless protocol, so it can’t be used.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+83) Your service needs to support real-time communication between client and service. Which is true?
+
+A. Streaming should be enabled.
+B. A Binding that supports duplexing must be implemented.
+C. A stateless protocol can be supported but the client must implement threading.
+D. Duplexing and streaming must be implemented together.
+
+B
+
+Correct answer: B
+A. Incorrect: Streaming alone would not solve any of the stated problems.
+B. Correct: Duplexing must be implemented, and as such, a binding that supports
+duplexing must be enabled.
+C. Incorrect: A stateless protocol by definition would be inadequate here, irrespective
+of multi-threaded clients.
+D. Incorrect: Duplexing alone suffices; there is no need for streaming.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+84) You are building several WCF Services. You know that you need to support Http,
+TCP, and MSMQ. You expect a large number of clients and heavy loads on your
+services. You might need to move the service host from machine to machine on
+occasion. Additionally, all your developers are familiar with ASP.NET programming,
+but are completely new to Windows Azure and WAS.
+
+With this in mind, answer the following questions:
+
+1. Is a console application or a WPF application implemented via self-hosting a viable approach?
+
+No, Self-hosting is not a viable option, because self-hosting is unable to process 
+a large amount of requests and does not support failover or immediate disaster recovery.    
+
+There are several benefits of self-hosting, but simplicity has to be at the top of any list. 
+Because you can easily swap out hosts, if you find that your application isn’t performing well, 
+you can easily upgrade to another hosting mechanism. This option enables you to use a broad spectrum 
+of bindings as well. It’s easy to move such a host application around from machine to machine and location 
+to location. Additionally, because you can access the process without remote debugger privileges, you can 
+easily debug the application and retrieve trace information from it.
+
+Your self-host, on the other hand, will need to be debugged and tested thoroughly. If you find that you can’t support the load, 
+moving to another machine or a major hardware upgrade is usually the only solution. You can’t just add nodes or easily implement 
+load balancing. If your application crashes for whatever reason, it’s difficult to implement any sort of failover or immediate 
+disaster recovery. For this reason, self-hosting is well suited to peer-to-peer applications and as the development host. 
+It is generally a pretty underpowered choice for production services.
+
+Self-hosting with a console or WPF application would most likely be the worst of the
+possible approaches. Self-hosted services are easy to move from machine to machine,
+and you can support each of the required bindings. However, heavy loads make it
+a bad choice. The fact that most self-hosted services have to run under a dedicated
+account makes it a bad choice. Someone could accidentally click the mouse over the
+close button or erroneously hit an enter button and possibly shut down the entire host.
+
+2. Is IIS a good candidate here, assuming that there are several instances available internally?
+
+IIS limits the bindings you can use and support. IIS only supports message transport via HTTP. 
+As you might recall from the discussion on bindings, the http-based binding set is easy to use, 
+but it’s also quite limiting, and because you can use only HTTP, it makes this option unusable for many.
+
+IIS would be a great choice except for one major issue: It simply doesn’t support any of
+the bindings other than HTTP, so it clearly wouldn’t work here. The fact that developers
+are familiar with it and that it scales well is irrelevant because of the bindings issue.
+
+3. What factors shift the equation to one host choice versus another?
+
+The host must be able to process a large amount of requests (by using for example load balancing) and support failover or immediate disaster recovery.  
+Furtheremore the host must support multiple protocols Http, TCP, and MSMQ. 
+
+Windows Azure might be a decent approach, although the fact that the developers
+are unfamiliar with it would necessitate them gaining that expertise quickly. That’s not
+a huge hurdle, but it is a hurdle nonetheless. WAS supports all the bindings needed.
+The services can move from one WAS instance to another with relative ease; in fact,
+the move could even be scripted. WAS on Windows Azure could meet all the criteria,
+but internally hosted WAS would seem in this case to be the most appropriate hosting choice.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+85) You are developing a new WCF Service. Each time a client initiates a request, you need
+to create a service instance to support it. What should you do?
+
+A. Set the InstanceContextMode to Singleton.
+B. Set the ConcurrencyMode to PerCall.
+C. Set the InstanceContextMode to PerCall.
+D. Set the ConcurrencyMode’s scope to User and set the InstanceContextMode to PerCall. 
+
+C
+
+The InstanceContextMode setting is another critical item that has a significant impact on the behavior of the service. 
+This setting specifies the number of service instances available for handling calls to the service.
+PerCall: This setting creates one instance (or more) for each client request.
+
+Correct answer: C
+A. Incorrect: There’s no Singleton enumeration value but even if there was, it would
+make no sense here.
+B. Incorrect: ConcurrencyMode doesn’t have a PerCall value.
+C. Correct: InstanceContextMode needs to be set to PerCall to work.
+D. Incorrect: There is no way to set the ConcurrencyMode’s scope to User.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+86) Which of the following would be appropriate as a WCF Service Host?
+
+A. Hosted workflow service
+B. .NET console application
+C. Windows Forms application built using Windows Presentation Foundation
+D. IIS
+
+(A?)BCD
+
+Correct answers: A, B, C, D
+A. Correct: A hosted workflow service has an appDomain and an entry point, so it
+would work.
+B. Correct: A Managed Windows Service has an entry point and is an ideal candidate
+as a host.
+C. Correct: A console application has an entry point and would work fine in this
+scenario.
+D. Correct: IIS is well suited to WCF hosting.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+87) You need to develop a WCF Service. The service is supposed to be both self-hosted
+and discoverable by any client application. Which of the following are needed to support
+this scenario? (Choose all that apply.)
+
+A. A DiscoveryEndpoint
+B. A ServiceHost definition
+C. A ServiceBehavior definition
+D. A UpdDiscoveryEndpoint
+
+AB
+
+Correct answers: A, B
+A. Correct: A DiscoveryEndpoint would be necessary to meet the discovery
+requirement.
+B. Correct: Without a servicehost definition, it would be impossible to create this application
+as a self-hosted service.
+C. Incorrect: A ServiceBehavior definition might be beneficial, but it’s not required as
+the item is stated.
+D. Incorrect: While a DiscoveryEndpoint is necessary to meet the application requirements,
+there is no need for a UdpDiscoveryEndpoint specifically.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+88) You are explaining Web API to your colleagues. You think it’s a nice and elegant solution,
+but they don’t see the advantages of Web API over Windows Communication
+Foundation (WCF). They come with up with the following questions:
+
+1. Why should we depend on HTTP verbs instead of calling a method by name?
+
+The advantage of using HTTP verbs is that most client applications support the HTTP protocol, and hence
+are able to call the Web service using the HTTP protocol. Calling a method by name requires a dedicated WCF-client, 
+which is not as widely used as the HTTP protocol.           
+
+By using the HTTP verbs, you use HTTP as the foundation of your service. The HTTP
+verbs are supported by browser and by the HttpClient and by all other platforms.
+This way, you can use a single URL and use the verb to specify what action you want
+to take. This decouples the client code from implementation details such as method
+names.
+
+2. What’s the advantage of content negotiation? Isn’t the service the one that should declare the return type?
+
+Content negotiation uses media-type formatters to return the requested format to a client.
+Content negotiation increases the flexibility of your web service. Depending on the acception type of the web client calling the web service, 
+the web service can send back an answer in for example json, XML or another type.
+
+By using content negotiation, you don’t couple your service to a specific technology.
+Instead, you support multiple clients, all with their own requirements. The clients can
+then choose the format to work with.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+89) You have been asked to create an ASP.NET Web API application. The current site enables users to post comments on newly posted articles. 
+There’s been an increasing problem of inappropriate and spam comments. Editors need to be able to edit the inappropriate content after reviewing 
+it and finding it in violation with the terms of service. Editors also need to be able to permanently delete any comments that are considered spam. 
+Which operations accomplish these goals? (Choose all that apply.)
+
+A. HttpGet
+B. HttpPost
+C. HttpDelete
+D. HttpPut
+
+CD (Update the content using HttpPut, and delete the content using HttpDelete), maybe (if read functionality is not standard provided)
+in order to read the posts the editor needs access to HttpGet 
+
+Correct answers: A, C, D
+A. Correct: HttpGet requests are necessary to view the data to moderate it.
+B. Incorrect: HttpPost is used to add new items. Editors don’t need to add new items
+(but users do).
+C. Correct: Deletions should be done through the HttpDelete operation.
+D. Correct: HttpPut can be used for modifying posts.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+90) You have an ASP.NET MVC Web API that processes new customer inquiries. The client applications are intended to be very focused in scope and centered 
+on just a few operations. A decision was just made that, for now, the API needs to simply allow data collected from a Web Form to be submitted to a SQL 
+Server database. Which of the following is needed to allow form data to be submitted to the server?
+
+A. HttpGet
+B. HttpHead
+C. HttpPost
+D. HttpPut
+
+C
+
+Correct answer: C
+A. Incorrect: HttpGet should be used only to retrieve data, not to insert it.
+B. Incorrect: HttpHead can be used to retrieve information about the request, but
+not to insert records.
+C. Correct: To insert a new record, the HttpPost operation should be called.
+D. Incorrect: The HttpPut operation should be used for modifying data. HttpPost is a
+better candidate for inserting data.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+91) Your ASP.NET Web API application needs to be able to allow action methods to operate through multiple HTTP Actions (namely HttpPost and HttpPut). 
+How should this be accomplished?
+
+A. Decorate the method with both the HttpGet and the HttpPost attribute.
+B. Decorate the method with an HttpGet and an HttpPut attribute.
+C. Decorate the method with the ActionNames attribute using the values of HttpPut and HttpPost.
+D. Decorate the method with the AcceptVerbs attributes, including HttpPut and HttpPost.
+
+D
+
+Correct answer: D
+A. Incorrect: HttpPost and HttpPut need to be implemented here; an HttpGet does
+not solve the core requirement. You also need to use the AcceptVerbs attribute to
+allow multiple verbs to be used.
+B. Incorrect: HttpPost and HttpPut need to be implemented here; an HttpGet does
+not solve the core requirement. You also need to use the AcceptVerbs attribute to
+allow multiple verbs to be used.
+C. Incorrect: The operations are correct but need to be implemented with the
+AcceptVerbs attribute.
+D. Correct: The AcceptVerbs attribute should be implemented as indicated here, and
+both the HttpPut and HttpPost operation should be supported.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+92) Which operator can covert a standard LINQ to a PLINQ
+
+A. ToParallel 
+B. AsParallel 
+C. AsOrdered 
+D. AsUnordered
+
+B
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+93) What are the two classes involved in the cancellation of the PLINQ queries? 
+
+A. WithCancellation 
+B. CancellationTokenSource 
+C. OperationCanceledException 
+D. AggregateException 
+
+AD
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+94) What is the data type that PLINQ operators attach to? 
+
+A. Queryable 
+B. IQueryable<T> 
+C. ParallelQuery<T> 
+D. IEnumerable<T>
+
+C
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+95) Given an XElement type variable named world, which method can get all its <city> elements, regardless whether the 
+<city> elements are direct children or indirect children
+
+A. Load 
+B. Elements 
+C. Attributes 
+D. Descendants 
+
+D
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+96) The PLINQ operators are extension methods of which class? 
+
+A. Queryable 
+B. IQueryable 
+C. Enumerable 
+D. ParallelEnumerable
+
+D
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+97) What is the type of the exceptions thrown by PLINQ queries?
+
+A. DivideByZeroException 
+B. ArgumentException 
+C. AggregateException 
+D. ParallelTaskFailedException
+
+C
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+98) Which PLINQ operator accepts Action delegate as its parameter?
+
+A. Select 
+B. Where 
+C. ForAll 
+D. ForEach 
+
+C
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+99) How to use a string object as a character collection?
+
+A. Call its ToCharArray method to covert it to a char[] object
+B. Call its Split method to covert it to a char[] object
+C. Call the ToArray LINQ operator to covert it to a char[] object
+D. Use its indexer directly
+
+AD
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+100) What is the data type that LINQ to database operators attach to?
+
+A. Queryable 
+B. IQueryable 
+C. IQueryable<T> 
+D. IEnumerable<T>
+
+C
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+101) What does the character "P" in PLINQ stands for?
+
+A. Powerful
+B. Performance
+C. Parallel
+D. Pure
+
+C
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+102) About Single LINQ operator, select ALL correct descriptions
+
+A. It can be used to pick the only element in a collection
+B. It can be used to test whether an element is unique
+C. It can be used to test whether an element is existing
+D. It won't throw exception when the target element is not unique or not existing
+
+ABC
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+103) You are the architect and lead developer on a new project. You are going to build
+the back end for a new app. The app will be used by health care services to track
+patient records. Depending on the access privileges of the users, they can view and
+edit patient status, such as notes and images like x-rays or other scans. To support
+the bring-your-own-device policy, the app will be distributed to a multitude of
+devices running on Windows, Windows Phone, iOS, and Android, and on the web.
+You already have two hospitals with thousands of staff members who are going to
+beta test your app.
+
+1. Why is Web API well-suited for this scenario?
+
+You can use the Http protocol to make the data available to a wide range of WebClients (or Custom made clients) 
+running on different OS.      
+
+All devices are capable of executing web requests. By using Web API, you open your
+service to all devices that you want to support.
+
+2. Are you planning to use any of the following techniques?
+■■ Content negotiation
+■■ HttpMessageHandler
+■■ Dependency injection
+■■ Action filters
+■■ Streaming
+
+Content negotiation, return Json or XML data to client depending on it accept type.
+HttpMessageHandler, you can for example add audit functionality to monitor who is requesting which information.  
+Dependency injection, you can use an injected Repository to access patient data, this make the software more clean, easy to change dependency      
+Action filters can be used for logging (When entering or exiting the action method) or audit functionality to monitor action calls.    
+Streaming can be used when you need to send a large amount of data to a client such as X-Rays or NMR recordings. You use the PushStreamContent class to stream data.
+
+The following explains what you should use:
+■■ Through content-negotiation, all clients can work with data in a format that’s suitable
+for the device. It’s one of the foundational features of Web API.
+■■ You can use an HttpMessageHandler if you have any cross-cutting concerns that
+should apply to all requests or to specific routes. At this moment, you have no use
+for handlers, but that could change.
+■■ Dependency injection is an important part of each modern architecture. You can
+use it to create a loosely coupled system that can easily be unit tested.
+■■ You should use the AuthorizeAttribute, which is an implementation of an action filter.
+You can also create your own attributes if you want to run code before or after
+an action runs.
+■■ Streaming is important because you are supporting thousands of users, and you
+need to transmit large amounts of data for the images.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+104) Which of the following media types are valid default options for an Accept request
+header? (Choose all that apply.)
+
+A. application/json
+B. application/xml
+C. gzip
+D. en-us
+
+The Accept request header specifies the media types that are acceptable in the response. Common
+formats are “application/json”, “application/xml”, or “text/xml”.
+
+It depends on the WebBrowser used 
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Content_negotiation/List_of_default_Accept_values
+
+AB
+
+Correct answers: A, B
+A. Correct: application/json is a supported format type.
+B. Correct: application/xml is a supported format type.
+C. Incorrect: gzip could be supported, but would require special implementation.
+D. Incorrect: en-us is a culture and region formatter, not a media type.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+105) Which of the following request headers can be sent to help perform content negotiation?
+(Choose all that apply.)
+
+A. Accept
+B. Accept-Charset
+C. Accept-Encoding
+D. Accept-Language
+
+ABCD
+
+Correct answers: A, B, C, D
+A. Correct: Accept is a valid request header type.
+B. Correct: Accept-Charset is a valid header value.
+C. Correct: Accept-Encoding is a valid encoding.
+D. Correct: The Accept-Language corresponds to the natural language and is
+supported.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+106) You want to create an attribute that executes when an exception happens anywhere in
+your application. Which steps do you take? (Choose all that apply.)
+
+A. Inherit from ActionFilterAttribute.
+B. Inherit from ExceptionFilterAttribute.
+C. Add the custom attribute to your controllers.
+D. Add the custom attribute to HttpConfiguration.Filters.
+
+BD 
+
+Correct answers: B, D
+A. Incorrect: For exception handling, you shouldn’t inherit from ActionFilterAttribute.
+Those filters execute on each request, independently of an exception happening.
+B. Correct: ExceptionFilterAttribute is the correct base class for filters that should
+execute whenever an exception happens.
+C. Incorrect: Adding the attribute to all your controllers is error prone. Instead, you
+can apply the attribute globally.
+D. Correct: By adding the attribute to the global collection of filters, you apply it to
+all controllers and action methods in one step.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+107) You are working on a Web API that will store stats for a new game that you will
+release as an app for various platforms and as a web application. Users first need to
+register before they can play games and share their achievements with other users.
+
+1. Can you use Windows Authentication?
+
+No, because you need to use Kerberos, or NTLM or use Windows active directory.  
+Windows Authentication enables users to be authenticated using their Windows login credentials, Kerberos, or NTLM.
+Windows Authentication is easy to use from both a client and server perspective, but it has
+clearly defined boundaries that might immediately exclude it as an authentication mechanism.
+
+No. Windows Authentication is not suited for consumer-facing applications. It should
+be used for intranet applications.
+
+2. Do you need to protect yourself against XSRF?
+
+Yes, after authentication, the credentials could be stored in a cookie, hence they are available in case of XSRF attack.      
+Note that native applications that send the user credentials on each request are not vulnerable for XSRF attacks on your Web API. 
+Only browser-based clients that cache user credentials are vulnerable.
+
+Yes. Because you are storing user credentials in a cookie for the web application, your
+application is vulnerable for XSRF attacks.
+
+3. Is CORS important for your back end?
+
+Yes because the web application needs to access the Web API that will store stats for the new game.   
+ 
+No, because your back end won’t be called by other websites through AJAX, CORS is not
+important. Only when you have AJAX calls coming from other origins should you enable CORS.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+108) You want to enable HTTPS for your Web API, and you want to make sure that none of
+the developers forgets about this requirement. How do you do this?
+
+A. Create a custom ApiController base class from which all developers need to inherit.
+B. Create an HttpsRequiredAttribute and add it to each controller.
+C. Create an HttpsRequiredAttribute and add it to the global collection of attributes.
+D. Use MakeCert.exe to create an HTTPS certificate.
+
+C
+
+Correct answer: C
+A. Incorrect: Developers can forget to inherit from the custom controller. This is no
+safe way to implement the requirement.
+B. Incorrect: If a developer forgets to add the attribute to a controller, the controller
+will be accessible through HTTP.
+C. Correct: Adding the attribute to the global collection of attributes makes sure that
+it is automatically applied to all controllers.
+D. Incorrect: MakeCert is used to create a test certificate that you can use on your
+development machine. It doesn’t force your application to HTTPS.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+109) You are building a Web API to be used by third-party websites, and you want to reach as many users as possible. 
+You want to protect your service from XSRF attacks. Which requirement do you state for your third parties?
+
+A. Force them to use ASP.NET MVC so you can easily authenticate requests.
+B. Require them to include both a cookie and a form value with a unique token.
+C. Use the ValidateAntiForgeryToken attribute on your Web API service.
+D. Use Windows Authentication.
+
+(B?)C
+
+Correct answer: B
+A. Incorrect: Forcing your customers to use ASP.NET MVC to develop their websites
+doesn’t increase your user base. This is not something you can state as a requirement
+in the real world.
+B. Correct: This is the basic idea behind the antiforgery token solution that ASP.NET
+MVC offers. By comparing the two values, you can validate the request origin.
+C. Incorrect: ValidateAntiForgeryToken can be used only with ASP.NET MVC.
+D. Incorrect: Windows Authentication isn’t possible with a consumer-facing
+application.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+110) You want to extend the default authentication mechanism of Web API. You want to have an attribute that 
+you can place on a couple of action methods to log nonauthenticated requests. What do you do?
+
+A. Inherit from IAuthorizationFilter to implement the custom logic.
+B. Inherit from AuthorizeAttribute to implement the custom logic.
+C. Inherit from AuthorizeFilterAttribute to implement the custom logic.
+D. Create an HttpMessageHandler that you attach to specific routes.
+
+B, Override protected virtual void HandleUnauthorizedRequest (System.Web.Mvc.AuthorizationContext filterContext);
+
+Correct answer: B
+A. Incorrect: IAuthorizationFilter is a very low-level interface. You should inherit from
+this interface only if you have any asynchronous work that doesn’t involve the current
+user or role.
+B. Correct: By inheriting from this attribute, you get a fully implemented authorization
+attribute that you can easily extend.
+C. Incorrect: You should extend this class only to perform synchronous authorization
+logic that is not necessarily based on the current user or role.
+D. Incorrect: It’s easier to inherit from the AuthorizeAttribute. By directly adding the
+attribute to specific methods, you can control when to run the code.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+111) How to get the names of all continents?
+
+A. var names = dbContext.Continent.ToArray(); 
+B. var names = dbContext.Continent.Name.ToList(); 
+C. var names = dbContext.Continent.Select(c => c.Name); 
+D. var names = dbContext.Continent.Join(c => c.Name);
+
+C
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+112) What is the data type the standard LINQ operators attach to?
+
+A. Enumerable 
+B. IEnumerable 
+C. IEnumerable<T> 
+D. ICollection<T>
+
+C
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+113) About Func- delegate and Action- delegate, select ALL the correct descriptions
+
+A. Func- delegate always reference the methods have return value
+B. Action- delegate always reference the method don't have return value
+C. The methods referenced by Func- delegate must have parameters
+D. The methods referenced by Action- delegate must have parameters
+
+AB
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+114) Which LINQ operator below is closest to the GroupBy operator?
+
+A. Join 
+B. ToDictionary 
+C. ToLookup 
+D. Aggregate
+
+C
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+115) Select ALL data types that implement the IEnumerable<T> interface
+
+A. Arrays
+B. HashSet<T> 
+C. List<T> 
+D. Dictionary<TKey, TValue> 
+
+ABCD
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+116) You are considering a deployment strategy for a web service that will be the back
+end of a new app you will deploy worldwide on multiple platforms. Because of your
+requirements, you will use WCF to create your back end. You are planning to build
+your app in successive iterations that will expand the functionality. You also expect
+that your user load will increase when your app gains popularity.
+With this in mind, answer the following questions:
+
+1. How can Windows Azure help you with the hosting of your back end?
+
+It is expected that the user load will increase when the app gains popularity.
+Windows Azure allows you to easily scale up the resources of the WCF back end.
+In summary, Windows Azure makes it more easy to scale up web services and handle more user requests.     
+
+A WCF Service can easily be deployed to Windows Azure. Because of the expected
+increase in users, Windows Azure is a good choice. Instead of buying big servers upfront
+to host the potential user load that you will get, you can start small and pay only
+for the resources you need. As your application starts growing, you can increase the
+capacity you have inside Windows Azure. This is a cost-effective way of hosting your
+application.
+
+2. Why should you plan for continuous deployment?
+
+The plan is to build the app in successive iterations that will expand the functionality. 
+Using this strategy, you want to deliver a new product after each iteration (adding new functionality).  
+By using continuous deployment, you continuously deliver new releases after changes have been made to the software.
+The software is build and tested and ready to be deployed in production.   
+
+Because you are planning to expand the functionality of your application, it is wise to
+have a deployment process in place in which you can quickly update your application.
+Setting up a continuous deployment environment takes some time, but will make life
+easier when you start releasing updates for your application.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+117) You need to deploy an application that requires some changes to the registry. 
+Which deployment strategy do you use?
+
+A. Copy the website.
+B. FTP client.
+C. Web Deploy.
+D. A web farm.
+
+C
+
+Correct answer: C
+A. Incorrect: The Copy Website option can be used only to deploy the files of an application.
+You can’t make any modifications to the registry.
+B. Incorrect: With an FTP client, you can copy your files to the server. However, you
+can’t make any changes to the registry.
+C. Correct: Web Deploy enables you to use a provider that can make changes to the
+registry while deploying your application.
+D. Incorrect: A web farm is a description of how you will host your application. It’s
+not a deployment technique.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+118) You are planning to deploy your application to an on-premises web farm. You use session
+state to store some user data. Which session state mode do you use? (Choose all that apply.)
+
+A. InProc
+B. StateServer
+C. Off
+D. SQL Server
+
+BD
+
+Correct answers: B, D
+A. Incorrect: The InProc mode does not work in a web farm. Servers store the session
+data in memory, which makes it unavailable for other servers.
+B. Correct: Storing your data in a separate StateServer makes it available to all servers
+in the web farm.
+C. Incorrect: Turning session state off is only an option when your application
+doesn’t use any session state at all.
+D. Correct: Storing your data in a separate SQL Server makes it available to all servers
+in the web farm.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+119) You want to adopt a continuous deployment strategy. Which elements are important? (Choose all that apply.)
+
+A. Build server
+B. Unit tests
+C. Integration tests
+D. A web farm
+
+ABC
+
+Correct answers: A, B, C
+A. Correct: Having a Build Server that tests your code and then executes a deployment
+is required.
+B. Correct: Unit tests are a part of continuous integration. They test your code in an
+automatic way so you can find bugs before deploying your code.
+C. Correct: Integration tests test your application in a more elaborate way than unit
+tests. Together with unit tests, they are important for automatic testing of your
+application.
+D. Incorrect: A web farm is not required to have a continuous deployment strategy.
+Even if you have a single server or are using the cloud, you can automatically
+deploy.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+120) You are planning the deployment of your Web API and you are looking at the vari-ous options you have. 
+You are looking at self-hosting, hosting in IIS on your own server, and hosting on Windows Azure Websites. 
+
+1. What are the pros and cons for self-hosting?
+
+You create the hosting application (console,wpf ...), this could introduce errors. If you for example  
+choose to use IIS to host your web service, you know that IIS is battle tested and is well supported in case of error. 
+
+Self-hosting is really easy to set up. You can use it for things such as integration tests or
+for hosting your Web API on a server that doesn’t have IIS installed. However, ASP.NET
+hosting offers you all the mature features that IIS has, which is a big plus.
+
+2. If you choose to use IIS, do you want to use an on premise IIS or Windows Azure Websites?
+
+It depends on the TCO (total cost of ownership), and the scaling requirements in the short and long term.  
+By hosting your Web API in Windows Azure, you get all the benefits of Windows Azure, such as scalability 
+and availability, without having to worry about the underlying infrastructure.
+
+Windows Azure Websites has the big advantage of completely outsourcing the infrastructure.
+You get a robust infrastructure with easy scalability options. You pay only for
+what you use. However, an on-premises server is totally under your control. Sometimes
+this is a requirement for data security.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+121) Which of the following items must be provided to use the self-host option? (Choose all that apply.)
+
+A. AspnetSelfHostConfiguration
+B. HttpSelfHostConfiguration
+C. AspnetSelfHostServer
+D. HttpSelfHostServer 
+
+BD
+
+Correct answers: B, D
+A. Incorrect: AspNetSelfHostConfiguration does not exist and is not a valid option.
+B. Correct: HttpSelfHostConfiguration is one of the two required classes needed to
+self-host.
+C. Incorrect: AspNetSelfHostServer does not exist and is not a valid option.
+D. Correct: HttpSelfHostServer is the second of the two required classes needed to
+self-host.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+122) You are changing the hosting of your Web API to use a Windows Service. Originally, the configuration was automatically 
+generated by the Visual Studio template. What do you need to do to make this work?
+
+A. Nothing; the existing configuration will work.
+B. Copy the existing configuration to a new class in the host project.
+C. Add a new class of type HttpSelfHostConfiguration. Use the Initialize method to call the MapHttpRoute method.
+D. Add a new class of type HttpSelfHostConfiguration. Use the Routes property to call the MapHttpRoute method.
+
+D
+
+Correct answer: D
+A. Incorrect: Without specifying a configuration, the host will not operate correctly.
+You need the HttpSelfHostConfiguration class to start the host and set up the api
+route.
+B. Incorrect: As it stands, a copy of the existing configuration does not work because
+the HttpSelfHostConfiguration class needs to be used.
+C. Incorrect: Although the HttpSelfHostConfiguration should be used, the Routes
+property is what you use to access the MapHttpRoute method.
+D. Correct: The Routes property on the HttpSelfHostConfiguration class has the
+MapHttpRoute method necessary to configure Routes.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+123) You are working for a large company that has a lot of maintenance engineers on the
+road. You are going to develop an app to support their work remotely with publicly
+available data. You are looking at your deployment options. You know the app will be
+used during office times. Throughout the day, you will have five thousand users of your
+service. What deployment option do you choose?
+
+A. You buy extra servers for your on-premise data center.
+B. You use Azure Cloud Services to host your Web API as a Web Role.
+C. You use Azure websites.
+D. You deploy Azure Virtual Machines to host your Web API.
+
+When deploying to Windows Azure, you have three options:
+■■ Windows Azure Websites
+■■ Windows Azure Cloud Services
+■■ Windows Azure Virtual Machines (VMs)
+
+C
+Windows Azure Websites enable you to create highly scalable websites quickly. You don’t
+need to learn a new application model or manage machines. If you don’t have specialized
+requirements that require you to use cloud services or VMs, Windows Azure Websites is a
+great choice.
+
+Correct answer: C
+A. Incorrect: Because your data is publicly available, you don’t face any security issues
+when moving your service to the cloud. Because you have a fluctuating user
+load, the elasticity of the cloud can help you. Deploying to Azure websites is the
+easiest solution.
+B. Incorrect: Cloud Services are an option, but because you are only deploying a
+Web API service, it’s much easier to use Azure websites.
+C. Correct: Azure websites saves a lot of time and cost upfront. Because you pay
+for each minute you use, you can save costs by scaling your service down outside
+office times. When you have a high user load, you can automatically add extra
+servers to make sure your service performs.
+D. Incorrect: Azure virtual machines require you to manage all servers yourself. You
+get the hardware from Azure, but it still requires configuring and updating your
+operating systems. Azure websites is a much easier solution to host a Web API.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+124) You are integrating with a third-party Web API service. The service enables you to
+execute CRUD operations to work with time records.
+
+1. How can you map the HttpClient methods to the standard CRUD operations?
+All operations (Get, Post, Put, Delete, and more) are supported by the HttpClient class.
+You can use the corresponding CRUD call, HttpClient.PostAsync(Create), HttpClient.GetAsync((Read), 
+HttpClient.PutAsync(Update) and HttpClient.DeleteAsync(Delete)   
+
+CRUD stands for Create, Read, Update and Delete. Create can be done with Post, Read
+with Get, Update with Put, and Delete with the Delete verb.
+
+2. Why is it useful to create classes that map to the return values of the service?
+
+Data returned from a Web Service is serialized in the form of json, xml or some other format.
+In order to convert it to objects we need to deserialize the return values of the service    
+In order to deserialize the data we need classes that map to the return values of the service,
+so we can use objects in the application instead of Json or XML values.  
+
+This way, you don’t have to work with raw JSON or XML data. By deserializing the
+results to classes, you can easily use them in the rest of your code.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+125) The HttpClient class you have implemented frequently receives error codes, but the application is not responding to them. What should you do?
+
+A. Trap the OnError event of the request.
+B. Set the EnsureSuccessStatusCode property to true and implement an exception handler in the OnError event.
+C. Call the EnsureSuccessStatusCode method and trap the HttpRequestException exception.
+D. Check the ResultStatusCode property and throw an exception if one of the error values is present. 
+
+C
+Note you can also check the StatusCode from the HttpWebResponse as shown below. 
+
+public static void GetPage(String url)
+{
+	try
+	{	
+            // Creates an HttpWebRequest for the specified URL.
+            HttpWebRequest myHttpWebRequest = (HttpWebRequest)WebRequest.Create(url);
+            // Sends the HttpWebRequest and waits for a response.
+            HttpWebResponse myHttpWebResponse = (HttpWebResponse)myHttpWebRequest.GetResponse();
+            if (myHttpWebResponse.StatusCode == HttpStatusCode.OK)
+               Console.WriteLine("\r\nResponse Status Code is OK and StatusDescription is: {0}",
+                                    myHttpWebResponse.StatusDescription);
+            // Releases the resources of the response.
+            myHttpWebResponse.Close();
+    }
+    catch(WebException e)
+	{
+		Console.WriteLine("\r\nWebException Raised. The following error occurred : {0}",e.Status);
+	}
+    catch(Exception e)
+    {
+		Console.WriteLine("\nThe following Exception was raised : {0}",e.Message);
+    }
+}
+https://docs.microsoft.com/en-us/dotnet/api/system.net.httpwebresponse.statuscode?view=netcore-3.1
+
+Correct answer: C
+A. Incorrect: There is no OnError event, so trapping it would not work.
+B. Incorrect: The EnsureSuccessStatusCode is a method, not a property. You also
+need to catch an exception directly with a try/catch statement.
+C. Correct: The EnsureSuccessStatusCode method should be called, and an exception
+should be trapped of type HttpRequestException.
+D. Incorrect: Checking the status code would work, but you would need to check
+each value in the range of 500–599. The EnsureSuccessStatusCode method is a
+better way to do this.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+126) You need to create a custom media type for vCards. The media formatter needs to access an XML file to get the format for 
+specific vCards. What should you do? (Choose all that apply.)
+
+A. Create a formatter using the MediaTypeFormatter class.
+B. Create a formatter using the BufferedMediaTypeFormatter class.
+C. Add the formatter to each request at the client.
+D. Add the formatter to the Web API configuration on the server.
+
+ABD
+https://docs.microsoft.com/en-us/aspnet/web-api/overview/formats-and-model-binding/media-formatters
+
+Correct answers: A, D
+A. Correct: You should inherit from the MediaTypeFormatter class if you want to
+execute any I/O or other asynchronous operation.
+B. Incorrect: You should use the MediaTypeFormatter base class so you can implement
+asynchronous I/O.
+C. Incorrect: The formatter should be added to the server configuration.
+D. Correct: You activate the formatter by adding it to the global Web API configuration
+on the server.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+127) You have multiple HttpClient calls that can run independently of each other. You want to execute them as fast as possible. What should you do?
+
+A. Use the Result property of each HttpClient call to get the result as fast as possible.
+B. Use async/await to make sure that the calls run asynchronously.
+C. Use Task.WaitAll to execute the tasks in parallel.
+D. You can’t execute asynchronous tasks in parallel. 
+
+C
+https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitall?view=netcore-3.1
+https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.whenall?view=netcore-3.1
+
+Correct answer: C
+A. Incorrect: Using the Result property blocks the asynchronous call until it’s finished.
+This is not the fastest way.
+B. Incorrect: Although it runs the requests asynchronously, it doesn’t run them in
+parallel.
+C. Correct: Task.WaitAll can be used to run multiple asynchronous requests in
+parallel.
+D. Incorrect: This is not true. Although async/await doesn’t execute requests in
+parallel, you can do this by using other features of the Task Parallel Library such as
+Task.WaitAll.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+128) Your company distributes a cloud service with multiple worker and web roles. A new
+update will soon be available, and you are considering the different options you
+have for updating the cloud service. With this in mind, answer the following questions:
+
+1. What is the difference between VIP Swap and in-place upgrade?
+An in-place upgrade means that Windows Azure will update your instances according
+to the upgrade domain they belong to. This way, you won’t have
+any downtime on your service. However, this can lead to running multiple versions of
+your service at the same time. This is something you need to take into account. If, 
+for example, your database schema also changed, you can get runtime errors when your 
+old instances are trying to access the database. To overcome this problem, you can 
+use a different technique called VIP Swap.
+
+A Windows Azure cloud service has two environments: production and staging. 
+Both environments offer the same hardware, but they have different virtual IP 
+(VIP) and service URLs. Because the staging and production environment are identical, 
+you can perform what’s known as a VIP Swap. A cloud service can be deployed to both a 
+staging and a production environment. A VIP Swap brings your staging environment into 
+production and your production environment to staging.
+
+With an in-place upgrade, you update your instances according to update domains.
+This will give you zero downtime.
+
+2. Which one do you prefer? Why?
+
+I prefer VIP Swap, because when using in-place upgrade you can have two different versions in production (The old and the new version) 
+which can lead to errors in case your database schema also changed.   
+
+With a VIP Swap, you promote your staging environment to production (and change
+your production environment to staging). A VIP Swap has the advantage of mitigating
+the risk of bringing multiple versions of your application into production at the same
+time.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+129) You are deploying a new cloud service with only a web role, and you want to make
+sure that you get the maximum guaranteed uptime, even during upgrades. How many
+instances do you need?
+
+A. 1
+B. 2
+C. 3
+D. 4
+
+B
+You need at least two instances spread across two fault domains to have maximum availability guaranteed by Windows Azure.
+
+Correct answer: B
+A. Incorrect: The Windows Azure Service Level Agreement says that you must have
+two or more role instances in different fault and upgrade domains, so one instance
+is not enough.
+B. Correct: The Windows Azure Service Level Agreement says that you must have
+two or more role instances in different fault and upgrade domains.
+C. Incorrect: The Windows Azure Service Level Agreement says that you must have
+two or more role instances in different fault and upgrade domains. If you don’t
+need three instances for performance, it is not necessary to deploy more than two
+instances.
+D. Incorrect: The Windows Azure Service Level Agreement says that you must have
+two or more role instances in different fault and upgrade domains. If you don’t
+need four instances for performance, it is not necessary to deploy more than two
+instances.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+130) You want to be able to communicate directly from your web role to your worker role,
+and you want to make sure that your worker role stays secure by disallowing public
+access. What do you do?
+
+A. Add an InputEndpoint to the web role in your ServiceConfiguration.cscfg file.
+B. Add an InputEndpoint to your worker role in your ServiceConfiguration.cscfg file.
+C. Add an InternalEndPoint to the web role in your ServiceConfiguration.cscfg file.
+D. Add an InternalEndPoint to your worker role in your ServiceConfiguration.cscfg file.
+
+C
+Windows Azure helps you secure your roles by using strict rules that are enforced by settings in the firewall and in the operating system that hosts your role.
+You can use both input endpoints and internal endpoints. An input endpoint is used for external connections to your role. These connections can be made over 
+HTTP, HTTPS, or TCP. Internal endpoints are used for communication between the roles in the datacenter in which they are located. These internal endpoints can use HTTP and TCP.
+
+Correct answer: D
+A. Incorrect: You should add an InternalEndPoint to your worker role. By adding
+extra endpoints to your web role, you don’t enable communication to your worker
+role.
+B. Incorrect: You shouldn’t add a public InputEndpoint to your worker. This will make
+your worker accessible from outside your cloud service. Instead, you should add an
+InternalEndPoint.
+C. Incorrect: You should add an InternalEndPoint to your worker role. By adding
+extra endpoints to your web role, you don’t enable communication to your worker
+role.
+D. Correct: An InternalEndPoint to your worker role enables communication from the
+web role to the worker role.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+131) You want to follow the recommended best practices for configuring your Windows
+Azure Guest OS. Which values do you use? (Choose all that apply.)
+
+A. osFamily=”3”
+B. osFamily=”1”
+C. osVersion=”*”
+D. osVersion=”WA-GUEST-OS-2.12_201208-02”
+
+C
+The osVersion attribute is used to specify the version of the guest OS that your role should run. You can set this value to * if you want to run on the newest version. 
+This enables automatic upgrades and is a recommended best practice.
+
+Correct answer: C
+A. Incorrect: This specifies a fixed version of your OS. You should use an asterisk (*)
+to make sure you always get all updates.
+B. Incorrect: A value of 1 specifies one of the older Guest OSs.
+C. Correct: By using *, you don’t depend on a specific version. You get automatic
+updates to your Guest OS.
+D. Incorrect: You shouldn’t depend on a specific version. This disables automatic
+updates.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+132) You are creating a complex web application that will be deployed to multiple,
+on-premises servers. You are working with development, testing, acceptance, and
+production environments; and you want to automate your deployment as much as possible.
+
+With this in mind, answer the following questions:
+
+1. Which configuration do you want to release to each of your different environments?
+
+In the testing environment you want to use the Debug configuration of your application, 
+using this configuration you can retrieve debug info in case of errors.
+When you compile an application in debug mode, extra instructions are added to your compiled
+code. This ensures that debugging is supported, and that you can easily step through your code with a debugger.
+In the acceptance and production environments you use the release configuration,
+the application is then optimized for speed and does not contain debug information    
+
+On your development and test environments, you can use a debug configuration. This
+way, you can more easily debug your code and find errors. Acceptance and production
+want to use the release configuration. If you want more granular control, you can also
+add extra configurations for your environments.
+
+2. Do you want to use Web.config transformations or parameters with Web Deploy for your deployment pipeline?
+
+I would use Web Deploy with parameters because it allows deployment of more complex web applications.   
+If you want to create one Web Deploy package and then deploy it to multiple locations, you can use parameterization.
+Web Deploy can use parameters to specify which values in your configuration can
+be changed during installation. By using a SetParameters.xml file, you can define the values you want to use.
+
+Because you know beforehand to which environments you are going to deploy, it is
+easier to use Web.config transformations. Depending on the environment you work in,
+you might need to deploy the same DLL that passed quality control to production. This
+would require you to use parameterization to account for the differences between the
+environments.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+133) You want to deploy your ASP.NET MVC application to your own web server for production.
+Which steps do you take? (Choose all that apply.)
+
+A. Change the debug attribute of the web.config to false.
+B. Build a release configuration.
+C. Disable the ASP.NET debugger in the Debuggers section of your project properties.
+D. Build a debug configuration.
+
+AB (Not C because The enabled debuggers work only when your code is compiled with debugging information.)
+
+Correct answers: A, B
+A. Correct: By setting the debug attribute to false (or removing it), you enable certain
+optimizations that you want to use on your production environment.
+B. Correct: A release configuration has better performance and should be used in a
+production environment.
+C. Incorrect: The selected debuggers don’t affect performance when there is no
+debug information in the assemblies. You don’t have to explicitly turn them off.
+D. Incorrect: A debug configuration has a slower performance than a release configuration
+and should not be used for a production environment.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+134) You want to remove your debug element from the web.config file by using web.config
+transformations. Which syntax do you use?
+
+A. <compilation xdt:Transform=”Replace” />
+B. <compilation xdt:Transform=”RemoveAttributes(debug)” xdt:Locator=”Condition(@debug=’true’)” />
+C. <compilation xdt:Transform=”RemoveAttributes(debug)” xdt:Locator=”Match(name)” />
+D. <compilation xdt:Transform=”RemoveAttributes(debug)” /> 
+
+C
+
+Correct answer: D
+A. Incorrect: You don’t want to completely replace the compilation element. If this
+element contains other values, you want to remove only the debug attribute.
+B. Incorrect: You don’t need the locator attribute. Without a locator attribute, Web
+Deploy matches your element to the existing element in web.config.
+C. Incorrect: You don’t need the locator attribute. Without a locator attribute, Web
+Deploy matches your element to the existing element in web.config. Matching on
+name makes no sense because the compilation element doesn’t have a name.
+D. Correct: You remove the debug attribute from the compilation element.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+135) You are using parameters for your Web Deploy. You want to automate the creation of
+the SetParameters file and make sure that it has the correct values. What do you use?
+
+A. XmlPoke with MSDeploy.
+B. MSDeploy with the setParamFile attribute.
+C. XmlPoke with MSBuild.
+D. This is not possible. You need to edit the SetParameters file manually.
+
+C
+Changing the SetParameters.xml file by hand each time is not what you want if you run in
+an automated environment. If you want to automate changing the values for setParameters in
+your build process, you can use something called XmlPoke. XmlPoke is an MSBuild task that
+you can run during your build process.
+
+Correct answer: C
+A. Incorrect: XmlPoke is an MSBuild Task, not an MSDeploy parameter.
+B. Incorrect: The setParamFile is used to supply a Parameters.xml file that’s used for
+parameterization. You will still have to edit the SetParameters.xml file.
+C. Correct: XmlPoke is an MSBuild task that you can use to edit XML files in an automated
+way.
+D. Incorrect: By using MSBuild with the XmlPoke task, you can edit your SetParameters
+automatically.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+136) You are working in a small company that runs a lot of web development projects
+each year. Each time you start a new project, you evaluate the current state of
+technologies and you try to use the newest technologies available. However, your
+colleagues feel that they want control over what gets used in all the projects. You
+are thinking of introducing NuGet to them and you are trying to prepare a good
+argument. With this in mind, answer the following questions:
+
+1. Are you still in control over what gets added to your project when using NuGet? Is that an advantage or a disadvantage?
+
+You can inspect the dependencies of a NuGet and decide whether you want to install it or not.   
+So you are in control over what gets added to your project, you can decide to install the NuGet.   
+
+Packages can contain all types of content. Some packages consist of a set of assemblies that are automatically
+referenced when you add them to your project. Others contain JavaScript and CSS files
+that are added to the correct folders in your project. Other packages modify your web.config
+file or add code to your project. One big advantage of using NuGet to install a package is 
+that it automatically detects any required dependencies and installs them together with your package. 
+This way, you never have to manually search for any dependencies or other prerequisites. This is all 
+taken care of for you by NuGet.
+
+You can see all the changes that NuGet made, but you are not totally in control anymore.
+NuGet downloads any dependencies for your package automatically. NuGet
+can also make changes to your configuration files and add code and other files to your
+project. However, this is not a disadvantage because NuGet makes only the changes
+that you had to make manually.
+
+2. How can NuGet help you stay on the cutting edge of new releases?
+
+The NuGet gallery contains all packages that are currently available, 
+and also contains packages that use the newest technologies available, 
+this offers you a wealth of potentially useful packages that you can use
+in your own projects.
+
+NuGet offers a simple way to update your packages to new releases. You can even use
+NuGet to download prerelease packages.
+
+3. Would it be useful to create your own package repository?
+
+Yes, you can then create custom Visual Studio templates that use the best practices of 
+your development team and reference your company’s packages that are hosted on your own 
+feed, so everyone starts with the correct baseline.
+
+If you don’t want to create custom packages or keep a local cache of packages, this is
+not necessary.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+137) You want to update jQuery package in your ASP.NET MVC 4 application in the easiest
+way possible. What do you do? (Choose all that apply.)
+
+A. Download the newest version from http://jquery.com.
+B. Run the command Update-Package jQuery from the Developer command prompt.
+C. Run the command Update-Package jQuery from the Package Manager Console.
+D. Click the update button in the Package Manager window for the jQuery package.
+
+CD (the visual NuGet Package Manager)
+
+Correct answers: C, D
+A. Incorrect: ASP.NET MVC 4 templates come with package references for all installed
+libraries. You can use NuGet to update the package.
+B. Incorrect: You should run this command from within Visual Studio in the Package
+Manager Console.
+C. Correct: This updates your jQuery from the Windows PowerShell command line.
+D. Correct: You can update the package in through a GUI.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+138) You want to package a custom package that uses the lib, content, and tool folders.
+Which command do you use?
+
+A. nuget pack MyProject.csproj
+B. nuget spec MyAssembly.dll
+C. nuget pack package.nuspec
+D. nuget push package.nupkg
+
+C
+
+Correct answer: C
+A. Incorrect: The pack command on a project file converts that project in a package.
+B. Incorrect: This creates a nuspec file, not a package.
+C. Correct: This creates your package with your lib, content, and tools folder.
+D. Incorrect: The push command is used to publish your package on NuGet.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+139) You want to expose a read-only feed of custom packages on your internal web server
+to your colleagues. Which steps do you take? (Choose all that apply.)
+
+A. Set the API key in your appSettings.
+B. Install the NuGet.Server package.
+C. Deploy your application to IIS.
+D. Create a new Empty ASP.NET Web Application.
+
+BCD
+
+Correct answers: B, C, D
+A. Incorrect: You can leave the API key empty to make sure that your feed is readonly.
+B. Correct: The NuGet.Server package contains all code for exposing your custom
+feed in a web project.
+C. Correct: Your custom feed needs to be hosted in IIS.
+D. Correct: A new empty ASP.NET Web Application is the basis of your custom feed.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+140) You are planning an internal presentation for your colleagues to show them the
+benefits of automating your deployment. Currently, you are doing manual deployments
+in which you just copy the required files through FTP to the target servers.
+Database updates are always done manually.
+With this in mind, answer the following questions:
+
+1. What are the advantages that continuous deployment can give you? Make a list.
+
+You can easily deploy a new release in an automated way. 
+
+Because continuous deployment decreases your feedback cycle, you get much quicker
+feedback on your application. You can respond to customer demand more quickly. In
+the current world in which agile is the norm, this is definitely a requirement for most, if
+not all, applications.
+
+2. Which techniques do you need for this?
+
+You can use Web Deploy, you can create and deploy a Web Deploy package through Visual Studio, the IIS, command
+line, and Windows PowerShell. 
+
+Because you are using multiple servers and databases, Web Deploy is the best choice.
+By using the command line or Windows PowerShell tools, you can integrate with your
+build process and automatically update your servers. If you are using the Entity Framework,
+you can use automatic migrations. Otherwise, you can use one of the other
+techniques such as dbDacFx or dbFullSql.  
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+141) You want to deploy your website to Windows Azure Websites. What can you do?
+(Choose all that apply.)
+
+A. Create a new publish profile and choose the Web Deploy option. Enter the credentials of your server and publish your website.
+B. Download the publish profile from the Management Portal and import it in Visual Studio.
+C. Use FTP publishing to copy your files directly to Windows Azure.
+D. Create a Web Deploy package and upload it to the Management Portal.
+
+B
+
+Correct answers: B, C
+A. Incorrect: You can download a publish profile from Windows Azure.
+B. Correct: This enables you to update your website directly from Visual Studio.
+C. Correct: You can use FTP publishing directly to Windows Azure Websites from
+Visual Studio.
+D. Incorrect: You can’t upload a Web Deploy package for a website in the Management
+Portal.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+142) You are using the command line, and you want to see whether your deployment is configured correctly. What do you use?
+
+A. postSync
+B. preSync
+C. verb
+D. whatif
+
+D
+
+Correct answer: D
+A. Incorrect: postSync executes a command after your synchronization has already
+run.
+B. Incorrect: preSync executes a command before your synchronization runs.
+C. Incorrect: verb is used to specify your required operation.
+D. Correct: Specifies that the command should run without making any changes. It
+displays an overview of what your deployment will execute, so you can inspect it.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+143) You want to create and deploy a package from the command line. Which command do you use?
+
+A. MSBuild “MyProjectName.csproj” /T:Package /P:Configuration=Release
+B. MSBuild “MyProjectName.csproj” /T:Package
+C. MSBuild “MyProjectName.csproj” /T:Package /P:Configuration=Release;DeployOnBuild=True
+D. MSBuild “MyProjectName.csproj” /P:Configuration=Release;DeployOnBuild=True
+
+C
+
+Correct answer: C
+A. Incorrect: The package switch only creates a package. It doesn’t deploy it.
+B. Incorrect: The package switch only creates a package. It doesn’t deploy it. By
+default, this also generates a debug configuration.
+C. Correct: This packages and deploys the project with the correct configuration.
+D. Incorrect: You are missing the /T:package switch.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+144) You are building a library that will contain some utility code. The idea is that the
+library can be shared by multiple web applications that you are developing.
+With this in mind, answer the following questions:
+
+1. Why should you sign your assembly?
+
+It secures the assembly, you know who signed it, furthermore you need to sign an assembly in order to register it in the GAC.      
+
+■■ Strong names guarantee uniqueness. Your unique private key is used to generate the name for your assembly. No other assembly can have the exact same strong name.
+■■ Strong names protect your versioning lineage. Because you control the private key, you are the only one who can distribute updates to your assemblies. Users can be sure that the new version originates from the same publisher.
+■■ Strong names provide a strong integrity check. The .NET Framework sees whether a strong-named assembly has changed since the moment it was signed.
+
+Signing the assembly protects the assembly against tampering. The .NET Framework
+will check that the assembly hasn’t been altered between signing and running. Signing
+is also a requirement to be able to use a digital certificate, so users of your application
+will know that you are the publisher of the application. A disadvantage could be that
+you can no longer reference other unsigned assemblies. If you own these assemblies,
+you can sign them yourself. If not, you have to ask their publisher to sign them.
+
+2. What is the advantage of interning your assembly?
+
+All shared assemblies are loaded only once in memory. This
+decreases both memory usage and startup time of your websites.
+ASP.NET 4.5 adds a new feature called assembly interning. Because all DLLs are already
+located in one location (the Temporary ASP.NET Files folder), interning analyzes this folder
+for duplicate assemblies. Those assemblies are then moved to a special location, and all the
+original references are replaced with what’s called a symbolic link.
+When a web application requests a shared DLL, the symbolic link points the application
+to the shared location.
+
+The advantage of interning your assemblies is that your assembly won’t be loaded
+multiple times into memory. Instead, one copy will be loaded that gets used by all web
+applications that reference it.
+
+3. How you can you do this?
+
+You can use assembly interning by using the command-line tool aspnet_intern.exe.
+If you run the following command from a command line on your server, the aspnet_intern tool will analyze which assemblies are shared and move them to the specified location:
+aspnet_intern -mode exec -sourcedir "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\Temporary ASP.NET Files" -interndir C:\CommonAssemblies
+
+The aspnet_intern tool also has an analyze mode that shows you which assemblies it can intern for you. You can run the analyze command with a verbose flag like this:
+aspnet_intern -mode analyze -sourcedir "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\Temporary ASP.NET Files" -v
+
+You can intern your assemblies by running the aspnet_intern tool regularly on your server.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+145) You are building a strong-named assembly and you want to reference a regular assembly to reuse some code you built. What should you do?
+
+A. You first need to put the assembly in the GAC.
+B. Nothing. Referencing another assembly is always possible.
+C. You need to sign the other assembly before using it.
+D. You need to use the public key token of the other assembly to reference it.
+
+C A strong-named assembly can reference only other assemblies that are also strongly named. 
+This is to avoid security flaws where a depending assembly could be changed to influence the behavior of a strong-named assembly.
+
+Correct answer: C
+A. Incorrect: An assembly in the GAC needs to be strongly named. Your assembly still
+won’t be able to reference the unsigned assembly.
+B. Incorrect: A strong-named assembly cannot reference a non-strong-named
+assembly.
+C. Correct: You need to strongly name the other assembly before you can reference
+it.
+D. Incorrect: The public key token is a part of the manifest of a strong-named
+assembly. The non-strong-named assembly doesn’t have this key information. It
+needs to be strongly named first.   
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+146) You are building an assembly that will be used by a couple of server applications. You want to make the update process of this assembly as smooth as possible. 
+Which steps should you take? (Choose all that apply.)
+
+A. Run aspnet_intern.
+B. Deploy the assembly to the GAC.
+C. Add an assemblyBinding section to each client application that points to the location of the assembly.
+D. Strongly name the assembly.
+
+BD
+
+Correct answer: B
+A. Incorrect: aspnet_intern is used to intern assemblies, meaning that only one copy
+of an assembly will be loaded in memory when it’s referenced by multiple web
+applications. This is only for performance reasons. It doesn’t mean you can update
+the assembly in one location.
+B. Correct: A shared assembly can be deployed in the GAC. Other applications can
+reference it there. When you want to update it, you can do so by deploying the
+new version to the GAC. By using configuration files, you can then let other applications
+reference your new assembly.
+C. Incorrect: You can use the assemblyBinding configuration element to add extra
+search locations for an assembly. It asks for changes to each client application,
+however. The GAC is the location in which a shared assembly needs to be
+deployed.
+D. Incorrect: Strongly naming an assembly doesn’t make it a shared assembly. Each
+application still requires its own copy.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+147) You want to deploy an assembly to a shared location on the intranet. Which steps should you take? (Choose all that apply.)
+
+A. Strongly name the assembly.
+B. Use the codebase configuration element in the applications that use the assembly.
+C. Deploy the assembly to the GAC.
+D. Use the assemblyBinding configuration element with the probing option.
+
+AB
+
+The probing option can be used only to point to locations that are relative to the application path. 
+If you want to locate assemblies  somewhere else, you have to use the codebase element.
+
+Correct answers: A, B
+A. Correct: Strongly naming the assembly is required to be able to reference it on
+the intranet.
+B. Correct: The codebase configuration element can be used to have local client applications
+know they can find an assembly on another location such as the intranet.
+C. Incorrect: Deploying it to the GAC doesn’t put the assembly on the intranet.
+D. Incorrect: The probing option can be used only to give additional locations relative
+to the application path. It can’t be used to point to the intranet.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+148) You are developing a WCF service that compares several data sources. The service takes a long time to complete.
+The service must meet the following requirements:
+✑ The client must be able to continue processing while the service is running.
+✑ The service must initiate communication with the client application when processing is complete.
+You need to choose a message pattern to meet the requirements.
+Which message pattern should you choose?
+
+A. One Way
+B. Streaming
+C. Duplex
+D. Request/Reply
+
+C
+
+A duplex service contract is a message exchange pattern in which both endpoints can send messages to the other independently. 
+A duplex service, therefore, can send messages back to the client endpoint, providing event-like behavior. 
+Duplex communication occurs when a client connects to a service and provides the service with a channel on 
+which the service can send messages back to the client. Note that the event-like behavior of duplex services 
+only works within a session.
+
+https://docs.microsoft.com/en-us/dotnet/framework/wcf/feature-details/duplex-services
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+149) You are developing a WCF service.
+A new service instance must be created for each client session.
+You need to choose an instancing mode.
+Which instance mode should you use?
+
+A. PerCall
+B. Single
+C. Multiple
+D. PerSession
+E. PerRequest
+
+D
+PerSession: A new InstanceContext (and therefore service object) is created for each new client session and maintained for the lifetime of that session (this requires a binding that supports sessions).
+
+Incorrect: Answers -
+A: PerCall: A new InstanceContext (and therefore service object) is created for each client request.
+B: Single: A single InstanceContext (and therefore service object) handles all client requests for the lifetime of the application.
+References:
+https://msdn.microsoft.com/en-us/library/ms731193(v=vs.110)
+https://www.oreilly.com/library/view/programming-wcf-services/0596526997/ch04s03.html
+
+******Choosing an instancing mode******
+The InstanceContextMode setting is another critical item that has a significant impact on the behavior of the service. 
+This setting specifies the number of service instances available for handling calls to the service. 
+There are three possible values for it, coupled with the three values of the ConcurrencyMode, giving you nine different possible combinations.
+
+Single
+A single instance of the WCF Service is used for all client requests. This has the benefit of not having to constantly create and destroy instances, 
+but it should be obvious that this has the downside of be limiting in terms of large client request volumes:
+[ServiceBehavior(InstanceContextMode=InstanceContextMode.Single)]
+public class TestService : ITestService
+{}
+
+PerSession
+This is the default setting (remember this!) and creates one or more instance per client:
+[ServiceBehavior(InstanceContextMode=InstanceContextMode.PerSession)]
+public class TestService : ITestService
+{}
+
+PerCall
+This setting creates one instance (or more) for each client request:
+[ServiceBehavior(InstanceContextMode=InstanceContextMode.PerCall)]
+public class TestService : ITestService
+{}
+
+******Managing services concurrency******
+People frequently confuse instancing and concurrency, so let’s get the distinction out of the way right now. As part of the
+ServiceBehavior you can define a ConcurrencyMode. The ConcurrencyMode enumeration has three values: single, reentrant, and multiple.
+
+Single
+At any given time, only a single request has access to the WCF Service object. The big implication
+here is that, if multiple requests hit the host at once, each subsequent one is blocked
+until the one before it is processed:
+[ServiceBehavior(ConcurrencyMode=ConcurrencyMode.Single)]
+public class TestService : ITestService
+{}
+
+Multiple
+At any given time, multiple requests can be processed by the WCF Service object. Subsequent requests are processed on separate threads. This can lead to a tremendously high number of threads being created. Although this will lead to significant throughput compared with a value of single, there are many other considerations you need to take into account to take full advantage of this setting:
+[ServiceBehavior(ConcurrencyMode=ConcurrencyMode.Multiple)]
+public class TestService : ITestService
+{}
+
+Reentrant
+A single request is processed on one thread, but the thread can leave the service to call another service, and it can also communicate backward to a client through a callback without deadlocking:
+[ServiceBehavior(ConcurrencyMode=ConcurrencyMode.Reentrant)]
+public class TestService : ITestService
+{}
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+150) You are developing a WCF service.
+A new service instance must be created for each client request.
+You need to choose an instancing mode.
+
+Which instancing mode should you use?
+A. Single
+B. PerRequest
+C. PerCall
+D. Multiple
+E. PerSession
+
+C
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+151) You are developing an ASP.NET MVC application that reads and writes data from a SQL Server database.
+You need to maintain data integrity in all situations that use transactions.
+
+A. ReadUncommitted
+B. Repeatable
+C. Serializable
+D. ReadCommitted
+
+Correct Answer: C
+The highest isolation level, serializable, guarantees that a transaction will retrieve exactly the same data every time it repeats a read operation.
+References:
+https://technet.microsoft.com/en-us/library/ms189122(v=sql.105)
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+152) You are developing an ASP.NET MVC application that reads and writes data from a SQL Server database.
+You need to prevent the application from reading data that is locked by other transactions. You also need to prevent exclusive range locks.
+Which isolation level should you use?
+
+A. ReadCommitted
+B. Serializable
+C. Repeatable
+D. ReadUncommitted
+
+A
+https://docs.microsoft.com/en-us/dotnet/api/system.transactions.isolationlevel?view=netframework-4.8
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+153) The Create MonthlyTotalsReport() method must lock the data and prevent others from updating or inserting new rows until complete.
+You need to update the CreateMonthlyTotalsReports() method to use database transactions. Which code segment should you use?
+
+A. SqlConnection.BeginTransaction(IsolationLevel.ReadCommitted);
+B. SqlConnection.BeginTransaction(IsolationLevel.ReadUncommitted);
+C. SqlConnection.BeginTransaction(IsolationLevel.Chaos);
+D. SqlConnection.BeginTransaction(IsolationLevel.Serializable);
+
+D
+
+Serializable: A range lock is placed on the DataSet, preventing other users from updating or inserting rows into the dataset until the transaction is complete
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+154) You are developing a WCF service. A new service instance must be created for each client session.
+You need to choose an instancing mode. Which instance mode should you use?
+
+A. PerCall
+B. Single
+C. Multiple
+D. PerSession
+E. PerRequest
+
+D
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+155) You are developing a library to support multiple ASP.NET MVC web applications on a shared server. The library provides implementations of security algorithms.
+If a problem with any of the security algorithms is discovered, a new version of the library must be created and deployed. Application downtime during the update must be minimized.
+You need to ensure that the new version of the library will be used by all applications as soon as possible.
+What should you do?
+
+A. Build the web applications and include the security assembly as an embedded resource. When an update is needed, copy the new assembly to the bin directory for the application.
+B. Sign all assemblies in each application with the same key used to sign the security assembly. When an update is needed, create a new key pair and re-sign all assemblies.
+C. Build the security assembly as a netmodule in a shared location. Use the assembly linker to merge the netmodule into the assemblies for the application. When an update is needed, update the netmodule in the shared location.
+D. Install the security assembly in the Global Assembly Cache (GAC). When an update is needed, update the assembly in the GAC.
+
+D
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+156) You are developing an ASP.NET MVC application that reads and writes data from a SQL Server database.
+You need to prevent the application from reading data that is locked by other transactions. You also need to prevent exclusive range locks.
+Which isolation level should you use?
+
+A. ReadCommitted
+B. Serializable
+C. Repeatable
+D. ReadUncommitted
+
+C  
+
+Range locks are placed in the range of key values that match the search conditions of each statement executed in a transaction. 
+This blocks other transactions from updating or inserting any rows that would qualify for any of the statements executed by the 
+current transaction. This means that if any of the statements in a transaction are executed a second time, they will read the same 
+set of rows. The range locks are held until the transaction completes. This is the most restrictive of the isolation levels because 
+it locks entire ranges of keys and holds the locks until the transaction completes
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+157) You are developing an ASP.NET MVC application that reads and writes data from a SQL Server database. You need to maintain data 
+integrity including retrieving identical sets across reads in all situations that use transactions. Which isolation level should you use? 
+
+A. Repeatable 
+B. Serializable 
+C. ReadUncommitted 
+D. ReadCommitted 
+
+B, if you use Repeatable you can retrieve Phantom data  
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+158) You are developing an ASP.NET MVC application. The application has a page that updates an image stored in a database. 
+Members of the EntityClient namespace are used to access an ADO.NET Entity Framework data model. Images and associated 
+metadata are stored in a single database table. You need to run a single query that updates an image and associated metadata 
+in the database while returning only the number of affected rows. Which method of the EntityCommand type should you use? 
+
+A. ExecuteNonQuery() 
+B. ExecutcScalar() 
+C. ExecuteDbDataReader() 
+D. ExecuteReader() 
+
+A
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+159) You are developing a WCF service that compares several data sources. The service takes a long time to complete.
+The service must meet the following requirements:
+✑ The client must be able to continue processing while the service is running.
+✑ The service must initiate communication with the client application when processing is complete.
+You need to choose a message pattern to meet the requirements.
+Which message pattern should you choose?
+
+A. One Way
+B. Streaming
+C. Duplex
+D. Request/Reply 
+
+C
+
+A duplex service contract is a message exchange pattern in which both endpoints can send messages to the other independently. 
+A duplex service, therefore, can send messages back to the client endpoint, providing event-like behavior. Duplex communication 
+occurs when a client connects to a service and provides the service with a channel on which the service can send messages back 
+to the client. Note that the event-like behavior of duplex services only works within a session.
+https://docs.microsoft.com/en-us/dotnet/framework/wcf/feature-details/duplex-services
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+160) You are developing a WCF service.
+A new service instance must be created for each client session.
+You need to choose an instancing mode.
+Which instance mode should you use?
+
+A. PerCall
+B. Single
+C. Multiple
+D. PerSession
+E. PerRequest
+
+D
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+161)You are developing a WCF service.
+A new service instance must be created for each client request.
+You need to choose an instancing mode.
+Which instancing mode should you use?
+
+A. Single
+B. PerRequest
+C. PerCall
+D. Multiple
+E. PerSession
+
+C
+
+PerCall: A new InstanceContext (and therefore service object) is created for each client request.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+162) You are designing an ASP.NET Web API application.
+You need to select an HTTP verb to allow blog administrators to remove a comment.
+Which HTTP verb should you use?
+A. PUT
+B. DELETE
+C. POST
+D. GET
+
+B
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+163) You are developing an ASP.NET MVC application that reads and writes data from a SQL Server database.
+You need to maintain data integrity in all situations that use transactions.
+A. ReadUncommitted
+B. Repeatable
+C. Serializable
+D. ReadCommitted
+
+C, maintains the highest data integrity 
+--------------------------------------------------------------------------------------------------------------------------------
+
+
+
+

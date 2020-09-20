@@ -1,0 +1,178 @@
+﻿dotnet tool install --global dotnet-ef
+
+Note    -o DataLibrary.Adventureworks.Models (should be) ==> DataLibrary\Adventureworks\Models   
+        --context-dir DataLibrary.Adventureworks.Data (should be) ==> DataLibrary\Adventureworks\Data  
+
+C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef dbcontext scaffold "Server=(local);Database=Adventureworks2016;Integrated Security=true;" Microsoft.EntityFrameworkCore.SqlServer -d -c AwDbContext --context-dir Adventureworks\Data -o Adventureworks\Models --project DataLibrary --startup-project EFCoreDBDemo
+Build started...
+Build succeeded.
+Could not find type mapping for column 'HumanResources.Employee.OrganizationNode' with data type 'hierarchyid'. Skipping column.
+The column 'HumanResources.Employee.SalariedFlag' would normally be mapped to a non-nullable bool property, but it has a default constraint. Such a column is mapped to a nullable bool property to allow a difference between setting the property to false and invoking the default constraint. See https://go.microsoft.com/fwlink/?linkid=851278 for details.
+The column 'HumanResources.Employee.CurrentFlag' would normally be mapped to a non-nullable bool property, but it has a default constraint. Such a column is mapped to a nullable bool property to allow a difference between setting the property to false and invoking the default constraint. See https://go.microsoft.com/fwlink/?linkid=851278 for details.
+Unable to scaffold the index 'IX_Employee_OrganizationLevel_OrganizationNode'. The following columns could not be scaffolded: OrganizationNode.
+Unable to scaffold the index 'IX_Employee_OrganizationNode'. The following columns could not be scaffolded: OrganizationNode.
+Could not find type mapping for column 'Person.Address.SpatialLocation' with data type 'geography'. Skipping column.
+The column 'Person.StateProvince.IsOnlyStateProvinceFlag' would normally be mapped to a non-nullable bool property, but it has a default constraint. Such a column is mapped to a nullable bool property to allow a difference between setting the property to false and invoking the default constraint. See https://go.microsoft.com/fwlink/?linkid=851278 for details.
+Could not find type mapping for column 'Production.Document.DocumentNode' with data type 'hierarchyid'. Skipping column.
+Could not scaffold the primary key for 'Production.Document'. The following columns in the primary key could not be scaffolded: DocumentNode.
+Unable to generate entity type for table 'Production.Document'.
+The column 'Production.Product.MakeFlag' would normally be mapped to a non-nullable bool property, but it has a default constraint. Such a column is mapped to a nullable bool property to allow a difference between setting the property to false and invoking the default constraint. See https://go.microsoft.com/fwlink/?linkid=851278 for details.
+The column 'Production.Product.FinishedGoodsFlag' would normally be mapped to a non-nullable bool property, but it has a default constraint. Such a column is mapped to a nullable bool property to allow a difference between setting the property to false and invoking the default constraint. See https://go.microsoft.com/fwlink/?linkid=851278 for details.
+Could not find type mapping for column 'Production.ProductDocument.DocumentNode' with data type 'hierarchyid'. Skipping column.
+Could not scaffold the primary key for 'Production.ProductDocument'. The following columns in the primary key could not be scaffolded: DocumentNode.
+Unable to generate entity type for table 'Production.ProductDocument'.
+The column 'Purchasing.Vendor.PreferredVendorStatus' would normally be mapped to a non-nullable bool property, but it has a default constraint. Such a column is mapped to a nullable bool property to allow a difference between setting the property to false and invoking the default constraint. See https://go.microsoft.com/fwlink/?linkid=851278 for details.
+The column 'Purchasing.Vendor.ActiveFlag' would normally be mapped to a non-nullable bool property, but it has a default constraint. Such a column is mapped to a nullable bool property to allow a difference between setting the property to false and invoking the default constraint. See https://go.microsoft.com/fwlink/?linkid=851278 for details.
+The column 'Sales.SalesOrderHeader.OnlineOrderFlag' would normally be mapped to a non-nullable bool property, but it has a default constraint. Such a column is mapped to a nullable bool property to allow a difference between setting the property to false and invoking the default constraint. See https://go.microsoft.com/fwlink/?linkid=851278 for details.
+
+C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef dbcontext scaffold -h
+
+Usage: dotnet ef dbcontext scaffold [arguments] [options]
+
+Arguments:
+  <CONNECTION>  The connection string to the database.
+  <PROVIDER>    The provider to use. (E.g. Microsoft.EntityFrameworkCore.SqlServer)
+
+Options:
+  -d|--data-annotations                  Use attributes to configure the model (where possible). If omitted, only the fluent API is used.
+  -c|--context <NAME>                    The name of the DbContext.
+  --context-dir <PATH>                   The directory to put DbContext file in. Paths are relative to the project directory.
+  -f|--force                             Overwrite existing files.
+  -o|--output-dir <PATH>                 The directory to put files in. Paths are relative to the project directory.
+  --schema <SCHEMA_NAME>...              The schemas of tables to generate entity types for.
+  -t|--table <TABLE_NAME>...             The tables to generate entity types for.
+  --use-database-names                   Use table and column names directly from the database.
+  --json                                 Show JSON output.
+  -p|--project <PROJECT>                 The project to use.
+  -s|--startup-project <PROJECT>         The startup project to use.
+  --framework <FRAMEWORK>                The target framework.
+  --configuration <CONFIGURATION>        The configuration to use.
+  --runtime <RUNTIME_IDENTIFIER>         The runtime to use.
+  --msbuildprojectextensionspath <PATH>  The MSBuild project extensions path. Defaults to "obj".
+  --no-build                             Don't build the project. Only use this when the build is up-to-date.
+  -h|--help                              Show help information
+  -v|--verbose                           Show verbose output.
+  --no-color                             Don't colorize output.
+  --prefix-output                        Prefix output with level.
+
+
+https://github.com/skimedic/presentations/tree/master/DOTNETCORE/Channel9
+
+To scaffold AdventureWorks2016.bak
+
+1) Download from https://github.com/microsoft/sql-server-samples/releases  AdventureWorks2016.bak (OLTP)
+2) Restore the database, https://sqlbackupandftp.com/blog/restore-database-backup 
+3) Execute script below 
+4) Perform scaffold command described above  
+
+  /*
+Run this script on:
+        AdventureWorks2016    -  This database will be modified
+*/
+SET NUMERIC_ROUNDABORT OFF
+GO
+SET ANSI_PADDING, ANSI_WARNINGS, CONCAT_NULL_YIELDS_NULL, ARITHABORT, QUOTED_IDENTIFIER, ANSI_NULLS ON
+GO
+SET XACT_ABORT ON
+GO
+SET TRANSACTION ISOLATION LEVEL Serializable
+GO
+BEGIN TRANSACTION
+GO
+IF @@ERROR <> 0 SET NOEXEC ON
+GO
+PRINT N'Dropping extended properties'
+GO
+BEGIN TRY
+	EXEC sp_dropextendedproperty N'MS_Description', 'SCHEMA', N'Production', 'TABLE', N'Product', 'CONSTRAINT', N'FK_Product_UnitMeasure_SizeUnitMeasureCode'
+END TRY
+BEGIN CATCH
+	DECLARE @msg nvarchar(max);
+	DECLARE @severity int;
+	DECLARE @state int;
+	SELECT @msg = ERROR_MESSAGE(), @severity = ERROR_SEVERITY(), @state = ERROR_STATE();
+	RAISERROR(@msg, @severity, @state);
+
+	SET NOEXEC ON
+END CATCH
+GO
+PRINT N'Dropping foreign keys from [Production].[Product]'
+GO
+ALTER TABLE [Production].[Product] DROP CONSTRAINT [FK_Product_UnitMeasure_WeightUnitMeasureCode]
+GO
+IF @@ERROR <> 0 SET NOEXEC ON
+GO
+ALTER TABLE [Production].[Product] DROP CONSTRAINT [FK_Product_UnitMeasure_SizeUnitMeasureCode]
+GO
+IF @@ERROR <> 0 SET NOEXEC ON
+GO
+PRINT N'Creating [dbo].[uspGetAllProducts]'
+GO
+CREATE PROCEDURE [dbo].[uspGetAllProducts]
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT ProductID,
+           Name,
+           ProductNumber,
+           MakeFlag,
+           FinishedGoodsFlag,
+           Color,
+           SafetyStockLevel,
+           ReorderPoint,
+           StandardCost,
+           ListPrice,
+           Size,
+           SizeUnitMeasureCode,
+           WeightUnitMeasureCode,
+           Weight,
+           DaysToManufacture,
+           ProductLine,
+           Class,
+           Style,
+           ProductSubcategoryID,
+           ProductModelID,
+           SellStartDate,
+           SellEndDate,
+           DiscontinuedDate,
+           rowguid,
+           ModifiedDate
+	FROM Production.Product
+END
+GO
+IF @@ERROR <> 0 SET NOEXEC ON
+GO
+PRINT N'Adding foreign keys to [Production].[Product]'
+GO
+ALTER TABLE [Production].[Product] ADD CONSTRAINT [FK_Product_UnitMeasure] FOREIGN KEY ([SizeUnitMeasureCode]) REFERENCES [Production].[UnitMeasure] ([UnitMeasureCode])
+GO
+ALTER TABLE [Production].[Product] ADD CONSTRAINT [FK_Product_UnitMeasure_WeightUnitMeasureCode] FOREIGN KEY ([WeightUnitMeasureCode]) REFERENCES [Production].[UnitMeasure] ([UnitMeasureCode]) ON DELETE SET NULL
+GO
+IF @@ERROR <> 0 SET NOEXEC ON
+GO
+COMMIT TRANSACTION
+GO
+IF @@ERROR <> 0 SET NOEXEC ON
+GO
+-- This statement writes to the SQL Server Log so SQL Monitor can show this deployment.
+IF HAS_PERMS_BY_NAME(N'sys.xp_logevent', N'OBJECT', N'EXECUTE') = 1
+BEGIN
+    DECLARE @databaseName AS nvarchar(2048), @eventMessage AS nvarchar(2048)
+    SET @databaseName = REPLACE(REPLACE(DB_NAME(), N'\', N'\\'), N'"', N'\"')
+    SET @eventMessage = N'Redgate SQL Compare: { "deployment": { "description": "Redgate SQL Compare deployed to ' + @databaseName + N'", "database": "' + @databaseName + N'" }}'
+    EXECUTE sys.xp_logevent 55000, @eventMessage
+END
+GO
+DECLARE @Success AS BIT
+SET @Success = 1
+SET NOEXEC OFF
+IF (@Success = 1) PRINT 'The database update succeeded'
+ELSE BEGIN
+	IF @@TRANCOUNT > 0 ROLLBACK TRANSACTION
+	PRINT 'The database update failed'
+END
+GO

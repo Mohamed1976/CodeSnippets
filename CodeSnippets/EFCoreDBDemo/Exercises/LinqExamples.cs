@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 //public static class Queryable contains extension methods such as Count() that can perform db operations 
@@ -54,6 +55,235 @@ namespace EFCoreDBDemo.Exercises
             //Q28();
             //Q29();
             //DisplayPopulations();
+            //PlinqExceptions();
+            //PlinqQueryCancellation();
+            //LinqExercise01();
+            //LinqExercise02();
+            //LinqExercise03();
+        }
+
+        /*Given int[] source = { 1, 1, 2, 3, 3, 4, 4 };, select all correct LINQ queries 
+         * can remove the duplicate values
+         * 
+         * var result = source.ToList(); 
+         * var result = source.ToHashSet();
+         * var result = source.Distinct(); 
+         * var result = new HashSet<int>(source); */
+        private void LinqExercise03()
+        {
+            int[] source = { 1, 1, 2, 3, 3, 4, 4 };
+            var result = source.Distinct();
+
+            //How to generate a list of numbers from 99 to 0?
+            //var nums = Enumerable.Range(0, 99).Reverse(); 
+            //var nums = Enumerable.Range(0, 99).OrderByDescending(n => n); 
+            //var nums = Enumerable.Range(0, 100).Reverse(); 
+            //var nums = Enumerable.Range(0, 100).OrderByDescending(n => n);
+            var nums = Enumerable.Range(0, 100).Reverse().ToArray();
+            var _nums = Enumerable.Range(0, 100).OrderByDescending(n => n).ToArray();
+        
+            for(int i = 0; i < _nums.Length; i++)
+            {
+                Console.WriteLine($"{nums[i]} <==> {_nums[i]}");
+            }
+        }
+
+        /*
+         * Given var list = new List<string>{ 1000 strings }
+         * };, select the LINQ query equivalent to var result = 
+         * list.Where(s => s.StartsWith("A") && s.Length > 3).Select(s => s.Length);
+         * 
+         * var result = select s from list where s[0] == 'A' && s.Length > 3;
+         * var result = from s in list where s[0] == 'A' and s.Length > 3 select s.Length;
+         * var result = select s.Length from s in list where s[0] == 'A' && s.Length > 3; 
+         * var result = from s in list where s[0] == 'A' && s.Length > 3 select s.Length;         
+         */
+        private void LinqExercise02()
+        {
+            var list = new List<string>
+            {
+                "Alfa",
+                "Beta",
+                "Gamma"
+            };
+
+            var results = from s in list 
+                         where s[0] == 'A' && s.Length > 3 
+                         select s.Length;
+
+            foreach(int result in results)
+            {
+                Console.WriteLine($"Length(\"Alfa\"): {result}");
+            }            
+        }
+
+        /* Given a list of Student instances (as below) and a total of 10 score sections as 
+         * (0 to 9, 10 to 19 ... 90 to 99), with the score of 100 as a section on its own, 
+         * select ALL correct LINQ queries that group the students by the score sections
+         * var groups = students.GroupBy(s => s.Score / 10); 
+         * var groups = students.ToLookup(s => s.Score / 10);
+         * var groups = from s in students group s by s.Score; 
+         * var groups = from s in students group s by s.Score into g select g;  */
+        class Student
+        {
+            public int Score { get; set; }
+            public string FirstName { get; set; }
+            public string LastName { get; set; }
+        }
+
+        private void LinqExercise01()
+        {
+            var students = new List<Student>
+            {
+                new Student() { FirstName = "Alfa", LastName = "_Alfa", Score=7 },
+                new Student() { FirstName = "Beta", LastName = "_Beta", Score = 16 },
+                new Student() { FirstName = "Gamma", LastName = "_Gamma", Score = 23 },
+                new Student() { FirstName = "Delta", LastName = "_Delta", Score = 35 },
+                new Student() { FirstName = "Zetta", LastName = "_Zetta", Score = 36 },
+            };
+
+            var groups = students.GroupBy(s => (int)(s.Score / 10));
+            var lookup = students.ToLookup(s => (int)(s.Score / 10));
+
+            foreach (var group in groups)
+            {
+                Console.WriteLine($"Key {group.Key}");
+                foreach (Student s in group)
+                {
+                    Console.WriteLine("\tFirstName: {0}, Score: {1}", s.FirstName, s.Score);
+                }
+            }
+
+            Console.WriteLine("\n\n");
+            // Iterate through each IGrouping in the Lookup and output the contents.
+            foreach (IGrouping<int, Student> group in lookup)
+            {
+                // Print the key value of the IGrouping.
+                Console.WriteLine($"Key: {group.Key}");
+                // Iterate through each value in the IGrouping and print its value.
+                foreach (Student s in group)
+                {
+                    Console.WriteLine("\t#FirstName: {0}, Score: {1}", s.FirstName, s.Score);
+                }
+            }
+        }
+
+        /* Query Cancellation in PLINQ
+        Compared with standard LINQ, one of the advantages of PLINQ is that a PLINQ query can 
+        be canceled manually. The most classic scenario of query cancellations is the timeout. 
+        Sometimes, when a query takes too long, we consider it a bad query and cancel it immediately. 
+        Another scenario is when we allow the user to cancel a long-running query by clicking a button 
+        on the UI or pressing a key on the keyboard.
+
+        Since standard LINQ is not cancelable, to make the cancellation happen on a standard LINQ, 
+        we have to wrap the standard LINQ in a task (an asynchronous method) and cancel the task. 
+        To learn more about Asynchronous programming, check Microsoft course Asynchronous Programming 
+        in C# and .Net Core. On the other hand, PLINQ supports cancellation out of box. 
+
+        Actually the cancellation mechanism of PLINQ is based on the exception handling. 
+        There is a centralized CancellationTokenSource object referenced by the variable cts. 
+        The code of manual cancellation and the code of timeout cancellation call cts.Cancel() 
+        to cancel the PLINQ query. When creating the PLINQ query, we called WithCancellation(cts.Token) 
+        to enable the cancellation. The code cts.Token.ThrowIfCancellationRequested() indicates that 
+        when the cts.Cancel() is called, the cancellation token will throw an exception. The type of 
+        the exception thrown by the cancellation token is OperationCanceledException. The exception 
+        throwing will happen in each thread of the PLINQ query, which causes the whole PLINQ query to 
+        stop. Since it has to wait for the stopping of all threads, there will be a delay between the 
+        cancellation command is fired and when the query is actually fully stopped. */
+        private void PlinqQueryCancellation()
+        {
+            var source = Enumerable.Range(0, int.MaxValue);
+            var cts = new CancellationTokenSource();
+
+            // Manual cancellation
+            Task.Factory.StartNew(() => 
+            {
+                if (Console.ReadKey().KeyChar == 'c')
+                {
+                    cts.Cancel();
+                }
+            });
+
+            // Timeout cancellation
+            var timer = new System.Timers.Timer(1000); // 1 second
+            int counter = 0;
+            timer.Elapsed += (sender, e) => 
+            {
+                Console.WriteLine($"{++counter} seconds elapsed ...");
+                if (counter == 5)
+                {
+                    cts.Cancel();
+                    timer.Stop();
+                }
+            };
+
+            Task.Factory.StartNew(() =>
+            {
+                timer.Start();
+            });
+
+            // Long-run PLINQ query
+            try
+            {
+                source.AsParallel().WithCancellation(cts.Token).ForAll((n) => 
+                {
+                    Console.WriteLine($"Processing: {n.ToString().PadLeft(6, '0')}");
+                    cts.Token.ThrowIfCancellationRequested();
+                    //if(cts.Token.IsCancellationRequested) { }
+                    Task.Delay(500).Wait();
+                });
+            }
+            catch (OperationCanceledException)
+            {
+                Console.WriteLine("The PLINQ query is canceled.");
+            }
+            finally
+            {
+                cts.Dispose();
+            }
+        }
+
+        /* When there is an exception, a standard LINQ query will fail immediately.
+        But if we convert the standard LINQ query to a PLINQ query, the code catch (DivideByZeroException e) 
+        can no longer catch the exception. That's because the type of the exception thrown by PLINQ is 
+        AggregateException. One thing we need to pay attention to is before throwing the AggregateException 
+        exception; the PLINQ query waits for all threads to finish. That means, when there is an exception 
+        thrown by a thread, the PLINQ query may not fail immediately. */
+        private void PlinqExceptions()
+        {
+
+            var cts = new CancellationTokenSource(5000);
+            var source = Enumerable.Range(0, 20).ToList();
+            try
+            {
+                var result = source.AsParallel()
+                    .WithCancellation(cts.Token)
+                    .Select(n => Calc(n)).ToList();
+                foreach (var item in result)
+                {
+                    Console.Write($"{item}|");
+                }
+            }
+            catch (AggregateException e)
+            {
+                foreach (var item in e.InnerExceptions)
+                {
+                    if (item is DivideByZeroException)
+                    {
+                        Console.WriteLine($"Zero cannot be a divisor: {item.Message}");
+                    } // test for other exceptions
+                    else
+                    {
+                        Console.WriteLine($"Exception: {item.Message}");
+                    }
+                }
+            }
+        }
+
+        private int Calc(int val)
+        {
+            Console.WriteLine($"Calc received: {val}");
+            return 10 / val;
         }
 
         //We call the AspNetCoreWebApi.exe

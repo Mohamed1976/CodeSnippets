@@ -101,7 +101,9 @@ CDN		Content Delivery Network
 TTL		Time To Live
 transient	meaning will go away after some time.
 XPath	XML Path Language.
-LINQ to Entities
+LINQ to Collections
+LINQ to DataSet
+LINQ to Entity Framework
 LINQ to Objects 
 LINQ to SQL Language Integrated Query
 LINQ to XML Language Integrated Query
@@ -112,3 +114,42 @@ SAML	Security Assertion Markup Language is an open standard that allows identity
 		credentials to service providers (SP). What that jargon means is that you can use one set of credentials to log into many different websites.
 BLOB	Binary Large Object
 LTS		Long-term support
+URI		Uniform Resource Identifier	
+URL		Uniform Resource Locator
+AJAX	Asynchronous JavaScript and XML
+CSRF and XSRF	cross-site request forgery
+CORS	cross-origin resource sharing, allow a cross-domain AJAX call.  
+UDF 	User Defined Functions
+CI 		Continuous Integration is all about making sure that your codebase stays healthy while developers make changes and check them in to source control.
+CD		Continuous Delivery You want to automate the way your applications are deployed. Your software should be ready to be released at any time.
+CD		Continuous Deployment Every change that is made by a developer on the team gets automatically deployed to the production.
+environment.
+TFS		Team Foundation Server (TFS is hosted on-premises on your own server, Team Foundation Service is hosted in the cloud)
+ALM		Application Lifecycle Management (continuous integration and continuous deployment process in the form of TFS)
+FTP		File Transfer Protocol
+Agile software development	 Agile methods are based on an iterative and incremental process. Instead of doing a lot of design at the start
+		of a project and delivering only when everything is ready, you start working in shorter periods.
+		This enables you to evolve your requirements and the solution you are developing while the project is maturing.
+XP		eXtreme Programming
+SCRUM	describe a process in which you engage the customer in your development process by showing them the progress
+		you are making not just at the end of your development process but also continually during development.
+DevOps 	(Developer Operation). In a DevOps culture, everyone works collaboratively
+		on making sure that the application is always ready for deployment.
+SSD		solid-state drive
+DTAP	(development, test, acceptance, production) environment
+COM		Component Object Model
+WMI		Windows Management Instrumentation
+CLR		Common Language Runtime
+CLI		Command-line interface
+BCL		Base Class Library
+VPN		virtual private network
+SSH		Secure Shell (SSH) is a cryptographic network protocol for operating network services securely over an unsecured network. 
+		Typical applications include remote command-line, login, and remote command execution, but any network service can be secured with SSH.
+		SSH provides a secure channel over an unsecured network by using a client–server architecture, connecting an SSH client application with an SSH server.
+
+
+
+
+
+
+	

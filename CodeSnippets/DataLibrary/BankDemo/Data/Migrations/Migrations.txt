@@ -1,0 +1,146 @@
+﻿C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef migrations add InitialCreate -o BankDemo\Data\Migrations -c DataLibrary.BankDemo.Data.BankContext --project DataLibrary --startup-project EFCoreDBDemo
+C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef database update InitialCreate -c DataLibrary.BankDemo.Data.BankContext --project DataLibrary --startup-project EFCoreDBDemo
+
+------------------------------------------------------------------------------------------------
+https://www.entityframeworktutorial.net/efcore/cli-commands-for-ef-core-migration.aspx#migrations-remove
+Lists available migrations:
+C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef migrations list -c DataLibrary.BankDemo.Data.BankContext --project DataLibrary --startup-project EFCoreDBDemo
+Build started...
+Build succeeded.
+Server=(local);Database=BankDemo;Integrated Security=true;
+20200818213423_InitialCreate
+20200819210118_TypeAccountColumn
+------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------
+Drops the database: (Use -f to suppress confirmation prompt)
+C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef database drop -c DataLibrary.BankDemo.Data.BankContext --project DataLibrary --startup-project EFCoreDBDemo
+Build started...
+Build succeeded.
+Server=(local);Database=BankDemo;Integrated Security=true;
+Are you sure you want to drop the database 'BankDemo' on server '(local)'? (y/N)
+y
+Server=(local);Database=BankDemo;Integrated Security=true;
+Dropping database 'BankDemo'.
+Successfully dropped database 'BankDemo'.
+------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------
+https://stackoverflow.com/questions/38192450/how-to-unapply-a-migration-in-asp-net-core-with-ef-core
+C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef database update 0 -c DataLibrary.BankDemo.Data.BankContext --project DataLibrary --startup-project EFCoreDBDemo
+Build started...
+Build succeeded.
+Server=(local);Database=BankDemo;Integrated Security=true;
+No migrations were applied. The database is already up to date.
+Done.
+------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------
+Re applying migration Step 1
+C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef database update InitialCreate -c DataLibrary.BankDemo.Data.BankContext --project DataLibrary --startup-project EFCoreDBDemo
+Build started...
+Build succeeded.
+Server=(local);Database=BankDemo;Integrated Security=true;
+Applying migration '20200818213423_InitialCreate'.
+Done.
+------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------
+Re applying migration Step 2
+C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef database update TypeAccountColumn -c DataLibrary.BankDemo.Data.BankContext --project DataLibrary --startup-project EFCoreDBDemo
+Build started...
+Build succeeded.
+Server=(local);Database=BankDemo;Integrated Security=true;
+Applying migration '20200819210118_TypeAccountColumn'.
+Done.
+------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------
+C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef migrations add TruncateDecimalColumn -o BankDemo\Data\Migrations -c DataLibrary.BankDemo.Data.BankContext --project DataLibrary --startup-project EFCoreDBDemo
+Build started...
+Build succeeded.
+Server=(local);Database=BankDemo;Integrated Security=true;
+Done. To undo this action, use 'ef migrations remove'
+------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------
+Remove the last migration:
+C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef migrations remove -c DataLibrary.BankDemo.Data.BankContext --project DataLibrary --startup-project EFCoreDBDemo
+Build started...
+Build succeeded.
+Server=(local);Database=BankDemo;Integrated Security=true;
+Removing migration '20200824201825_TruncateDecimalColumn'.
+Reverting model snapshot.
+Done.
+------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------
+C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef migrations add TruncateDecimalColumn -o BankDemo\Data\Migrations -c DataLibrary.BankDemo.Data.BankContext --project DataLibrary --startup-project EFCoreDBDemo
+Build started...
+Build succeeded.
+Server=(local);Database=BankDemo;Integrated Security=true;
+An operation was scaffolded that may result in the loss of data. Please review the migration for accuracy.
+Done. To undo this action, use 'ef migrations remove'
+------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------
+C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef database update TruncateDecimalColumn -c DataLibrary.BankDemo.Data.BankContext --project DataLibrary --startup-project EFCoreDBDemo
+Build started...
+Build succeeded.
+Server=(local);Database=BankDemo;Integrated Security=true;
+Applying migration '20200824204400_TruncateDecimalColumn'.
+Done.
+------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------
+C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef database drop --help
+
+Usage: dotnet ef database drop [options]
+
+Options:
+  -f|--force                             Don't confirm.
+  --dry-run                              Show which database would be dropped, but don't drop it.
+  -c|--context <DBCONTEXT>               The DbContext to use.
+  -p|--project <PROJECT>                 The project to use.
+  -s|--startup-project <PROJECT>         The startup project to use.
+  --framework <FRAMEWORK>                The target framework.
+  --configuration <CONFIGURATION>        The configuration to use.
+  --runtime <RUNTIME_IDENTIFIER>         The runtime to use.
+  --msbuildprojectextensionspath <PATH>  The MSBuild project extensions path. Defaults to "obj".
+  --no-build                             Don't build the project. Only use this when the build is up-to-date.
+  -h|--help                              Show help information
+  -v|--verbose                           Show verbose output.
+  --no-color                             Don't colorize output.
+  --prefix-output                        Prefix output with level.
+------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------
+C:\Users\moham\source\repos\CodeSnippets\CodeSnippets>dotnet ef database update -h
+
+Usage: dotnet ef database update [arguments] [options]
+
+Arguments:
+  <MIGRATION>  The target migration. If '0', all migrations will be reverted. Defaults to the last migration.
+
+Options:
+  -c|--context <DBCONTEXT>               The DbContext to use.
+  -p|--project <PROJECT>                 The project to use.
+  -s|--startup-project <PROJECT>         The startup project to use.
+  --framework <FRAMEWORK>                The target framework.
+  --configuration <CONFIGURATION>        The configuration to use.
+  --runtime <RUNTIME_IDENTIFIER>         The runtime to use.
+  --msbuildprojectextensionspath <PATH>  The MSBuild project extensions path. Defaults to "obj".
+  --no-build                             Don't build the project. Only use this when the build is up-to-date.
+  -h|--help                              Show help information
+  -v|--verbose                           Show verbose output.
+  --no-color                             Don't colorize output.
+  --prefix-output                        Prefix output with level.
+  ------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+

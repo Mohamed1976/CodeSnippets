@@ -66,6 +66,78 @@ sn -Tp C:\Users\moham\source\MusicStorage.dll
 #Create and sign an assembly with a strong name by using the Assembly Linker
 al /out:MyAssembly.dll MyModule.netmodule /keyfile:sgKey.snk  
 
+Assuming that the metadata exchange is available, call Svcutil and use the URI of the service. 
+This works without any other command-line parameters because it uses default values for everything. 
+A more common approach involves specifying at least a few of the parameters.
+
+C#
+svcutil.exe /language:cs /out:TestServiceProxy.cs /config:app.config http://www.williamgryan.mobi/487/TestService 
+svcutil.exe /language:c# /out:TestServiceProxy.cs /config:app.config http://www.williamgryan.mobi/487/TestService
+
+VB.NET
+svcutil.exe /language:vb /out:TestServiceProxy.vb /config:app.config http://www.williamgryan.mobi/487/TestService
+svcutil.exe /language:visualbasic /out:TestServiceProxy.vb /config:app.config http://www.williamgryan.mobi/487/TestService
+
+XCopy is a DOS command that stands for extended copy. It enables you to copy multiple files at once to a target destination.
+The XCopy DOS command has the following syntax:
+xcopy /I /S /E <source path> <destination path>
+
+The /I option indicates that you are copying a folder. The /S option specifies that you want
+to copy all subdirectories (and /E indicates to copy subfolders even if they are empty). By issuing
+this command, the whole content of the folder will be copied from source to target.
+The XCopy command has a lot of options that you can use to configure what should be
+copied. For example, the /d option specifies that only files that are newer should be copied.
+When regularly updating your website, the /d option can save you time by updating only the
+files that you have changed. Assume that you have created an ASP.NET Model-View-Controller (MVC) 
+application that’s located at C:\Development\MyApp, and you want to copy it to C:\inetpub\wwwroot\MyApp.
+To do this, run the following XCopy command from a console:
+xcopy /I /S C:\Development\MyApp C:\inetpub\wwwroot\MyApp
+
+Using Package Manager Console you can install NuGet packages
+
+Install-package Ninject
+Uninstall-Package Ninject
+Update-Package Ninject //You can also update a package from the console by using the Update-Package command
+Update-Package //If you want to update all packages in all projects in your solution.
+Update-Package -Project NuGetTest //If you want to update only the packages in a specific project,
+
+When you type in the Package Manager Console, it’s sometimes hard to remember the
+exact name of a command or the name of a package. You can use the Tab key to show a
+drop-down list with possible options. If you type i and then press Tab, you get a drop-down
+list for all commands starting with the letter “i”. You can then scroll through this list and pick
+the command you want. If there is only one option left pressing Tab automatically selects
+that option. So if you type install-p and then press Tab, it automatically expands to Install-
+Package. The same trick works when selecting a package name. Pressing Tab displays a list of packages
+that you can use to find the package you are looking for.
+
+Creating your own NuGet package, you need to make sure that you have the NuGet.exe file.
+
+This will update your version of NuGet to the latest version.
+=> NuGet Update -self		
+
+Create a package from an assembly. This code creates a MyAssembly.nuspec file for you that 
+contains your manifest. You can now edit this file to make sure that things such as the 
+title and description and the dependencies are correct.
+=> nuget spec MyAssembly.dll	
+
+You can create your package. This code results in a MyAssembly.dll.1.0.0.nupkg package file.
+=> nuget pack MyAssembly.nuspec
+
+You can now test your package from Visual Studio by opening a project and executing the following command from the Package Manager Console:
+=> install-package MyAssembly.dll -Source "C:\<location_of_your_package>"
+
+Now that your package is ready, you can publish it to NuGet. You need an application programming interface (API) key that you get when you 
+register for an account on NuGet. You can copy this API key and then configure NuGet with it:
+=> NuGet SetApiKey Your-API-Key
+
+Now you can run the following to publish your package to NuGet:
+NuGet Push YourPackage.nupkg
+
+
+
+
+
+
 
 
 
