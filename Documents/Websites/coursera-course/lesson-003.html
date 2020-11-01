@@ -1,0 +1,1018 @@
+<!--
+https://github.com/jhu-ep-coursera/fullstack-course4/blob/master/assignments/assignment3/Assignment-3.md
+
+The implementation of the page you will be creating should follow the mockup illustrations shown below. 
+You are provided 3 mockups: desktop and tablet (same), mobile, and mobile with mobile menu dropdown shown. 
+Your implementation has to be JUST 1 page. In other words, you will be creating a single, responsive page.
+
+Since we are using Bootstrap for this assignment, instead of specifying pixel ranges, I will define our 
+desktop, tablet, and mobile views in terms of Bootstrap CSS class prefixes, i.e., md, sm, and xs.
+
+Extra small (<576px)    .col-xs- or .col-
+Small (>=576px)         .col-sm-
+Medium (>=768px)        .col-md-
+Large (>=992px)         .col-lg-
+Extra Large (>=1200px)  .col-xl-
+
+Desktop mockup illustration should correspond to Bootstrap md-based classes
+Tablet mockup illustration should correspond to Bootstrap sm-based classes
+Mobile mockup illustration should correspond to Bootstrap xs-based classes
+-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!--meta charset="UTF-8"-->
+        <title>Bootstrap 4 example.</title>        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0 shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" href="../bootstrap-4.5.2-dist/css/bootstrap.min.css"> 
+        <link rel="stylesheet" href="../bootstrap-4.5.2-dist/css/bootstrap.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> 
+        <script src="../js/jquery-3.5.1.min.js"></script>
+        <script src="../bootstrap-4.5.2-dist/js/bootstrap.min.js"></script>        
+        <link rel="stylesheet" href="css/style-002.css">
+    </head>
+    <body>
+        <h1>Bootstrap 4 example.</h1>
+        
+        <hr>
+        <h2>Bootstrap 4 Grid System</h2>
+        <p>
+            The biggest difference between Bootstrap 3 and Bootstrap 4 is that Bootstrap 4 now uses flexbox, 
+            instead of floats. One big advantage with flexbox is that grid columns without a specified width 
+            will automatically layout as "equal width columns" (and equal height). Example: Three elements 
+            with .col-sm will each automatically be 33.33% wide from the small breakpoint and up.                 
+        </p>
+        <p>
+            <strong>Fluid Container</strong>
+            Use the .container-fluid class to create a full width container, that will always span the entire width of the screen (width is always 100%):
+        </p>
+        <p>Resize the browser window to see the effect.</p>
+        <p>The first, second, third and fifth row will automatically stack on top of each other when the screen is less than 576px wide.</p>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">50%</div>
+                <div class="col-sm-6">50%</div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-sm-4 div2">33.33%</div>
+                <div class="col-sm-4 div2">33.33%</div>
+                <div class="col-sm-4 div2">33.33%</div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-sm-3" style="background-color:yellow;">25%</div>
+                <div class="col-sm-3" style="background-color:orange;">25%</div>
+                <div class="col-sm-3" style="background-color:yellow;">25%</div>
+                <div class="col-sm-3" style="background-color:orange;">25%</div>
+            </div>
+            <br>
+            <!-- Or let Bootstrap automatically handle the layout -->
+            <div class="row">
+                <div class="col" style="background-color:yellow;">25%</div>
+                <div class="col" style="background-color:orange;">25%</div>
+                <div class="col" style="background-color:yellow;">25%</div>
+                <div class="col" style="background-color:orange;">25%</div>
+            </div>
+            <br>
+            <!-- Or let Bootstrap automatically handle the layout -->
+            <div class="row">
+                <div class="col-sm" style="background-color:yellow;">16.6%</div>
+                <div class="col-sm" style="background-color:orange;">16.6%</div>
+                <div class="col-sm" style="background-color:yellow;">16.6%</div>
+                <div class="col-sm" style="background-color:orange;">16.6%</div>
+                <div class="col-sm" style="background-color:yellow;">16.6%</div>
+                <div class="col-sm" style="background-color:orange;">16.6%</div>
+            </div>
+            <br>
+            <!-- Four columns: 25% width on all screens, except for extra small (100% width)
+            Auto Layout Columns In Bootstrap 4, there is an easy way to create equal width columns 
+            for all devices: just remove the number from .col-size-* and only use the .col-size class 
+            on a specified number of col elements. Bootstrap will recognize how many columns there are, 
+            and each column will get the same width. The size classes determines when the columns 
+            should be responsive:            
+            -->
+            <div class="row">
+                <div class="col-sm" style="background-color:yellow;">1 of 4</div>
+                <div class="col-sm" style="background-color:orange;">2 of 4</div>
+                <div class="col-sm" style="background-color:yellow;">3 of 4</div>
+                <div class="col-sm" style="background-color:orange;">4 of 4</div>
+            </div>
+            <br>
+        </div>
+        <p>Using container class:</p>
+        <div class="container">     
+            <div class="row">
+                <div class="col-sm-6 bg-success">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<br>
+                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                </div>
+                <div class="col-sm-6 bg-warning">
+                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto.    
+                </div>
+            </div>
+        </div>
+        <br>
+        <p>Using fluid-container class:</p>
+        <div class="fluid-container">     
+            <div class="row">
+                <div class="col-sm-6 bg-success">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<br>
+                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                </div>
+                <div class="col-sm-6 bg-warning">
+                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto.    
+                </div>
+            </div>
+        </div>
+        <br>
+        <p>The following example will result in a 25%/75% split on all devices, using col-*.</p>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-3 bg-success">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<br>
+                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                </div>
+                <div class="col-9 bg-warning">
+                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                </div>
+            </div>
+        </div>
+        <br>
+        <p>For a 33.3%/66.6% split, you would use .col-4 and .col-8 (and for a 50%/50% split, you would use .col-6 and .col-6):</p>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-4" style="background-color: burlywood;">
+                    col-4        
+                </div>
+                <div class="col-8" style="background-color: yellowgreen;">
+                    col-8        
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-6" style="background-color: burlywood;">
+                    col-6        
+                </div>
+                <div class="col-6" style="background-color: yellowgreen;">
+                    col-6        
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-3 col-md-6"  style="background-color: greenyellow;">
+                    <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </p>
+                </div>
+                <div class="col-sm-9 col-md-6" style="background-color: yellow;">
+                    <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <br>        
+        <p>If the screen size is <strong>less than 992px</strong>, the columns will stack horizontally.</p>
+        <div class="container-fluid">
+            <div class="row">
+              <div class="col-lg bg-success">1 of 4</div>
+              <div class="col-lg bg-warning">2 of 4</div>
+              <div class="col-lg bg-success">3 of 4</div>
+              <div class="col-lg bg-warning">4 of 4</div>
+            </div>  
+          </div>
+        <br>
+        <p>The following example will result in a 25%/75% split on small devices, a 50%/50% split on medium devices, and a 33%/66% split on large devices and a 20%/80% on xlarge devices. On extra small devices, it will automatically stack (100%).</p>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-3 col-md-6 col-lg-4 col-xl-2 bg-success">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                </div>
+                <div class="col-sm-9 col-md-6 col-lg-8 col-xl-10 bg-warning">
+                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                </div>
+            </div>
+        </div>
+        <br>
+        <p><strong>Equal Height</strong>
+        If one of the column is taller than the other (due to text or CSS height), the rest will follow:</p>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-4 bg-success">Lorem ipsum dolor sit amet, cibo sensibus interesset no sit. Et dolor possim volutpat qui. No malis tollit iriure eam, et vel tale zril blandit, rebum vidisse nostrum qui eu. No nostrud dolorem legendos mea, ea eum mucius oporteat platonem.Eam an case scribentur, ei clita causae cum, alia debet eu vel.</div>
+                <div class="col-4 bg-warning">.col</div>
+                <div class="col-4 bg-success">.col</div>
+            </div>
+        </div>        
+        <br>
+        <p>Add columns inside other columns:</p>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-8 bg-warning">
+                    .col-8
+                    <div class="row">
+                        <div class="col-6 bg-light">.col-6</div>
+                        <div class="col-6 bg-secondary">.col-6</div>
+                    </div>
+                </div>
+                <div class="col-4 bg-success">.col-4</div>
+            </div>
+        </div>
+        <br>        
+        <p>Mix and Match</p>
+        <p>This example demonstrates a 50%/50% split on extra small devices and 75%/25% split on larger devices.</p> 
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-6 col-sm-9 bg-success bg-success">col-6 col-sm-9</div>
+                <div class="col-6 col-sm-3 bg-warning bg-warning">col-6 col-sm-3</div>
+            </div>
+        </div>
+        <br>
+        <p>This example demonstrates a 58%/42% split on extra small, small and medium devices and 66.3%/33.3% split on large and xlarge devices.</p>      
+        <div class="container-fluid">     
+          <div class="row">
+            <div class="col-8 col-lg-6 bg-success">col-8 col-lg-6</div>
+            <div class="col-4 col-lg-6 bg-warning">col-4 col-lg-6</div>
+          </div>
+        </div>
+        <br>
+        <p>This example demonstrates a 25%/75% split on small devices, a 50%/50% split on medium devices, and a 33%/66% split on large and xlarge devices. On extra small devices, it will automatically stack (100%).</p>      
+        <div class="container-fluid">     
+          <div class="row">
+            <div class="col-6 col-sm-3 col-md-6 col-lg-4 bg-success">col-sm-3 col-md-6 col-lg-4</div>
+            <div class="col-6 col-sm-9 col-md-6 col-lg-8 bg-warning">col-sm-9 col-md-6 col-lg-8</div>
+          </div>
+        </div>
+        <br>
+        <p>Add the .no-gutters class to the .row container to remove gutters (extra space):</p>
+        <div class="container-fluid">
+          <div class="row no-gutters">
+            <div class="col-3 bg-success">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<br>
+              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </div>
+            <div class="col-9 bg-warning">
+              Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+            </div>
+          </div>
+        </div>        
+        <br>
+        <p>See difference with example above, example below does not have the .no-gutters class</p>
+        <div class="container-fluid">
+            <div class="row">
+              <div class="col-3 bg-success">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<br>
+                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              </div>
+              <div class="col-9 bg-warning">
+                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+              </div>
+            </div>
+        </div>        
+        <br>  
+        <div class="jumbotron text-center">
+            <h1>My First Bootstrap Page</h1>
+            <p>Resize this responsive page to see the effect!</p> 
+        </div>
+        <div class="container">
+            <div class="row">
+              <div class="col-sm-4" style="background-color: lightgrey;">
+                <h3>Column 1</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+              </div>
+              <div class="col-sm-4" style="background-color: lightgrey;">
+                <h3>Column 2</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+              </div>
+              <div class="col-sm-4" style="background-color: lightgrey;">
+                <h3>Column 3</h3>        
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+              </div>
+            </div>
+        </div>
+        <br>
+        <div class="jumbotron text-center" style="margin-bottom:0">
+            <h1>My First Bootstrap 4 Page</h1>
+            <p>Resize this responsive page to see the effect!</p> 
+        </div>
+
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+            <a class="navbar-brand" href="#0">Navbar</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link" href="#0">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#0">About</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#0">Contact</a>
+                </li>    
+              </ul>
+            </div>  
+          </nav>
+
+          <div class="container" style="margin-top:30px">
+            <div class="row">
+              <div class="col-sm-4">
+                <h2>About Me</h2>
+                <h5>Photo of me:</h5>
+                <div class="fakeimg">Fake Image</div>
+                <p>Some text about me in culpa qui officia deserunt mollit anim..</p>
+                <h3>Some Links</h3>
+                <p>Lorem ipsum dolor sit ame.</p>
+                <ul class="nav nav-pills flex-column">
+                  <li class="nav-item">
+                    <a class="nav-link active" href="#">Active</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Disabled</a>
+                  </li>
+                </ul>
+                <hr class="d-sm-none">
+              </div>
+              <div class="col-sm-8">
+                <h2>TITLE HEADING</h2>
+                <h5>Title description, Dec 7, 2017</h5>
+                <div class="fakeimg">Fake Image</div>
+                <p>Some text..</p>
+                <p>Sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
+                <br>
+                <h2>TITLE HEADING</h2>
+                <h5>Title description, Sep 2, 2017</h5>
+                <div class="fakeimg">Fake Image</div>
+                <p>Some text..</p>
+                <p>Sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
+              </div>
+            </div>
+          </div>          
+
+          <div class="jumbotron text-center" style="margin-bottom:0">
+            <p>Footer</p>
+          </div>
+
+
+        <!-- Navbar explained -->
+        <hr>          
+        <div class="container-fluid" style="margin-top:30px">
+          <h3>Navbar examples:</h3>
+          
+          <span>
+            If you want to create a simple horizontal menu, add the <i>.nav</i> class to a 
+            <i>&lt;ul&gt;</i> element, followed by <i>.nav-item</i> for each <i>&lt;li&gt;</i> 
+            and add the <i>.nav-link</i> class to their links.
+          </span>
+          <br><br>
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="nav-link" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+          </ul>
+          <br>
+          
+          <span>
+            Add the <i>.justify-content-center</i> class to center the nav, and 
+            the <i>.justify-content-end</i> class to right-align the nav. Note Left-aligned nav is the default.
+          </span>
+          <br><br>
+          <ul class="nav justify-content-center">
+            <li class="nav-item">
+              <a class="nav-link" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+          </ul>
+          <br>
+          
+          <ul class="nav justify-content-end">
+            <li class="nav-item">
+              <a class="nav-link" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+          </ul>
+          <br>
+          
+          <span>
+            Vertical Nav, Add the <i>.flex-column</i> class to create a vertical nav.
+          </span>
+          <br><br>
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+          </ul>
+          <br>
+          
+          <span>
+            Turn the nav menu into navigation tabs with the <i>.nav-tabs</i> class. 
+            Add the .active class to the active/current link. If you want the 
+            tabs to be togglable, see the last example on this page.          
+          </span>
+          <br><br>
+          <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <!--a class="nav-link active" href="#0">Home</a-->
+              <a class="nav-link" href="#0">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#0">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="#0">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#0">Disabled</a>
+            </li>
+          </ul>
+          <br>
+          
+          <span>Turn the nav menu into navigation pills with the .nav nav-pills class:</span>
+          <br><br>
+          <ul class="nav nav-pills">
+            <li class="nav-item">
+              <a class="nav-link active" href="#0">Active</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#0">Link</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#0">Link</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#0">Disabled</a>
+            </li>
+          </ul>
+          <br>
+          
+          <p>To justify tabs/pills (equal width), use the .nav-justified class:</p>
+          <ul class="nav nav-pills nav-justified">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Active</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+          </ul>
+          <br>
+
+          <p>Justified tabs:</p>
+          <ul class="nav nav-tabs nav-justified">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Active</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+          </ul>
+          <br><br>
+
+          <!--
+            Note this dropdown-menu needs popper.min.js
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+           -->
+          <ul class="nav nav-pills">
+            <li class="nav-item">
+              <a class="nav-link  active" href="#">Active</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Dropdown</a>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">Link 1</a>
+                <a class="dropdown-item" href="#">Link 2</a>
+                <a class="dropdown-item" href="#">Link 3</a></div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+          </ul>
+
+          <br>
+          <span>Tabs with Dropdown</span>
+          <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Active</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Dropdown</a>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">Link 1</a>
+                <a class="dropdown-item" href="#">Link 2</a>
+                <a class="dropdown-item" href="#">Link 3</a>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+          </ul>          
+          <br>
+          <p>
+            <strong>Toggleable / Dynamic Tabs</strong> To make the tabs toggleable, add the data-toggle="tab" attribute 
+            to each link. Then add a .tab-pane class with a unique ID for every tab and wrap them inside a &lt;div&gt; 
+            element with class .tab-content. If you want the tabs to fade in and out when clicking on them, add the .fade 
+            class to .tab-pane:
+          </p>
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" data-toggle="tab" href="#home">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#menu1">Menu 1</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#menu2">Menu 2</a>
+            </li>
+          </ul>
+
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div id="home" class="container tab-pane active"><br>
+              <h3>HOME</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            </div>
+            <div id="menu1" class="container tab-pane fade"><br>
+              <h3>Menu 1</h3>
+              <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </div>
+            <div id="menu2" class="container tab-pane fade"><br>
+              <h3>Menu 2</h3>
+              <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+            </div>
+          </div>
+          <br>
+
+          <p>
+            <strong>Toggleable / Dynamic Pills</strong> The same code applies to pills; only change the data-toggle attribute to data-toggle="pill": 
+          </p>
+          <!-- Nav pills -->
+          <ul class="nav nav-pills" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" data-toggle="pill" href="#_home">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="pill" href="#_menu1">Menu 1</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="pill" href="#_menu2">Menu 2</a>
+            </li>
+          </ul>
+
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div id="_home" class="container tab-pane active"><br>
+              <h3>HOME</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            </div>
+            <div id="_menu1" class="container tab-pane fade"><br>
+              <h3>Menu 1</h3>
+              <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </div>
+            <div id="_menu2" class="container tab-pane fade"><br>
+              <h3>Menu 2</h3>
+              <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+            </div>
+          </div>
+
+          <br><br>
+          <!-- Navbar example 1-->
+          <nav class="navbar navbar-dark bg-dark">
+            <a class="navbar-brand" href="#0">Never expand</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" 
+              data-target="#navbarsExample01" aria-controls="navbarsExample01" 
+              aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+      
+            <div class="collapse navbar-collapse" id="navbarsExample01">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                  <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link disabled" href="#">Disabled</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" 
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                  <div class="dropdown-menu" aria-labelledby="dropdown01">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                  </div>
+                </li>
+              </ul>
+              <form class="form-inline my-2 my-md-0">
+                <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+              </form>
+            </div>
+          </nav>
+          <br>
+
+          <!-- Navbar example 2-->
+          <nav class="navbar navbar-expand navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Always expand</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+      
+            <div class="collapse navbar-collapse" id="navbarsExample02">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                  <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Link</a>
+                </li>
+              </ul>
+              <form class="form-inline my-2 my-md-0">
+                <input class="form-control" type="text" placeholder="Search">
+              </form>
+            </div>
+          </nav>
+          <br>
+
+          <!-- Navbar example 3-->
+          <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Expand at sm</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" 
+              data-target="#navbarsExample03" aria-controls="navbarsExample03" 
+              aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+      
+            <div class="collapse navbar-collapse" id="navbarsExample03">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                  <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link disabled" href="#">Disabled</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                  <div class="dropdown-menu" aria-labelledby="dropdown03">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                  </div>
+                </li>
+              </ul>
+              <form class="form-inline my-2 my-md-0">
+                <input class="form-control" type="text" placeholder="Search">
+              </form>
+            </div>
+          </nav>
+          <br>
+
+          <!-- Navbar example 4-->
+          <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Expand at md</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" 
+              data-target="#navbarsExample04" aria-controls="navbarsExample04" 
+              aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+      
+            <div class="collapse navbar-collapse" id="navbarsExample04">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                  <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link disabled" href="#">Disabled</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                  <div class="dropdown-menu" aria-labelledby="dropdown04">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                  </div>
+                </li>
+              </ul>
+              <form class="form-inline my-2 my-md-0">
+                <input class="form-control" type="text" placeholder="Search">
+              </form>
+            </div>
+          </nav>
+          <br>
+
+          <!-- Navbar example 5-->
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Expand at lg</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" 
+        data-target="#navbarsExample05" aria-controls="navbarsExample05" aria-expanded="false" 
+        aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExample05">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown05" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+              <div class="dropdown-menu" aria-labelledby="dropdown05">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </li>
+          </ul>
+          <form class="form-inline my-2 my-md-0">
+            <input class="form-control" type="text" placeholder="Search">
+          </form>
+        </div>
+      </nav>
+      <br>
+
+    <!-- Navbar example 6-->
+    <nav class="navbar navbar-expand-xl navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">Expand at xl</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample06" aria-controls="navbarsExample06" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarsExample06">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#">Disabled</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown06" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown06">
+              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-md-0">
+          <input class="form-control" type="text" placeholder="Search">
+        </form>
+      </div>
+    </nav>
+    <br>
+    
+    <!-- Navbar example 7-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand" href="#">Container</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample07" aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExample07">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown07" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+              <div class="dropdown-menu" aria-labelledby="dropdown07">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </li>
+          </ul>
+          <form class="form-inline my-2 my-md-0">
+            <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+          </form>
+        </div>
+      </div>
+    </nav>
+    <br>
+
+    <!-- Navbar example 8-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample08" aria-controls="navbarsExample08" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-md-center" id="navbarsExample08">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Centered nav only <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#">Disabled</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown08" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown08">
+              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <br>
+    
+    <!-- Navbar example 9-->
+    <!--div class="container-fluid"-->
+      <nav class="navbar navbar-expand-lg navbar-light bg-light rounded">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" 
+        data-target="#navbarsExample09" aria-controls="navbarsExample09" 
+        aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExample09">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown09" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+              <div class="dropdown-menu" aria-labelledby="dropdown09">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </li>
+          </ul>
+          <form class="form-inline my-2 my-md-0">
+            <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+          </form>
+        </div>
+      </nav>
+
+      <br>
+      <!-- Navbar example 10-->
+      <nav class="navbar navbar-expand-lg navbar-light bg-light rounded">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample10" aria-controls="navbarsExample10" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-md-center" id="navbarsExample10">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Centered nav only <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown10" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+              <div class="dropdown-menu" aria-labelledby="dropdown10">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+
+        <br>
+        <hr>
+        <h6>References:</h6>
+        <a href="https://www.w3schools.com/bootstrap4/" target="_blank">w3schools Bootstrap 4 tutorial.</a><br>
+        <a href="https://getbootstrap.com/docs/4.0/examples/navbars/" target="_blank">navbar bootstrap examples.</a><br>
+
+
+        <!--nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+            <a class="navbar-brand" href="#0">
+                <h1>Food, LLC</h1>
+             <img src="bird.jpg" alt="Logo" style="width:40px;">
+           </a>
+         </nav-->
+
+        <!--ul id="nav-list" class="nav nav-pills nav-justified navbar-brand">
+            <li>
+              <a href="menu-categories.html">
+                <span class="glyphicon glyphicon-cutlery"></span><br class="hidden-xs"> Menu</a>
+            </li>
+            <li>
+              <a href="#">
+                <span class="glyphicon glyphicon-info-sign"></span><br class="hidden-xs"> About</a>
+            </li>
+            <li>
+              <a href="#">
+                <span class="glyphicon glyphicon-certificate"></span><br class="hidden-xs"> Awards</a>
+            </li>
+            <li id="phone" class="hidden-xs">
+              <a href="tel:410-602-5008">
+                <span>410-602-5008</span></a><div>* We Deliver</div>
+            </li>
+          </ul--><!-- #nav-list -->
+
+    </body>
+</html>

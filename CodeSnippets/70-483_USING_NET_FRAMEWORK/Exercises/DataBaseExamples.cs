@@ -2,7 +2,10 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
+using System.Xml;
 
 namespace _70_483_USING_NET_FRAMEWORK.Exercises
 {
@@ -10,7 +13,13 @@ namespace _70_483_USING_NET_FRAMEWORK.Exercises
     {
         public void Run()
         {
-            DataReaderExample();
+            //DataReaderExampleV3().Wait();
+            //XmlReaderExample();
+            //DataReaderExampleV2();
+            //TransientErrors();
+            ///DistributedTransaction();
+            //CourseInsert();
+            //DataReaderExample();
             //RetrievingLargeBinaryData();
             //RetrieveImage();
             //DependentInserts();
@@ -44,6 +53,242 @@ namespace _70_483_USING_NET_FRAMEWORK.Exercises
             Console.WriteLine("-----------------------------------------------");
         }
 
+        private async Task DataReaderExampleV3()
+        {
+            Console.WriteLine($"Entering DataReaderExampleV3()");
+            const string _connectionString
+                = "Server=(local);Database=ContosoUniversity;Integrated Security=true;MultipleActiveResultSets=true;Connection Timeout=60;";
+
+            const string sql = "SELECT* FROM [ContosoUniversity].[dbo].[Course];" +
+                "SELECT* FROM [ContosoUniversity].[dbo].[Department];";
+
+            try
+            {
+                SqlConnection connection = new SqlConnection(_connectionString);
+                SqlCommand cmd = new SqlCommand(sql, connection);
+                await connection.OpenAsync();
+                SqlDataReader reader = await cmd.ExecuteReaderAsync(CommandBehavior.SingleResult);
+                while (reader.Read())
+                {
+                    Console.WriteLine($"{reader[0].ToString()} {reader[3].ToString()} {reader[4].ToString()}");
+                }
+                //Because we used CommandBehavior.SingleResult, second result set is not returned 
+                bool more = reader.NextResult();
+                Console.WriteLine($"RetVal = reader.NextResult(): {more}");
+
+                reader.Close();
+                cmd.Dispose();
+                connection.Close();
+                connection.Dispose();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception: {0}", ex.Message);
+            }
+
+            Console.WriteLine($"Exiting DataReaderExampleV3()");
+        }
+
+        //https://docs.microsoft.com/en-us/dotnet/api/system.xml.xmlreader.create?view=netframework-4.8
+        //https://stackoverflow.com/questions/13743250/meaning-of-xml-version-1-0-encoding-utf-8
+        //https://stackoverflow.com/questions/4518544/xmlreader-from-a-string-content
+        private void XmlReaderExample()
+        {
+            string xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
+                "<!-- This is a sample XML -->" +
+                "<Items>" +
+                "<Item>First item</Item>" +
+                "<Item>Second item</Item>" +
+                "</Items>";
+
+            try
+            {
+                byte[] data = Encoding.UTF8.GetBytes(xml);
+                using (MemoryStream memStream = new MemoryStream(data))
+                {
+                    using (XmlReader reader = XmlReader.Create(memStream))
+                    {
+                        while (reader.Read())
+                        {
+                            if (reader.NodeType == XmlNodeType.Text)
+                                Console.WriteLine(reader.Value);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"XmlReaderExample: {ex.Message}");
+            }
+        }
+
+        /*
+        SingleResult: The SQL statement returns a single result set. Data.IDataReader.NextResult will return false.
+
+        */
+        private void DataReaderExampleV2()
+        {
+            Console.WriteLine($"Entering DataReaderExample()");
+            const string _connectionString
+                = "Server=(local);Database=ContosoUniversity;Integrated Security=true;MultipleActiveResultSets=true;Connection Timeout=60;";
+
+            const string sql = "SELECT* FROM [ContosoUniversity].[dbo].[Course];" +
+                "SELECT* FROM [ContosoUniversity].[dbo].[Department];";
+
+            try
+            {
+                SqlConnection connection = new SqlConnection(_connectionString);
+                SqlCommand cmd = new SqlCommand(sql, connection);
+                connection.Open();
+                SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleResult);
+                while (reader.Read())
+                {
+                    Console.WriteLine($"{reader[0].ToString()} {reader[3].ToString()} {reader[4].ToString()}");
+                }
+                //Because we used CommandBehavior.SingleResult, second result set is not returned 
+                bool more = reader.NextResult();
+                Console.WriteLine($"RetVal = reader.NextResult(): {more}");
+
+                reader.Close();
+                cmd.Dispose();
+                connection.Close();
+                connection.Dispose();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception: {0}",ex.Message);
+            }
+        }
+
+        private void TransientErrors()
+        {
+            Console.WriteLine("Entering TransientErrors()");
+
+            for (int i = 0; i < 5; i ++)
+            {
+                try
+                {
+                    Console.WriteLine($"Loop: {i}");
+                    throw new Exception("Transient error");
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine($"Exception: {ex.Message}");
+                    if(true)//if(IsTransient(ex.Number)) SqlException 
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        break;
+                    }                    
+                }
+            }
+
+            Console.WriteLine("Exiting TransientErrors()");
+        }
+
+        /* Example of Distributed Transaction 
+           https://docs.microsoft.com/en-us/dotnet/framework/data/transactions/implementing-an-implicit-transaction-using-transaction-scope 
+            https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/system-transactions-integration-with-sql-server
+         */
+        private void DistributedTransaction()
+        {
+            Console.WriteLine($"Entering DistributedTransaction()");
+            const string _connectionString
+                = "Server=(local);Database=ContosoUniversity;Integrated Security=true;MultipleActiveResultSets=true;Connection Timeout=60;";
+
+            const string sql = "INSERT INTO [ContosoUniversity].[dbo].[Course] (Title,Credits," +
+                "DepartmentID,IsDeleted) VALUES(@Title,@Credits,@DepartmentID,@IsDeleted);";
+
+            try
+            {
+                using (TransactionScope scope = new TransactionScope())
+                {
+                    using (SqlConnection connection = new SqlConnection(_connectionString))
+                    {
+                        using (SqlCommand cmd = new SqlCommand(sql, connection))
+                        {
+                            SqlParameter prm = new SqlParameter("@Title", SqlDbType.VarChar, 50);
+                            prm.Value = "Physics";
+                            cmd.Parameters.Add(prm);
+                            cmd.Parameters.AddWithValue("@Credits", 4);
+                            cmd.Parameters.AddWithValue("@DepartmentID", 1);
+                            cmd.Parameters.AddWithValue("@IsDeleted", 0);
+                            connection.Open();
+                            int rows = cmd.ExecuteNonQuery();
+                            Console.WriteLine($"rows: {rows}");
+                        }
+                    }
+
+                    using (SqlConnection connection = new SqlConnection(_connectionString))
+                    {
+                        using (SqlCommand cmd = new SqlCommand(sql, connection))
+                        {
+                            SqlParameter prm = new SqlParameter("@Title", SqlDbType.VarChar, 50);
+                            prm.Value = "Physics";
+                            cmd.Parameters.Add(prm);
+                            cmd.Parameters.AddWithValue("@Credits", 4);
+                            cmd.Parameters.AddWithValue("@DepartmentID", 1);
+                            cmd.Parameters.AddWithValue("@IsDeleted", 0);
+                            connection.Open();
+                            int rows = cmd.ExecuteNonQuery();
+                            Console.WriteLine($"rows: {rows}");
+                        }
+                    }
+
+                    scope.Complete();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+            }
+        }
+
+        private void CourseInsert()
+        {
+            Console.WriteLine($"Entering CourseInsert()");
+            const string _connectionString
+                = "Server=(local);Database=ContosoUniversity;Integrated Security=true;MultipleActiveResultSets=true;Connection Timeout=60;";
+
+            const string sql = "INSERT INTO [ContosoUniversity].[dbo].[Course] (Title,Credits," +
+                "DepartmentID,IsDeleted) VALUES(@Title,@Credits,@DepartmentID,@IsDeleted);";
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(sql, connection))
+                    {
+                        SqlParameter prm = new SqlParameter("@Title", SqlDbType.VarChar, 50);
+                        prm.Value = "Physics";
+                        cmd.Parameters.Add(prm);
+                        cmd.Parameters.AddWithValue("@Credits", 4);
+                        cmd.Parameters.AddWithValue("@DepartmentID", 1);
+                        cmd.Parameters.AddWithValue("@IsDeleted", 0);
+                        connection.Open();
+                        int rows = cmd.ExecuteNonQuery();
+                        Console.WriteLine($"rows: {rows}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+            }
+            Console.WriteLine($"Exiting CourseInsert");
+        }
+
+        /*
+        The SqlDataReader.Read Method advances the SqlDataReader to the next record. 
+        The default position of the SqlDataReader is before the first record. Therefore, 
+        you must call Read to begin accessing any data. The SqlDataReader.NextResult 
+        method advances the data reader to the next result, when reading the results of 
+        batch Transact-SQL statements. Used to process multiple results, which can be 
+        generated by executing batch Transact-SQL statements. By default, the data reader 
+        is positioned on the first result.
+        */
         private void DataReaderExample()
         {
             Console.WriteLine($"Entering DataReaderExample()");
@@ -65,6 +310,7 @@ namespace _70_483_USING_NET_FRAMEWORK.Exercises
                             Console.WriteLine($"{reader[0].ToString()} {reader[3].ToString()} {reader[4].ToString()}");
                         }
 
+                        //https://docs.microsoft.com/en-us/dotnet/api/system.data.sqlclient.sqldatareader.nextresult?view=dotnet-plat-ext-3.1
                         bool more = reader.NextResult();
                         Console.WriteLine();
 

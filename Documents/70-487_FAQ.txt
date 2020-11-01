@@ -3906,6 +3906,1075 @@ D. ReadCommitted
 C, maintains the highest data integrity 
 --------------------------------------------------------------------------------------------------------------------------------
 
+--------------------------------------------------------------------------------------------------------------------------------
+164) You are developing a RESTful API that uses ASP.NET Core. You plan to host the API in Azure App Services. You provision a 
+development environment in the application service. Developers must be able to deploy the API to the development environment. 
+You must not share the Azure account credentials with developers. You need to ensure that developers can deploy the API to the 
+development environment.
 
+Solution: Download the Publish profile for the application service and share it with the developers. Use Microsoft Visual Studio Publishing.
+Does the solution meet the goal?
+
+A. Yes
+B. No
+
+A
+
+Visual Studio does not offer you all the features that you can configure when creating a
+package, but it’s one of the easiest ways to create a package.
+You start the publish process by choosing Publish <YourProjectName> from the Build
+menu. Figure 5-14 shows the start page of your wizard. The first time, you need to create a
+publish profile. This profile is stored as a part of your solution. This way, you can add your
+profile to source control and reuse it each time you publish your app. This is called one-click
+publishing. Next time, you only need to click Publish, and a Web Deploy will be automatically
+executed. You can create multiple profiles for different scenarios. Maybe you are running in
+a DTAP (development, test, acceptance, production) environment and you want a publish
+profile for each of these locations. By creating multiple profiles, you can easily store your
+deployment settings. When deploying to Windows Azure Websites, you don’t have to create the publish profile
+manually. When you log in to your Windows Azure Management Portal, you can download a
+publish profile for your website. If you import this file into Visual Studio, your project is automatically
+configured for deployment to your Windows Azure Websites.
+
+To configure deployment for a web project in Visual Studio, you create one or more publish profiles using the Publish Web wizard. 
+A publish profile specifies the server you are deploying to, the credentials needed to log on to the server, the databases to deploy, 
+and other deployment options. When you are ready to publish, you choose the profile you want to use and click the Publish button in 
+the wizard or in the Web One Click Publish toolbar.
+
+https://docs.microsoft.com/en-us/previous-versions/aspnet/dd465337(v=vs.110)
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+165) You are developing a RESTful API that uses ASP.NET Core. You plan to host the API in Azure App Services. You provision a 
+development environment in the application service. Developers must be able to deploy the API to the development environment. 
+You must not share the Azure account credentials with developers. You need to ensure that developers can deploy the API to the 
+development environment.
+
+Solution: Share the Publish profile for the application service with the developers. Use Web Matrix 2 for publishing.
+
+Does the solution meet the goal?
+A. Yes
+B. No
+
+B
+
+You should use a Publishing Profile with Microsoft Visual Studio Publishing as WebMatrix enables developers to build websites, while Visual Studio 
+Publishing is used to develop computer programs for Microsoft Windows, as well as web sites, web applications and web services.
+Webmatrix lets you build a website, but not RESTful API.
+Note: Microsoft WebMatrix is a discontinued cloud-connected website builder and HTML editor for Windows, geared towards web development
+
+https://docs.microsoft.com/en-us/previous-versions/aspnet/dd465337(v=vs.110)
+https://azure.microsoft.com/de-de/blog/webmatrix-2-is-released-new-windows-azure-features/
+https://en.wikipedia.org/wiki/Microsoft_WebMatrix
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+166) You are developing a RESTful API that uses ASP.NET Core. You plan to host the API in Azure App Services. You provision a 
+development environment in the application service. Developers must be able to deploy the API to the development environment. 
+You must not share the Azure account credentials with developers. You need to ensure that developers can deploy the API to the 
+development environment.
+
+Solution: Add the developers to the same Azure Active Directory (Azure AD) as the Azure subscription in which the App Service is provisioned. 
+Use XCopy to deploy to the App Service.
+
+Does the solution meet the goal?
+A. Yes
+B. No B
+
+B
+
+You should use a Publishing Profile with Microsoft Visual Studio Publishing.
+https://docs.microsoft.com/en-us/previous-versions/aspnet/dd465337(v=vs.110)
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+167) You are developing a RESTful API that uses ASP.NET Core. You plan to host the API in Azure App Services. You provision a 
+development environment in the application service. Developers must be able to deploy the API to the development environment. 
+You must not share the Azure account credentials with developers. You need to ensure that developers can deploy the API to the 
+development environment.
+
+Solution: Add the developers to the same Azure Active Directory (Azure AD) as the Azure subscription in which the App Service is provisioned. 
+Add the developers to the Contributors group for the Azure Storage account in the same Resource Group as the App Service. Use Web Deploy to deploy to the App Service.
+
+Does the solution meet the goal?
+
+A. Yes
+B. No B
+
+B
+
+Instead, download the Publish profile for the application service and share it with the developers. Use Microsoft Visual Studio Publishing.
+https://docs.microsoft.com/en-us/previous-versions/aspnet/dd465337(v=vs.110)
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+168) You have a web application in a Docker container image. You set the tag for the image as myapp. You plan to deploy the application to Azure Container Services.
+You run the following commands. All commands complete successfully.
+
+az acr create --resource-group myResourceGroup --name myRegistry --sku Basic
+az acr login --name myRegistry
+
+You need to ensure that the image can be run on an Azure Container Service cluster.
+
+Solution: You run the following commands:
+
+docker tag myapp myRegistry.azurecr.io/samples/myapp
+docker push myRegistry.azurecr.io/samples/myapp
+
+Does the solution meet the goal?
+
+A. Yes
+B. No
+
+A
+
+First tag the image, and the push it into your private registry.
+
+az acr login
+Log in to an Azure Container Registry through the Docker CLI.
+Docker must be installed on your machine. Once done, use 'docker logout ' to log out. 
+(If you only need an access token and do not want to install Docker, specify '--expose-token').
+az acr login --name
+             [--expose-token]
+             [--password]
+             [--resource-group]
+             [--subscription]
+             [--suffix]
+             [--username]
+
+az acr create
+Create an Azure Container Registry.
+az acr create --name
+              --resource-group
+              --sku {Basic, Classic, Premium, Standard}
+              [--admin-enabled {false, true}]
+              [--default-action {Allow, Deny}]
+              [--identity]
+              [--key-encryption-key]
+              [--location]
+              [--public-network-enabled {false, true}]
+              [--subscription]
+              [--tags]
+              [--workspace]
+
+Manage private registries with Azure Container Registries (az acr).
+https://docs.microsoft.com/en-us/cli/azure/acr?view=azure-cli-latest
+
+Quickstart: Create a private container registry using the Azure CLI
+https://docs.microsoft.com/en-us/azure/container-registry/container-registry-get-started-azure-cli
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+169) You have a web application in a Docker container image. You set the tag for the image as myapp. You plan to deploy the application to Azure Container Services.
+You run the following commands. All commands complete successfully.
+
+az acr create --resource-group myResourceGroup --name myRegistry --sku Basic
+az acr login --name myRegistry
+
+You need to ensure that the image can be run on an Azure Container Service cluster.
+
+Solution: You run the following commands:
+
+docker tag myapp myRegistry.azurecr.io/samples/myapp
+docker pull myRegistry.azurecr.io/samples/myapp
+
+Does the solution meet the goal?
+
+A. Yes
+B. No
+
+B, you need to push the image to your private azure container registry, not pull.
+--------------------------------------------------------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------------------------------------------------------
+170) You have a web application in a Docker container image. You set the tag for the image as myapp. You plan to deploy the application to Azure Container Services.
+You run the following commands. All commands complete successfully.
+
+az acr create --resource-group myResourceGroup --name myRegistry --sku Basic
+az acr login --name myRegistry
+
+You need to ensure that the image can be run on an Azure Container Service cluster.
+
+Solution: You run the following commands:
+
+docker run -d -p 5000:80 myapp myRegistry.azurecr.io/samples/myapp
+docker push myRegistry.azurecr.io/samples/myapp
+
+Does the solution meet the goal?
+
+A. Yes
+B. No
+
+B, You need to tag and push the image to your private azure container registry before you can run it. 
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+171) You have a web application in a Docker container image. You set the tag for the image as myapp. You plan to deploy the application to Azure Container Services.
+You run the following commands. All commands complete successfully.
+
+az acr create --resource-group myResourceGroup --name myRegistry --sku Basic
+az acr login --name myRegistry
+
+You need to ensure that the image can be run on an Azure Container Service cluster.
+
+Solution: You run the following commands:
+
+docker tag myapp myRegistry.azurecr.io/samples/myapp
+docker run -d -p 5000:80 myapp myRegistry.azurecr.io/samples/myapp
+
+Does the solution meet the goal?
+
+A. Yes
+B. No
+
+B, You need to tag and push the image to your private azure container registry before you can run it.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+172) You have developed a .NET Standard Library.
+You need to produce a NuGet package.
+Solution: Run the dotnet pack command
+
+Does the solution meet the goal?
+
+A. Yes
+B. No
+
+A
+
+No matter what your package does or what code it contains, you use one of the CLI tools, either nuget.exe or dotnet.exe, to package that 
+functionality into a component that can be shared with and used by any number of other developers. msbuild -t:pack is functionality equivalent to dotnet pack. 
+The dotnet pack command builds the project and creates NuGet packages. The result of this command is a NuGet package (that is, a .nupkg file).
+https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-pack
+https://docs.microsoft.com/en-us/nuget/create-packages/creating-a-package-dotnet-cli
+https://docs.microsoft.com/en-us/nuget/reference/cli-reference/cli-ref-pack
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+173) You have developed a .NET Standard Library.	
+You need to produce a NuGet package.
+Solution: Run the msbuild command with the publish target specified.
+Does the solution meet the goal?
+A. Yes
+B. No
+
+B, You need to run the msbuild -t:pack command. The command that creates a package, msbuild -t:pack, is functionality equivalent to dotnet pack. 
+Package the component with the NuGet pack command. The dotnet pack command and msbuild -t:pack may be used as alternatives.
+
+https://docs.microsoft.com/en-us/nuget/create-packages/creating-a-package-msbuild
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+174) You have developed a .NET Standard Library.
+You need to produce a NuGet package.
+Solution: Run the NuGet pack command
+Does the solution meet the goal?
+
+A. Yes
+B. No
+
+A
+Package the component with the NuGet pack command, for example: nuget pack AppLogger.nuspec
+This generates AppLogger.YOUR_NAME.1.0.0.nupkg.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+175) You are preparing to develop a set of libraries for a company.
+The libraries must be shared across the company.
+You need to create a remote NuGet feed that exposes the libraries.
+
+What should you do? (Each answer presents part of the solution. Choose all that apply.)
+
+A. Install the NuGet.Feed Package.
+B. Install the NuGet.Server Package.
+C. Create a new Empty Web Site in Visual Studio.
+D. Configure the Packages folder located in the appSettings section of the web application's Web.config.
+E. Add packages to the Packages folder.
+F. Create a new Empty Web Application in Visual Studio.
+
+B,D (When not using the standard location),E and F
+
+B: NuGet.Server is a package provided by the .NET Foundation that creates an ASP.NET application that can host a package feed on any server that runs IIS.
+The process is as follows:
+✑ (F) Create an empty ASP.NET Web application in Visual Studio and add the NuGet.Server package to it.
+✑ (E) Configure the Packages folder in the application and add packages.
+✑ Deploy the application to a suitable server.
+D: Configuring the Packages folder
+With NuGet.Server 1.5 and later, you can more specifically configure the package folder using the appSetting/packagesPath value in web.config:
+<appSettings>
+<!-- Set the value here to specify your custom packages folder. -->
+<add key="packagesPath" value="C:\MyPackages" />
+</appSettings>
+
+https://docs.microsoft.com/en-us/nuget/hosting-packages/nuget-server
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+176) You have a UI element library. You need to build a NuGet package to integrate the library into your projects.
+What should you do? (To answer, drag the appropriate code elements to the correct location or locations in the answer area. 
+Each code element may be used once, more than once, or not at all. You may need to drag the split bar between panes or scroll to view content.)
+Select and Place: {nuspec, nupkg, pack, build }
+
+1. Define the package in a ... file. 
+2. Build the package with the following command. NuGet ... MyPackage...
+
+=> 1. 	Define the package in a nuspec file. Which is obtained using nuget spec MyPackage.dll  
+		This code creates a MyPackage.nuspec file for you that contains your manifest. A .nuspec file is an XML manifest that 
+		contains package metadata. This is used both to build the package and to provide information to consumers. The manifest is always included in a package.
+		You can now edit this file to make sure that things such as the title and description and the dependencies are correct. 
+
+=> 2. 	Build the package with the following command. NuGet pack MyPackage.nuspec 
+		After that, you can create your package: nuget pack MyAssembly.nuspec
+		This code results in a MyAssembly.dll.1.0.0.nupkg package file. You can now test your package from Visual Studio by opening 
+		a project and executing the following command from the Package Manager Console:
+		install-package MyAssembly.dll -Source "C:\<location_of_your_package>"
+		
+		
+https://docs.microsoft.com/en-us/nuget/reference/nuspec		
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+177) You have developed a .NET Standard Library.
+You need to produce a NuGet package.
+Solution: Run the msbuild command with the pack target specified.
+
+Does the solution meet the goal?
+
+A. Yes
+B. No
+
+A
+
+https://docs.microsoft.com/en-us/nuget/create-packages/creating-a-package-msbuild
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+178) You develop a .NET Class Library project. You install the latest NuGet CLI tool, create an account on nugget.org, and receive an API key.
+You need to create the NuGet package and publish the package to nuget.org. You open a command prompt and navigate to the folder which contains the project file.
+Which four actions should you perform in sequence? To answer, move the appropriate actions from the list of actions to the answer area and arrange them in the correct order.
+Select and Place:
+
+=> Update the package identifier and version number.
+=> Run the NuGet pack commando.
+=> Run the NuGet init commando.
+=> Run the NuGet spec commando.
+=> Run the NuGet push commando.
+
+Answer:
+
+1) Run the NuGet spec commando. (Creates the manifest file .nuspec file.)
+2) Update the package identifier and version number. (You can the update the .nuspec with values.)
+3) Run the NuGet pack commando. (Creates the package, .nupkg file.)
+4) Run the NuGet push commando. (You publish the package to nuget.org. )
+
+
+Step 1: Run the NuGet spec command
+In the simple case of creating a package from an assembly, you can generate a .nuspec file from the metadata in the assembly using the following command: nuget spec <assembly-name>.dll
+Step 2: Update the package identifier and version number
+Choose a unique package identifier and setting the version number.
+Step 3: Run the NuGet pack command
+Running nuget pack to generate the .nupkg file
+Step 4: Run theNuGet push command
+Once you've created a package, which is a .nupkg file, you can publish it to the gallery of your choice. You can publish with dotnet nuget push command
+
+https://docs.microsoft.com/en-us/nuget/nuget-org/publish-a-package
+https://docs.microsoft.com/en-us/nuget/create-packages/creating-a-package
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+179) You develop a REST API that uses Node.js. The API will store data in Azure Cosmos DB. You plan to deploy the API to a new Azure App Services Web App. 
+You create a new Web App by using the Azure portal. The API must be deployed by using SFTP.
+You need to provide the proper deployment credentials to deploy the API.
+
+Solution: Use your Azure Cosmos DB master key and resource token.
+
+Does the solution meet the goal?
+
+A. Yes
+B. No
+
+B
+Get FTP publishing profile and query for publish URL and credentials
+https://docs.microsoft.com/en-us/azure/app-service/scripts/cli-deploy-ftp
+
+The REST API uses the Cosmos DB credentials in order to access the database.     
+Azure Cosmos DB is a globally distributed multi-model database with support for multiple APIs. 
+Access to resources in the SQL API is governed by a master key token or a resource token. 
+To access a resource, the selected token is included in the REST authorization header, as part of the authorization string.
+https://docs.microsoft.com/en-us/rest/api/cosmos-db/access-control-on-cosmosdb-resources
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+180) You develop a REST API that uses Node.js. The API will store data in Azure Cosmos DB. You plan to deploy the API to a new Azure App Services Web App. 
+You create a new Web App by using the Azure portal.
+The API must be deployed by using SFTP. You need to provide the proper deployment credentials to deploy the API.
+
+Solution: Download the PublishSettings file and enter the username and password located in the file.
+
+Does the solution meet the goal?
+
+A. Yes
+B. No
+
+A
+
+# Get FTP publishing profile and query for publish URL and credentials
+creds=($(az webapp deployment list-publishing-profiles --name $webappname --resource-group myResourceGroup \
+--query "[?contains(publishMethod, 'FTP')].[publishUrl,userName,userPWD]" --output tsv))
+
+References:
+https://docs.microsoft.com/en-us/azure/app-service/scripts/app-service-cli-deploy-ftp
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+181) You develop a REST API that uses Node.js. The API will store data in Azure Cosmos DB. You plan to deploy the API to a new Azure App Services Web App. 
+You create a new Web App by using the Azure portal.
+The API must be deployed by using SFTP.
+You need to provide the proper deployment credentials to deploy the API.
+
+Solution: Use your assigned Azure Active Directory (Azure AD) credentials.
+
+Does the solution meet the goal?
+
+A. Yes
+B. No 
+
+B, Get FTP publishing profile and query for publish URL and credentials
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+182) You develop a REST API that uses Node.js. The API will store data in Azure Cosmos DB. You plan to deploy the API to a new Azure App Services Web App. 
+You create a new Web App by using the Azure portal.
+The API must be deployed by using SFTP.
+You need to provide the proper deployment credentials to deploy the API.
+Solution: Enter the user-level credentials that you configured when you created the Web App.
+Does the solution meet the goal?
+
+A. Yes
+B. No
+
+A
+
+User-level credentials: one set of credentials for the entire Azure account. 
+It can be used to deploy to App Service for any app, in any subscription, that the Azure account has permission to access.
+https://docs.microsoft.com/bs-latn-ba/azure/app-service/deploy-configure-credentials#use-user-level-credentials-with-ftpf
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+183) You deploy an ASP.NET Core web application to Azure App Services. You are using Azure Event Hubs to collect the telemetry data for the application.
+You need to configure Event Hubs to automatically deliver the telemetry data stream to a persistent data store.
+Solution: Configure Event Hubs Capture to deliver data to Azure Blob storage.
+
+Does the solution meet the goal?
+
+A. Yes
+B. No  
+
+A, use Azure Blob storage or Azure Data Lake Storage
+
+Azure Event Hubs Capture enables you to automatically deliver the streaming data in Event Hubs to an Azure Blob storage or 
+Azure Data Lake Store account of your choice, with the added flexibility of specifying a time or size interval.
+Azure Event Hubs Capture enables you to automatically deliver the streaming data in Event Hubs to an Azure Blob 
+storage or Azure Data Lake Store account of your choice, with the added flexibility of specifying a time or size interval.
+https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-capture-overview
+
+Event Hubs is a fully managed, real-time data ingestion service that’s simple, trusted, and scalable. 
+Stream millions of events per second from any source to build dynamic data pipelines and immediately respond to business challenges.
+Azure Event Hubs is a big data streaming platform and event ingestion service. It can receive and process millions of events per second. 
+Data sent to an event hub can be transformed and stored by using any real-time analytics provider or batching/storage adapters.
+
+Capture your data in near-real time in an Azure Blob storage or Azure Data Lake Storage for long-term retention or micro-batch processing. 
+You can achieve this behavior on the same stream you use for deriving real-time analytics. Setting up capture of event data is fast. 
+There are no administrative costs to run it, and it scales automatically with Event Hubs throughput units. Event Hubs enables you to 
+focus on data processing rather than on data capture. Azure Event Hubs also integrates with Azure Functions for a serverless architecture.
+
+Store and analyze petabyte-size files and trillions of objects.
+Azure Data Lake Storage Gen1 is an enterprise-wide hyper-scale repository for big data analytic workloads. 
+Azure Data Lake enables you to capture data of any size, type, and ingestion speed in one single place for operational and exploratory analytics.
+https://docs.microsoft.com/en-us/azure/data-lake-store/data-lake-store-overview
+
+https://azure.microsoft.com/en-us/services/event-hubs
+https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-about
+https://docs.microsoft.com/en-us/azure/event-hubs/
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+184) You deploy an ASP.NET Core web application to Azure App Services. You are using Azure Event Hubs to collect the telemetry data for the application.
+You need to configure Event Hubs to automatically deliver the telemetry data stream to a persistent data store.
+
+Solution: Configure Azure Event Hubs Capture to deliver data to Azure SQL Database.
+
+Does the solution meet the goal?
+
+A. Yes
+B. No
+
+B, Use Azure Blob storage or Azure Data Lake to store the telemetry data.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+185)  You deploy an ASP.NET Core web application to Azure App Services. You are using Azure Event Hubs to collect the telemetry data for the application.
+You need to configure Event Hubs to automatically deliver the telemetry data stream to a persistent data store.
+
+Solution: Configure Azure Event Hubs Capture to deliver data to Azure File Service.
+
+Does the solution meet the goal?
+
+A. Yes
+B. No
+
+B, Use Azure Blob storage or Azure Data Lake to store the telemetry data. 
+
+Azure Files offers fully managed file shares in the cloud that are accessible via the industry standard Server Message Block (SMB) 
+protocol or Network File System (NFS) protocol. Azure file shares can be mounted concurrently by cloud or on-premises deployments. 
+Azure Files SMB file shares are accessible from Windows, Linux, and macOS clients. Azure Files NFS file shares are accessible from 
+Linux or macOS clients. Additionally, Azure Files SMB file shares can be cached on Windows Servers with Azure File Sync for fast 
+access near where the data is being used.
+https://docs.microsoft.com/en-us/azure/storage/files/storage-files-introduction
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+186) You are developing a Microsoft Azure web application. The application will be deployed to 20 web role instances. 
+A minimum of 18 running instances is needed to meet scaling requirements.
+You need to configure the application so that upgrades are performed as quickly as possible, but do not violate scaling requirements.
+How many upgrade domains should you use?
+
+A. 1
+B. 2
+C. 5
+D. 10
+
+D
+
+If you use 10 upgrade domains each upgrade domain will have two web role instances.
+Because Windows Azure distributes instances of a role evenly (when possible) across a set number of upgrade domains. 
+During deployment all instances of the upgraded role that belongs to the first upgrade domain are stopped, upgraded, and brought back online.
+Once they are back online, the process is repeated for the second upgrade domain (all roles stopped, upgraded and brought back online), 
+the third upgrade domain and so on until all instances in all upgrade domains have been upgraded. So in this case because
+each upgrade domains has two web role instances, two web role instances are stopped each time.    
+
+The number of upgrade domains can be configured as a part of the service definition file (.csdef). 
+The default number of upgrade domains is 5, and the maximum is 20.  Windows Azure distributes instances 
+of a role evenly (when possible) across a set number of upgrade domains. For example, if the default number 
+of upgrade domains is used and a service has five instances, each instance will be assigned to an individual 
+upgrade domain. In the case of a service having ten instances, each upgrade domain will have two instances. 
+In the case of a service having 14 instances, the first four upgrade domains will have three instances, and the 
+last one will have two instances.
+
+https://blog.abelotech.com/posts/windows-azure-fault-and-upgrade-domain/
+https://docs.microsoft.com/en-us/azure/cloud-services/cloud-services-update-azure-service
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+187) You are developing a Microsoft Azure web application. The application will be deployed to 10 web role instances. 
+A minimum of 8 running instances is needed to meet scaling requirements.
+You need to configure the application so that upgrades are performed as quickly as possible, but do not violate scaling requirements.
+How many upgrade domains should you use?
+
+A. 1
+B. 2
+C. 5
+D. 10
+
+C
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+188) You are developing a Windows Communication Foundation (WCF) service for a company. 
+The service will be used for bidirectional communications between the company's physical offices.
+You plan to implement Azure Service Bus.
+You need to configure the WCF service.
+Which type of binding should you use?
+
+A. BasicHttpBinding
+B. NetTcpRelayBinding
+C. NetTcpBinding
+D. NetEventRelayBinding
+
+B
+
+Service Bus Reliable cloud messaging as a service (MaaS) and simple hybrid integration.
+Microsoft Azure Service Bus is a fully managed enterprise integration message broker. 
+Service Bus can decouple applications and services. 
+
+https://docs.microsoft.com/en-us/azure/azure-relay/service-bus-dotnet-hybrid-app-using-service-bus-relay
+https://docs.microsoft.com/en-us/azure/azure-relay/service-bus-relay-tutorial
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+189) You add a .NET application to a Docker container and deploy the container to Azure Service Fabric. You use a corporate base image that includes Microsoft SQL
+Server for storing data. You deploy the application to development and staging environments. No issues are reported. 
+You deploy the application to your production environment. Data is not persisted in the production environment. You need to resolve the issue.
+What should you do?
+
+A. Install Docker tools in the container.
+B. In the docker-compose.override.yml file, configure the db service to start before the web application.
+C. Update the connection string in the web.config file to point to the SQL Server database in the container.
+D. Remove SQL Server from the base image and convert the database to Azure SQL Database.
+
+D
+There is currently no way to guarantee persistent data in a container, therefore you cannot store production data in SQL Server in a container.
+https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-host-app-in-a-container
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+190) You are developing a ASP.NET Core MVC web application that processes sensitive data.
+Users in an Azure Active Directory (Azure AD) group named DataAdmins must be able to see all data in human readable form. 
+Sensitive data must be masked from all other users that handle the data store.
+You need to implement storage for the application.
+What should you implement?
+
+A. Azure SQL Database
+B. Azure Cosmos DB
+C. Azure Database for MySQL
+D. Azure Database for PostgreSQL
+E. Azure Storage Tables
+
+A
+
+https://azure.microsoft.com/nl-nl/blog/limit-the-exposure-of-sensitive-data-in-azure-sql-database-using-dynamic-data-masking/
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+191) You have a web application that was developed by using Microsoft ASP.NET MVC. The application is deployed to an Azure web app and uses an Azure SQL
+Database.
+From a development environment, you use Microsoft Visual Studio to change the application code, and you modify the schema of the database.
+You need to deploy the changes to Azure.
+Which publishing method should you use?
+A. BACPAC
+B. FTP
+C. Web Deploy
+D. DACPAC
+
+C
+
+Web Deploy is an extensible client-server tool for syncing content and configuration to IIS. Web Deploy is used primarily in two scenarios:
+✑ Developers use it to sync (aka "˜publish') a compiled web applications (ASP .Net, PHP etc) from developer tools (Visual Studio, WebMatrix, etc) to IIS
+✑ IT professionals use it to migrate websites & applications
+Web Deploy is often compared to technologies like FTP, XCOPY or RoboCopy. While these technologies are useful, Web Deploy offers several benefits:
+✑ Web Deploy can publish databases. Web Deploy has out-of-box support for scripting out SQL Server, MySQL Server, Sqlite and SQL Server Compact databases and applying the resulting script during the sync. This can be very handy if your app needs a database to function.
+Incorrect Answers:
+A: When you need to export a database for archiving or for moving to another platform, you can export the database schema and data to a BACPAC file.
+D: DACPAC is a single file which contains database model i.e. all files represent database objects. It's a binary representation of database project compatible with
+SSDT.
+References:
+https://docs.microsoft.com/en-us/iis/publish/using-web-deploy/introduction-to-web-deploy
+
+What is a DACPAC file?
+Data package created by a Microsoft SQL Server data tier application; contains both the schema of data as well as the data 
+records, or objects, themselves; used for providing data between SQL Server databases and vendor applications.
+DACPAC files use .ZIP formatting and contain a collection of XML files that define the schema and data to be transferred.
+https://sqlplayer.net/2018/10/how-to-create-dacpac-file/
+https://www.sqlshack.com/an-introduction-to-data-tier-applications-in-sql-server/
+
+BACPAC file 
+A BACPAC file is a ZIP file with an extension of BACPAC containing the metadata and data from the database. 
+A BACPAC file can be stored in Azure Blob storage or in local storage in an on-premises location and later 
+imported back into Azure SQL Database, Azure SQL Managed Instance, or a SQL Server instance.Jul 16, 2019
+
+https://docs.microsoft.com/en-us/sql/relational-databases/data-tier-applications/import-a-bacpac-file-to-create-a-new-user-database?view=sql-server-ver15
+https://docs.microsoft.com/en-us/azure/azure-sql/database/database-export
+https://www.sqlshack.com/importing-a-bacpac-file-for-a-sql-database-using-ssms/
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+192) You are planning to migrate websites from IIS 6 to IIS 7.5.
+You do not have access to SSH or a VPN. You need to select a deployment tool to securely migrate the websites.
+
+Which tool should you use?
+
+A. RoboCopy
+B. Web Deploy
+C. Microsoft command-line FTP
+D. xCopy
+
+B
+Web Deploy (msdeploy) simplifies deployment of Web applications and Web sites to IIS servers. 
+Administrators can use Web Deploy to synchronize IIS servers or to migrate to newer versions of IIS. 
+Web Deploy Tool also enables administrators and delegated users to use IIS Manager to deploy ASP.NET 
+and PHP applications to an IIS server.
+https://www.iis.net/downloads/microsoft/web-deploy
+
+Robocopy: 
+Robocopy, or "Robust File Copy", is a command-line directory and/or file replication command for Microsoft Windows. Robocopy functionally replaces Xcopy, with more options. 
+https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/robocopy
+https://en.wikipedia.org/wiki/Robocopy
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+193) You are developing an ASP.NET MVC application. Applications can be deployed to remote servers only by 
+administrators who have elevated privileges. The administrators do not have access to Visual Studio 2012.
+You need to select a deployment tool to deploy the application to remote servers for testing.
+
+Which tool should you use?
+
+A. Copy Web Site Tool
+B. One-Click Publish
+C. Publish Web Site Tool
+D. Web Deployment Package
+
+D
+https://docs.microsoft.com/en-us/iis/publish/using-web-deploy/use-the-web-deployment-tool
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+194) You develop a Universal Windows Platform (UWP) application for Windows 10 Internet of Things (IoT) Core. The application uses Entity Framework Core and a
+SQLite database to store data.
+You use the SQLite EF Core database provider to migrate data from an on-premises database to SQLite. The migration process throws an exception.
+You need to resolve the exception.
+What are two possible ways to achieve this goal? Each correct answer presents a complete solution.
+Each correct selection is worth one point.
+
+A. Clone the on-premises database to a schema-less database
+B. Convert the application to use .NET Standard
+C. Limit all of SQLite processes to one server
+D. Limit the number of concurrent processes that write to the SQLite database
+
+AD
+
+If you have multiple threads which are writing the data in database like this.
+The SQLiteDatabaseLockedException is thrown.
+//thread-1
+DatabaseHelper helper = new DatabaseHelper(getApplicationContext());
+SQLiteDatabase database = helper.getWritableDatabase();
+database.insert(.....);
+database.close();
+ 
+//thread-2
+DatabaseHelper helper = new DatabaseHelper(getApplicationContext());
+SQLiteDatabase database = helper.getWritableDatabase();
+database.insert(.....);
+database.close();
+https://www.tothenew.com/blog/sqlite-locking-and-transaction-handling-in-android/
+
+A: The common relational library (shared by Entity Framework relational database providers) defines APIs for modelling concepts that are common to most relational database engines. A couple of these concepts are not supported by the SQLite provider: Schemas, Sequences, Computed columns.
+The SQLite database engine does not support a number of schema operations that are supported by the majority of other relational databases. If you attempt to apply one of the unsupported operations to a SQLite database then a NotSupportedException will be thrown.
+D: SQLite allows multiple processes to have the database file open at once, and for multiple processes to read the database at once. When any process wants to write, it must lock the entire database file for the duration of its update.
+References:
+https://docs.microsoft.com/en-us/ef/core/providers/sqlite/limitations
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+195) You are developing an ASP.NET Core web application by using an Entity Framework code-first approach. 
+The application uses a SQLite database. You make changes to the classes in the model. 
+You must apply the changes to the database. You need to suggest an approach to reliably handle the Entity Framework migrations.
+Which three actions should you perform? Each correct answer presents a part of the solution.
+Each correct selection is worth one point.
+NOTE:
+
+A. Modify the scaffolded migration script to drop the modified tables.
+B. Run the following command: dotnet ef database update
+C. Modify the scaffolded migration script to create new tables with the migration changes.
+D. Modify the scaffolded migration script to drop the existing database and create the new database.
+E. Run the following command: dotnet ef migrations add
+
+ACE
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+196) You have a web server that hosts several web applications.
+From Microsoft Visual Studio, you create an assembly that is signed.
+You need to make the assembly available to all of the web applications on the web server. 
+The solution must minimize the number of copies of the assembly.
+Which tool should you run?
+
+A. gacutil.exe
+B. sn.exe
+C. tlbImp.exe
+D. regasm.exe
+
+A
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+197) You create a web application.
+You deploy the application by using a Web Deploy Package.
+You need to identify which setting will be created automatically in the SetParameters.xml file during the package generation.
+Which three settings should you identify? Each correct answer presents part of the solution.
+A. the connection strings in the Web.config file
+B. the destination IIS web application path and name
+C. the service endpoints of the Web.config file
+D. the connection strings of any databases you add to the Package/Publish SQL tab on the Properties page of the project
+E. the application settings of the Web.config file
+
+ABD
+
+https://docs.microsoft.com/en-us/aspnet/web-forms/overview/deployment/web-deployment-in-the-enterprise/configuring-parameters-for-web-package-deployment
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+198) You are building an ADO.NET Entity Framework application.
+You need to validate the conceptual schema definition language (CSDL), store schema definition language (SSDL), and mapping specification language (MSL) files.
+Which Entity Data Model tool can you use? (Each correct answer presents a complete solution. Choose all that apply.)
+
+A. EDM Generator (EdmGen.exe)
+B. ADO.NET Entity Data Model Designer
+C. Entity Data Model Wizard
+D. Update Model Wizard
+
+AB
+
+https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/ef/edm-generator-edmgen-exe
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+199) You have a Microsoft Visual Studio project named Project1 that is deployed as an Azure web app. 
+The Azure web app uses an Azure SQL Database. You plan to deploy updates to the Azure web app by using a Web Deploy Package.
+The password for the Azure SQL Database was changed since you first published the Azure web app.
+You need to deploy the package by using Windows PowerShell.
+Which file should you modify before running the PowerShell deployment script?
+
+A. WebApiConfig.cs from the App_Start folder
+B. IdentityConfig.cs from the App_Start folder
+C. App.config from the Web Application folder
+D. Project1-waws-dev.json from the Configurations folder
+
+D
+
+https://docs.microsoft.com/en-us/visualstudio/azure/vs-azure-tools-publishing-using-powershell-scripts?view=vs-2019
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+200) You are developing an ASP.NET Core web application by using an Entity Framework code-first approach. The application uses an Azure SQL Database. 
+The code-first migration is configured to run as part of a continuous integration build.
+You must add an Azure MySQL Database. This database must use the same schema as the existing Azure SQL Database instance.
+You need to configure the migration to ensure that the existing TFS build definition remains unchanged.
+What are two possible ways to achieve this goal? Each correct answer presents a complete solution.
+Each correct selection is worth one point.
+
+A. Use the ActiveProvider property to specify the provider to which the migration is applied.
+B. Create a new type that derives from DbContext and override the ActiveProvider object. Then, add or apply migrations using this type.
+C. Use the Entity Framework Core Fluent API to identify database providers.
+D. Create a separate Migration Assembly than the one containing the DbContext and switch the active provider during build.  
+
+AB
+
+I thinks It’s A & B. D is wrong in this case because the TFS build definition remains unchanged. The answer specifies that the active provider would change during the build.
+
+A: https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/providers#one-migration-set
+“If operations can only be applied on one provider (or they’re differently between providers), use the ActiveProvider property to tell which provider is active.”
+B: https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/providers#two-migration-sets
+“Another approach that makes working with the tools easier is to create a new type that derives from your DbContext and overrides the active provider. This type is used at design time when adding or applying migrations.”
+
+One approach that makes working with the tools easier is to create a new type that derives from your DbContext and overrides the active provider. 
+This type is used at design time when adding or applying migrations."
+
+https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/providers?tabs=dotnet-core-cli
+https://docs.microsoft.com/en-us/azure/devops/pipelines/overview?view=azure-devops-2020
+https://docs.microsoft.com/en-us/aspnet/web-forms/overview/deployment/configuring-team-foundation-server-for-web-deployment/creating-a-build-definition-that-supports-deployment
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+201) You have a web application that was developed by using Microsoft ASP.NET MVC. The application is deployed to an Azure web app and uses an Azure SQL
+Database.
+From a development environment, you use Microsoft Visual Studio to change the application code, and you modify the schema of the database.
+You need to deploy the changes to Azure.
+Which publishing method should you use?
+A. BACPAC
+B. FTP
+C. Web Deploy
+D. DACPAC
+
+C
+
+Web Deploy is an extensible client-server tool for syncing content and configuration to IIS. Web Deploy is used primarily in two scenarios:
+✑ Developers use it to sync (aka "˜publish') a compiled web applications (ASP .Net, PHP etc) from developer tools (Visual Studio, WebMatrix, etc) to IIS
+✑ IT professionals use it to migrate websites & applications
+Web Deploy is often compared to technologies like FTP, XCOPY or RoboCopy. While these technologies are useful, Web Deploy offers several benefits:
+✑ Web Deploy can publish databases. Web Deploy has out-of-box support for scripting out SQL Server, MySQL Server, Sqlite and SQL Server Compact databases and applying the resulting script during the sync. This can be very handy if your app needs a database to function.
+Incorrect Answers:
+A: When you need to export a database for archiving or for moving to another platform, you can export the database schema and data to a BACPAC file.
+D: DACPAC is a single file which contains database model i.e. all files represent database objects. It's a binary representation of database project compatible with
+SSDT.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+202) You are preparing to develop a set of libraries for a company.
+The libraries must be shared across the company.
+You need to create a remote NuGet feed that exposes the libraries.
+
+What should you do? (Each answer presents part of the solution. Choose all that apply.)
+
+A. Install the NuGet.Feed Package.
+B. Install the NuGet.Server Package.
+C. Create a new Empty Web Site in Visual Studio.
+D. Configure the Packages folder located in the appSettings section of the web application's Web.config.
+E. Add packages to the Packages folder.
+F. Create a new Empty Web Application in Visual Studio.
+
+BDEF
+
+B: NuGet.Server is a package provided by the .NET Foundation that creates an ASP.NET application that can host a package feed on any server that runs IIS.
+The process is as follows:
+✑ (F) Create an empty ASP.NET Web application in Visual Studio and add the NuGet.Server package to it.
+✑ (E) Configure the Packages folder in the application and add packages.
+✑ Deploy the application to a suitable server.
+D: Configuring the Packages folder
+With NuGet.Server 1.5 and later, you can more specifically configure the package folder using the appSetting/packagesPath value in web.config:
+<appSettings>
+<!-- Set the value here to specify your custom packages folder. -->
+<add key="packagesPath" value="C:\MyPackages" />
+</appSettings>
+References:
+https://docs.microsoft.com/en-us/nuget/hosting-packages/nuget-server
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+203) You develop an ASP.NET MVC application that is secured by using SSL. You are ready to deploy the application to production.
+The deployment package must include the installation of the SSL certificate.
+You need to configure the deployment package to meet the requirement.
+What should you do?
+
+A. Create a web publish pipeline target file with a custom web deploy target.
+B. In the Package/Publish settings of the project, select the All Files in this project option.
+C. Extend the CopyAllFilesToSingleFolder target in the project file.
+D. In the Build Events settings of the project, configure a pre-build event to include the SSL certificate. 
+
+A
+
+Extending the Web Publishing Pipeline
+The Web Publishing Pipeline (WPP) is the process that Visual Studio uses when you create a deployment package or use one-click publish.
+Some aspects of the WPP can be extended by modifying the XML files that control MSBuild behavior. For example, tasks that that you can handle by modifying
+XML files include the following:
+* Installing SSL certificates on the destination server.
+* Excluding specific Web application files or folders from the package.
+* Precompiling the Web application before the package is created.
+* Installing application assemblies in the GAC on the destination server.
+* Updating registry keys on the destination server.
+
+https://docs.microsoft.com/en-us/previous-versions/dd394698(v=vs.100)?redirectedfrom=MSDN
+https://docs.microsoft.com/en-us/nuget/hosting-packages/nuget-server
+https://docs.microsoft.com/en-us/aspnet/web-forms/overview/deployment/visual-studio-web-deployment/deploying-extra-files
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+204) You are deploying an ASP.NET Core API application to an Azure App Services Docker container instance.
+When customers access the application, secret keys are generated so that users can access to the data that they need. 
+Security keys must expire after one hour. All key usage must be logged.
+You need to store the customer secret keys.
+Which storage option should you use?
+Each correct selection is worth one point.
+
+A. Encrypted in Azure SQL with a manual audit trail and a key rotation algorithm
+B. Environment variables with an audit trail stored in Azure Blob Storage
+C. Inside the Docker container using system logs for auditing
+D. Azure Key Vault with key rotation and auditing
+
+D
+
+https://docs.microsoft.com/en-us/azure/key-vault/secrets/tutorial-rotation-dual
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+205) Regional access to the Event Service API Data for partners in Germany and Brazil must be served from Azure datacenters in their 
+respective geographies unless there is a regional Azure outage. All other partners must use the US West Azure datacenter.
+You need to configure DNS for the Event service. How many DNS entries should you create?
+
+A. 1
+B. 2
+C. 3
+D. 4
+
+C
+
+https://docs.microsoft.com/en-us/azure/traffic-manager/traffic-manager-overview
+https://azure.microsoft.com/en-us/services/traffic-manager/#features
+https://docs.microsoft.com/en-us/azure/traffic-manager/traffic-manager-nested-profiles
+https://docs.microsoft.com/en-us/azure/traffic-manager/traffic-manager-routing-methods
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+206) The solution will be highly available. You define regional Azure outages as periods of 60 seconds or more where the Event Service is not available.
+You need to configure settings to identify regional outages. Which values should you use? To answer, drag the appropriate values to the correct settings. 
+Each value may be used once, more than once, or mot at all. You may need to drag the split bar between panes or scroll to view content.
+Each correct selection is worth one point.
+
+Values: 3, 5, 10, 20 
+
+Probing interval: ??
+Tolerated number of Failures: ??
+
+Answer:
+
+Probing interval: 10 (Fast probing)
+Tolerated number of Failures: 5
+
+Probing interval. This value specifies how often an endpoint is checked for its health from a Traffic Manager probing agent. 
+You can specify two values here: 30 seconds (normal probing) and 10 seconds (fast probing). If no values are provided, the 
+profile sets to a default value of 30 seconds. Visit the Traffic Manager Pricing page to learn more about fast probing pricing.
+
+Tolerated number of failures. This value specifies how many failures a Traffic Manager probing agent tolerates before marking 
+that endpoint as unhealthy. Its value can range between 0 and 9. A value of 0 means a single monitoring failure can cause that 
+endpoint to be marked as unhealthy. If no value is specified, it uses the default value of 3.
+
+https://docs.microsoft.com/en-us/azure/traffic-manager/traffic-manager-monitoring
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+207) The solution will use API Management to provide caching for the Event Service. You need to ensure that data is cached. 
+How should you complete the markup? To answer, drag the appropriate XML segments to the correct locations. 
+
+Choices: none | private | public | vary-by-header | vary-by-query-parameter | Accept | X-Customer
+
+<policies>
+    <inbound>
+        <base />
+        <cache-lookup 
+			downstream-caching-type = "???">
+            <???>???</???>
+		</cache-lookup>
+	</inbound>
+</policies>
+
+Answer:
+
+<policies>
+    <inbound>
+        <base />
+        <cache-lookup 
+			downstream-caching-type = "public">
+			<!-- should be present in most cases -->
+            <vary-by-header>Accept</vary-by-header>
+		</cache-lookup>
+	</inbound>
+</policies>
+
+Use the cache-lookup policy to perform cache look up and return a valid cached response when available. 
+This policy can be applied in cases where response content remains static over a period of time. Response caching 
+reduces bandwidth and processing requirements imposed on the backend web server and lowers latency perceived by API consumers.
+
+downstream-caching-type	This attribute must be set to one of the following values.
+- none - downstream caching is not allowed.
+- private - downstream private caching is allowed.
+- public - private and shared downstream caching is allowed.
+
+vary-by-header	Start caching responses per value of specified header, such as Accept, 
+Accept-Charset, Accept-Encoding, Accept-Language, Authorization, Expect, From, Host, If-Match.
+
+https://docs.microsoft.com/en-us/azure/api-management/api-management-caching-policies
+https://docs.microsoft.com/en-us/azure/azure-cache-for-redis/cache-web-app-howto
+https://docs.microsoft.com/en-us/learn/modules/improve-api-performance-with-apim-caching-policy/
+https://docs.microsoft.com/en-us/azure/api-management/api-management-sample-cache-by-key
+https://docs.microsoft.com/en-us/azure/api-management/api-management-howto-cache
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+References:
+
+Copies files and directories, including subdirectories using xcopy.
+https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/xcopy
+
+You can create a Nuget package using one of the three commands: dotnet pack, nuget pack and msbuild -t:pack.
+
+Quickstart: Create and publish a NuGet package using Visual Studio (.NET Standard, Windows only)
+https://docs.microsoft.com/en-us/nuget/quickstart/create-and-publish-a-package-using-visual-studio?tabs=netcore-cli
+
+Create .NET Standard and .NET Framework NuGet packages with Visual Studio 2015
+https://docs.microsoft.com/en-us/nuget/guides/create-net-standard-packages-vs2015
+--------------------------------------------------------------------------------------------------------------------------------
 
 

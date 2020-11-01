@@ -28,5 +28,11 @@ namespace DataLibrary.ContosoUniversity.Models
         public Department DepartmentNavigation { get; set; }
         public ICollection<Enrollment> Enrollments { get; set; }
         public ICollection<CourseAssignment> CourseAssignments { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Title} {Credits}";
+        }
+
     }
 }

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<header>
+    <title>Create a web worker process</title>
+    <script src="js/script06.js"></script>
+</header>
+<body>
+    <h1>Create a web worker process</h1>
+    <h3>References:</h3>
+    <ul>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame" target="_blank">RequestAnimationFrame</a></li>
+        <li><a href="https://css-tricks.com/using-requestanimationframe/" target="_blank">RequestAnimationFrame</a></li>            
+    </ul>
+    <p>
+        Web workers present a way of developing multithreaded JavaScript applications. JavaScript is
+        a single-threaded environment. Everything run in JavaScript is queued up synchronously. This
+        might not be evident in most applications because the available processing power on client
+        computers usually far exceeds what’s required by a webpage on a client computer. However,
+        in more intense web applications, you have seen warning messages from the browser that the
+        scripts are running and taking a long time to complete. In fact, these warnings give users the
+        option to stop running scripts on the page immediately. This type of user experience won’t
+        have users coming back to the website. This is where the Web Worker API is useful.        
+    </p>
+    <p>
+        <h3>Creating a worker process with the Web Worker API</h3>
+        The Web Worker API is based on the JavaScript messaging framework. This underlying
+        structure enables your code to send parameters to a worker and have the worker send results
+        back. A basic web worker is established by creating a separate file to contain the script that
+        will be processed on the separate thread. The Worker object is available from the global
+        namespace and is created like so:<br><br>
+        <code>var webWorker = new Worker("workercode.js");</code><br><br>
+        This instantiates a new worker process and specifies what file contains the code to be run
+        on the worker thread. The Worker object supports the functionality described in the Table below.
+        <ul>
+            <li><strong>postMessage </strong> Starts the worker process. This method expects a single parameter containing the
+                data to pass to the worker thread. If nothing is required in the worker thread, an
+                empty string can be supplied.</li>
+            <li><strong>terminate </strong>Stops the worker process from continuing.</li>
+            <li><strong>onmessage </strong>Specifies the function for the worker thread to call back to when complete. This
+                function accepts a single parameter in the form of EventData with a property named
+                data containing the values.</li>
+            <li><strong>onerror </strong><span>Specifies a function to call when an error occurs in the worker thread. The onerror
+                method receives event data, including the following:
+                message: textual message of the error
+                filename: the filename the error occurred in
+                lineno: the line number in the file that created the error</span></li>
+        </ul>        
+    </p>
+    <p>
+        As soon as the Worker object is instantiated, it’s available for use at any time. All that’s
+        needed to start the process is to call the postMessage method:<br><br>
+        <code>webWorker.postMessage("");</code><br><br>
+        As soon as the webWorker is running, the main application continues as usual. If something
+        occurs that the worker process should be canceled, a call to the terminate method would
+        achieve this:<br><br>
+        <code>webWorker.terminate();</code><br><br>
+        After the worker process completes and results need to be processed, the onmessage
+        function is called from the worker. This should be set up before starting the worker:<br><br>
+        <code>webWorker.onmessage = function(evt) {…}</code><br><br>
+        That’s everything required on the calling side or in the web application to create and
+        manage a worker process. Next, you need to create the worker code itself. For this, you create
+        the workercode.js file that was used in the constructor. The first line of the file will be the
+        onmessage property being assigned a function to process:<br><br>
+        <code>onmessage = function(e){…}</code><br><br>
+        This tells the runtime the entry point to the work to be run within the worker process.
+        Somewhere in the worker process, where a result should be sent back to the calling application,
+        the postMessage method is called:<br><br>
+        <code>onmessage = function(e) {<br>
+        …<br>
+        self.postMessage(result);<br>
+        }</code><br><br>
+        That’s what’s involved in creating a worker process. In the last piece, notice the user of the
+        <strong>self</strong> keyword. The self keyword is similar to the this keyword. The worker process runs in its
+        own context, meaning that it has its own global namespace. The <strong>self</strong> keyword gives access to
+        the global namespace within the worker process.                
+    </p>
+    <p>
+        <h3>Understanding web worker limitations</h3>
+        Web workers are very convenient. They can solve many processing problems in intensive web
+        applications. However, be aware of the limitations imposed on workers as well.<br><br>
+        <strong>Passing parameters</strong><br>
+        The postMessage method accepts a parameter that enables it to pass data to the worker that
+        it might need to operate on or with. The postMessage parameter is a string—it can take any
+        serializable object such as native data types, JSON objects, or XML. The parameter can’t be a
+        function.        
+    </p>
+
+    <p>
+        <strong>Number of workers</strong><br>
+        Although no limit is imposed on how many workers can be processed or created concurrently,
+        the number of workers used is something that you need to be pay attention to. Creating
+        workers is a heavy operation. Each worker creates threads at the operating system level and
+        their use should be managed accordingly. If you want a high volume of workers, consider
+        creating a pool that can be used in a round-robin fashion so that not too many workers are
+        created.        
+    </p>
+    <p>
+        <strong>DOM access</strong><br>
+        Workers operate in their own global context, which means that they don’t have access to the
+        DOM of the page that invoked them. The DOM shouldn’t be manipulated from a worker process.
+        The worker context has no access to the window object, document object, or any parent
+        object.        
+    </p>
+
+    <p>
+        <strong>Subworkers</strong><br>
+        Following the same patterns as for a worker from the main webpage, a worker can create
+        workers as well. All constructs must be followed for passing data and getting data returned.
+        However, knowing how many total workers will be created becomes increasingly important.        
+    </p>
+
+    <p>
+        <strong>Configuring timeouts and intervals</strong><br>
+        You can set up a web worker to run on a specified interval in the background. This is done by
+        using any existing setTimeout or setInterval methods. The setTimeout method calls a specified
+        function after the specified delay. The setInterval calls the specified function repeatedly after
+        each specified time interval. For example, the following code runs the worker after 3 seconds:<br><br>
+        
+        <code> 
+        var work = new Worker("workerFile.js");<br>
+        setTimeout(function(){<br>
+        &emsp;&emsp;work.postMessage("");<br>
+        },3000);
+        </code><br><br>
+
+        However, the following code runs the worker every 3 seconds:<br><br>
+        <code>var work = new Worker("workerFile.js");<br>
+        setInterval(function() {<br>
+        &emsp;&emsp;work.postMessage("");<br>
+        },3000);
+        </code>        
+    </p><br>
+
+    <div style="position: relative;">
+        <h3>Bouncing Ball example</h3>
+        <canvas id="c" width="1200" height="800" style="border: 2px solid black; position: absolute; top: 100px; left: 50px;"></canvas>
+        <input id="intensiveWork" type="button" value="Do Work" />
+        <input id="stopWorker" type="button" value="Stop Work" />
+        <Input type="text" id="inputValue" value="10000000"></Input>        
+        <span id="workResult"></span>
+        <input id="speedy" type="range" min="0" max="10" value="10" style="position:relative;visibility:hidden;" step="1"/>
+    </div>
+    <hr>
+</body>
+</html>    

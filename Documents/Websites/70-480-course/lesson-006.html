@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Implement exception handling</title>
+        <script src="js/script04.js"></script>
+        <style>
+            .errorMessage {
+                color: red;
+            }
+            #myCanvas {
+                background-color: slategrey;
+                width: 100px;
+                height: 100px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Implement exception handling</h1>
+        <p>
+            That a program can deal with errors and unknown conditions is critical in any software
+            development. JavaScript is no exception and provides structured error-handling constructs to
+            deal with these situations.
+            Structured error handling in JavaScript is achieved with the try…catch…finally construct.
+            Good defensive programming also includes checking for null values, where appropriate, to
+            prevent errors. In addition to handling errors, code can raise custom errors as needed to send
+            error information back to a running program from custom objects or libraries.
+            This objective covers using the try…catch…finally construct, evaluating for the null
+            condition, and raising custom errors.            
+        </p>
+        <p>
+            <strong>Implementing try…catch…finally constructs</strong><br>
+            The try…catch…finally construct handles exceptions that occur during program processing. It
+            enables you to see what kind of error occurred and to do what’s appropriate with it. If try…
+            catch…finally isn’t implemented in the program, the errors would be treated as unhandled
+            and could cause the browser to crash or, at a minimum, display many annoying message
+            boxes to users. By using the try…catch block, you can handle the error condition gracefully. 
+            The users see a standard alert and the webpage continues to run as usual.            
+        </p>
+        <p>
+            Another part to the try…catch block is the finally block. This block is added directly after
+            the catch block. The significance of the finally block is that the code inside it runs all the time.
+            This isn’t to say that the code in the finally block can’t have its own errors resulting in exceptions,
+            but whether or not the code in the try block has an error, the code in the finally block
+            still runs. Consider the following code:
+        </p>
+        <canvas id="myCanvas"></canvas>    
+
+        <div id="error" class="errorMessage"></div>
+    </body>
+</html>

@@ -1,0 +1,138 @@
+<!--
+Example from 70-480 book
+
+The concept is that three buckets are defined by using div elements, and a chip is defined.
+The user can drag the chip into any one of the three buckets. For the chip to be able to be
+dragged, it must be draggable.
+
+In this code, the dragenter event listener is established so that the user gets a visual cue
+with a transform that the element can be dropped onto. In the same token, the dragleave
+event listener is set up to remove the effect. The dragover event is set to be ignored by
+canceling it. This is only because div elements can’t be dragged and dropped by default.
+The last piece is the drop event handler. With this event handler, the drop is received. The
+dataTransfer object’s getData method is called to retrieve what’s being dropped. The ID of the
+source element gets a reference to the element and places it inside the target. The same code
+can be repeated for the other two buckets, and then the chip can be dragged into each bucket.
+
+Note:
+For elements that don’t support drag-and-drop functionality by default, the default event
+mechanism must be canceled. This is why event.returnValue is set to false.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Drag and drop example</title>
+        <script>
+
+            window.addEventListener("load", 
+                function() {
+                    //To begin the drag event, the dragstart must be handled:
+                    //In this handler, the dataTransfer object setData method is used to store what exactly is
+                    //being transferred. In this case, the ID of the source object is specified.
+                    var chip = document.getElementById("chip");
+                    chip.addEventListener("dragstart", function () { 
+                        console.log("dragstart: " + this.id);
+                        window.event.dataTransfer.setData("Text", this.id); 
+                    });
+
+                    //Next, the desired target element’s event listeners must be set up. The following code shows this:
+                    var b2 = document.getElementById("bucket2");
+                    b2.addEventListener("dragenter", function () {
+                        console.log("dragenter: " + this.id);
+                        b2.classList.add("over");
+                        window.event.returnValue = false;
+                    });
+
+                    b2.addEventListener("dragleave", function () {
+                        console.log("dragleave: " + this.id);                        
+                        b2.classList.remove("over");
+                    });
+
+                    b2.addEventListener("dragover", function () {
+                        //console.log("dragover: " + this.id);
+                        window.event.returnValue = false;
+                    });                    
+
+                    b2.addEventListener("drop", function () {
+                        console.log("drop: " + this.id);
+                        var data = event.dataTransfer.getData("Text");
+                        var d = document.getElementById(data);
+                        d.classList.remove("begin");
+                        d.classList.add("dropped");
+                        this.appendChild(d);
+
+                        window.event.returnValue = false;
+                    });
+
+                }, 
+                false);
+
+        </script>
+
+        <style>
+            .dropped {
+                width: 50%;
+                height: 50%;
+                position: relative;
+                top: 25%;
+                left: 25%;
+                background-color:black;
+            }
+
+            .over {
+                transform: scale(1.2);
+                border: black solid 2px;
+            }
+
+            .bucket {
+                width: 100px;
+                height: 100px;
+                margin: 10px 10px 10px 10px;
+                position:absolute;
+            }
+
+            .chip {
+                width:20px;
+                height:20px;
+                position:absolute;
+            }
+
+            div:first-of-type {
+                background-color: red;
+            }
+
+            div:nth-of-type(2) {
+                background-color: green;
+                left:25%;
+            }
+
+            div:nth-of-type(3) {
+                background-color: blue;
+                left:50%;
+            }
+
+            #chip {
+                background-color: black;
+                width:50px;
+                height:50px;
+            }
+
+            .begin {
+                position:absolute;
+                left: 150px;
+                top: 150px;
+            }
+        </style>
+    
+    </head>
+    <body>
+        <h1>Drag and drop example</h1>
+        
+        <div style="position: relative;">
+            <div id="bucket1" class="bucket"></div>
+            <div id="bucket2" class="bucket"></div>
+            <div id="bucket3" class="bucket"></div>
+            <div id="chip" draggable="true" class="chip"></div>        
+        </div>
+    </body>
+</html>

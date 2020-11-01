@@ -22,6 +22,8 @@ using DataLibrary.Repository;
 using DataLibrary.MusicStore.Data;
 using DataLibrary.MusicStore.Models;
 using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore.Internal;
+using DataLibrary.RepositoryV2;
 //using DataLibrary.CarDealerships.Models;
 //using DataLibrary.BankDemo.Models;
 
@@ -204,6 +206,437 @@ namespace EFCoreDBDemo.Exercises
             //DisplaySongs();
             //ShowBankCustomers();
             //SimpleSchoolQuery();
+            //QueryFiltering();
+            //QueryFilteringV2();
+            //AdventureWorksQueryWithLazyLoading();
+            //RepositoryExampleV1();
+            RepositoryExample();
+        
+            
+        }
+
+        private void RepositoryExample()
+        {
+            var builder = new DbContextOptionsBuilder<BankContext>();
+            builder.UseSqlServer("Server=(local);Database=BankDemo;Integrated Security=true;");
+            //builder.UseLoggerFactory(_loggerFactory);
+            BankContext bankContext = new BankContext(builder.Options);
+            CustomerRepo customerRepo = new CustomerRepo(bankContext);
+
+            var customers = customerRepo.GetAll();
+            Console.WriteLine($"\n-------------------------------CUSTOMERS-------------------------------");
+            foreach (var c in customers)
+            {
+                Console.WriteLine($"{c.Id}, {c.FullName}, from object: {c.FirstName} {c.LastName}");
+            }
+
+            Console.WriteLine($"\n-------------------------------EMAILS-------------------------------");
+            EmailRepo emailRepo = new EmailRepo(bankContext);
+            var emails = emailRepo.GetAll();
+            foreach (var e in emails)
+            {
+                Console.WriteLine($"{e.Id} {e.EmailAddress} {e.CreationDate.ToString()}");
+            }
+        }
+
+        //In order to use DbContextOptionsBuilder we need the following namespace:
+        //Microsoft.EntityFrameworkCore
+        //Assembly: Microsoft.EntityFrameworkCore.dll
+        //https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.dbcontextoptionsbuilder?view=efcore-3.1
+        private void RepositoryExampleV1()
+        {
+            const string ConnectionString 
+                = "Server=(local);Database=ContosoUniversity;Integrated Security=true;";
+
+            DbContextOptionsBuilder<DataLibrary.ContosoUniversity.Data.SchoolContext> builder = 
+                new DbContextOptionsBuilder<DataLibrary.ContosoUniversity.Data.SchoolContext>();
+
+            builder.UseSqlServer(ConnectionString, sqloptions =>
+            {
+                sqloptions.EnableRetryOnFailure(
+                    maxRetryCount: 6,
+                    maxRetryDelay: TimeSpan.FromSeconds(60),
+                    errorNumbersToAdd: new List<int>() { });
+                sqloptions.CommandTimeout(60);
+            });
+
+            builder.UseLoggerFactory(_loggerFactory);
+            builder.EnableSensitiveDataLogging();
+
+            using (IUnitOfWork unitOfWork = new UnitOfWork(new SchoolContext(builder.Options)))
+            {
+                //Because of change tracking of reference types we can update Student object
+                var studentFound = unitOfWork.Students
+                    .SingleOrDefault(s => s.PersonalInformation.LastName.Contains("Gov"));
+
+                if (studentFound != null)
+                    studentFound.PersonalInformation.LastName = "Cuomo";
+
+                unitOfWork.Complete();
+
+                IEnumerable<DataLibrary.ContosoUniversity.Models.Student> students =
+                    unitOfWork.Students.GetAll();
+
+                foreach(var student in students)
+                {
+                    Console.WriteLine($"{student.FullName}");
+                }
+
+                return;
+                var stud = new DataLibrary.ContosoUniversity.Models.Student()
+                {                     
+                    EnrollmentDate = DateTime.Now,
+                    PersonalInformation = new Person()
+                    {
+                        FirstMidName = "Gret",
+                        LastName = "Gov",
+                        EmailAddress = "Gret.Gov@hotmail.com",
+                        DateOfBirth = DateTime.Now
+                    }
+                };
+
+                unitOfWork.Students.Add(stud);
+                unitOfWork.Complete();
+
+                students = unitOfWork.Students.GetAll();
+
+                foreach (var student in students)
+                {
+                    Console.WriteLine($"{student.FullName}");
+                }
+                
+                IEnumerable<DataLibrary.ContosoUniversity.Models.Instructor> instructors = 
+                    unitOfWork.Instructors.GetInstructors(1);
+
+                foreach(var instructor in instructors)
+                {
+                    Console.WriteLine($"{instructor.PersonalInformation.FullName}");
+                }
+
+                instructors = unitOfWork.Instructors.GetInstructorsWithCourse(1);
+
+                foreach (var instructor in instructors)
+                {
+                    Console.WriteLine($"#{instructor.PersonalInformation.FullName}");
+                    foreach(var courseAssignment in instructor.CourseAssignments)
+                    {
+                        Console.WriteLine($"\t{courseAssignment.Course.Title}");
+                    }
+                }
+                
+                IEnumerable<DataLibrary.ContosoUniversity.Models.Course> courses  
+                    = unitOfWork.Courses.GetAll();
+
+                foreach(var course in courses)
+                {
+                    Console.WriteLine(course);
+                }
+
+                courses = unitOfWork.Courses.Find(c => c.Title.Contains("Ma"));
+
+                foreach (var course in courses)
+                {
+                    Console.WriteLine("#" + course);
+                }
+
+                courses = unitOfWork.Courses.GetTopEnrollmentCourses(1);
+                foreach (var course in courses)
+                {
+                    Console.WriteLine($"## {course} {course.Enrollments.Count}");
+                }
+
+                courses = unitOfWork.Courses.GetTopEnrollmentCourses(2);
+                foreach (var course in courses)
+                {
+                    Console.WriteLine($"### {course} {course.Enrollments.Count}");
+                }
+
+                courses = unitOfWork.Courses.GetTopEnrollmentCourses(10);
+                foreach (var course in courses)
+                {
+                    Console.WriteLine($"#### {course} {course.Enrollments.Count}");
+                }
+            }
+        }
+
+        private void AdventureWorksQueryWithLazyLoading()
+        {
+            const string ConnectionString = "Server=(local);Database=Adventureworks2016;Integrated Security=true;";
+
+            try
+            {
+                var builder = new DbContextOptionsBuilder<DataLibrary.Adventureworks.Data.AwDbContext>();
+                //builder.UseSqlServer("Server=(local);Database=Adventureworks2016;Integrated Security=true;");
+                //The EnableRetryOnFailure configuration
+                //https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.infrastructure.sqlserverdbcontextoptionsbuilder?view=efcore-3.1
+                builder.UseSqlServer(ConnectionString, sqloptions => 
+                {
+                    sqloptions.EnableRetryOnFailure(
+                        maxRetryCount: 6,
+                        maxRetryDelay: TimeSpan.FromSeconds(60),
+                        errorNumbersToAdd: new List<int>() { });
+
+                    sqloptions.CommandTimeout(60); 
+                });
+
+                builder.UseLoggerFactory(_loggerFactory);
+                builder.EnableSensitiveDataLogging();
+                builder.UseLazyLoadingProxies();
+
+                using DataLibrary.Adventureworks.Data.AwDbContext context = 
+                    new DataLibrary.Adventureworks.Data.AwDbContext(builder.Options);
+
+                //Query is executed, retrieves all customers due to ToList<Customer>()
+                /*SELECT TOP(@__p_0) [c].[CustomerID], [c].[AccountNumber], [c].[ModifiedDate], [c].[PersonID], [c].[rowguid], [c].[StoreID], [c].[TerritoryID]
+                FROM[Sales].[Customer] AS[c]
+                LEFT JOIN[Person].[Person] AS[p] ON[c].[PersonID] = [p].[BusinessEntityID]
+                WHERE[p].[BusinessEntityID] IS NOT NULL*/
+                IList<DataLibrary.Adventureworks.Models.Customer> _customers = context.Customer
+                    .Where(c => c.Person != null && c.Person.EmailAddress != null)
+                    .Take(100) //Top 100
+                    .ToList<DataLibrary.Adventureworks.Models.Customer>();
+
+                DataLibrary.Adventureworks.Models.Customer _customer =
+                    _customers.Where(c => c.CustomerId == 11000).FirstOrDefault();
+
+                /*SELECT[p].[BusinessEntityID], [p].[AdditionalContactInfo], [p].[Demographics], [p].[EmailPromotion], [p].[FirstName], [p].[LastName], [p].[MiddleName], [p].[ModifiedDate], [p].[NameStyle], [p].[PersonType], [p].[rowguid], [p].[Suffix], [p].[Title]
+                FROM[Person].[Person] AS[p]
+                WHERE[p].[BusinessEntityID] = @__p_0*/
+                Console.WriteLine("Person object loaded.");
+                context.Entry(_customer).Reference(c => c.Person).Load();
+
+                /*SELECT[e].[BusinessEntityID], [e].[EmailAddressID], [e].[EmailAddress], [e].[ModifiedDate], [e].[rowguid]
+                FROM[Person].[EmailAddress] AS[e]
+                WHERE[e].[BusinessEntityID] = @__p_0*/
+                Console.WriteLine("EmailAddress collection loaded.");
+                context.Entry(_customer.Person).Collection(p => p.EmailAddress).Load();
+
+                Console.WriteLine($"CustomerId: {_customer.CustomerId} {_customer.Person.FirstName}");
+                foreach (var email in _customer.Person.EmailAddress)
+                {
+                    Console.WriteLine($"\t\t{email.EmailAddress1}");
+                }
+
+                return;
+                //Using eager loading
+                //Query is executed, retrieves all customers due to ToList<Customer>(),
+                //The Where clausule makes selection, and only 1000 records 
+                /*SELECT[t].[CustomerID], [t].[AccountNumber], [t].[ModifiedDate], [t].[PersonID], [t].[rowguid], [t].[StoreID], [t].[TerritoryID], [p0].[BusinessEntityID], [p0].[AdditionalContactInfo], [p0].[Demographics], [p0].[EmailPromotion], [p0].[FirstName], [p0].[LastName], [p0].[MiddleName], [p0].[ModifiedDate], [p0].[NameStyle], [p0].[PersonType], [p0].[rowguid], [p0].[Suffix], [p0].[Title], [e].[BusinessEntityID], [e].[EmailAddressID], [e].[EmailAddress], [e].[ModifiedDate], [e].[rowguid]
+                FROM(
+                    SELECT TOP(@__p_0)[c].[CustomerID], [c].[AccountNumber], [c].[ModifiedDate], [c].[PersonID], [c].[rowguid], [c].[StoreID], [c].[TerritoryID]
+                    FROM[Sales].[Customer] AS[c]
+                    LEFT JOIN[Person].[Person] AS[p] ON[c].[PersonID] = [p].[BusinessEntityID]
+                    WHERE[p].[BusinessEntityID] IS NOT NULL
+                ) AS[t]
+                LEFT JOIN[Person].[Person] AS[p0] ON[t].[PersonID] = [p0].[BusinessEntityID]
+                LEFT JOIN[Person].[EmailAddress] AS[e] ON[p0].[BusinessEntityID] = [e].[BusinessEntityID]
+                ORDER BY[t].[CustomerID], [e].[BusinessEntityID], [e].[EmailAddressID]*/
+                IList<DataLibrary.Adventureworks.Models.Customer> customers = context.Customer
+                    .Include(c => c.Person) //Eager loading 
+                        .ThenInclude(p => p.EmailAddress)  //Eager loading
+                    .Where(c => c.Person != null && c.Person.EmailAddress != null)
+                    .Take(100) //Top 100
+                    .ToList<DataLibrary.Adventureworks.Models.Customer>();
+
+                //CustomerId: 11000 Jon
+                //jon24 @adventure-works.com
+                //Filtering is done client side
+                DataLibrary.Adventureworks.Models.Customer customer =
+                    customers.Where(c => c.CustomerId == 11000).FirstOrDefault();
+                
+                Console.WriteLine($"CustomerId: {customer.CustomerId} {customer.Person.FirstName}");
+                foreach (var email in customer.Person.EmailAddress)
+                {
+                    Console.WriteLine($"\t\t{email.EmailAddress1}");
+                }
+
+                //foreach(var customer in customers)
+                //{
+                //    Console.WriteLine($"CustomerId: {customer.CustomerId}");
+                //    Console.WriteLine($"\tFirstName: {customer?.Person?.FirstName}");
+                //    if(customer.Person != null && 
+                //        customer.Person.EmailAddress != null && 
+                //        customer.Person.EmailAddress.Count > 0)
+                //    {
+                //        foreach (var email in customer.Person.EmailAddress)
+                //        {
+                //            Console.WriteLine($"\t\t{email.EmailAddress1}");
+                //        }
+                //    }
+
+                //if(customer.Person != null)
+                //{ 
+                //    Console.WriteLine($"\tFirstName: {customer.Person.FirstName}");
+
+                //    if(customer.Person.EmailAddress != null && customer.Person.EmailAddress.Count > 0)
+                //    { 
+                //        //Show emailaddresses
+                //        foreach (var email in customer.Person.EmailAddress)
+                //        {
+                //            Console.WriteLine($"\t\t{email.EmailAddress1}");
+                //        }
+                //    }
+                //}
+                //}
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}, InnerException: {ex?.InnerException?.Message}");
+            }
+        }
+
+        /* Id: 1, Title: Literature
+        Id: 2, Title: Composition
+        Id: 3, Title: Trigonometry
+        Id: 4, Title: Calculus
+        Id: 5, Title: Macroeconomics
+        Id: 6, Title: Microeconomics
+        Id: 7, Title: Chemistry
+        Id: 15, Title: Physics
+        Id: 16, Title: Physics
+        Id: 17, Title: Physics */
+        private void QueryFilteringV2()
+        {
+            try
+            {
+                List<History> history = new List<History>()
+                {
+                    new History() { Id = 1, IsSuspended = false },
+                    new History() { Id = 2, IsSuspended = false },
+                    new History() { Id = 3, IsSuspended = false },
+                    new History() { Id = 4, IsSuspended = true },
+                    new History() { Id = 5, IsSuspended = false },
+                    new History() { Id = 6, IsSuspended = false },
+                    new History() { Id = 7, IsSuspended = false },
+                    new History() { Id = 15, IsSuspended = true },
+                    new History() { Id = 16, IsSuspended = true },
+                    new History() { Id = 17, IsSuspended = true },
+                };
+
+                var builder = new DbContextOptionsBuilder<SchoolContext>();
+                builder.UseSqlServer("Server=(local);Database=ContosoUniversity;Integrated Security=true;MultipleActiveResultSets=True;Connection Timeout=120;");
+                builder.UseLoggerFactory(_loggerFactory);
+                builder.EnableSensitiveDataLogging();
+
+                using SchoolContext _context = new SchoolContext(builder.Options);
+                //Note you need to filter the Courses client side.
+                //.AsQueryable() results in an error because you can not do the filtering server side.
+                //
+                //https://www.codeproject.com/articles/732425/ienumerable-vs-iqueryable
+                //IEnumerable explained
+                //While querying data from database, IEnumerable executes select query on server side, 
+                //load data in-memory on client side and then filter data. Hence does more work and 
+                //becomes slow.
+                //
+                //IQueryable explained
+                //While querying data from database, IQueryable executes select query on server 
+                //side with all filters. Hence does less work and becomes fast.
+                //Join between local data and server data   
+                var query = _context.Courses.AsEnumerable()//.AsQueryable()
+                    .Join(history, x => x.Id, y => y.Id, (x, y) => new { Current = x, Historical = y })
+                    .Where(x => !x.Historical.IsSuspended)
+                    .Select(x => x.Current);
+
+                Console.WriteLine("Execute deferred query.");
+                foreach (Course c in query)
+                {
+                    Console.WriteLine($"Id: {c.Id}, Title: {c.Title}");
+                }
+
+                Func<int,bool> checkFunc = (id) =>
+                {
+                    return id > 7;
+                };
+
+                Console.WriteLine("#Execute deferred query.\n");
+                //Similar query filtering client side
+                var _query = _context.Courses.AsEnumerable()
+                    .Where(x => checkFunc(x.Id));
+
+                foreach (Course c in _query)
+                {
+                    Console.WriteLine($"Id: {c.Id}, Title: {c.Title}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}, InnerException: {ex?.InnerException?.Message}");
+            }
+        }
+
+        public class History
+        {
+            public bool IsSuspended { get; set; }
+            public int Id { get; set; }
+        }
+
+        //Displays students and their associated enrollments.  
+        //Enrollments are filtered based on the Department of the course in each enrollment.  
+        //You need to return students with their filtered list of enrollments included 
+        //in a single round trip to the database.
+        private void QueryFiltering()
+        {
+            try
+            {
+                var builder = new DbContextOptionsBuilder<SchoolContext>();
+                builder.UseSqlServer("Server=(local);Database=ContosoUniversity;Integrated Security=true;MultipleActiveResultSets=True;Connection Timeout=120;");
+                builder.UseLoggerFactory(_loggerFactory);
+                builder.EnableSensitiveDataLogging();
+
+                using SchoolContext _context = new SchoolContext(builder.Options);
+
+                //Selects Enrollments of students that have courses in the english department  
+                //Selects student and enrolement
+                /*SELECT [t0].[Id], [t0].[EnrollmentDate], [t0].[IsDeleted], [t0].[TimeStamp], [t1].[Id], [t1].[DateOfBirth], [t1].[EmailAddress], [t1].[FirstName], [t1].[LastName], [t].[Id], [t].[CourseID], [t].[Grade], [t].[IsDeleted], [t].[StudentID], [t].[TimeStamp]
+                  FROM [Student] AS [s]
+                  INNER JOIN (
+                      SELECT [e].[Id], [e].[CourseID], [e].[Grade], [e].[IsDeleted], [e].[StudentID], [e].[TimeStamp], [c].[Id] AS [Id0], [d].[Id] AS [Id1]
+                      FROM [Enrollment] AS [e]
+                      INNER JOIN [Dbo].[Course] AS [c] ON [e].[CourseID] = [c].[Id]
+                      INNER JOIN [Department] AS [d] ON [c].[DepartmentID] = [d].[Id]
+                      WHERE [d].[Name] = N'English'
+                  ) AS [t] ON [s].[Id] = [t].[StudentID]
+                  INNER JOIN (
+                      SELECT [s0].[Id], [s0].[EnrollmentDate], [s0].[IsDeleted], [s0].[TimeStamp]
+                      FROM [Student] AS [s0]
+                      WHERE [s0].[IsDeleted] <> CAST(1 AS bit)
+                  ) AS [t0] ON [t].[StudentID] = [t0].[Id]
+                  LEFT JOIN (
+                      SELECT [s1].[Id], [s1].[DateOfBirth], [s1].[EmailAddress], [s1].[FirstName], [s1].[LastName]
+                      FROM [Student] AS [s1]
+                      WHERE [s1].[LastName] IS NOT NULL AND ([s1].[FirstName] IS NOT NULL AND [s1].[DateOfBirth] IS NOT NULL)
+                  ) AS [t1] ON [t0].[Id] = [t1].[Id]
+                  WHERE [s].[IsDeleted] <> CAST(1 AS bit)
+                6 FullName: Justice, Peggy, Enrollment Date: 9/1/2011, EmailAddress:Peggy.Justice@gmail.com, Date Of Birth: 8/15/1991, Age: 29, CourseID: 1
+                2 FullName: Alonso, Meredith, Enrollment Date: 9/1/2012, EmailAddress:Meredith.Alonso@gmail.com, Date Of Birth: 8/15/1999, Age: 21, CourseID: 2
+                5 FullName: Li, Yan, Enrollment Date: 9/1/2012, EmailAddress:Yan.Li@gmail.com, Date Of Birth: 8/15/1993, Age: 27, CourseID: 2 */
+                IEnumerable<Student> students = _context.Students
+                    .SelectMany(s => s.Enrollments
+                        .Where(e => e.Course.DepartmentNavigation.Name == "English"))
+                    .Select(e => new { student = e.Student, enrollment = e }) //Result in anonymous type c#
+                    //Note if you remove .ToList(), query will be optimised on the final select,
+                    //hence no enrollments will be retrieved. 
+                    .ToList() //Executes query on the database
+                    .Select(a => a.student); //Convert the anonymous type to IEnumerable<Student>   
+
+                foreach (Student student in students)
+                {
+                    Console.WriteLine($"{student.Id} {student}");
+                    foreach(Enrollment e in student.Enrollments)
+                    {
+                        Console.WriteLine($"\tCourseID: { e.CourseID}");
+                    }                    
+                }
+
+                //foreach (var student in students)
+                //{
+                //    Console.WriteLine($"{student.student.Id} {student.student}, CourseID: {student.enrollment.CourseID}");
+                //}
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}, InnerException: {ex?.InnerException?.Message}");
+            }
         }
 
         private void SimpleSchoolQuery()
@@ -646,21 +1079,6 @@ namespace EFCoreDBDemo.Exercises
             {
                 Console.WriteLine($"{ex.Message} {ex?.InnerException?.Message}");
                 //throw;
-            }
-        }
-
-        private void RepositoryExample()
-        {
-            var builder = new DbContextOptionsBuilder<BankContext>();
-            builder.UseSqlServer("Server=(local);Database=BankDemo;Integrated Security=true;");
-            //builder.UseLoggerFactory(_loggerFactory);
-            CustomerRepo customerRepo = new CustomerRepo(new BankContext(builder.Options));
-
-            var customers = customerRepo.GetAll();
-
-            foreach(var c in customers)
-            {
-                Console.WriteLine($"{c.FullName}, from object: {c.FirstName} {c.LastName}");
             }
         }
 

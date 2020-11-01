@@ -26,6 +26,7 @@ using Microsoft.AspNet.OData.Builder;
 using DataLibrary.MusicStore.Models;
 using Microsoft.AspNet.OData.Formatter;
 using Microsoft.Net.Http.Headers;
+using AspNetCoreWebApi.Repositories;
 
 namespace AspNetCoreWebApi
 {
@@ -89,6 +90,8 @@ namespace AspNetCoreWebApi
             //https://stackoverflow.com/questions/48443567/adddbcontext-or-adddbcontextpool
             services.AddDbContextPool<BankContext>(
                 options => options.UseSqlServer(connectionString, so => so.EnableRetryOnFailure()));
+
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(

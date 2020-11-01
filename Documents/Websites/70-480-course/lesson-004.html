@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>OO design in JavaScript</title>
+        <script src="js/script02.js"></script>
+    </head>
+    <body>        
+       <h1>OO design in JavaScript</h1> 
+        <p>
+            JavaScript is an object-oriented programming language.
+            Essentially, two types of objects exist in JavaScript:
+            <ul>
+                <li>Native JavaScript objects, which are provided with JavaScript itself</li>
+                <li>Custom objects, which developers create to represent their own data constructs and
+                    behaviors</li>
+            </ul>
+            Custom objects are created by the developer, whereas native objects are provided by core JavaScript.
+
+            In some cases, creating an entirely new object isn’t necessary. You can base objects on
+            other objects (if they are a subtype of that object) by using object inheritance, in which one
+            object inherits all the attributes and behaviors of another object but can also implement
+            additional aspects that are unique to it.
+            Objects encapsulate functionality and state information that is relevant for them. The
+            functionality is provided in the form of methods, whereas state information is provided in the
+            form of properties.            
+        </p>
+        <p>
+            Native objects are available to developers directly through JavaScript. JavaScript provides a
+            large number of objects that provide functionality to make developers’ lives easier. Although
+            covering every native object in JavaScript is out of scope for this book and this exam, you will
+            be expected to be able to create and work with native JavaScript objects.
+            Some native objects are available statically, which means you don’t need to create an
+            instance of them. Others require you to create an instance. You can find both types among
+            objects in the global namespace. One example of a static object is Math, which is available in
+            the global namespace and provides a great deal of functionality without you having to create
+            an instance:            
+        </p>
+        <hr>
+        <div>
+            <p>Display some primes.</p>
+            <ul id="primes">
+            </ul>
+        </div>
+        <hr>
+        <div class="counter">
+            <p>Count: <span>0</span>
+            <button>Increase Count</button>
+        </div>
+    </body>
+</html>

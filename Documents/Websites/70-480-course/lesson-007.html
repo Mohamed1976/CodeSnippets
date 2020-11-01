@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Raise and handle an event</title>
+        <script src="js/script05.js"></script>
+        <!--
+            Declarative event handling
+            Handling events declaratively in the HTML markup is possible by setting up an event handlers
+            line within the HTML elements. This is effectively no different than assigning a value to any
+            other property or attribute of the HTML element.
+
+            In this HTML markup, the onload attribute of the body element is assigned JavaScript to
+            run. The onload event fires when the document itself is fully loaded into the browser. When
+            the document is loaded, the onload event fires, which calls the onloadHandler function and in
+            turn shows the alert box. Any events that will be looked at through this objective can be set
+            up this way directly in the HTML markup.
+        -->        
+        <script>
+
+            function onBodyLoadHandler() {
+                console.log("onBodyLoadHandler executed.");
+            }
+
+            /*Assignment event handling
+            Assigning the event function to the event property through JavaScript is another way to set
+            up event handlers. This method has been around for a long time and is still widely used. For
+            the preceding example of the onload event, the following changes are required to reflect
+            assigning an event handler through JavaScript:
+            In this code, the HTML element for the body is cleaned up and the onload event is assigned
+            in JavaScript. The window object isn’t the same as the body element, but it demonstrates
+            the concept of assigning code that needs to run as soon as the page is loaded. Notice
+            that the assignment of the onloadHandler is in the script block but not inside any function.
+            For this to succeed, the window object must exist. Since the window object is a global object
+            it will exist. However, to access elements of the page, the page must be loaded or the script
+            must run after the renderer processes the HTML. For example, if the page has a canvas and
+            the functionality to enable users to draw on it with a mouse, the event handlers for the mouse
+            activities would have to be assigned either at the bottom of the page or within the window’s
+            onload event. The onload event is triggered when the entire page is loaded, so it’s possible to
+            get a reference to the page elements and hook up the event handlers. */
+            window.onload = onloadHandler();
+            function onloadHandler() {
+                console.log("onloadHandler executed.");
+            }
+
+            /*A more common way to do this is to assign an anonymous function to the window’s
+            onload event and hook up all the necessary events. The concept of an anonymous function is
+            discussed shortly. It’s used throughout the book as shown here:  The onload
+            event for the window object is being assigned an anonymous function. This function doesn’t
+            have a name and can’t be called by any other code. The inner implementation of the window
+            object runs this function when raising the onload event.
+            Note: JavaScript event window.onload not triggered, remove the event handlers above to trigger event handler.
+            https://stackoverflow.com/questions/2810825/javascript-event-window-onload-not-triggered.*/
+            window.onload = function() {
+                console.log("window.onload executed.");    
+            }
+        </script>
+        <style>
+            #outer {
+                width: 200px;
+                height: 200px;
+                background-color: red;
+                border: black solid 1px;
+            }
+            #middle {
+                width: 50%;
+                height: 50%;
+                position: relative;
+                top: 25%;
+                left: 25%;
+                background-color: green;
+            }
+            #inner {
+                width: 50%;
+                height: 50%;
+                position: relative;
+                top: 25%;
+                left: 25%;
+                background-color: blue;
+            }
+
+            #mouseTarget {
+                box-sizing: border-box;
+                width:15rem;
+                height: 15rem;
+                border:1px solid #333;
+                background-color: lightgray;
+            }
+
+            .scale {
+                transform:scale(1.5);
+            }
+
+        </style>
+    </head>
+    <body onload="onBodyLoadHandler();">
+        <h1>Raise and handle an event</h1>
+        <p>            
+            <strong>Events provide a way to interact with users when they perform actions on the webpage.</strong>
+            <uL>
+                <li>Events cascade or bubble through the entire DOM hierarchy.</li>
+                <li>Focus events occur when an object gets or loses focus.</li>
+                <li>Keyboard events occur when keyboard keys are pressed on a focused object.</li>
+                <li>Mouse events occur when the mouse clicks an object or the pointer is moved over or off an object.</li>
+                <li>Drag-and-drop functionality provides a way to move elements from one container to another.</li>
+            </uL>
+        </p>
+        <p>
+            The browser provides dynamic behavior through events. Actions processed by the browser
+            user can trigger an opportunity for your code to react and create an experience for the user.
+            This opportunity is presented in the form of an event. The DOM elements natively provide
+            events that can be handled, and you can implement custom events on custom objects.
+            Events typically follow a naming convention. When looking at what events are available on
+            a particular object, you can identify those events as properties that start with the prefix on.
+            For example, some common events are onkeypress or onblur. For events to function, you need
+            to “wire them up” by assigning an event handler. The event handler is a JavaScript function
+            that’s called when an action triggers the event. Events are firing all the time in the browser;
+            however, it is whether or not a handler is assigned that determines whether or not you can
+            run your own code when the event is triggered.            
+        </p>
+        <p>
+            The reason an API provides events is so that developers can inject their own processing amid
+            all the action taking place in a program. JavaScript enables you to do exactly this throughout
+            the DOM. This section discusses the ability to hook up to these events.
+            The idea of hooking up an event is to tell the browser that when a certain event occurs,
+            it should call a specified function. The function assigned to an event is said to be an event
+            listener listening for that event. The need, then, is to assign a function to an event to listen for
+            when that event occurs.            
+        </p>
+
+        <span>You can hook up an event in three ways:</span>
+        <ul>
+            <li><strong>Declare it directly in the HTML markup.</strong></li>
+            <li><strong>Assign the function to the event property of the element object through JavaScript.</strong></li>
+            <li><strong>Use the newer add and remove methods on the element object to associate event handlers.</strong></li>
+        </ul>
+        <span>When assigning event handlers through JavaScript, you have two choices: provide a
+            named function or assign an anonymous function.</span>
+        
+        <h3>Event objects</h3>    
+        <p>
+            A single object common to all DOM event handlers, and that’s the event object itself.
+            In general, the event object is a common object available within event handlers that provides
+            metadata about the event. For example, if keyboard events are being handled, you might
+            want to know which key was pressed. If mouse events are being handled, you might want to
+            know which mouse button was pressed. The event object contains all these properties.
+        </p>
+        <h3>Using the addEventListener and removeEventListener methods</h3>    
+        <p>
+        addEventListener and removeEventListener are the two preferred methods to hook up a function
+        to an event and then to remove it later as needed. The addEventListener method accepts
+        two required parameters and one optional parameter:<br><br>
+        <code>window.addEventListener(&lt;event name&gt;,&ltevent function&gt;,&ltoptional cascade rule&gt;);</code><br>
+        <code>window.removeEventListener(&lt;event name&gt;,&ltevent function&gt;,&ltoptional cascade rule&gt;);</code><br><br>
+        The event name is the name of the event to be handled. The event name will be as you’ve
+        seen in the previous examples except without the on prefix. For example, the name of the
+        onload event is just load. The event function is the one that should run when the event occurs,
+        the listener. The optional cascade rule provides some flexibility in how the events move through
+        nested DOM elements. This is examined in more detail later in the discussion on event bubbling.
+        The removeEventListener takes exactly the same parameters. What this implies is that more
+        than one event listener can be added for the same event and then removed. Thinking in the
+        context of a complicated program such as a game, you might need to turn on and off specific
+        event handlers for the same event.    
+        </p>
+    <div id="outerDiv" style="background-color: red;">I am clickable</div>
+    <br>
+    <a id="aLink" href="https://www.nu.nl/" target="_blank">News link not followed due to event suppressed in js.</a>
+    <div id="feedback"></div>    
+
+    <h3>Declaring and handling bubbled events</h3>
+    <p>
+        Another aspect to consider is the order in which events run when you are working
+with a nested DOM element. In this case, the concept that is dealt with is event bubbling.
+        Event bubbling is the concept that applies when the HTML document has nested elements.
+        Consider the following HTML example:
+    </p> 
+    
+    <div id="mainContainer">
+        <div id="outer">
+            <div id="middle" >
+                <div id="inner"></div>
+            </div>
+        </div>
+        <ol id="eventOrder"> </ol>
+        <button type="button" id="clearButton">Clear</button>
+        <input type="checkbox" id="TunnelingOrBubbling" name="eventBehaviour">
+        <label for="eventBehaviour">Click events cascade down.</label>
+        <input type="checkbox" name="cancelBubble">
+        <label for="cancelBubble">Cancel bubbling or cascading behavior for inner div.</label><br>
+        <span style="font-size: 80%;"><strong>Figure</strong> Three nested &lt;div&gt; elements to display the effect of event bubbling</span>
+    </div>
+
+
+    <p>
+        When a div box is clicked,
+        the click event fires. The event listener code in the assigned handler outputs the name of the
+        clicked div to an ordered list so that the order in which the events are clicked is identified.
+        The last parameter of the addEventListener method accepts an optional Boolean parameter.
+        This parameter allows you to specify the cascading or bubbling effect of the event—that is to
+        say, in which order the event processing occurs. The click event for each div has an event listener
+        assigned. In the preceding example, the three div elements are nested. A user who clicks the
+        inside or middle div also clicks the parent div because the div elements share the same physical
+        space on the screen. This concept is called event bubbling.
+        The event has bubbled up to the top. If you prefer to have the events handled in the
+        opposite order—that is, to have them cascade down—the last parameter specified by the
+        addEventListener method is specified as true. The order of the event processing has 
+        reversed to be cascading instead of bubbling.        
+    </p>
+
+    <p>
+        The order of the event processing has reversed to be cascading instead of bubbling.
+        The cascading or bubbling effect of the events is convenient when you want it. However, the
+        design of the webpage could involve nested elements, but each element’s click event should
+        run only if the element is directly clicked. In this case, you can use a property of the event object
+        called cancelBubble. If this property is set to true, the event bubbling or cascading stops with
+        the event listener that sets it. This stops only the bubbling or cascading behavior. The code to
+        cancel the bubbling of the event is added to the inner div element’s event listener:        
+    </p>
+    <p>
+    <span><h3>Handling DOM events</h3></span><br>
+    The DOM provides a large number of built-in events. The most common events used on a
+    more day-to-day basis are covered in this section. The DOM provides these events via the
+    JavaScript API. Functions can be specified as event listeners, and custom behavior can be
+    implemented onto webpages based on the event occurring. These events apply to most DOM
+    elements.
+    </p>
+    <p>
+        <strong>Change events</strong><br>
+        A change event occurs when the value associated with an element changes. This most
+        commonly occurs in input elements such as text-based inputs and others such as the range
+        element. An example of the change event in action is shown here:
+        In this example, as the range slider control changes with the mouse dragging it from one
+        side to the other, the div displays the value of the slider bar.        
+    </p>
+    <div>
+        <input id="aRange" type="range" max="200" min="0" value="0"/>        
+        <span style="margin-left: 10px;width: 20px;" id="rangeValue">0</span>
+        <input style="margin-left: 10px;width: 100px;" id="aText" type="text"/>
+        <!--div id="rangeValue"></div-->
+        <div id="textValue"></div>
+    </div>
+    <p>
+        <strong>Focus events</strong> 
+        Focus events occur when an element receives or loses the focus. The Table below lists the available
+        events related to focus.
+        <ul>
+            <li><strong>focus </strong>Raised when the element receives the focus</li>
+            <li><strong>blur </strong>Raised when the element loses the focus</li>
+            <li><strong>focusin </strong>Raised just before an element receives the focus</li>
+            <li><strong>focusout </strong>Raised just before an element loses the focus</li>
+        </ul>        
+    </p>
+    <p>
+        The number of focus events provide very good flexibility in how the focus of any particular
+        DOM element is handled with respect to the timing. The blur event is commonly used to validate
+        form fields. You can use the focus() method to set the focus to any element that causes
+        the focus event hierarchy to occur. The following code shows how to use the blur event:        
+    </p>
+    <div>
+        <label style="font-weight: bold;" for="firstName">FirstName: </label>
+        <input id="firstNameText" type="text" name="firstName">    
+        <div id="ruleViolation"></div>
+    </div>
+
+    <p>
+        <strong>Keyboard events: </strong>
+        Keyboard events occur when keys are pressed on the keyboard. The keyboard events in
+        the Table below are available to be captured.
+        <ul>
+            <li><strong>keydown: </strong>Raised when a key is pushed down</li>
+            <li><strong>keyup: </strong>Raised when a key is released</li>
+            <li><del><strong>keypress: </strong>Raised when a key is completely pressed</del> 
+                <span style="color: red;">Deprecated as can be read <a style="color: red;font-weight: bold;" 
+                href="https://developer.mozilla.org/en-US/docs/Web/API/Element/keypress_event"
+                target="_blank">here</a></span></li>
+        </ul>        
+    </p>
+
+    <hr>
+    <h3>Keydown event handler example.</h3>
+    <input id="_inputTextBox" placeholder="Click here, then press down a key." size="40">
+    <p id="_log"></p>
+    
+    <hr>
+    <h3>Keyup event handler example.</h3>
+    <input id="keyupTextBox" placeholder="Click here, then press down a key." size="40">
+    <p id="keyupLog"></p>
+    <hr>
+    
+    
+    
+    <p>
+        Code such as this can be used to filter out invalid characters from being entered into a text
+        box. With keyboard events, extra properties are available on the event object to help out.
+        For example, you might need to know whether the Shift key or Control key was also being
+        pressed. The Table below lists the event object properties for keyboard events.        
+    </p>
+
+    <span><strong>Event object properties for keyboard events</strong></span>
+    <ul>
+        <li><strong>altKey</strong>A Boolean value to indicate whether the Alt key was pressed</li>
+        <li><strong>keyCode</strong>The numeric code for the key that was pressed</li>
+        <li><strong>ctrlKey</strong>A Boolean value as to whether the Control key was pressed</li>
+        <li><strong>shiftKey</strong>A Boolean value as to whether the Shift key was pressed</li>
+    </ul>
+    <p>You can use properties such as ctrlKey with the keyCode event to give the users something
+        similar to hotkey functionality to automatically navigate the focus to specific fields:</p>     
+    
+    <p>
+        <h3>Mouse events</h3>
+        The DOM provides extensive exposure to mouse activity through the mouse events. The Table below
+        describes the available mouse events.
+        <ul>
+            <li><strong>click </strong>Raised when the mouse performs a click</li>
+            <li><strong>dblclick </strong>Raised when the mouse performs a double-click</li>
+            <li><strong>mousedown </strong>Raised when the mouse button is pressed down</li>
+            <li><strong>mouseup </strong>Raised when the mouse button is released</li>
+            <li><strong>mouseenter or mouseover </strong>Raised when the mouse cursor enters the space of an HTML element</li>
+            <li><strong>mouseleave </strong>Raised when the mouse cursor leaves the space of an HTML element</li>
+            <li><strong>mousemove </strong>Raised when the mouse cursor moves over an HTML element</li>
+        </ul>
+        <span>The mouse events provide additional information on the event object. The Table below lists the
+            applicable properties of the event object.</span>
+        <ul>
+            <li><strong>clientX </strong>The x or horizontal position of the mouse cursor relative to the viewport boundaries</li>
+            <li><strong>clientY </strong>The y or vertical position of the mouse cursor relative to the viewport boundaries</li>
+            <li><strong>offsetX </strong>The x or horizontal position of the mouse cursor relative to the target element</li>
+            <li><strong>offsetY </strong>The y or vertical position of the mouse cursor relative to the target element</li>
+            <li><strong>screenX </strong>The x or horizontal position of the mouse cursor relative to the upper-left corner 
+                of the screen</li>
+            <li><strong>screenY </strong>The y or vertical position of the mouse cursor relative to the upper-left corner of the screen</li>
+        </ul>        
+    </p>
+
+    <div id='mouseTarget'>
+    </div>
+
+    <ul id="unorderedList">
+        <!--li>No events yet!</li-->
+    </ul>
+
+    <p>
+        <h3>Creating custom events</h3>
+        DOM events provide a great deal of functionality. In some cases, you might want to create
+        a custom event to use more generically. To create a custom event, you use the CustomEvent
+        object. To use custom events, you first need to create one by using the window.CustomEvent.
+        object.        
+    </p>
+
+    <form>
+        <textarea></textarea>
+    </form>
+    
+    <p>
+        <h2>Drag-and-drop functionality</h2>
+        Drag-and-drop functionality enables users to pick up an element with the mouse and place it
+        in another location. The Table below lists the events related to drag-and-drop functionality.
+        <ul>
+            <li><strong>drag </strong>Raised continuously while the element is being dragged</li>
+            <li><strong>dragend </strong>Raised on the element being dragged when the mouse is released to end 
+                the drop operation</li>
+            <li><strong>dragenter </strong>Raised on a target element when a dragged element is dragged into its space</li>
+            <li><strong>dragleave </strong>Raised on a target element when a dragged element leaves its space</li>
+            <li><strong>dragover </strong>Raised continuously on the target element while the dragged element is being
+                dragged over it</li>
+            <li><strong>dragstart </strong>Raised on the element being dragged when the drag operation is beginning</li>
+            <li><strong>drop </strong>Raised on the target element when the dragged element is released</li>
+        </ul>
+    </p>
+
+    <p>
+        A lot happens in a drag-and-drop operation, starting with the dragstart event. The drag
+        event continues to fire while the element is being dragged. As the element is dragged over
+        other elements, each of those other elements’ dragenter, dragover, and dragleave events fire.
+        When the element finishes being dragged, its dragend event fires and the drop event of a
+        target element fires. You can use all these events in combination to provide visual feedback to
+        users that the drag operation is occurring and what might be a potentially valid drop location.        
+    </p>
+    <strong>Drag and drop examples:</strong>
+    <ol>
+        <li><a href="lesson-008.html" target="_blank">Example 1</a></li>
+    </ol>
+    <strong>Form examples with event handling</strong>
+    <ol>
+        <li><a href="lesson-009.html" target="_blank">Example 1</a></li>
+    </ol>
+    
+    <hr>
+    <h3>References</h3>
+    <ol>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/API" target="_blank">Web APIs</a></li>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Creating_and_triggering_events" 
+        target="_blank">Creating custom events</a></li>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/drag_event" target="_blank">Drag and Drop</a></li>
+    </ol>
+</body>
+</html>

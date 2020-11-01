@@ -37,6 +37,9 @@ namespace EFCoreDBDemo
         {
             try
             {
+                GeneralExercises generalExercises = new GeneralExercises();
+                generalExercises.Run().Wait();
+
                 WCFExamples wCFExamples = new WCFExamples();
                 wCFExamples.Run().Wait();
 

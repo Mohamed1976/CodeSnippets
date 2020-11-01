@@ -1,0 +1,15 @@
+#div1 {
+    background-color:yellow;
+    border: black solid 1px;
+}
+
+.div2 {
+    background-color:orange;
+    border: black solid 1px;
+}
+
+.fakeimg {
+    height: 200px;
+    background: #aaa;
+    background-image: url(https://mdbootstrap.com/img/Photos/Others/forest2.jpg);
+}

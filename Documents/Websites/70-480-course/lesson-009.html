@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Form examples with event handling</title>
+        <link href="css/styles02.css" rel="stylesheet">
+        <script>
+            //https://www.w3schools.com/jsref/prop_text_value.asp
+            window.addEventListener("load", 
+                function() {
+                    
+                    //document.getElementById("sendRequest").addEventListener("click", processRequest);
+
+                    var nameInput = document.querySelector("input[name=_nameInput]"); //"#nameInput");
+                    nameInput.addEventListener("blur", function () {                        
+                        var content = document.querySelector("input[name=_nameInput]").value;
+                        if(content === "Mohamed") {
+                            var telephone = document.getElementById("telephone");         
+                            document.getElementById("telephone").value = "345-67990876";
+                            document.getElementById("email").value = "john.beers@gmail.com";
+                        }
+                    });
+                }, 
+                false);
+
+                //Form valdation
+                function processRequest() {
+                    console.log("processRequest");
+                    var fname = document.getElementById("nameInput").value; //.indexOf("@");
+                    var age = document.getElementById("age").value;
+                    var telephone = document.getElementById("telephone").value;
+                    var  validationElement = document.getElementById("validationMsg");
+                    var submitOK = true;
+                    var errMsg;
+
+                    console.log("fname: " + fname);
+                    if (fname.length > 10) {
+                        errMsg = "The name may have no more than 10 characters";
+                        submitOK = false;
+                    }
+
+                    if (isNaN(age) || age < 1 || age > 100) {
+                        errMsg = "The age must be a number between 1 and 100";
+                        submitOK = false;
+                    }
+
+                    //if (at == -1) {
+                    //alert("Not a valid e-mail!");
+                    //submitOK = "false";
+                    //}
+
+                    if (submitOK) {
+                        validationElement.value = "";
+                    }
+                    else {
+                        validationElement.value  = errMsg; 
+                    }
+
+                    return false; 
+                }
+                
+                function myFunction() {
+                    console.log("OnSubmit");
+                    var fname = document.getElementById("nameInput").value; //.indexOf("@");
+                    var age = document.getElementById("age").value;
+                    var telephone = document.getElementById("telephone").value;
+                    var  validationElement = document.getElementById("validationMsg");
+                    var submitOK = true;
+                    var errMsg;
+
+                    console.log("fname: " + fname + ", age: " + age);
+                    if (fname.length > 10) {
+                        errMsg = "The name may have no more than 10 characters";
+                        submitOK = false;
+                    }
+
+                    if (isNaN(age) || age < 1 || age > 100) {
+                        errMsg = "The age must be a number between 1 and 100";
+                        submitOK = false;
+                    }
+
+                    //if (at == -1) {
+                    //alert("Not a valid e-mail!");
+                    //submitOK = "false";
+                    //}
+
+                    if (submitOK) {
+                        validationElement.value = "";
+                    }
+                    else {
+                        validationElement.value  = errMsg; 
+                    }
+
+                    console.log(errMsg)
+
+                    return false;
+                    //return submitOK;
+                }
+
+        </script>    
+    </head>
+    <body>
+        <h1>Form examples with event handling</h1>
+    <!--
+    The <form> element bundles together all the form widgets (also known as controls or fields). 
+    It also tells the browser where to post the page when it’s submitted, by providing a URL in 
+    the action attribute. If you plan to do all the work in client-side JavaScript code, you can 
+    simply use a number sign (#) for the action attribute.
+    
+    A well-designed form, like the zookeeper application, divides itself into logical chunks using 
+    the <fieldset> element. Each chunk gets a title, courtesy of the <legend> element. Here’s the 
+    <fieldset> for the Contact Details section
+    -->
+    <form id="zooKeeperForm" action="#0" onsubmit="return myFunction()">
+        <p><i>Please complete the form. Mandatory fields are marked with a </i><em>*</em></p>
+        <fieldset>
+            <legend>Contact Details</legend>
+            <label for="nameInput">Name <em>*</em></label>
+            <input id="nameInput" name="_nameInput"><br>
+            <label for="telephone">Telephone</label>
+            <input id="telephone"><br>
+            <label for="email">Email <em>*</em></label>
+            <input id="email"><br>
+        </fieldset>
+
+        <fieldset>
+            <legend>Personal Information</legend>
+            <label for="age"><em>*</em>Age</label>
+            <input id="age"><br>
+            <label for="gender">Gender</label>
+            <select id="gender">
+            <option value="female">Female</option>
+            <option value="male">Male</option>
+            </select><br>
+            <label for="comments">When did you first know you wanted to be a zoo-keeper?</label>
+            <textarea id="comments"></textarea>
+        </fieldset>
+
+        <fieldset>
+            <legend>Pick Your Favorite Animals</legend>
+            <label for="zebra"><input id="zebra" type="checkbox"> Zebra</label>
+            <label for="cat"><input id="cat" type="checkbox"> Cat</label>
+            <label for="anaconda"><input id="anaconda" type="checkbox"> Anaconda
+            </label>
+            <label for="human"><input id="human" type="checkbox"> Human</label>
+            <label for="elephant"><input id="elephant" type="checkbox"> Elephant
+            </label>
+            <label for="wildebeest"><input id="wildebeest" type="checkbox">Wildebeest</label>
+            <label for="pigeon"><input id="pigeon" type="checkbox"> Pigeon</label>
+            <label for="crab"><input id="crab" type="checkbox"> Crab</label>
+        </fieldset>
+        <p><input type="submit" id="sendRequest" value="Submit Application"></p>
+        <div style="color: red;" id="validationMsg"></div>          
+    </form>
+    
+    <p>Contact the author of this page:</p>
+
+    <address>
+        <a href="mailto:jim@rock.com">jim@rock.com</a><br>
+        <a href="tel:+13115552368">(311) 555-2368</a>
+    </address>
+
+    </body>
+</html>

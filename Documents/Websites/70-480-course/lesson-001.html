@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<header>
+    <title>Introduction to JavaScript</title>
+    <script src="js/script.js"></script>
+</header>
+<body>
+    <h1>Introduction to JavaScript</h1>
+    <p>
+        You were hired to create a game. For the first stage of the game, you must make a
+        ball move from the left side of the screen to right side. How can you achieve this
+        with the HTML5 &lt;canvas&gt; element? How about with SVG? You demonstrate this
+        stage to stakeholders, and they love it. For the next stage, when the ball is clicked, it
+        must split into two balls. As the number of balls increases due to being clicked, what
+        considerations need to be taken into account? Would using SVG or the &lt;canvas&gt;
+        element be the better solution for this game?        
+    </p>
+
+    <canvas style="background-color:skyblue " id="myCanvas" width="480" height="320"></canvas>
+
+    <canvas style="background-color: blue;" id="drawingSurface" width="1200px" height="500">
+    </canvas>
+
+    <svg>
+        <circle id="Circle" cx="50" cy="50" r="50" fill="green" onmouseover="Red(evt)" onmouseout="Green(evt)"/>
+    </svg>
+
+    <div id="dimensions"></div>
+
+    <svg id="svgCircle2">
+        <circle id="Circle2" cx="50" cy="50" r="50" fill="red"/>
+    </svg>
+
+    <canvas style="background-color: yellow;" id="drawingSurface2" width="1200px" height="500"></canvas>
+
+    <svg style="background-color: yellow;" id="svg2" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="10"/>
+    </svg>
+
+    <svg width="400" height="100">
+        <rect width="400" height="100" style="fill:rgb(0,0,255);stroke-width:10;stroke:rgb(0,0,0)" />
+    </svg>
+    <br>
+    <svg width="400" height="180">
+        <rect x="50" y="20" rx="20" ry="20" width="150" height="150"
+        style="fill:red;stroke:black;stroke-width:5;opacity:0.5" />
+    </svg>
+    <br>
+    <svg id="svg3" height="130" width="200" style="background-color: wheat;">
+        <defs>
+          <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:rgb(255,255,0);stop-opacity:1" />
+            <stop offset="100%" style="stop-color:rgb(255,0,0);stop-opacity:1" />
+          </linearGradient>
+        </defs>
+        <ellipse cx="100" cy="70" rx="85" ry="55" fill="url(#grad1)" />
+        <text fill="#ffffff" font-size="45" font-family="Verdana" x="50" y="86">SVG</text>
+        Sorry, your browser does not support inline SVG.
+    </svg>
+    <br>
+    <svg width="300" height="200">
+        <polygon points="100,10 40,198 190,78 10,78 160,198"
+        style="fill:lime;stroke:purple;stroke-width:5;fill-rule:evenodd;" />
+    </svg>
+
+    <p id="msg" class="blue">Please click on the page within the blue lines</p>
+    <p id="msg2"><br>&nbsp;</p>
+    <canvas style="background-color: pink;" id="drawingSurface5" width="1200px" height="500" onclick="clickIt(event)"></canvas>
+
+</body>
+</html>    

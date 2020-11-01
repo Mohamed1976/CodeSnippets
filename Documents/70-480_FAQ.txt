@@ -1,0 +1,521 @@
+--------------------------------------------------------------------------------------------------------------------------------
+1) The core purpose of HTML is to
+(hint: something a pure text file with content won't be able to accomplish)
+
+A) Display web page content to the user
+B) Communicate the structure of the content
+C) Tell the browser how to position and align content in the browser window
+D) Tell the browser what should happen once the page is loaded
+
+B
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+2) W3C (World Wide Web Consortium) is the only organization that dictates what and how browsers should implement HTML5
+
+A) True
+B) False
+
+B WHATWG organization plays a large role as well.
+--------------------------------------------------------------------------------------------------------------------------------
+3) WHATWG does NOT version HTML. For them, it's NOT HTML5. It's just HTML.
+
+A) True
+B) False
+
+A For WHATWG, it's just HTML because they are constantly innovating.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+4) ALL HTML5 tags must
+
+A) Have an opening tag
+B) Have a closing tag
+C) Have at least 1 attribute
+D) Be lower case, i.e., <p> instead of <P>
+E) Have an 'id' attribute
+
+A, That's the only requirement from this list.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+5) You have just been hired to convert an existing website to the new HTML5 semantic
+markup. Analyze the following HTML and determine what elements should be
+updated to fully leverage the HTML5 semantic markup:
+
+<html>
+<head>
+<title>Experimentations</title>
+</head>
+<body>
+<table>
+<tr>
+<td colspan="3">
+<div id="header">
+<h1>A Thoughtful Experiment</h1>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<a href="">Home</a>
+<a href="">Page 1</a>
+<a href="">Page 2</a>
+<a href="">Page 3</a>
+</td>
+<td>
+<div id="content">
+<div id="anArticle">
+<h1>An Article regarding thought is
+presented here.</h1>
+<h2>Thought as a provoking element.</h2>
+.....................
+<div id="moreInfo">Here are some
+reference material.</div>
+</div>
+</div>
+</td>
+<td>
+<div id="profile">
+.....
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div id="footer"> This page is copyright protected.
+</div>
+</td>
+</tr>
+</table>
+</body>
+</html>
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+6) Which of the following elements aren’t introduced in HTML5?
+
+A. <article>
+B. <footer>
+C. <hgroup>
+D. <input>
+
+D
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+7) Which element(s) does the <hgroup> element contain?
+A. <h1> to <h6>
+B. <header>
+C. <nav>
+D. All of the above
+
+A
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+8) Which HTML5 element would you use to organize content so that the page maximizes a search engine’s algorithm?
+
+A. <div id=”CompanyNews”>
+B. <header>Company News</header>
+C. <article>Company News</article>
+D. All of the above
+
+BC
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+9) Which HTML5 element should you use to create a more structured layout?
+A. <div>
+B. <p>
+C. <table>
+D. <form>
+
+C
+--------------------------------------------------------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------------------------------------------------------
+10) Consider an application such as a running or walking utility that measures the distance
+traveled. One feature of this application is to play back a completed route to
+users if they so choose. How would you use the Geolocation API and Web Storage
+API in combination to save the data points as users travel the route so the application
+can play them back later? (Assume that you’re interfacing with map software
+on which to draw the lines.)
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+
+--2.1
+--------------------------------------------------------------------------------------------------------------------------------
+xx) Various constructs perform the same function but with a different syntax. For
+example, the real difference between a switch statement and nested if…else statements
+is minimal. Also, the while and for loops both evaluate a condition to know
+whether the loop should proceed.
+
+1. When is a for loop better than a while loop?
+When the number of iterations is known in advance, you can use the for loop better than a while loop,
+otherwise use the while loop.   
+
+2. How is the readability of the code affected?
+Using  a for loop improves the readability in the sense that you can better determine the number of
+iterations that the loop will perform. 
+
+Writing clean JavaScript comes with some clear advantages. Choosing the correct construct to
+handle a problem is imperative to achieving the goal of clean script.
+A for loop and while loop can both get the same jobs done interchangeably, but some semantic
+differences make one more preferable over the other in various situations. When you
+know how many times a loop must run, the for loop is ideal. It has all the built-in semantics
+to handle a counter to iterate a known number of times. It can be replaced with a while loop,
+but the while loop requires extra variables and code added to the loop to take care of the
+counting of the number of times the loop runs.
+The while loop is better when you don’t know the number of times a loop will run; it’s
+indeterminate. This is where the loop runs until the logic within the loop achieves a certain
+state; hence, why the while loop evaluates on a Boolean expression.
+You can apply the same logic when choosing between an if statement and a switch statement.
+Although a switch statement can easily be replaced by an if statement, the inverse isn’t
+true. Checking single values for equality in an if…else construct can become long and cumbersome.
+if statements allow for more complex evaluations, including compound evaluations
+using AND and OR logic. switch statements are more useful for evaluating a single value
+against a long list of possible values such as enumeration. Choosing the correct construct for
+the problem is imperative to readable and maintainable script.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+xx) Which of the following keywords provide iterative control flow?
+
+A. if statement
+B. switch statement
+C. for
+D. break
+
+CD, for syntax determines how often a loop is performed. The break statement in a loop ends the loop iterations. 
+
+Correct answer: C
+A. Incorrect: The if statement provides branch flow control.
+B. Incorrect: The switch statement provides branch flow control.
+C. Correct: The for loop provides iterative flow control.
+D. Incorrect: The break keyword is used to exit an iterative control block such as a for
+or while loop.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+xx) Which of the following array methods combines two arrays?
+
+A. join
+B. combine
+C. split
+D. concat
+
+D
+
+Correct answer: D
+A. Incorrect: The join method joins all the elements of an array into a string.
+B. Incorrect: combine isn’t a valid method.
+C. Incorrect: The split method is used to split a string into an array of substrings.
+D. Correct: The concat method combines the elements of two arrays into one array.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+xx) Which iterative control syntax can guarantee that the loop is processed at least once?
+
+A. for…in loop
+B. while loop
+C. do…while loop
+D. for loop
+
+C
+
+Correct answer: C
+A. Incorrect: The for…in loop runs only if the target list contains at least on element.
+B. Incorrect: The while loop runs only if the Boolean condition evaluates to true.
+C. Correct: The do…while loop runs a Boolean condition after it runs once.
+D. Incorrect: The for loop runs only if the values specified in the conditions are true.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+xx) Which keyword is used to exit a loop?
+
+A. continue
+B. break
+C. stop
+D. next
+
+B
+
+Correct answer: B
+A. Incorrect: The continue keyword exits the current iteration but continues to the
+next iteration if the conditional values are still true.
+B. Correct: The break keyword exits an iterative control loop.
+C. Incorrect: stop isn’t a valid statement.
+D. Incorrect: next isn’t a valid statement.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--2.3
+--------------------------------------------------------------------------------------------------------------------------------
+xx) The reason behind exception handling is, obviously, to handle exceptions. In some
+cases, error conditions can be predicted and if the situation occurs, it’s handled and
+resolved. In this case, you might not want to simply wrap an entire code block into a
+big try…catch block and have the application fail to proceed.
+
+How would you incorporate the use of try…catch blocks into a longer JavaScript
+routine with multiple points of potential error? Some errors can be corrected, and
+some might not be. The correctable errors should allow the script to continue
+successfully.
+
+You can add a try catch function to each method, in the catch you can try to recover from the error.
+If you are unable to recover/correct the error, you can pass/throw the error to the calling method.    
+
+Implementing a try…catch block in every function at the top of the call stack is an important
+way to catch unforeseen scenarios that result in the application getting into a bad state. However,
+this error handling routine might include situations from which you want to be able to
+recover. Nesting try…catch blocks allow this to happen. You can implement as many try…catch
+blocks as you want. Nesting them allows you to catch a specific scenario within the outer
+block, handle it, correct data and/or assumptions, and allow the script to continue running.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+xx) Which statement correctly describes the proper error handling using try…catch…finally blocks?
+
+A. Proper error handling allows code processing to continue and to provide appropriate user feedback.
+B. Proper error handling allows users to fix problems with the webpage.
+C. Proper error handling allows you to debug the application at run time.
+D. Proper error handling allows you to suppress all the bugs in your scripts.
+
+A
+
+Correct answer: A
+A. Correct: By using structured error handling, you can provide feedback to users
+and handle unknown situations properly.
+B. Incorrect: Proper error handling allows users to fix problems with the webpage.
+C. Incorrect: Proper error handling allows you to debug the application at run time.
+D. Incorrect: Proper error handling allows you to suppress all the bugs in your scripts.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+xx) Which of the following isn’t a property of the exception object?
+
+A. message
+B. description
+C. number
+D. name
+
+B
+
+Correct answer: B
+A. Incorrect: message is a valid property that gives the textual description of the
+error.
+B. Correct: description isn’t a valid property.
+C. Incorrect: The number property provides the number associated with the error.
+D. Incorrect: The name property provides the name of the exception object.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+xx) Why is checking for null a good practice?
+
+A. Checking for null prevents the use of an object before it’s initialized.
+B. Checking for null prevents errors resulting in NaN.
+C. Checking for null prevents the need to throw custom errors.
+
+A
+
+Correct answer: A
+A. Correct: Checking for null prevents the use of an object before it initializes and
+prevents unexpected results.
+B. Incorrect: NaN is a different construct than null.
+C. Incorrect: Custom errors aren’t related to checking for null. Throwing a custom
+error can be used in many different scenarios.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--2.2
+--------------------------------------------------------------------------------------------------------------------------------
+xx) Consider an application where fields become auto-populated based on user input in
+other fields. Auto-population is seen sometimes on forms that require users to fill in
+their address. When the postal code is entered, the city, country/region, and so on
+are populated based on that information. How would you apply the proper event
+to a form that contains text boxes, check boxes, option buttons, slider bars, and so
+on, so that as the form is filled in, other fields are populated automatically? Perhaps
+when a field is filled automatically, its value triggers other fields to be populated.
+How can you implement the solution, considering the timing of when events are
+triggered?
+
+When the information is filled in, and the user moves to another field, the blur event is fired.
+You can use this blur event to fill in the rest of the input fields as illustrated in the example below.     
+
+<script>
+	window.addEventListener("load", 
+		function() {                    
+			var nameInput = document.querySelector("input[name=_nameInput]");
+			nameInput.addEventListener("blur", function () {                        
+				var content = document.querySelector("input[name=_nameInput]").value;
+				if(content === "Mohamed") {
+					var telephone = document.getElementById("telephone");         
+					document.getElementById("telephone").value = "345-67990876";
+					document.getElementById("email").value = "john.beers@gmail.com";
+				}
+			});
+		}, 
+		false);
+</script>
+
+This interesting scenario can lead to a complex chain of event handling in which one event
+triggers other events. This requires deciding on the flow of the events through the page.
+Good practice is to do this on paper or workflow software to design the workflow of the
+events. This will require knowing when to cancel the event chain or allow it to continue
+processing further down the controls.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+xx) Which of the following isn’t a supported way to add an event handler to a DOM element?
+
+A. Declaring within the HTML element by assigning the event attribute to a JavaScript function
+B. Setting the attribute in CSS to a valid JavaScript function
+C. Dynamically through JavaScript by assigning a JavaScript function to the object's event property
+D. Dynamically through JavaScript via the assign/remove event listener methods
+
+B
+
+Correct answer: B
+A. Incorrect: This is a valid method.
+B. Correct: CSS doesn’t provide a way to assign events handlers.
+C. Incorrect: This is a valid method.
+D. Incorrect: This is a valid method.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+xx) Which of the following isn’t an attribute of an anonymous function?
+
+A. Anonymous functions can’t be called by any other code.
+B. Anonymous functions have a clearly defined name.
+C. Anonymous functions can be passed as parameters.
+D. Anonymous functions can’t be assigned to a DOM element declaratively.
+
+B, it looks like only this statement is false. 
+
+Correct answer: D
+A. Incorrect: Anonymous functions can’t be called.
+B. Incorrect: Anonymous functions don’t have a name.
+C. Incorrect: Anonymous functions can be passed as parameters.
+D. Correct: Anonymous functions can’t be assigned to a DOM element declaratively.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+xx) Which code line would successfully cancel an event?
+
+A. window.event.returnValue = false;
+B. return false;
+C. window.event.Return();
+D. window.Stop();
+
+A
+
+Correct answer: A
+A. Correct: window.event.returnValue = false; cancels the event.
+B. Incorrect: return false; doesn’t cancel the event.
+C. Incorrect: window.event.Return(); isn’t valid.
+D. Incorrect: window.stop(); isn’t valid.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+xx) Which event occurs when a DOM element receives the cursor?
+
+A. focus
+B. change
+C. keydown
+D. mouseleave
+
+A
+https://developer.mozilla.org/en-US/docs/Web/API/Element/focus_event
+
+Correct answer: A
+A. Correct: The focus event fires when an element receives the focus.
+B. Incorrect: The change event fires when the value of an element is changed.
+C. Incorrect: The keydown event fires when a keyboard key is pressed down.
+D. Incorrect: The mouseleave event fires when the mouse pointer leaves the area of
+an element.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+xx) Which option provides the correct sequence of events in a drag-and-drop operation?
+
+A. dragstart, drag, dragenter, drop
+B. dragstart, drag, dragenter, dragstop
+C. drag, dragstart, drop, dragenter
+D. drag, dragstart, dragenter, dragstop
+
+A
+--------------------------------------------------------------------------------------------------------------------------------
+
+--2.5
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+xx) As an exercise to create a webpage using timeouts and intervals, think about how
+you would create a page that would perform a fireworks show. Different types of
+fireworks need to fire at different intervals and delays. They each need to travel to
+a different height, and different types of fireworks have different explosion effects and colors.
+
+1. Would a larger firework show be too intensive? Why or why not?
+
+2. Would web workers help make it more fluid? Why or why not?
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+xx) Which of the following isn’t a valid web worker operation?
+
+A. postMessage
+B. onmessage
+C. close
+D. terminate
+
+C
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+xx) Which method cancels a web worker?
+A. close
+B. terminate
+C. suspend
+D. sleep
+
+B
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+xx) Where must you place the JavaScript code to run in the context of a web worker?
+
+A. Between the <head></head> elements
+B. In any <script> block in the page
+C. In its own JavaScript file
+D. As a dynamic function assigned to the self.worker
+
+C
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+xx) How many web workers/subworkers can run concurrently?
+
+A. A multiple of four web workers including subworkers, per processor
+B. 16 workers by default, but you can change that number via self.configuration
+C. A limitless number of workers
+D. A limit of eight workers, each with a maximum of eight subworkers
+
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+xx) To have a script run continually every 30 seconds, which line of code should be used?
+
+A. wsConnection.repeatWork(“workerFile.js”,30000);
+B. setTimeout(function(){ worker.postMessage(“”);}, 30000);
+C. setTimeout( worker.postMessage(“”), 30000);
+D. setInterval(function(){ worker.postMessage(“”);}, 30000);
+
+D 
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------

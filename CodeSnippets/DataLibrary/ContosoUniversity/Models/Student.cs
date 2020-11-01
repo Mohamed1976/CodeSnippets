@@ -8,7 +8,6 @@ namespace DataLibrary.ContosoUniversity.Models
 {
     public class Student : BaseEntity //Person
     {
-
         public Person PersonalInformation { get; set; } = new Person();
 
         [DataType(DataType.Date)]

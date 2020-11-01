@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Implement program flow</title>
+        <script src="js/script03.js"></script>
+    </head>
+    <body>
+        <h1 id="mainHeader" style="color: cornflowerblue;">Implement program flow</h1>
+        <p>
+            For the exam, you need to understand both conditional and iterative program flow. Conditional
+            program flow enables an application to examine the state of an object or variable to
+            decide which code path to process. The commands you use to apply the concept of conditional
+            flow are the if…else statement, the switch statement, and the ternary operator.            
+        </p>
+        <p>
+            To use a conditional flow statement, you must evaluate some data against some condition,
+            which you do by using conditional operators. You can use logical operators to combine
+            conditional operators. Combining operators is useful when more than one condition must
+            be met—or at least one condition from a set of conditions must be met—before processing
+            specific logic. The list below outlines the available operators.            
+        </p>
+        <ul>
+            <li><em>&gt; </em>Evaluates whether the value on the left is greater than the value on the right</li>
+            <li><em>&lt; </em>Evaluates whether the value on the right is greater than the value on the left</li>
+            <li><em>&gt;= &lt;= </em>Evaluates the same as &gt; or &lt; but with the additional logic that the values can also be equal</li>
+            <li><em>!= !== </em>Evaluates whether the values aren’t equal</li>
+            <li><em>== </em>Evaluates whether the values are equal independent of the underlying data type</li>
+            <li><em>=== </em>Evaluates whether the values are equal both in value and underlying data type</li>
+            <li><em>&& </em>The AND logical operator, in which the expressions on both sides must evaluate to true</li>
+            <li><em>|| </em>The OR logical operator, in which at least one expression on either side must evaluate to true</li>
+        </ul>
+        <p>
+            Two conditional operators are available for checking equality: == (equality operator) and ===
+            (identity operator). Checking for equality with the == operator will ignore the underlying
+            data type, whereas the === identity operator will consider data type. Look at the following
+            example:<br><br>
+            var n = 2000, s = '2000';<br>
+            alert(n == s);<br>
+            alert(n === s);<br><br>
+            The first expression, which uses the equality operator, evaluates to true because the string
+            is cast to a number for the purpose of the evaluation. The second expression, which uses
+            the identity operator, evaluates to false because the string ‘2000’ isn’t equal to the integer
+            2000.            
+        </p>
+        <p>
+            When using the logical OR operator in an if statement, the JavaScript engine knows that it can
+            proceed if any of the statements are true. As such, it evaluates the expressions from left to
+            right until it finds one that’s true. As soon as it does, it won’t evaluate any further expressions
+            but will immediately jump into the true code block.            
+        </p>
+        <p>    
+            Sizing arrays is very dynamic, even though the array is initially
+            declared to have a length of 5, if you try to access the 10th element, the array automatically
+            resizes to accommodate the requested length. The following example demonstrates this
+            concept:<br><br>
+            var anArray = new Array(5);<br>
+            alert(anArray.length);<br>
+            anArray[9] = ‘soccer’;<br>
+            alert(anArray.length);<br>
+            Some array methods affect the Array object directly, whereas other methods return a new
+            Array object. For the exam, you must understand when each case is applicable.
+        </p>
+        <p>
+            <strong>USING PUSH AND POP ON ANY ARRAY</strong><br>
+            You can use the pop and push methods in any context to add and remove items from the
+            end of an array. The stack concept is useful but isn’t a confining mechanism that limits use
+            of these methods to just stack arrays.            
+        </p>
+        <hr>
+        <div>
+            <p><strong>List filled from javascript</strong></p>
+            <ul id="sports"></ul>
+        </div>
+    </body>
+</html>

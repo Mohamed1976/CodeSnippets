@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<head>
+    <title>Implement HTML5 APIs</title>
+    <link rel="stylesheet" href="css/w3.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <h1>Implement HTML5 APIs</h1>
+    <article>
+        <header>
+            <h1>Using the storage API</h1>
+        </header>
+        <hr>
+        <section>                
+            <ul>
+                <li><code class="w3-codespan">window.localStorage</code> - stores data with no expiration date</li>
+                <li><code class="w3-codespan">window.sessionStorage</code> - stores data for one session (data is lost when the browser tab is closed)</li>
+            </ul>
+            <p>
+                Two forms of Web Storage exist: local and session storage. Local storage is persistent; data
+                stored in local storage is available to the webpage even if the user closes the browser completely
+                and then reopens it to your site. Session storage is available only for the duration of
+                the current session, so if the user closes the browser, session storage is automatically cleaned
+                up and is no longer available. The Web Storage API is available as a global object. To access
+                local storage, use the localStorage object; to access session storage, use the sessionStorage
+                object.
+            </p>
+            <p class="Notes">
+                Note, the localStorage and sessionStorage objects provide exactly the same API. All the examples
+                shown in this section work exactly the same with either object. The only difference is the
+                lifetime of the storage. Remember that sessionStorage is cleared when the session is closed,
+                whereas localStorage is still be accessible after a session closes and a new session opens.    
+            </p>
+            <p>
+                Of course, you must consider your audience’s browser support for HTML5 and Web Storage
+                before you choose to use it exclusively. Before using web storage, check browser support for 
+                localStorage and sessionStorage:
+                <div class="w3-code w3-border notranslate jsHigh"><span class="jscolor" style="color:black;"><div>
+                    <span class="jskeywordcolor" style="color:mediumblue">if</span> (<span class="jskeywordcolor" style="color:mediumblue">typeof</span>(Storage) !== <span class="jsstringcolor" style="color:brown">"undefined"</span>) {<br><span class="jsnumbercolor" style="color:red">
+                    </span>  &nbsp; <span class="commentcolor" style="color:green">// <i>Code for localStorage/sessionStorage.</i><br></span><span class="jsnumbercolor" style="color:red">
+                    </span> }<span class="jsnumbercolor" style="color:red">
+                    </span> <span class="jskeywordcolor" style="color:mediumblue">else</span> {<br><span class="jsnumbercolor" style="color:red">
+                    </span>  &nbsp; <span class="commentcolor" style="color:green">// Sorry! No Web Storage support..<br></span><span class="jsnumbercolor" style="color:red">
+                    </span> }</div> </span></div>            
+                </p>
+                <p>
+                    A localStorage (To Do List functionality) example can be found <strong><a href="lesson-003.html">here.</a></strong>                     
+                </p>            
+        </section>
+        <hr>
+        <section>
+            <ul>
+                <li><del><code class="w3-codespan">window.applicationCache</code></del> -The AppCache API provides a way to make webpages available when users are offline.</li>
+            </ul>
+            <p>
+                This feature is no longer recommended/supported. As can be read 
+                <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/HTML/Using_the_application_cache">here</a>. 
+            </p>
+        </section>
+
+    </article>
+
+</body>

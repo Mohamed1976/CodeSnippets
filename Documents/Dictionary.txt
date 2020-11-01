@@ -116,6 +116,7 @@ BLOB	Binary Large Object
 LTS		Long-term support
 URI		Uniform Resource Identifier	
 URL		Uniform Resource Locator
+URN		Uniform Resource Name
 AJAX	Asynchronous JavaScript and XML
 CSRF and XSRF	cross-site request forgery
 CORS	cross-origin resource sharing, allow a cross-domain AJAX call.  
@@ -146,10 +147,17 @@ VPN		virtual private network
 SSH		Secure Shell (SSH) is a cryptographic network protocol for operating network services securely over an unsecured network. 
 		Typical applications include remote command-line, login, and remote command execution, but any network service can be secured with SSH.
 		SSH provides a secure channel over an unsecured network by using a client–server architecture, connecting an SSH client application with an SSH server.
-
-
-
-
-
-
+DACPAC	Data Tier AppliCation Package DACPAC is a single file which contains database model i.e. all files represent database objects. 
+		It’s a binary representation of database project compatible with SSDT.
+SSDT	SQL Server Data Tools
+TFS		Team Foundation Server
+UNC		Universal Naming Convention, In a network, the Universal Naming Convention (UNC) is a way to identify a 
+		shared file in a computer without having to specify (or know) the storage device it is on.
+		In Windows operating systems, the UNC name format is: \\servername\sharename\path\filename
+NAT		network address translation
+CDT		Chrome Developer Tools
+ES6		ECMAScript 6
+SPA		Single-page application
+cors	Cross-origin resource sharing
+DOM		Document Object Model
 	
