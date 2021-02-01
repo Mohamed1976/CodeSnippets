@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>HTML5 document structure</title>
+        <script src="js/script09.js"></script>
+        <style>
+            .all-browsers {
+              margin: 0;
+              padding: 5px;
+              background-color: lightgray;
+            }
+            
+            .all-browsers > h1, .browser {
+              margin: 10px;
+              padding: 5px;
+            }
+            
+            .browser {
+              background: white;
+            }
+            
+            .browser > h2, p {
+              margin: 4px;
+              font-size: 90%;
+            }
+
+            aside {
+                width: 30%;
+                padding-left: 15px;
+                margin-left: 15px;
+                float: right;
+                font-style: italic;
+                background-color: lightgray;
+            }
+
+            </style>
+
+    </head>
+    <body>
+    <h1>HTML5 document structure</h1>
+    <p>
+        A semantic element clearly describes its meaning to both the browser and the developer.
+        Examples of non-semantic elements: &lt;div&gt; and &lt;span&gt; - Tells nothing about its content.
+        Examples of semantic elements: &lt;form&gt;, &lt;table&gt;, and &lt;article&gt; - Clearly defines its content.
+        Many web sites contain HTML code like: &lt;div id="nav"&gt; &lt;div class="header"&gt; &lt;div id="footer"&gt; to indicate navigation, header, and footer.        
+        In HTML there are some semantic elements that can be used to define different parts of a web page:  
+        <ul>
+            <li>article</li>
+            <li>aside</li>
+            <li>details</li>
+            <li>figcaption</li>
+            <li>figure</li>
+            <li>footer</li>
+            <li>header</li>
+            <li>main</li>
+            <li>mark</li>
+            <li>nav</li>
+            <li>section</li>
+            <li>summary</li>
+            <li>time</li>                        
+        </ul>
+    </p>
+    
+    
+    <ul>
+        <li>
+            HTML5 introduced new semantic elements to more clearly define sections of an HTML
+            page. These elements include &lt;section&gt;, &lt;article&gt;, &lt;nav&gt;, &lt;header&gt;, &lt;footer&gt;, &lt;aside&gt;,
+            &lt;progress&gt;, &lt;mark&gt;, &lt;figure&gt;, and &lt;figcaption&gt;.            
+        </li>
+        <li>
+            Elements within an HTML page can have their layout controlled when they are included
+            inside structures such as &lt;div&gt; elements and/or HTML tables.        
+        </li>
+        <li>
+            HTML5 semantic elements provide the mechanisms necessary to structure the page
+            more easily for accessibility via screen readers.
+        </li>
+        <li>
+            Search engines take advantage of HTML5 semantics by leveraging the &lt;article&gt;
+                element to determine the purpose of the page.
+        </li>
+    </ul>
+
+    <strong>HTML5 semantic markup</strong>
+    <ul>
+        <li><strong>&lt;article&gt; </strong>Defines self-contained areas on a page</li>
+        <li><strong>&lt;aside&gt; </strong>Defines smaller content areas outside the flow of a webpage</li>
+        <li><strong>&lt;figcaption&gt; </strong>Defines the caption of a figure element</li>
+        <li><strong>&lt;figure&gt; </strong>Defines content that contains a figure, such as an image, chart, or picture</li>
+        <li><strong>&lt;footer&gt; </strong>Defines the bottom of a section or page</li>
+        <li><strong>&lt;header&gt;</strong>Defines the top of a section or page</li>
+        <li><strong><del>&lt;hgroup&gt; </del> </strong>Defines a group of headings (H1–H6 elements)</li>
+        <li><strong>&lt;mark&gt; </strong>Defines text that should be highlighted</li>
+        <li><strong>&lt;nav&gt; </strong>Defines navigation to other pages in the site</li>
+        <li><strong>&lt;progress&gt; </strong>Defines the progress of the task</li>
+        <li><strong>&lt;section&gt; </strong>Defines the distinct content of a document</li>        
+    </ul>
+    <p>Note: The <strong>&lt;hgroup&gt;</strong> element has been removed from the HTML5 (W3C) specification, but it still is in the WHATWG version of HTML. 
+        as can be read <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/hgroup" target="_blank">here</a>.
+    </p>
+    <br>
+    <hr>
+    <h3>Page example</h3>
+    <header style="background-color: lightyellow;">
+        <h1>Header</h1>
+        <nav>
+            <a href="#article1">Nav article 1</a>
+            <a href="#article2">Nav article 2</a>
+            <a href="#article3">Nav article 3</a>
+        </nav>
+    </header>
+
+    <article id="article1" style="background-color: lightblue;">
+        <p>(Using <strong>&lt;article&gt;</strong>, <strong>&lt;hgroup&gt;</strong> and <strong>&lt;secion&gt;</strong> elements)</p>
+        <header>
+            <hgroup>
+                <h1>Header article 1</h1>
+                <h2>Header article 1</h2>
+                <h3>Header article 1</h3>
+                <h4>Header article 1</h4>
+                <h5>Header article 1</h5>
+                <h6>Header article 1</h6>                                
+            </hgroup>
+        </header>
+        <section>
+            <h1>Header first section</h1>
+            <p>Some details about section 1</p>
+            <aside>Did you know that 7/10 is 70%</aside>
+        </section>
+        <section>
+            <h1>Header second section</h1>
+            <p>Some details about section 2</p>
+        </section>
+    </article>
+
+    <article id="article2" style="background-color: lightcyan;">
+        <header>
+            <hgroup>
+                <h1>Header article 2</h1>
+            </hgroup>
+        </header>
+        <p>Provide some useful information in the article</p>
+    </article>
+
+    <article id="article3" style="background-color: lightsalmon;">
+        <header>
+            <hgroup>
+                <h1>Header article 3</h1>
+            </hgroup>
+        </header>
+        <p>Provide some useful information in the third article</p>
+        <figure>
+            <img src="../coursera-course/resources/img/bird.jpg" style="width:50px; height:50px;"/>
+            <figcaption>Fig 1: A Bald Eagle.</figcaption>
+        </figure>
+    </article>
+    <br>
+    <p><strong>Using the &lt;header&gt; and &lt;footer&gt; elements</strong><br> 
+        Most webpage documents contain common content at the top and bottom of all pages.
+        Although using the &lt;header&gt; and &lt;footer&gt; elements doesn’t automatically provide this functionality,
+        the elements do provide the ability to define the content in the header and footer of
+        the website.
+        Typically, a webpage header contains content such as a company logo or banner. In some
+        cases, it might also contain a navigation menu. (See the upcoming “Using the &lt;nav&gt; element”
+        section for this.) Start the example page by adding the &lt;header&gt; element to your page:
+    </p>
+
+    <p>
+        Using the &lt;nav&gt; element in an HTML5 document provides users with navigation through the
+        main elements of the web document or web application as a whole. These main navigation
+        elements could be represented as a list of links across the top of the page to navigate the
+        current website. It could also list your favorite websites along the side of the page, such as in a
+        blog where you list other favorite blogs that you follow.
+        Typically, the list of links across the top, commonly known as the main menu of the web
+        application, is contained in the header (but doesn’t have to be). A list of favorite URLs would
+        most likely be placed into an &lt;aside&gt; so that the list could be placed off to the side, away
+        from the main content but readily accessible.        
+    </p>
+
+    <p>
+        The &lt;hgroup&gt; element is a semantic method that organizes headers and subheaders. This
+        element typically contains the standard and familiar &lt;h1&gt; to &lt;h6&gt; elements. The &lt;hgroup&gt;
+        element groups related headers in sequence. You can add a new &lt;hgroup&gt; element to your
+        webpage to serve this purpose        
+    </p>
+
+    <p>
+        An &lt;article&gt; element represents a whole and complete composition or entry. Examples of
+        an &lt;article&gt; element could be a magazine article or a blog post, where the content can be
+        redistributed independently and not lose its meaning. Each article is wholly contained within
+        itself. You can have an article with subarticles; however, each subarticle must be a direct
+        extension and related to the root article.        
+    </p>
+    <p>
+        Each article added to the document in
+        this example represents an independent part of the document that can be wholly contained.
+        Typically, the first element within the &lt;article&gt; element is a header element or header group.
+        Closely related to the &lt;article&gt; element is the &lt;section&gt; element, which you explore next.        
+    </p>
+
+    <p>
+        The &lt;section&gt; element subdivides pages into sections. You could continue to break down
+        the sample page with additional &lt;article&gt; elements; however, the purpose of the &lt;article&gt;
+        element isn’t to break down a page into more granular details. This is where the &lt;section&gt;
+        element becomes useful. Each &lt;article&gt; element contains zero or more &lt;section&gt; elements to
+        denote the different content sections within the &lt;article&gt; element. Like an &lt;article&gt; element,
+        the first element within a &lt;section&gt; element is typically a header or a header group.        
+    </p>
+
+    <p><strong>Note &lt;H1&gt; can be rendered differently depending on the context.</strong>
+        When you view this page in the browser now, you might notice something quite interesting.
+        The &lt;h1&gt; elements inside the &lt;hgroup&gt; elements are rendering differently from the previous
+        &lt;h1&gt; elements in the same article. Considering that you haven’t applied any styles to this
+        page yet, you might expect that all &lt;h1&gt; elements would render in the same style (for example,
+        the same font size) as the &lt;h1&gt; element in the &lt;article&gt; element. However, when you
+        render the page in the browser, you can see that this isn’t the case. This is because of the way
+        the document parser in the browser works through the document to determine the implied
+        hierarchy of the headings, also called the document outline.        
+    </p>
+
+    <p>
+        The &lt;aside&gt; element defines any content that doesn’t fall within the main flow or main
+        content of the current page—for example, a sidebar, a note, an alert, or an advertisement.
+        The &lt;aside&gt; element doesn’t place itself automatically to any particular side of the webpage;
+        it merely serves as a way to semantically define a section of text or graphics as an aside.
+        The &lt;aside&gt; element isn’t treated as special in any
+        way compared to the other elements used to structure your page. However, a little later you
+        can see how much more easily you can style the content by using semantic markup, such as
+        the &lt;aside&gt; element.                
+    </p>
+
+    <p>
+        The &lt;figcaption&gt; and &lt;figure&gt; elements, new in HTML5, provide the semantic elements necessary
+        for adding graphics and figures to webpages. These graphics and figures typically provide
+        a visual representation of information in the textual content and referenced by the text. You
+        often see such images in tutorials or textbooks in which the author directs the reader to a
+        specific figure.        
+    </p>  
+
+    <p>
+        The &lt;progress&gt; element represents the progress of an objective or task. The two supported
+        types of progress tasks are determinate and indeterminate.
+        Use a determinate progress task when you know in advance the amount of work to be
+        completed; in other words, you know the starting and ending values. Sample scenarios for
+        this case include downloading a file for which you know the exact size or displaying the
+        progress of a fundraising effort. In both situations, you know the exact status of the task at
+        any particular time, and you also know what the end goal is—either the number of bytes for
+        the file download or the number of dollars for the fundraiser.        
+    </p>
+    <div>
+        <p>ProgressBar simulation using js:</p>
+        <span>0</span>
+        <progress id="progressBar" value="0" max="1000"></progress>
+        <span id="progressBarValue">0</span><br>
+        <input type="button" id="startBtn" value="Start">
+        <input type="button" id="ResetBtn" value="Reset">                
+    </div>
+    <p>
+        As shown in the preceding code, the &lt;progress&gt; element has two attributes you need to
+        know: value and max. The value attribute lets you specify the current value or position of the
+        &lt;progress&gt; element at a specific point in time. The max attribute tells the browser what the
+        maximum possible value is for the element. The browser uses these two values to determine
+        how much of the element should be colored in. Usually, the value attribute updates dynamically
+        using JavaScript. In Figure above, you can see how the &lt;progress&gt; element’s display
+        changes when the value attribute is updated to 750.        
+    </p>
+    <p>
+        You use indeterminate tasks when you don’t know how long a task will take to complete
+        but still want to show users that some work is occurring and that they should wait. You still
+        use the &lt;progress&gt; element but remove the value attribute. When you don’t specify the value
+        attribute, the browser can infer that the &lt;progress&gt; element represents an indeterminate
+        task. This might be useful for data received from a service where you have no control over or
+        knowledge of how quickly the request will complete or how large the request results will be.
+        The following HTML5 markup demonstrates an indeterminate task:        
+    </p>
+    <p>Data download is in progress, please wait patiently:</p>
+    <progress max="5"></progress>
+
+    <p>
+        With the &lt;mark&gt; element, you can easily highlight important information or any text you
+        want to emphasize. It has essentially the same function as a highlighter. By wrapping text in a
+        &lt;mark&gt; element and providing a background-color attribute to its style element, you can get
+        the desired highlight effect. The following HTML code demonstrates the &lt;mark&gt; element:        
+    </p>
+
+    <p>Some very <mark style="background-color:red;">important</mark> information provided here!</p>
+
+    <p>
+        <strong>Using the &lt;div&gt; element</strong><br>
+        The new HTML5 semantic elements don’t (with the exception of the &lt;progress&gt; element)
+        necessarily provide any default or altered behavior. Instead, they provide a stronger semantic
+        definition to your webpages. This, in turn, gives you a more reliable and maintainable way to
+        structure your pages and style them consistently. The goal of these elements is to replace the
+        older method of structuring pages—prior to HTML5—by using &lt;div&gt; elements and naming
+        them according to their function. However, note that the &lt;div&gt; element is still part of HTML5
+        and still plays an important role. Use the new semantic elements as appropriate, but remember
+        that the &lt;div&gt; element is still quite useful for styling content.
+        This section explored the new semantic elements in HTML5. In the next section, you learn
+        how to create and work with layout containers.        
+    </p>
+
+    <p>
+        <strong>Creating a layout container in HTML</strong><br>
+        You can lay out a webpage in various ways. An important aim here is to urge you to give
+        serious thought to layout so that your page presentation is user friendly. If users can’t find
+        what they are looking for because the entire page is styled as a single &lt;p&gt; element inside the
+        &lt;body&gt; element, they aren’t likely to keep coming back. In this section, you look at a couple
+        of layout options available in HTML. Chapter 4, “Use CSS in applications,” explains how to use
+        cascading style sheets (CSS) to implement your layouts.
+        The two most common methods of creating a layout in HTML involve using &lt;div&gt; and
+        &lt;table&gt; elements. In either case, more than likely you will still use CSS to help with positioning
+        and sizing. Still the catchall container elements, the familiar &lt;div&gt;s are often used to divide the page
+        into various sections to create the layout. The rendering engine displays each &lt;div&gt; according to its rules. To position the divisions
+        dynamically would require CSS.
+        The main issue with using &lt;div&gt; elements to structure the document is their inability to
+        impart standard semantic meaning to each section.
+    </p>
+
+    <div id="PageHeader" style="background-color:lightyellow;">div 1</div>
+    <div id="LeftSide" style="background-color:lime;">div 2</div>
+    <div id="RightSide" style="background-color:mediumorchid;">div 3</div>
+    <div id="Footer" style="background-color:moccasin">div 4</div>
+
+    <p>
+        The &lt;div&gt; element allows for more dynamic capability in page layout. For a more static layout
+        declared right in the HTML page, the &lt;table&gt; element is more appropriate. The following
+        HTML defines a table that provides a common blog-site format, with a header section, a left
+        sidebar, a content area, a right sidebar, and a footer area:        
+    </p>
+
+    <table>
+        <tr>
+            <td colspan="3" id="Header">First row</td>
+        </tr>
+        <tr>
+            <td rowspan="3" id="LeftBar">First</td>
+            <td rowspan="3" id="MainContent">Second</td>
+            <td id="RightSideTop">Third</td>
+        </tr>
+        <tr>
+            <td id="RightSideMiddle">Row</td>
+        </tr>
+        <tr>
+            <td id="RightSideBottom">Row</td>
+        </tr>
+        <tr>
+            <td colspan="3" id="Footer">Row</td>
+        </tr>
+    </table>
+
+    <p>
+        The &lt;table&gt; element is very flexible. Additional elements such as &lt;thead&gt; and &lt;tfoot&gt;
+        provide a more semantic approach to labeling the table cells. The concern with using the
+        &lt;table&gt; element approach is the static nature of the structure. To change the overall structure
+        of a site that uses tables for layout, you need to go to every page and make the changes. It’s
+        worth noting that some methods that make such changes easier have evolved over the years
+        in response to the maintenance headache involved.        
+    </p>
+
+    <p>
+        <strong>Optimizing for search engines</strong><br>
+        When a website is required to create an online presence, you have to ensure that it can be
+        found among the millions of sites that already exist. Search engine optimization (SEO) is
+        a technique used to make elements of the website easily discoverable and appropriately
+        indexed by search engines, so that when users search for content related to your site, they
+        find your pages. Search engines such as Bing and Google constantly scour the Internet for
+        content. When they find webpages, they go through the HTML and index content such as
+        page and image metadata. They use the indexed data to allow users to search for essentially
+        anything on the Internet and receive relevant results. Clearly, then, a relationship exists
+        between the content on your websites and how easily users can find your sites using a search
+        engine. With the semantic HTML elements discussed in the previous objective in mind, you
+        should note some additional things with respect to the logic search engines use to discover
+        what’s on websites. On the whole, the subject of SEO is far outside the scope of this book and
+        exam; entire books are written on the subject. However, discussing how HTML5 impacts SEO
+        and website design is relevant.        
+        In the past (defined as pre-HTML5), web designers often used &lt;div&gt; elements to segment
+        the page. These elements don’t provide very much context as to what they are intended to
+        contain. But with the semantic markup available in HTML5, you can use more descriptive elements
+        for the page sections. As you saw in the blog-page layout example, the HTML elements
+        alone make clear the intent of each segment of the page. As search engines scour webpages,
+        they detect the markup and know what to take from it to properly index the page.
+        The &lt;article&gt; and &lt;section&gt; elements are the main ones used by the SEO algorithm. These
+        elements are known to contain the main body of the page. That a page have more than one
+        &lt;article&gt; and/or &lt;section&gt; element is acceptable; they all get indexed. Within each &lt;article&gt;
+        element, the engine then seeks out elements such as &lt;hgroup&gt; or &lt;h1&gt; to get the main
+        topic of the &lt;article&gt; element for relevant indexing. However, this doesn’t mean that if a site
+        doesn’t have &lt;article&gt; or &lt;section&gt; elements, it won’t get indexed and be searchable. This
+        speaks only to the quality of indexing the search engines can conduct to make your site more
+        searchable by end users.
+        SEO is a great technique to understand when designing websites. Creating a website just
+        to leave it in the dark and hard to find doesn’t serve much purpose. Being found is very important
+        and, when the site is found, you don’t want to limit your audience. Accessibility is also
+        very important.        
+    </p>
+
+    <p>
+        <strong>Optimizing for screen readers</strong>
+        Screen readers rely on the document outline to parse the structure and present information
+        to the user. Screen-reader programs can read the text on the page and convert it to audio
+        through a text-to-speech algorithm. This is helpful for users who might have difficulty viewing
+        the webpage. As discussed earlier, the way the document gets outlined in HTML5 has
+        changed. Here’s a little more detail.
+        Prior to HTML5, a page was outlined using only the header elements (&lt;h1&gt; through &lt;h6&gt;).
+        The relative position of each header element to the previous header element within the page
+        created the hierarchy. Screen readers could use this information to present a table of contents
+        to users. However, HTML5 introduced semantic elements to create new sections. This means
+        that &lt;section&gt;, &lt;article&gt;, &lt;nav&gt;, and &lt;aside&gt; elements all define new sections. The introduction
+        of the semantic elements changes how the document outline is created. For example, if
+        the following HTML was going to be the hierarchy of the sample document, you could possibly
+        lay it out like this:
+        <h1>Fruits and Vegetables</h1>
+        <h2>Fruit</h2>
+        <h3>Round Fruit</h3>
+        <h3>Long Fruit</h3>
+        <h2>Vegetables</h2>
+        <h3>Green</h3>
+        <h3>Colorful</h3> 
+        
+        The outline shows the default styles of the different header elements as expected. The
+        heading elements create implied sections and subsections within the document. This is still
+        valid in HTML5. However, you shouldn’t leave the page sectioning set to implied sectioning as
+        presented by the header elements; rather, you should explicitly define the sections by using
+        the appropriate semantics. Also recommended is that &lt;h1&gt; elements be used solely throughout
+        an HTML5 document. To produce the same hierarchy in this fashion, you would need to
+        change your HTML to be like the following:
+        
+        <section>
+            <h1>Fruits and Vegetables</h1>
+
+            <section>
+                <h1>Fruit</h1>
+                <section>
+                    <h1>Round Fruit</h1>
+                </section>
+                <section>
+                    <h1>Long Fruit</h1>
+                </section> 
+            </section>
+            
+            <section>
+                <h1>Vegetables</h1>
+                <section>
+                    <h1>Green</h1>
+                </section>
+                <section>
+                    <h1>Colorful</h1>
+                </section>
+            </section>
+        </section>
+        
+        This HTML produces the same output as shown earlier. The difference is
+        that now each &lt;section&gt; element creates a new page section rather than rely on the header
+        elements to create the sections. Screen readers can parse the semantic elements to create the
+        document outline and eventually can provide a much richer user experience because of how
+        HTML5 allows webpage designers to lay out the pages.        
+    </p>
+
+    <header style="background-color: lightyellow;">
+        <h1>A Thoughtful Experiment</h1>
+        <nav>
+            <a href="#0">Home</a>
+            <a href="#0">Page 1</a>
+            <a href="#0">Page 2</a>
+            <a href="#0">Page 3</a>
+        </nav>
+    </header>
+     
+    <article id="anArticle" style="background-color: lightblue;">
+        <header>
+            <hgroup>
+                <h1>An Article regarding thought is presented here.</h1>
+                <h2>Thought as a provoking element.</h2>
+            </hgroup>
+        </header>
+        <section>
+            <p>Here are some reference material.</p>
+        </section>
+    </article>
+    
+    <footer id="footer1">
+        <p>This page is copyright protected.</p>
+    </footer>
+    <br>
+    <hr>
+
+    <h1>My latest posts</h1>
+    <article>
+        <h1>My fabulous article</h1>
+        <p>Lorem Ipsum Trondant Fnord</p>
+    </article>
+
+    <article>
+        <h1>Another magnum opus</h1>
+        <p>Magnum solero paddle pop</p>
+    </article>
+    <br>
+
+    <p><strong>Below illustrates a list of &lt;section&gt;:</strong></p>
+    <div class="blog">
+        <section class="post">
+          <h2 class="post-title">Blog Post Title</h2>
+          <p class="post-excerpt">Ice cream tart powder jelly-o. 
+          Gummies chocolate cake ice cream cookie halvah tiramisu jelly-o.</p>
+        </section>
+        <section class="post">
+          <h2 class="post-title">Blog Post Title</h2>
+          <p class="post-excerpt">Ice cream tart powder jelly-o. 
+          Gummies chocolate cake ice cream cookie halvah tiramisu jelly-o.</p>
+        </section>
+        <section class="post">
+          <h2 class="post-title">Blog Post Title</h2>
+          <p class="post-excerpt">Ice cream tart powder jelly-o. 
+          Gummies chocolate cake ice cream cookie halvah tiramisu jelly-o.</p>
+        </section>
+    </div>    
+    <br>
+
+    <p><strong>Below illustrates an &lt;article&gt;:</strong></p>
+    <article class="post">
+        <header>
+            <h1>This is Blog Post Title</h1>
+            <div class="post-meta">
+                <ul>
+                    <li class="author">Author Name</li>
+                    <li class="categories">Save in Categories</li>
+                </ul>
+            </div>
+        </header>
+       
+        <div class="post-content">
+          Sweet roll halvah biscuit toffee liquorice tart pudding sesame snaps. 
+          Biscuit powder jelly-o fruitcake faworki chocolate bar. Pudding oat 
+          cake tootsie roll sesame snaps lollipop gingerbread bonbon. Gummies 
+          halvah gummies danish biscuit applicake gingerbread jelly-o pastry.
+        </div>       
+      </article>    
+
+      <article class="post">
+        <header>
+            <h1>This is Blog Post Title</h1>
+            <div class="post-meta">
+            <ul>
+                <li class="author">Author Name</li>
+                <li class="categories">Save in Categories</li>
+            </ul>
+            </div>
+        </header>
+       
+        <div class="post-content">
+          <section>
+            <h2>This is the Sub-Heading</h2>
+            Sweet roll halvah biscuit toffee liquorice tart pudding sesame snaps. 
+            Biscuit powder jelly-o fruitcake faworki chocolate bar. Pudding oat cake 
+            tootsie roll sesame snaps lollipop gingerbread bonbon. Gummies halvah 
+            gummies danish biscuit applicake gingerbread jelly-o pastry.
+          </section>
+       
+          <section>
+            <h4>This is another Sub-Heading</h4>
+            Topping cheesecake sweet pie carrot cake sweet roll. Gummi bears lemon drops
+            toffee sesame snaps tart topping chupa chups apple pie gummies. Wafer chocolate
+            cake. Sugar plum chocolate bar topping ice cream carrot cake danish bonbon. 
+            Cheesecake gummi bears dragée jujubes dragée dragée brownie jelly biscuit. Powder croissant jelly beans pastry.
+          </section>
+        </div> 
+      </article>
+      <br>
+      <article class="post">
+        <h1>Article Title</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+        <p>Quae similitudo in genere etiam humano apparet. Est, ut dicis, inquam...</p>
+      </article>
+      <br>
+
+
+        <p>
+            <strong>Articles within an Article</strong>   
+        </p>
+        <article>
+            <h1>Article Title</h1>
+            <p class="author">John Smith</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>      
+            <article>
+                <h2>Another Article</h2>
+                <p class="author">Jane Doe</p>      
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </article>      
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </article>
+
+        <p>
+            <strong>Articles within a Section</strong>   
+        </p>
+
+        <section>
+            <h1>Latest Blog Posts</h1>
+            <article>
+              <h2>Blog Post Title</h2>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
+            </article>
+            <article>
+              <h2>Blog Post Title</h2>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
+            </article>
+        </section>
+
+        <p>
+            <strong>Sections within an Article</strong>   
+        </p>
+
+        <article>
+            <h1>Sectioning Content in HTML5 - div or section or article?</h1>          
+            <section>
+              <h2>Overview of the Elements</h2>
+              <section>
+                <h3>div</h3>
+                <p>The div element is the most general purpose element.</p>
+              </section>
+              <section>
+                <h3>section</h3>
+                <p>The section element is slightly more specific that a div</p>
+              </section>
+              <section>
+                <h3>article</h3>
+                <p>The article element is even more specific than a section</p>
+              </section>
+            </section>
+            <section>
+              <h2>div or section or article?</h2>
+              <!-- ... -->
+            </section>          
+            <section>
+              <h2>Combining the Elements</h2>
+              <!-- ... -->
+            </section>          
+          </article>
+
+        <strong>Two sections in a document:</strong> 
+        <section>
+            <h1>WWF</h1>
+            <p>The World Wide Fund for Nature (WWF) is an international organization working on issues regarding the conservation, research and restoration of the environment, formerly named the World Wildlife Fund. WWF was founded in 1961.</p>
+        </section>
+
+        <section>
+            <h1>WWF's Panda symbol</h1>
+            <p>The Panda has become the symbol of WWF. The well-known panda logo of WWF originated from a panda named Chi Chi that was transferred from the Beijing Zoo to the London Zoo in the same year of the establishment of WWF.</p>
+        </section>
+        
+        <br>
+        <strong>Three articles with independent, self-contained content:</strong>        
+        <article>
+            <h2>Google Chrome</h2>
+            <p>Google Chrome is a web browser developed by Google, released in 2008. Chrome is the world's most popular web browser today!</p>
+        </article>
+            
+        <article>
+            <h2>Mozilla Firefox</h2>
+            <p>Mozilla Firefox is an open-source web browser developed by Mozilla. Firefox has been the second most popular web browser since January, 2018.</p>
+        </article>
+            
+        <article>
+            <h2>Microsoft Edge</h2>
+            <p>Microsoft Edge is a web browser developed by Microsoft, released in 2015. Microsoft Edge replaced Internet Explorer.</p>
+        </article>
+
+        <strong>Use CSS to style the &lt;article&gt; element:</strong>
+        <article class="all-browsers">
+            <h1>Most Popular Browsers</h1>
+            <article class="browser">
+              <h2>Google Chrome</h2>
+              <p>Google Chrome is a web browser developed by Google, released in 2008. Chrome is the world's most popular web browser today!</p>
+            </article>
+            <article class="browser">
+              <h2>Mozilla Firefox</h2>
+              <p>Mozilla Firefox is an open-source web browser developed by Mozilla. Firefox has been the second most popular web browser since January, 2018.</p>
+            </article>
+            <article class="browser">
+              <h2>Microsoft Edge</h2>
+              <p>Microsoft Edge is a web browser developed by Microsoft, released in 2015. Microsoft Edge replaced Internet Explorer.</p>
+            </article>
+          </article>
+          
+          <br>
+          <article>
+            <header>
+              <h1>What Does WWF Do?</h1>
+              <p>WWF's mission:</p>
+            </header>
+            <p>WWF's mission is to stop the degradation of our planet's natural environment,
+            and build a future in which humans live in harmony with nature.</p>
+          </article>
+
+            <br>
+            <strong>A header for an &lt;article&gt;:</strong>
+            <article>
+                <header>
+                    <h1>What Does WWF Do?</h1>
+                    <p>WWF's mission:</p>
+                </header>
+                <p>WWF's mission is to stop the degradation of our planet's natural environment,
+                and build a future in which humans live in harmony with nature.</p>
+            </article>            
+            <br>
+            <strong>A footer section in a document:</strong>    
+            <footer>
+                <p>Author: Hege Refsnes</p>
+                <p><a href="mailto:hege@example.com">hege@example.com</a></p>
+            </footer>
+            <br>
+            <p>
+                The &lt;nav&gt; element defines a set of navigation links.
+                <mark>
+                    Notice that NOT all links of a document should be inside a &lt;nav&gt; element. The &lt;nav&gt; element is intended only for major block of navigation links.
+
+                    Browsers, such as screen readers for disabled users, can use this element to determine whether to omit the initial rendering of this content.                    
+                </mark>
+            </p>
+            <br>
+            <nav>
+                <a href="#0">HTML</a> |
+                <a href="#0">CSS</a> |
+                <a href="#0">JavaScript</a> |
+                <a href="#0">jQuery</a>
+            </nav>
+            <br>
+            <strong>
+                The &lt;aside&gt; element defines some content aside from the content it is placed in (like a sidebar).
+                The &lt;aside&gt; content should be indirectly related to the surrounding content.                
+            </strong>
+
+            <p>My family and I visited The Epcot center this summer. The weather was nice, and Epcot was amazing! I had a great summer together with my family!</p>
+
+            <aside>
+                <h4>Epcot Center</h4>
+                <p>Epcot is a theme park at Walt Disney World Resort featuring exciting attractions, international pavilions, award-winning fireworks and seasonal special events.</p>
+            </aside>
+
+            <p>My family and I visited The Epcot center this summer. The weather was nice, and Epcot was amazing! I had a great summer together with my family!</p>
+
+            <aside>
+            <p>The Epcot center is a theme park at Walt Disney World Resort featuring exciting attractions, international pavilions, award-winning fireworks and seasonal special events.</p>
+            </aside>
+            
+            <p>My family and I visited The Epcot center this summer. The weather was nice, and Epcot was amazing! I had a great summer together with my family!</p>
+            <p>My family and I visited The Epcot center this summer. The weather was nice, and Epcot was amazing! I had a great summer together with my family!</p>
+
+    <br>          
+    <hr>      
+    <h3>Important HTML5 notes</h3>
+    <ul>
+        <li>Don’t use loads of &lt;h1&gt;s. Make &lt;h1&gt; the main heading of your page, then use &lt;h2&gt;, &lt;h3&gt;, &lt;h4&gt;, etc. in a proper hierarchy without skipping levels.</li>
+        <li>&lt;section&gt; can be used with aria-label to signal to a screen reader user where a particular sub-part of an article begins and ends. Otherwise, forget about it, or use another element, such as &lt;aside aria-label=”quick summary”&gt; or &lt;div role=”region” aria-label=”quick summary”&gt;.</li>
+        <li>&lt;main&gt;, &lt;header&gt;, &lt;footer&gt; and &lt;nav&gt; are very useful for screen reader users, and entirely transparent to those who don’t use assistive technology. So use them</li>
+        <li>&lt;article&gt; isn’t just for blog posts — it’s for any self-contained thing. It also helps WatchOS display your content properly.</li>
+        <li>Although the section element is technically styleable, it is suggested to use &lt;div&gt; instead when we are more likely to apply heavy styles or script to the element.</li>
+        <li>Similar to &lt;li&gt; element, the general idea of section element is to list content.</li>
+        <li>If the content within the element is not semantically related, then use a &lt;div&gt;. If the semantically related content is also able to be self-contained, then use an &lt;article&gt;. Otherwise, use a &lt;section&gt;.</li>
+        <li>The &lt;article&gt; element specifies independent, self-contained content.</li>
+        <li>The &lt;section&gt; element defines section in a document.</li>
+        <li>In HTML pages we will see pages with &lt;section&gt; elements containing &lt;article&gt; elements, and &lt;article&gt; elements containing &lt;section&gt; elements.</li>
+        <li>The &lt;header&gt; element represents a container for introductory content or a set of navigational links.</li>
+        <li>A &lt;header&gt; element typically contains:
+            <ul>
+                <li>one or more heading elements (&lt;h1&gt; - &lt;h6&gt;)</li>
+                <li>logo or icon</li>
+                <li>authorship information</li>
+                <li>    <strong>Note:</strong>  You can have several &lt;header&gt; elements in one HTML document. However, &lt;header&gt; cannot be placed within a &lt;footer&gt;, &lt;address&gt; or another &lt;header&gt; element.
+                </li>
+            </ul>
+        </li>
+        <li>The &lt;footer&gt; element defines a footer for a document or section.</li>
+        <li>A &lt;footer&gt; element typically contains:
+            <ul>
+                <li>authorship information</li>
+                <li>copyright information</li>
+                <li>contact information</li>
+                <li>sitemap</li>
+                <li>back to top links</li>
+                <li>related documents</li>
+            </ul>
+        </li>
+    </ul>
+
+    <br>
+    <hr>
+    <h3>References</h3>
+    <a href="https://www.w3schools.com/html/html5_semantic_elements.asp " target="_blank">Semantic Elements in HTML</a><br>
+    <a href="https://css-tricks.com/how-to-section-your-html/" target="_blank">How to Section Your HTML</a><br>
+    <a href="https://www.smashingmagazine.com/2020/01/html5-article-section/" target="_blank">Why You Should Choose HTML5 article Over section</a><br>
+    <a href="https://www.hongkiat.com/blog/html5-section-article-elements/" target="_blank">A Look Into: HTML5 &lt;article&gt; and &lt;section&gt; Elements</a><br>
+    <a href="https://bitsofco.de/sectioning-content-in-html5/" target="_blank">Sectioning Content in HTML5 - div or section or article?</a><br>    
+    </body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+<!--
+Desktop mockup illustration should correspond to Bootstrap md-based classes
+Tablet mockup illustration should correspond to Bootstrap sm-based classes
+Mobile mockup illustration should correspond to Bootstrap xs-based classes
+The .navbar-brand class is used to highlight the brand/logo/project name of your page.
+The .navbar-brand class  is added to a link or a header element inside the navbar to represent a logo or a header
+
+Navbar: Create a navbar that scrolls away together with the page (the navbar should become invisible 
+and is not fixed to the top when you scroll the page down). The navbar should have a company name 
+(i.e., navbar-brand class) called "Food, LLC" that is aligned to the left side of the navbar. 
+(See https://getbootstrap.com/docs/3.3/components/#navbar. Make the browser window narrower to 
+see the mobile menu button appear in the first example shown at the provided link.)
+
+For desktop and tablet view, the navbar should not contain anything else. No other buttons should be visible. 
+(Hint: use 'visible-xs' class.)
+
+Navbar - Mobile View: Create a simple menu button (3 horizontal bars). When the user clicks that button, 
+a dropdown menu should appear (as illustrated in Mobile Open Menu illustration below.) The dropdown menu 
+should contain 3 items: Chicken, Beef, and Sushi.
+
+The dropdown menu should take up the entire width of the browser window. Make sure the dropdown menu has 
+a background color set that distinguishes it from the rest of the content.
+
+Page Heading. The page heading that says Our Menu should be centered within the browser window. 
+You must use a Bootstrap class to accomplish this.
+
+Both the tablet view and the desktop view of what's graded and required is the same. 
+Here is the mockup illustration of the desktop & tablet version of the site 
+(only required graded parts shown):
+
+Link the menu items "Chicken", "Beef", "Sushi" from the mobile-only menu drop down to jump to 
+the part of the page those sections correspond to.
+
+Layout: In the mobile view, each section should take up the entire row.
+(Hint: use xs-based grid column class. Since you need to take up the entire row, use col-xs-12.)
+
+In the tablet view, the first 2 sections should be in the first row and be of equal size. The 3rd section should be in the second row and take up the entire row by itself.
+
+(Hint: use 'sm'-based grid column classes and remember that you don't really need to define a separate 
+'row' class as you can achieve this layout within a single Bootstrap 'row' as discussed in Lecture 26 and 
+Lecture 35, among others. To have 2 sections take up an entire row, i.e., all 12 columns, each one should 
+take up 6 columns. To make the 3rd section take up the entire width of the browser window, i.e., 12 columns, 
+use col-sm-12.)
+-->
+<header>
+    <nav  class="navbar navbar-default bg-dark navbar-dark navbar-expand-md">
+        <!-- Brand/logo -->
+        <a style="font-size: 150%;font-weight: bold;" class="navbar-brand" href="#0">Food, LLC</a>
+        
+        <!-- Toggler/collapsibe Button -->
+        <button class="navbar-toggler d-sm-none" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar links -->
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item d-sm-none">
+                    <a class="nav-link" href="#Chicken">Chicken</a>
+                </li>
+                <li class="nav-item d-sm-none">
+                    <a class="nav-link" href="#Beef">Beef</a>
+                </li>
+                <li class="nav-item d-sm-none">
+                    <a class="nav-link" href="#Sushi">Sushi</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <h1 class="text-center">Our Menu</h1>
+</header>
+
+<!-- Content container -->
+<div class="container">
+    <div class="row">
+        <div id="Chicken" class="col-xs-12 col-sm-6 col-md-4" style="padding: 3px;">
+            <div style="background-color: gray;height: 1000px;padding: 5px;">
+                <h4 class="text-center">Chicken</h4>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+            </div>
+        </div>
+
+        <div id="Beef" class="col-xs-12 col-sm-6 col-md-4" style="padding: 3px;">
+            <div style="background-color: gray;height: 1000px;padding: 5px;">
+                <h4 class="text-center">Beef</h4>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+            </div>            
+        </div>
+
+        <div id="Sushi" class="col-xs-12  col-sm-12  col-md-4" style="padding: 3px;">
+            <div style="background-color: gray;height: 1000px;padding: 5px;">
+                <h4 class="text-center">Sushi</h4>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+            </div>
+        </div>
+  </div>
+</div>
+
+
+<hr>
+<div class="container-fluid footer">
+    <h5 class="text-center">Copyright © 2020 Moccasoft</h5>
+</div>
+<hr>
+<br>
+<h5>References: </h5>
+<ul>
+    <li><a href="https://github.com/jhu-ep-coursera/fullstack-course4/blob/master/assignments/assignment3/Assignment-3.md" target="_blank">Assignment description</a></li>
+    <li><a href="https://getbootstrap.com/docs/3.3/components/#navbar" target="_blank">Navbar reference</a></li>
+</ul>
+
+</body>
+</html>

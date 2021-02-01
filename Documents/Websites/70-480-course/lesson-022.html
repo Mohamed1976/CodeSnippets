@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Create an animated and adaptive UI.</title>
+    <style>
+        .wrap {
+            margin: 50px;
+        }
+
+        .container {
+            display: inline-block;
+            width: 300px;
+        }
+
+        .box1 {
+            border: black solid 2px;
+            background: mediumturquoise;
+        }
+
+        .box2 {
+            border: black solid 2px;
+            background: #2b3f53;
+            transition: all 3s;
+        }
+
+        .box {
+            border-radius: 5px;
+            height: 40px;
+            margin: 50px auto;
+            width: 80px;
+        }
+
+        .box2:hover, .box1:hover  {
+            transform: scale(2);
+        }
+
+        div.divStyle01 {
+            width: 100px;
+            height: 100px;
+            background-color: gray;
+            margin-left: 250px;
+            margin-top:10px;
+            transition: background-color 1s, margin-left 1s ;
+        }
+
+        div.divStyle01:hover {
+            background-color: white;
+            margin-left:350px;
+        }
+
+        div.transformation-style01 {
+            width: 200px;
+            height: 200px;
+            background-color: gray;
+            /*transform: rotateX(30deg) rotateY(30deg) rotateZ(30deg); SAME AS BELOW*/
+            transform: rotate3d(1,1,1, 30deg);            
+        }
+
+    </style>
+    <script>
+        function processBtnClick(sender) {
+            // If you have multiple buttons you might want to use document.querySelectorAll() 
+            // and loop through the results.
+
+            const btn = document.querySelector("#button1"); 
+            
+            if(btn.disabled === true) {
+                btn.disabled = false;
+            }
+            else {
+                btn.disabled = true;
+            }
+        }
+
+    </script>
+</head>
+<body>
+    <article>
+        <h2>Summary</h2>
+        <ul>
+            <li>HTML elements can be manipulated with transitions using the transition-property,
+                transition-duration, and transition-delay CSS properties.</li>
+            <li>
+                Elements can be manipulated in 2-D and 3-D space with effects such as translate, scale, rotate, and matrix.
+            </li>
+            <li>
+                Media queries allow you to have a dynamic, responsive user interface based on the
+                view port size and type.                
+            </li>
+            <li>
+                The visibility property hides a control but keeps its position in the overall layout. Using
+                the display property to hide a control removes it from the layout as well.                
+            </li>    
+        </ul>
+
+    </article>
+
+    <article>
+        <h1>Create an animated and adaptive UI</h1>
+        <p>
+            <h2>Introduction</h2>
+            The modern day website is an interactive experience for the end user. CSS3 provides many
+            mechanisms to apply a professional touch to the end-user interaction. This is achieved
+            through the ability to animate and transform objects. By adding these rich features to
+            your webpages, you really bring the experience to the next level. In addition, there is an
+            opportunity to create a responsive user interface. A responsive user interface is one that can
+            adapt itself automatically based on the size of the screen that is available. Finally, the ability to
+            hide and disable controls provides you with the ability to further customize the user interface
+            with CSS.        
+        </p>                
+        <section>
+            <h2>Animating objects by applying CSS transitions</h2>
+            Transitions provide a mechanism to alter the style of an object such that the change occurs
+            in a visible gradual fashion. You have the ability to control which style property gets altered
+            and how long it takes to complete its transition from one style to the other. A transition starts
+            when the specified property is changed. In its simplest form, the following code transitions
+            two properties of a div element: the margin-left and the background-color. The transition is to
+            take one second. The transition will occur when the mouse is hovering over the div element.
+            <div class="divStyle01"></div>
+            <p>
+                With this CSS code in place, when the user moves the mouse over the div element, it will
+                move to the right and its background color will change to white. Since the background of
+                the webpage is also white, it provides the effect of disappearing. You need to understand
+                what properties are being used to achieve this effect. In this particular code, you are using
+                a shorthand property called transition that allows you to specify a comma-separated list
+                of CSS properties and a length of time for the transition of the specified property to take
+                place. These properties could also be indicated separately using the various CSS properties in
+                list below.                
+            </p>
+            <ul>
+                <li><span style="font-style: italic;">transition-property </span>Specifies the property to which a transition will be applied</li>
+                <li><span style="font-style: italic;">ransition-duration </span>Specifies how much time the transition should take from start to finish</li>
+                <li><span style="font-style: italic;">transition-delay </span>Specifies how long to wait from the time the property is changed before starting
+                    the transition</li>
+            </ul>
+
+            <p>Example below illustrates a transition example.</p>
+            <code>
+                div {<br>
+                    &nbsp;width: 100px;<br>
+                    &nbsp;height: 100px;<br>
+                    &nbsp;background-color: gray;<br>
+                    &nbsp;margin-left: 250px;<br>
+                    &nbsp;margin-top:250px;<br>
+                    &nbsp;transition: background-color 1s, margin-left 1s ;<br>
+                    }<br>
+                    div:hover {<br>
+                        &nbsp;margin-left: 350px;<br>
+                        &nbsp;background-color: white;<br>
+                    }                
+            </code>
+            <p style="font-style: italic;">
+                Note: When using the individual transition-* properties, you can specify only one property to
+                transition. With the transition shorthand, you are able to specify a comma-separated list.                
+            </p>
+
+            <p>
+                Another property that exists to control the speed of the transitions is transition-timingfunction.
+                This property allows you to have a bit more control over the speed of the transition.
+                With the transition-timing-function property, you can specify some different effects to the
+                timing of the transition. The possible values are specified in list below.                
+            </p>
+            <strong>List: values for transition-timing-function.</strong>
+            <ul>
+                <li><span style="font-style: italic;">ease </span>The default value that applies the effect in such a way that it starts slow, speeds up,
+                    then ends slow.</li>
+                <li><span style="font-style: italic;">linear </span>Makes the transition constant from start to finish</li>
+                <li><span style="font-style: italic;">ease-in </span>Causes the transition to have a slow start.</li>
+                <li><span style="font-style: italic;">ease-out </span>Causes the transition to have a slow finish.</li>
+                <li><span style="font-style: italic;">ease-in-out </span>Causes the transition to have a slow start and a slow finish.</li>
+                <li><span style="font-style: italic;">cubic-bezier </span>Allows you to define values. This takes four parameters that are values from 0 and 1.</li>
+            </ul>        
+        </section>
+        <section>
+            <h2>Applying 3-D and 2-D transformations</h2>
+            <p>
+                Using CSS you are also able to apply transformations to elements on your webpage. In
+                this section, you will review how to apply three dimensional transforms to your elements.
+                Following with the same div from the previous section, you will apply the three-dimensional
+                (3-D) transformations listed in Table 4-11. Two-dimensional (2-D) transforms are covered in
+                Objective 1.3, “Apply transforms.”                
+            </p>
+            <strong>List: three-dimensional transformations</strong>
+            <ul>
+                <li><span style="font-style: italic;">translate </span>Moves the object from its current location to a new location</li>
+                <li><span style="font-style: italic;">scale </span>Changes the size of the object</li>
+                <li><span style="font-style: italic;">rotate </span>Spins the object along the x-axis, y-axis, and/or the z-axis</li>
+                <li><span style="font-style: italic;">matrix </span>Allows you to combine all the transformations into one command</li>
+            </ul>
+            <p>
+                As you can see, the 3-D transforms are the same property values as the 2-D transforms.
+                The addition is that each property now allows you to invoke the transform across the z-axis
+                instead of just the x-axis and y-axis. In addition, there are shorthand properties available such
+                as translate3d and rotate3d.
+                To demonstrate the use of a 3-D transform, you will look at the rotate transformation. The
+                following code applies a 3-D rotation of the div element.                
+            </p>
+            <code>
+                div {<br>
+                    &nbsp;transform: rotateX(30deg) rotateY(30deg) rotateZ(30deg);<br>
+                    }                
+            </code><br><br>
+            <div class="transformation-style01">In a place far away.</div><br>
+            <p style="font-size: small;"><span style="font-weight: bold;">FIGURE 4-49</span> A div element being rotated in 3-D</p>
+            <p>
+                When the page loads, all div elements on the page will be rotated 30 degrees along each
+                axis. The above transform could be expressed in this way as well:                 
+            </p>
+            <code>
+                transform: rotate3d(1,1,1, 30deg);                
+            </code>
+            <p>
+                In this case, rotate3d takes the first parameters to specify on which axis to rotate. A value
+                of zero indicates to no rotation on that axis whereas a value of 1 indicates a rotation on that
+                axis. The parameters are in order of x-axis, y-axis, z-axis. The last parameter specifies the
+                number of degrees to rotate.
+                You can experiment with each transformation. The output is similar to that of the 2-D with
+                the exception that the effects are applied along the z-axis as well. In addition, you can see
+                that you can still use the 3-D functions to achieve 2-D effects. It all depends which parameters
+                you specify.                
+            </p>
+        </section>
+        <section>
+            <h2>Adjusting UI based on media queries</h2>
+            <p>
+                In the modern world, screen size is a variable you now have to contend with when building
+                webpages. With many people accessing the Internet from different devices such as smart
+                phones, tablets, and desktops, there is no guarantee that your page will fit nicely on the
+                screen, and as a result, it may not be user friendly. This is where the concept of media queries
+                is able to help. With the use of media queries you can create a responsive user interface that
+                will adjust automatically as the size of the available rendered webpage changes. By using
+                information from the browser, you are able to determine how to present your content so that
+                it provides a user-friendly experience on any device.
+                The media query syntax is as simple as adding the following to your CSS file:                
+            </p>
+            <code>
+                @media screen and (max-width: 800px){ }                
+            </code>
+            <p>
+                This code will apply all the styles within the media query to the page when the width of
+                the screen is not wider than 800 px. To achieve a different layout for different screen sizes or
+                devices, you need to specify a media query for the different size ranges. To explore this, use
+                the blog layout that was created in Objective 4.3 using a grid layout. The default layout of the
+                blog is shown in Figure 4-48. However, as the screen size gets smaller, the blog gets compacted
+                to the point that it might not be readable or, depending on the amount of content,
+                will require awkward scrolling on a device. To accommodate the different screen sizes, update
+                your CSS code to include media queries. The following code adds a media query to apply the
+                default layout to larger screens such as desktops or laptops:                
+            </p>
+            <p style="font-style: italic;">
+                The media query does not require that a smart phone or tablet be in use, only that the
+                view port of the page is within the query parameters. To test this code, simply resize your
+                browser window beyond the defined sizes to see the page change its layout dynamically.            
+            </p>
+            <p>
+                So far the CSS is working great. The only problem is you have a lot of CSS code in a single
+                page. Typically, a website has multiple pages with styles shared across different pages. As
+                a result, you will likely be linking an external CSS file to your HTML page. The link element
+                supports media queries as well, which in turn lets you share a CSS file across multiple pages.
+                For example, you might want to change the font-size of the text throughout your site based
+                on the view port size. To achieve this, move the CSS from each media query into its own CSS
+                file and link in your CSS files in the following way:                
+            </p>
+            <code>
+                &lt;link rel="stylesheet" media="screen and (min-width: 1200px)" href="Desktop.css"/&gt;<br>
+                &lt;link rel="stylesheet" media="screen and (max-width: 1199px) and (min-width: 401px)"
+                ref="tablet.css"/&gt;<br>
+                &lt;link rel="stylesheet" media="screen and (max-width: 400px)" href="phone.css"/&gt;<br>                
+            </code>
+            <p>
+                With the CSS linked in this fashion, you can add and modify the styles for the different
+                view ports centrally for your entire website.                
+            </p>
+        </section>
+        <section>
+            <h2>Hiding or disabling controls</h2>
+            <p>
+                The ability to modify the user interface positioning using media queries as shown in the last
+                section is very useful. In addition, some layouts might just not work in some view ports. In
+                this case, you might want to complete hide controls or disable controls. HTML elements are
+                visible by default. However, they can be made invisible by setting the visibility CSS property as
+                shown in the following code:                
+            </p>
+            <code>
+                .myhiddenelements {<br>
+                    &nbsp;visibility:hidden;<br>
+                    }
+            </code>
+            <p>
+                By setting the visibility to hidden, the control is not visible to the end user of the webpage.
+                When hiding an element using the visibility property, the overall layout still behaves as
+                though the element is there. If you prefer to have the element hidden and the layout behave
+                as though it is not there, the display property should be used as shown in the following code:                
+            </p>
+            <code>
+                .myhiddenelements {<br>
+                    &nbsp;display: none;<br>
+                    }                
+            </code>
+            <p>
+                With the display property, the element is not visible and the layout is not affected by it.
+                If you do not want to hide the element but only make it disabled such that the user can
+                see it but cannot perform any action on it, you need to add the attribute directly to the HTML
+                element. As such, you can define a CSS class that you can apply to any elements that you
+                want to have disabled:                                
+            </p>
+            <code>
+                .disableIt
+            </code>
+            <p>
+                Now that you have a CSS class called .disableIt, you can apply this class to any elements
+                that you want to disable. In this case, you want to disable a button element, so apply the class
+                to the button element as shown here:                
+            </p>
+            <code>
+                &lt;button id="myButton" class="disableIt" &gt;My Button&lt;/button&gt;                
+            </code>
+            <p>
+                The last step is to create some JavaScript that finds all the controls with this class assigned
+                to it and adds the disabled attribute to them. The following code demonstrates this:                
+            </p>
+            <code>
+                $("document").ready(function (e) {<br>
+                    &nbsp;$(".disableIt").attr("disabled", "disabled");<br>
+                    });                
+            </code>
+            <p>
+                This script has the same net effect as putting the attribute directly on the button element
+                as shown here:                
+            </p>
+            <code>
+                &lt;button id="myButton" disabled="disabled"&gt;My Button&lt;/button&gt;
+            </code>
+            <p>
+                When you have many elements that you would like to disable, it is much easier to create a
+                CSS class, apply it to the elements, then by using jQuery, apply the disabled attribute to them
+                all.                
+            </p>
+            <hr>
+            <h4>Example how to diable button.</h4>
+            <button id="button1">Enabled</button>
+            <button onclick="processBtnClick(this)">Enabled/disable</button>
+        </section>
+    </article>
+    <article>
+        <h2>Animations using transitions with transformations.</h2>
+        <div class="wrap">
+            <div class="container">
+                <h1>Without transition</p>
+                <div class="box1 box"></div>
+            </div>
+             <div class="container">
+                <h1>With transition</p>
+                <div class="box2 box"></div>
+            </div>
+          </div>
+    </article>
+    <hr>
+    <ul>
+        <li><a href="https://thoughtbot.com/blog/transitions-and-transforms" target="_blank">Combining transitions with transformations</a></li>
+        <li><a href="https://medium.com/@kswanie21/css3-animations-with-transitions-transforms-5a9c01e5efb5" target="_blank">Combining transitions with transformations</a></li>
+    </ul>
+</body>
+</html>

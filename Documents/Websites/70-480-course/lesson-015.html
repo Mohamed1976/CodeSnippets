@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<meta charset="utf-8" />
+		<title>Course 1</title>
+		<!--link href="resources/icons/favicon.ico" rel="shortcut icon" type="image/x-icon" /-->
+        <meta name="viewport" content="width=device-width" />
+        <script src="js/script10.js"></script>
+        <style>
+
+            iframe.example {  
+                width: 100%;  
+                height: 600px; 
+            } 
+
+            .video-container {
+                position: relative;
+                padding-bottom: 56.25%;
+                padding-top: 0px;
+                height: 0;
+                overflow: hidden;
+            }
+
+            .video-container iframe {
+                position: absolute;
+                top:0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+
+        </style>		
+	</head>
+    <body>
+        <header>
+            <h1>Validate user input by using JavaScript</h1>
+        </header>
+        <ul>
+            <li>Regular expressions are strings of special characters that an interpreter understands
+                and uses to validate text format.</li>
+            <li>Regular expressions are objects in JavaScript that provide methods for testing input
+                data.</li>
+            <li>isNaN is a built-in function to determine whether a value isn&rsquo;t a number, whereas
+                isFinite validates whether the value is a finite number.</li>
+            <li>Code injection is a technique that attackers use to inject malicious code into your
+                application.</li>
+            <li>iFrames and dynamic JavaScript are dangerous if not used properly in a webpage.</li>
+        </ul>
+        
+        <p>
+            The new HTML controls discussed provide some great functionality to
+            validate user data. However, this functionality has some limitations. This is where further validation
+            performed in JavaScript comes in handy. JavaScript provides additional functionality
+            that’s not readily available in the core HTML controls. Although some controls aren’t yet available
+            in all browsers, you might need to validate user input such as dates, telephone numbers,
+            or alphanumeric postal codes. This objective demonstrates how to use regular expressions to
+            validate the input format and how to use the JavaScript built-in functions to ensure that data
+            is the correct data type. This objective also adds a layer of security by demonstrating how to
+            prevent malicious code injection.            
+        </p>
+        <h4>Regular expression to validate user input.</h4>
+        <p>             
+            In some cases, though, validating user input in JavaScript can be more effective than
+            inline with attributes. This section introduces regular expressions. The basic syntax of a regular
+            expression is explained, as is how to use the expression in JavaScript.
+            Regular expressions have a unique syntax of their own. They can be daunting to use but
+            can also be very powerful. Although a full instruction on regular expressions is beyond the
+            scope of this book, a brief introduction is provided to support the later examples.
+            Regular expressions are a mix of special characters and literal characters that make up the
+            pattern that someone would want to match.            
+        </p>
+        <strong>Regular expression special characters</strong>
+        <ul>
+            <li>^ The caret character denotes the beginning of a string.</li>
+            <li>$ The dollar sign denotes the end of a string.</li>
+            <li>. The period indicates to match on any character.</li>
+            <li>[A-Z] Alphabet letters indicate to match any alphabetic character. This is case-sensitive. To match
+                lowercase letters, use [a-z].</li>
+            <li>\d This combination indicates to match any numeric character.</li>
+            <li>+ The plus sign denotes that the preceding character or character set must match at least
+                once.</li>
+            <li>* The asterisk denotes that the preceding character or character set might or might not match.
+                This generates zero or more matches.</li>
+            <li>[^] When included in a character set, the caret denotes a negation. [^a] would match a string
+                that doesn’t have an ‘a’ in it.</li>
+            <li>? The question mark denotes that the preceding character is optional.</li>
+            <li>\w This combination indicates to match a word character consisting of any alphanumeric
+                character, including an underscore.</li>
+            <li>\ The backslash is an escape character. If any special character should be included in the
+                character set to match on literally, it needs to be escaped with a \. For example, to find a
+                backslash in a string, the pattern would include \\.</li>
+            <li>\s This combination indicates to match on a space. When it’s combined with + or *, it can
+                match on one or more spaces.</li>
+        </ul>
+        <p>
+            For example, a Canadian postal code is
+            comprised of the format A1A 1A1—that is, alternating alphabetic characters and numeric
+            characters with a space in the middle. Some characters aren’t used in postal codes because
+            the machines confuse them with other characters (for example, Z and 2). Also, the space isn’t
+            mandatory. When you need to enforce the data format of the user input, deciding how you
+            want the data to be captured and how flexible you want it to be is important. Then build your
+            regular expression to match this. 
+            <br><br>
+            <strong>^[A-Z,a-z]\d[A-Z,a-z][\s{1}]?\d[A-Z,a-z]\d$</strong>
+        </p>
+        <h4>Evaluating regular expressions in JavaScript</h4>
+        <p>
+            Just like with strings and integers, regular expressions are objects in JavaScript. As such, they
+            can be created and can provide methods to evaluate strings. Regular expression objects are
+            created in a similar fashion as strings; however, rather than use “ to encapsulate the expression,
+            use the forward slash /&lt;expression&gt;/ instead. JavaScript knows that text surrounded
+            by forward slashes in this way is a regular expression object. 
+        </p>
+        <input type="text" id="regExString" placeholder="format is: A1A 1A1" />
+        <button onclick="CheckString();" >Evaluate</button>
+        <div id="formatStatus" style="color: red;"></div>
+        <br>
+        <p>
+            The regular expression object also provides a method called exec. This method returns the
+            portion of the input string that matches the expression. The following code example illustrates
+            this by adding another button and function to use the exec method instead of test.
+            With this button, the expression is evaluated just like it was with the test method, except
+            the match is returned as a string array. That the return result is a string array is important to
+            note because using regular expressions can result in multiple matches. If a match isn’t made,
+            the return result will be null. In this example, the results are evaluated by checking whether
+            the array isn’t null; if it’s not, the postal code is valid and shown back to the user. If the match
+            isn’t made, the return value will be null.
+            The string object also provides regular expression methods. The string could be used
+            directly to evaluate the expression. The string provides the search and match methods. The
+            search method returns the index of the character in the string where the first match occurred.
+            The match method returns the part of the string that matches the pattern, much like the exec
+            method. In addition to these two methods, many of the other string methods accept a regular
+            expression object, such as indexOf, split, and replace. This provides some advanced functionality
+            for manipulating strings in JavaScript.<br><br>
+            <i>
+                The example uses a regular expression to validate user input of data entered into the
+                webpage. Keep in mind that data can come from anywhere, such as an RSS feed or backend
+                server providing JavaScript Object Notation (JSON). In this context, where a website
+                is expecting specifically formatted data, you can use regular expressions to validate the
+                incoming data and prevent the possible crashing of the website or at least errors being
+                presented to users.                
+            </i>            
+        </p>
+        <input type="text" id="regExStringV2" placeholder="format is: A1A 1A1" />
+        <button onclick="CheckStringExec();" >Evaluate</button>
+        <div id="formatStatusV2" style="color: red;"></div> 
+        
+        <h4>Validating data with built-in functions</h4>
+        <p>
+            Although regular expressions provide a great deal of power in evaluating strings for patterns
+            and ensuring that the data is in the desired format, JavaScript also provides built-in
+            functions to evaluate the type of data received. JavaScript provides built-in functions to evaluate data type. Some functions are provided
+            directly within JavaScript; others are provided by the jQuery library.
+            The isNaN function provides a way to evaluate whether the value passed into it isn’t a
+            number. If the value isn’t a number, the function returns true; if it is a number, it returns false.
+            If the expected form of data being evaluated is numeric, this function provides a defensive
+            way to determine this and handle it appropriately.
+            The opposite of the isNaN function is the isFinite function. The isFinite function is used in
+            the same way but returns true if the value is a finite number and false if it’s not.
+            Being able to validate data is very important as previously outlined. Equally important to
+            validating the data explicitly is ensuring that data-entry fields prevent users from injecting
+            script. Code injection is a widely discussed topic in website security. The next section discusses
+            preventing code injection.
+        </p>        
+        <input type="text" id="birthYear" placeholder="Enter birth year." />
+        <button onclick="CheckDate();" >Evaluate</button>
+        <div id="birthYearStatus" style="color: red;"></div>
+
+        <h4>Preventing code injection</h4>
+        <p>
+            Code injection is a technique that attackers use to inject JavaScript code into your webpage.
+            These attacks usually take advantage of dynamically created content to have additional
+            script run so that malicious users can try to gain some sort of control over the website. Their
+            intentions can be many, but among those intentions might be to trick other site users into
+            providing sensitive information. Depending on the content of the page, different measures
+            need to be considered.
+        </p>
+
+        <h4>Protecting against user input</h4>
+        <p>            
+            A web application accepting user input opens up a potential attack surface for malicious
+            users. The size of the attack surface depends on what’s done with the entered data. If the
+            website takes data and doesn’t do anything with it outside the scope of the current webpage,
+            such as send it to another server or store it in a database, the effects are limited to the current
+            page and browser session. Little can be accomplished except to disrupt the design of the
+            website for this particular user. However, if the captured data includes an account creation
+            form or survey, for example, a malicious user has much more potential to do harm—especially
+            when that information is later rendered to the webpage dynamically. This inherently allows
+            anyone to add script to the site, which can open up the site to behavior such as phishing. As a
+            webpage developer, you need to ensure that all user input is scrubbed of script elements. For
+            example, don’t allow &lt; &gt; text to be entered into the form. Without those characters, a script
+            block can’t be added.            
+        </p>
+
+        <h4>Using the eval function</h4>
+        <p>            
+            The eval function is used to run JavaScript dynamically. It takes a string as a parameter and
+            runs it as a JavaScript function. Never use the eval function against any data provided by an
+            external source over which you don’t have 100 percent control.            
+        </p>
+
+        <h4>Using iFrames</h4>
+        <p>
+            iFrames open up a new opportunity to attackers. Search engines provide a plethora of results
+            dealing with exploits regarding the use of iFrames. The sandbox attribute should always
+            be used to restrict what data can be placed into an iFrame. The sandbox attribute has four
+            possible values, as listed in Table below.    
+        </p>        
+
+        <ul>
+            <li><strong>"" </strong>An empty string applies all restrictions. This is the most secure.</li>
+            <li><strong>allow-same-origin </strong>iFrame content is treated as being from the same origin as the containing
+                HTML document.</li>
+            <li><strong>allow-top-navigation </strong>iFrame content can load content from the containing HTML document.</li>
+            <li><strong>allow-forms </strong>iFrame can submit forms.</li>
+            <li><strong>allow-scripts </strong>iFrame can run script.</li>
+        </ul>
+
+        <hr>
+        <h4>IFrame examples.</h4>
+        <p>
+            <i>Note we must access the html file via a domain name, not locally C:/. Youtube has a domain white listing.</i>            
+        </p>
+
+        <iframe class="example"                 
+                src="https://www.youtube.com/embed/fUis9yny_lI" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        
+        <hr>
+        <iframe class="example"
+                title="Inline Frame Example"
+                src="https://www.openstreetmap.org/export/embed.html?bbox=-0.004017949104309083%2C51.47612752641776%2C0.00030577182769775396%2C51.478569861898606&layer=mapnik">
+        </iframe>
+        <hr>
+        <iframe class="example" 
+                src="https://www.youtube.com/embed/xo1VInw-SKc" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        
+        <hr>
+        <div class="video-container">
+            <iframe width="560" height="315" 
+                src="https://youtube.com/embed/Vjns4aMWlS8?rel=0"; 
+                frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+            </iframe> 
+        </div>        
+        
+        <hr>
+        <!--iframe width="600" height="450" frameborder="0" style="border:0" 
+                src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJcyKbzpG6x0cR18pz-eBaHBY&key=..." 
+                allowfullscreen></iframe-->
+
+        <br>
+
+        <br><br>
+    </body>
+</html>

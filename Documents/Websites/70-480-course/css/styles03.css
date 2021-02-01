@@ -1,0 +1,19 @@
+.greenColored {
+    color: #00FF00;
+}
+
+#redColored {
+    color: rgb(255,0,0);
+}
+
+#blueColored {
+    color: blue;
+}
+
+/* use custom font css */
+
+@font-face {
+    font-family: "My Horror Font";
+    src: url('../fonts/Achafsex.eot');
+    src: url('../fonts/Achafsex.woff2');
+}

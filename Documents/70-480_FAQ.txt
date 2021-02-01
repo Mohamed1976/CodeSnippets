@@ -43,48 +43,127 @@ A, That's the only requirement from this list.
 markup. Analyze the following HTML and determine what elements should be
 updated to fully leverage the HTML5 semantic markup:
 
+HTML5 document structure:
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Experimentations</title>
+	</head>
+	<body>
+	<table>
+		<tr>
+			<td colspan="3">
+				<div id="header">
+					<h1>A Thoughtful Experiment</h1>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<a href="">Home</a>
+				<a href="">Page 1</a>
+				<a href="">Page 2</a>
+				<a href="">Page 3</a>
+			</td>
+			<td>
+				<div id="content">
+					<div id="anArticle">
+						<h1>An Article regarding thought is presented here.</h1>
+						<h2>Thought as a provoking element.</h2>
+						<div id="moreInfo">Here are some reference material.</div>
+					</div>
+				</div>
+			</td>
+			<td>
+				<div id="profile"></div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div id="footer">This page is copyright protected.</div>
+			</td>
+		</tr>
+	</table>
+	</body>
+</html>
+
+The HTML above can be rewritten as:
+
+<header style="background-color: lightyellow;">
+	<h1>A Thoughtful Experiment</h1>
+	<nav>
+		<a href="">Home</a>
+		<a href="">Page 1</a>
+		<a href="">Page 2</a>
+		<a href="">Page 3</a>
+	</nav>
+</header>
+ 
+<article id="anArticle" style="background-color: lightblue;">
+	<header>
+		<hgroup>
+			<h1>An Article regarding thought is presented here.</h1>
+			<h2>Thought as a provoking element.</h2>
+		</hgroup>
+	</header>
+	<section>
+		<p>Here are some reference material.</p>
+	</section>
+</article>
+
+<footer id="footer1">
+	<p>This page is copyright protected.</p>
+</footer>
+
+
+The following HTML shows the conversion of the page to HTML5:
 <html>
 <head>
-<title>Experimentations</title>
+<title></title>
 </head>
 <body>
 <table>
 <tr>
 <td colspan="3">
-<div id="header">
+<header>
 <h1>A Thoughtful Experiment</h1>
-</div>
+</header>
 </td>
 </tr>
 <tr>
 <td>
+<nav>
 <a href="">Home</a>
 <a href="">Page 1</a>
 <a href="">Page 2</a>
 <a href="">Page 3</a>
+</nav>
 </td>
 <td>
-<div id="content">
-<div id="anArticle">
-<h1>An Article regarding thought is
-presented here.</h1>
+<section>
+<article>
+<hgroup>
+<h1>An Article regarding thought is presented here.</h1>
 <h2>Thought as a provoking element.</h2>
+</hgroup>
 .....................
-<div id="moreInfo">Here are some
-reference material.</div>
-</div>
-</div>
+<aside>Here are some reference materials.</aside>
+</article>
+</section>
 </td>
 <td>
-<div id="profile">
+<section id="profile">
 .....
-</div>
+</section>
 </td>
 </tr>
 <tr>
 <td>
-<div id="footer"> This page is copyright protected.
-</div>
+<footer>
+This page is copyright protected.
+</footer>
+From the Library of Ida Schander
+Answers CHAPTER 1 103
 </td>
 </tr>
 </table>
@@ -101,6 +180,13 @@ C. <hgroup>
 D. <input>
 
 D
+
+Correct answer: D
+A. Incorrect: The <article> element is a new HTML5 semantic element.
+B. Incorrect: The <footer> element is a new HTML5 semantic element.
+C. Incorrect: The <hgroup> element is a new HTML5 semantic element.
+D. Correct: The <input> element isn’t new in HTML5. However, new input types have
+been introduced to the specification.
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
@@ -111,6 +197,16 @@ C. <nav>
 D. All of the above
 
 A
+
+Correct answer: A
+A. Correct: The <hgroup> element is expected to contain any or all of the <h1> to
+<h6> elements.
+B. Incorrect: The <header> element is used separately to define the header section
+of an <article> element or a <section> element.
+C. Incorrect: The <nav> element is used to define a menu structure. It wouldn’t be
+included inside an <hgroup> element.
+D. Incorrect: The <hgroup> element is expected to contain only the <h1> to <h6>
+elements.
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
@@ -122,6 +218,16 @@ C. <article>Company News</article>
 D. All of the above
 
 BC
+
+Correct answer: C
+A. Incorrect: The <div> element doesn’t provide any additional context to a search
+engine.
+B. Incorrect: The <header> element is contained inside an <article> element and will
+help but isn’t the main element to provide search engine optimization.
+C. Correct: The <article> element tells the search engine that specific content in this
+area is relevant to what users are searching for. This element provides for the best
+search engine optimization.
+D. Incorrect: The <article> element is specifically used for SEO.
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
@@ -132,8 +238,17 @@ C. <table>
 D. <form>
 
 C
---------------------------------------------------------------------------------------------------------------------------------
 
+Correct answer: C
+A. Incorrect: <div> elements flow left to right and top to bottom and don’t provide
+any structure.
+B. Incorrect: The <p> element denotes a paragraph. This element doesn’t provide
+any layout structure to the page.
+C. Correct: You use the <table> element to provide a structured layout, using its
+rows and columns elements as needed to create the desired layout.
+D. Incorrect: The <form> element is used to denote an area where the user can submit
+data. The <form> element doesn’t provide any mechanism to control layout.
+--------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
 10) Consider an application such as a running or walking utility that measures the distance
@@ -145,10 +260,8 @@ on which to draw the lines.)
 
 --------------------------------------------------------------------------------------------------------------------------------
 
-
---2.1
 --------------------------------------------------------------------------------------------------------------------------------
-xx) Various constructs perform the same function but with a different syntax. For
+11) Various constructs perform the same function but with a different syntax. For
 example, the real difference between a switch statement and nested if…else statements
 is minimal. Also, the while and for loops both evaluate a condition to know
 whether the loop should proceed.
@@ -182,7 +295,7 @@ the problem is imperative to readable and maintainable script.
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
-xx) Which of the following keywords provide iterative control flow?
+12) Which of the following keywords provide iterative control flow?
 
 A. if statement
 B. switch statement
@@ -200,7 +313,7 @@ or while loop.
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
-xx) Which of the following array methods combines two arrays?
+13) Which of the following array methods combines two arrays?
 
 A. join
 B. combine
@@ -217,7 +330,7 @@ D. Correct: The concat method combines the elements of two arrays into one array
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
-xx) Which iterative control syntax can guarantee that the loop is processed at least once?
+14) Which iterative control syntax can guarantee that the loop is processed at least once?
 
 A. for…in loop
 B. while loop
@@ -234,7 +347,7 @@ D. Incorrect: The for loop runs only if the values specified in the conditions a
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
-xx) Which keyword is used to exit a loop?
+15) Which keyword is used to exit a loop?
 
 A. continue
 B. break
@@ -251,9 +364,8 @@ C. Incorrect: stop isn’t a valid statement.
 D. Incorrect: next isn’t a valid statement.
 --------------------------------------------------------------------------------------------------------------------------------
 
---2.3
 --------------------------------------------------------------------------------------------------------------------------------
-xx) The reason behind exception handling is, obviously, to handle exceptions. In some
+16) The reason behind exception handling is, obviously, to handle exceptions. In some
 cases, error conditions can be predicted and if the situation occurs, it’s handled and
 resolved. In this case, you might not want to simply wrap an entire code block into a
 big try…catch block and have the application fail to proceed.
@@ -275,7 +387,7 @@ block, handle it, correct data and/or assumptions, and allow the script to conti
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
-xx) Which statement correctly describes the proper error handling using try…catch…finally blocks?
+17) Which statement correctly describes the proper error handling using try…catch…finally blocks?
 
 A. Proper error handling allows code processing to continue and to provide appropriate user feedback.
 B. Proper error handling allows users to fix problems with the webpage.
@@ -293,7 +405,7 @@ D. Incorrect: Proper error handling allows you to suppress all the bugs in your 
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
-xx) Which of the following isn’t a property of the exception object?
+18) Which of the following isn’t a property of the exception object?
 
 A. message
 B. description
@@ -311,7 +423,7 @@ D. Incorrect: The name property provides the name of the exception object.
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
-xx) Why is checking for null a good practice?
+19) Why is checking for null a good practice?
 
 A. Checking for null prevents the use of an object before it’s initialized.
 B. Checking for null prevents errors resulting in NaN.
@@ -327,9 +439,8 @@ C. Incorrect: Custom errors aren’t related to checking for null. Throwing a cu
 error can be used in many different scenarios.
 --------------------------------------------------------------------------------------------------------------------------------
 
---2.2
 --------------------------------------------------------------------------------------------------------------------------------
-xx) Consider an application where fields become auto-populated based on user input in
+20) Consider an application where fields become auto-populated based on user input in
 other fields. Auto-population is seen sometimes on forms that require users to fill in
 their address. When the postal code is entered, the city, country/region, and so on
 are populated based on that information. How would you apply the proper event
@@ -366,7 +477,7 @@ processing further down the controls.
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
-xx) Which of the following isn’t a supported way to add an event handler to a DOM element?
+21) Which of the following isn’t a supported way to add an event handler to a DOM element?
 
 A. Declaring within the HTML element by assigning the event attribute to a JavaScript function
 B. Setting the attribute in CSS to a valid JavaScript function
@@ -383,7 +494,7 @@ D. Incorrect: This is a valid method.
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
-xx) Which of the following isn’t an attribute of an anonymous function?
+22) Which of the following isn’t an attribute of an anonymous function?
 
 A. Anonymous functions can’t be called by any other code.
 B. Anonymous functions have a clearly defined name.
@@ -400,7 +511,7 @@ D. Correct: Anonymous functions can’t be assigned to a DOM element declarative
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
-xx) Which code line would successfully cancel an event?
+23) Which code line would successfully cancel an event?
 
 A. window.event.returnValue = false;
 B. return false;
@@ -417,7 +528,7 @@ D. Incorrect: window.stop(); isn’t valid.
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
-xx) Which event occurs when a DOM element receives the cursor?
+24) Which event occurs when a DOM element receives the cursor?
 
 A. focus
 B. change
@@ -436,7 +547,7 @@ an element.
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
-xx) Which option provides the correct sequence of events in a drag-and-drop operation?
+25) Which option provides the correct sequence of events in a drag-and-drop operation?
 
 A. dragstart, drag, dragenter, drop
 B. dragstart, drag, dragenter, dragstop
@@ -446,23 +557,29 @@ D. drag, dragstart, dragenter, dragstop
 A
 --------------------------------------------------------------------------------------------------------------------------------
 
---2.5
 --------------------------------------------------------------------------------------------------------------------------------
-
---------------------------------------------------------------------------------------------------------------------------------
-xx) As an exercise to create a webpage using timeouts and intervals, think about how
+26) As an exercise to create a webpage using timeouts and intervals, think about how
 you would create a page that would perform a fireworks show. Different types of
 fireworks need to fire at different intervals and delays. They each need to travel to
 a different height, and different types of fireworks have different explosion effects and colors.
 
 1. Would a larger firework show be too intensive? Why or why not?
+With a larger firework show, timings are crucial, hence you need realtime processing of the ignition of different fireworks.     
+Hence you need to make sure that the tread processing fireworks is not doing something else like updating the Webpage.     
 
 2. Would web workers help make it more fluid? Why or why not?
+A web worker runs in a separate thread, so it is not concerned with updating the Webpage, giving it more realtime behavior.     
 
+For an application such as this, you must consider the amount of work required to get it done.
+The larger the show, the more intense the application will be. You could use setInterval and
+setTimeout to control the show’s flow. However, the actual delivery of the firework display and
+explosion would be suited nicely for a web worker. This allows the user interface thread to
+continue to work uninterrupted while the complex logic of animating the fireworks occurs on
+a worker.
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
-xx) Which of the following isn’t a valid web worker operation?
+27) Which of the following isn’t a valid web worker operation?
 
 A. postMessage
 B. onmessage
@@ -470,20 +587,33 @@ C. close
 D. terminate
 
 C
+
+Correct answer: C
+A. Incorrect: postMessage initiates the script to run in the worker.
+B. Incorrect: onmessage is the event handler used to receive the messages across the
+worker boundaries.
+C. Correct: close isn’t a method on the web worker.
+D. Incorrect: terminate is used to cancel a web worker.
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
-xx) Which method cancels a web worker?
+28) Which method cancels a web worker?
 A. close
 B. terminate
 C. suspend
 D. sleep
 
 B
+
+Correct answer: B
+A. Incorrect: close doesn’t cancel a web worker.
+B. Correct: terminate cancels a web worker.
+C. Incorrect: suspend isn’t a valid method.
+D. Incorrect: sleep isn’t a valid method.
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
-xx) Where must you place the JavaScript code to run in the context of a web worker?
+29) Where must you place the JavaScript code to run in the context of a web worker?
 
 A. Between the <head></head> elements
 B. In any <script> block in the page
@@ -491,21 +621,40 @@ C. In its own JavaScript file
 D. As a dynamic function assigned to the self.worker
 
 C
+
+Correct answer: C
+A. Incorrect: The code must be in its own file.
+B. Incorrect: The code can’t be inside a <script> block.
+C. Correct: The code must be in its own JavaScript file, and the name of the file is
+passed to the web worker as a parameter.
+D. Incorrect: There is no such property as self.worker.
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
-xx) How many web workers/subworkers can run concurrently?
+30) How many web workers/subworkers can run concurrently?
 
 A. A multiple of four web workers including subworkers, per processor
 B. 16 workers by default, but you can change that number via self.configuration
 C. A limitless number of workers
 D. A limit of eight workers, each with a maximum of eight subworkers
 
+C
+Although no limit is imposed on how many workers can be processed or created concurrently,
+the number of workers used is something that you need to be pay attention to. Creating
+workers is a heavy operation. Each worker creates threads at the operating system level and
+their use should be managed accordingly. If you want a high volume of workers, consider
+creating a pool that can be used in a round-robin fashion so that not too many workers are created.
 
+Correct answer: C
+A. Incorrect: There is a limit associated with processors.
+B. Incorrect: There is no such property as self.configuration.
+C. Correct: There is no limit on the number of workers that can be created. However,
+too many will result in performance issues.
+D. Incorrect: There is no such limitation.
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
-xx) To have a script run continually every 30 seconds, which line of code should be used?
+31) To have a script run continually every 30 seconds, which line of code should be used?
 
 A. wsConnection.repeatWork(“workerFile.js”,30000);
 B. setTimeout(function(){ worker.postMessage(“”);}, 30000);
@@ -513,9 +662,1082 @@ C. setTimeout( worker.postMessage(“”), 30000);
 D. setInterval(function(){ worker.postMessage(“”);}, 30000);
 
 D 
+
+Correct answer: D
+A. Incorrect: wsConnection.repeatWork(“workerFile.js”,30000); isn’t valid code.
+B. Incorrect: setTimeout(function(){ worker.postMessage(“”);}, 30000); delays for
+30 seconds before running the anonymous function once.
+C. Incorrect: In setTimeout( worker.postMessage(“”), 30000);, setTimeout waits for the
+specified delay before running the passed-in function. In this case, the parameter
+isn’t a function.
+D. Correct: setInterval(function(){ worker.postMessage(“”);}, 30000); calls the passed-in
+function every interval as specified by the second parameter in milliseconds.
 --------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+32) Would you use WebSockets or would you use AJAX to create an asynchronous
+bidirectional communication application in JavaScript? For this though experiment,
+describe how you would create an HTML5 JavaScript based real-time chat
+application.
+
+For bidirectional communication you need to use WebSockets, because after the client connects to the server, the server can send
+unsolicited messages to the client. You create a web server application (Node.js), the clients use a websocket to communicate with the 
+web server, the web server than routes all the chat messages from the sender to the intended recipient.
+
+The concept of real-time chat or real-time communications isn’t new. However, HTML5 Web-
+Sockets make the concept easier than ever to implement in HTML5 webpages. Implementing
+this type of application is beyond the scope of the book but is very useful in understanding
+the power that WebSockets provide. The following URL provides many search results that
+provide examples: http://www.bing.com/search?q=WebSocket+JavaScript+chat+application.
+AJAX provides asynchronous communication but doesn’t provide a bidirectional functionality
+that can deliver real-time communications.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+33) Which of the following is a valid WebSocket instantiation?
+
+A. wsConnection = new WebSocket(‘http://studygroup.70480.com’);
+B. wsConnection = new WebSocket(‘tcp://studygroup.70480.com’,[‘soap’,’xmpp’]);
+C. wsConnection = new WebSocket(‘wss://studygroup.70480.com’,[‘soap’,’xmpp’]);
+D. wsConnection = new WebSocket(‘ftp://studygroup.70480.com’,[‘soap’,’xmpp’]);
+
+C Needs to be ws or wss (secure)
+
+Correct answer: C
+A. Incorrect: http isn’t a valid WebSocket protocol.
+B. Incorrect: tcp isn’t a valid WebSocket protocol.
+C. Correct: wss or ws is a valid protocol to create a WebSocket.
+D. Incorrect: ftp isn’t a valid WebSocket protocol.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+34) Which of the following statements properly handles the reception of data from a WebSocket?
+
+A. wsConnection.onpost = function(msg){..};
+B. wsConneciton.onreceive = function(msg){...};
+C. wsConnection.onmessage = function(msg){...};
+D. wsConnection.ongetdata = function(msg){...};
+
+C
+
+Correct answer: C
+A. Incorrect: wsConnection.onpost isn’t a method.
+B. Incorrect: wsConneciton.onreceive isn’t a method.
+C. Correct: wsConnection.onmessage receives the resulting data.
+D. Incorrect: wsConnection.ongetdata isn’t a method.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+35) Which list identifies the properties that need to be set up to make an AJAX call?
+
+A. cache, datatype, success
+B. url, cache, datatype, success
+C. url, datatype, onsuccess
+D. url, datatype, oncomplete
+
+B, method is called success and not onsuccess 
+
+Correct answer: C
+A. Incorrect: cache isn’t required.
+B. Incorrect: cache isn’t required.
+C. Correct: url, datatype, and onsuccess are required.
+D. Incorrect: oncomplete isn’t a property.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+36) Why is wiring up events with jQuery easier?
+
+A. It allows you to assign the event listener to many elements at once via the selector syntax.
+B. There is no difference wiring up events with jQuery versus addEventListener method.
+C. jQuery works more efficiently in a loop.
+D. jQuery allows both named and anonymous functions to be used as event listeners.
+
+A 
+
+Correct answer: A
+A. Correct: Wiring up events with jQuery allows you to assign the event listener to
+many elements at once by using the selector syntax.
+B. Incorrect: jQuery provides much more flexibility.
+C. Incorrect: jQuery doesn’t work differently inside a loop.
+D. Incorrect: This isn’t unique to jQuery.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+37) Building on the thought experiment from Objective 1.3, consider what you need to
+do to add custom validation to a control based on what a user has entered in the
+previous field. Having a dynamically created form where you can change the validation
+rules as a user progresses through the form can be quite powerful. Consider
+different cultural variations to rules on phone numbers, postal codes, and email address
+suffixes. Describe how you would implement the validation so that you could
+provide context rich validation for the user.
+
+Dynamically created forms using javascript enable you to create validation patterns that is specific to a culture. 
+
+You’ve already seen how to get access to the DOM and modify elements through JavaScript.
+By using these techniques, you can get a reference to the input controls on the form and,
+based on user input in certain elements, this can trigger modification to the validation rules
+(for example, change the regular expression validation dynamically). You can get regional
+context about a user from the Geolocation API. From this you can derive what part of the
+world the user is in and apply the exact validation on the input controls.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+38) Which input control is better suited for allowing users to make multiple selections?
+
+A. radio button
+B. textarea
+C. checkbox
+D. radio or checkbox
+
+C
+
+Correct answer: C
+A. Incorrect: A radio button is suited for allowing a single selection.
+B. Incorrect: A text area is suited for a multi-line text box.
+C. Correct: Check boxes allow multiple selections.
+D. Incorrect: A radio button doesn’t allow more than one selection.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+39) Which input control is designed to allow users to enter secure information in a way
+that keeps others from seeing what’s typed?
+
+A. text
+B. textarea
+C. url
+D. password
+
+D
+
+Correct answer: D
+A. Incorrect: A text box allows data entry but is plainly visible.
+B. Incorrect: A text area allows data entry but is plainly visible.
+C. Incorrect: url is a type of text box with special validation rules.
+D. Correct: A password input type hides the characters being entered.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+40) Which input control posts form data to a server?
+
+A. button
+B. Submit
+C. Reset
+D. radio
+
+B
+
+Correct answer: B
+A. Incorrect: A button is generic and must have an event handler to perform custom logic.
+B. Correct: The submit button invokes the forms submit action.
+C. Incorrect: The reset button clears all input fields on the form.
+D. Incorrect: A radio button is used for a selection list.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+41) Which of the following declarations are valid ways to make a text control non-editable?
+
+A. <input type=”text” edit=”false”/>
+B. <input type=”text” editable=”false”/>
+C. <input type=”text” readonly=”yes”/>
+D. <input type=”text” readonly/>
+
+D
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+42) How can you ensure that all necessary fields are populated before a form can be submitted?
+
+A. Write a JavaScript function to evaluate all the controls on the form for content.
+B. On the server, evaluate all the controls for data and return an error page for missing content.
+C. Add the required attribute on each control so that users get a message that the field is required.
+D. Add a label to the page to let users know which controls they must fill in.
+
+C 
+
+Correct answer: C
+A. Incorrect: You can do this with a custom event, but that’s more work than necessary.
+B. Incorrect: The goal is to validate the data before submitting the form.
+C. Correct: The required attribute ensures that a field contains a value before being submitted.
+D. Incorrect: A label would be informative but doesn’t guarantee that all the required
+fields are populated before submitting.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+43) The primary way in which malicious users seek out vulnerabilities in your webpages
+is through the use of code injections. These are used to find weaknesses in the code
+where malicious users could trick legitimate users into redirecting to a malicious
+site or—worse—steal private data. What additional strategies can you design into
+your webpages to help prevent these types of attacks?
+
+Make sure that users are not able to enter/inject javscript code in the webpages. So make sure that user entered data is validated
+before it is added to the webpage, for example escape < > using &lt; &gt;
+Further attack methods: SQL injection, Cross site request forgeries, Cross site scripting attack.
+
+The safest approach to restricting input data is to restrict the characters that a user can enter
+into a specific field. If a field is designed to accept only numeric data, ensure that the validation
+on that input control will allow only numeric data. The same is true for dates, text, and
+any other input that a user can freely type into. Regular expressions simplify this type of
+validation by verifying that only the expected characters are entered. If a text box is expecting
+a person’s name, don’t allow HTML characters such as the < or > symbols to be input into
+the field. Also, restrict the field length so that it matches the type of the data expected. A field
+expecting the age of a person doesn’t need to be 500 characters; you can probably get away
+with allowing only 3 characters.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+44) Which of the following regular expression characters denote the end of the string?
+
+A. $
+B. %
+C. ^
+D. &
+
+A
+
+Correct answer: A
+A. Correct: The $ sign denotes the end of the string.
+B. Incorrect: The % sign doesn’t denote the end of the string.
+C. Incorrect: The ^ character denotes the start of the string.
+D. Incorrect: The & character doesn’t denote the end of the string.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+45) Which of the following sandbox attributes allows the iFrame to load content from the
+containing HTML document?
+
+A. allow-script-execution
+B. allow-same-origin
+C. allow-forms
+D. allow-top-navigation
+E. allow-top-document
+
+D
+
+Correct answer: D
+A. Incorrect: Allows scripts to run
+B. Incorrect: Only allows content from the same origin
+C. Incorrect: Allows forms
+D. Correct: Allows content from the containing HTML document
+E. Incorrect: Not a valid option
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+46) Which function should never be used to run JavaScript?
+A. execute
+B. JSDynamic
+C. eval
+D. evaluate
+
+C
+
+The eval function is used to run JavaScript dynamically. It takes a string as a parameter and
+runs it as a JavaScript function. Never use the eval function against any data provided by an
+external source over which you don’t have 100 percent control.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+47) You are tasked with building a webpage for your client that involves a stock ticker.
+You need to provide real-time stock quotes to your page users in a scroll across the
+top of the page. Explain how you would build a web application that will do this
+dynamically without posting back the whole webpage.
+
+You can use XMLHttpRequest/Ajax to retrieve stock prices and asynchronously update the webpage, 
+you can use setinterval to periodically update the webpage.         
+
+The task assigned here to build a scroll across the top of the page is seen in many websites
+today. A stock price ticker is a typical application of this. This solution would potentially incorporate
+different technologies. At its core, you can implement the XMLHttpRequest object to
+make a call to an API that provides stock data. When the data is retrieved, you can display in
+the browser. Because the solution calls for not posting the entire page, you would need to use
+dynamic DOM manipulation to display the results and have them scroll across the top of the
+page. Because the quotes must be updated regularly, you would likely include the use of a
+timer to poll for the results at a regular interval.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+48) Which of the following is a valid JSON string?
+
+A. {firstName, Rick, lastname, Delorme, hairColor, brown, eyeColor, brown}
+B. {firstName: Rick; lastname: Delorme; hairColor: brown; eyeColor: brown}
+C. {firstName: “Rick”; lastname: “Delorme”; hairColor: “brown”; eyeColor: “brown”}
+D. {firstName: “Rick”, lastname: “Delorme”, hairColor: “brown”, eyeColor: “brown”}
+
+D
+
+Correct answer: D
+A. Incorrect: A JSON string isn’t just a comma-separated list.
+B. Incorrect: A JSON string isn’t a list delimited by semi-colons.
+C. Incorrect: A JSON string isn’t a list delimited by semi-colons.
+D. Correct: A JSON string is a series of name/value pairs where the name of the
+property is followed by a colon and a quoted string. Multiple name value pairs are
+comma separated.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+49) With the XMLHttpRequest object, which of the following properties provides the
+response in a human readable format?
+
+A. Response
+B. responseBody
+C. responseText
+D. responseXML
+
+C
+
+Correct answer: C
+A. Incorrect: Response doesn’t provide any direct information.
+B. Incorrect: responseBody provides the result in binary format.
+C. Correct: responseText provides the result as text that’s human readable.
+D. Incorrect: responseXML isn’t a valid property.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+50) At which stage during an XMLHttpRequest are user credentials sent to the server?
+
+A. When the connection is opened
+B. When the request is sent
+C. When the ready state is complete
+D. When the server sends a security response requesting the credentials
+
+D
+
+Correct answer: D
+A. Incorrect: Credentials aren’t passed with the open method.
+B. Incorrect: Credentials aren’t passed with the request method.
+C. Incorrect: Ready state is a property that indicates the current state of the connection.
+D. Correct: Credentials are passed only if the server requests them with a return code 401.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+51) In Objective 3.1, a customer survey was built. Extending this concept, how can you
+use the XMLHttpRequest object to post the data captured in the form to the server?
+Before submitting the form, how can you process server-side validation in real
+time? Add validation to the form so that you can compare an email address entered
+against a database of email addresses to ensure that it hasn’t been used before.
+
+You can use the blur event. The blur event fires when an element has lost focus. The opposite of blur is focus.
+When the blur event fires of the email address textbox we can use XMLHttpRequest to perform server-side validation of the email address.
+The info returned from the server can then be used to accept or reject the email address. In case of rejection you can set         
+add an error message and set the focus to the textbox.
+
+In this application, you now need to know when users finish entering information into a field.
+You can use the onblur event for this. By hooking up onblur to the email field, you can use the
+XMLHttpRequest object to send a request to the server to validate that the address is unique
+and hasn’t been used before. The results of the data evaluation on the server are passed back
+in the response and can be used to highlight to users that the data isn’t unique. This provides
+a much better user experience in that users don’t need to wait until they fill out the entire
+form to have all the fields validated. Did you remember to encode the data before submitting
+it to the server to prevent an injection attack?
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+52) Which of the following code lines is the correct way create an object from a JSON
+string stored in a variable called jsonString?
+
+A. var o = JSON.split(jsonString);
+B. var o = JSON.stringify(jsonString);
+C. var o = JSON.parse(jsonString);
+D. var 0 = JSON.join(jsonString);
+
+C
+
+Correct answer: C
+A. Incorrect: This isn’t a valid method on the JSON object.
+B. Incorrect: This method is used to serialize an object into a JSON string.
+C. Correct: This method is used to deserialize a JSON string into an object.
+D. Incorrect: This isn’t a valid method on the JSON object.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+53) Which of the following code lines allows an XMLHttpRequest to return binary data?
+
+A. request.responseType = ‘binary’;
+B. request.responseType = ‘image/jpg’;
+C. response.type = ‘blob’;
+D. request.responseType = ‘blob’;
+
+D
+
+Correct answer: D
+A. Incorrect: ‘binary’ isn’t a valid option for the responseType.
+B. Incorrect: ‘image/jpg’ isn’t a valid option for the responseType.
+C. Incorrect: type isn’t a valid property name on the response object.
+D. Correct: The response object’s responseType property must be set to ‘blob’.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+54) How do you control what’s sent to the server when submitting a form?
+
+A. Add a submit button to the form.
+B. Handle the submit event of the form.
+C. Specify the action attribute of the form element.
+D. Ensure that all elements on the form have a name.
+
+B
+
+Correct answer: B
+A. Incorrect: A submit button submits the entire form to the server by default.
+B. Correct: Handling the submit event on the form allows you to intercept the form
+before submitting and perform custom actions with it.
+C. Incorrect: The action attribute indicates what server-side page the form should submit.
+D. Incorrect: All elements on the form should have a name to use jQuery to serialize
+them. However, this has no effect on form submission.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+55) CSS provides the ability to make websites look great. In some cases, you may want
+to alter the styles based on user input or actions. How would you alter the styles of
+your page in this fashion?
+
+For example once the user logs onto the website, the styles the user has set as preference are applied, for example A dark theme.   
+Furthermore when validation of a control fails you can write a notification in bold and red letters (validation using the blur event when the control loses focus).
+
+jQuery is the easiest way to achieve changing CSS styles dynamically. JavaScript will do the
+trick as well. All the CSS properties that have been looked at are available to be changed dynamically.
+So for example, in the following code, the color of the button is changed to green
+when it is clicked:
+<html>
+<head>
+<script src="jquery-2.0.3.min.js" type="text/javascript"></script>
+<script>
+$("document").ready(function () {
+$("#changeStyle").click(function () {
+$(this).css("color", "green");
+});
+});
+</script>
+</head>
+<body>
+<button id="changeStyle">Change Style</button>
+</body>
+</html>
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+56) Which of the following CSS would not change the appearance of text?
+
+A. font-style: italic;
+B. font-weight: heavy;			// Heavy style does not exist
+C. font: bolder 12px arial; 	// Style does not work
+D. color: green;
+
+BC
+
+Correct answer: B
+A. Incorrect: font-style: italic will display the text with italics.
+B. Correct: font-weight: heavy; heavy is not a valid option for font-weight.
+C. Incorrect: font: bolder 12px arial; is a valid shorthand for setting font attributes.
+D. Incorrect: color: green; is a valid way to change the color of the text to green.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+57) Which of the following aligns text to the full width of the available box?
+
+A. right
+B. full
+C. center
+D. justify 
+
+D
+
+Correct answer: D
+A. Incorrect: Right will align all the text to the right side of the box.
+B. Incorrect: Full is not a valid option.
+C. Incorrect: Center will align the text along the center of the box.
+D. Correct: Justify will align the text such that each line takes up the width of the box.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+58) Which of the following is a way to configure the amount of space between words?
+
+A. word-margin
+B. letter-margin
+C. word-spacing
+D. word-padding
+
+C
+
+Correct answer: C
+A. Incorrect: word-margin is not a valid option.
+B. Incorrect: letter-margin is not a valid option.
+C. Correct: word-spacing will set the amount of space between words.
+D. Incorrect: word-padding is not a valid option.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+59) Create the styles and scripts to make an HTML object move across the page. This is
+seen in many webpages today with banner or ticker controls that display information
+moving across the screen. Using what you know about setting and changing
+the position of an object with CSS, create a moving HTML element.  
+
+We can use JavaScript to update the left and top position of an element as shown in the code below.
+
+function StartMoving(sender) {
+	const h2Element = document.querySelector("#JumpingFlash");
+	let topPos = 0; 
+	let leftPos = 0;
+	setInterval(() => {
+		h2Element.style.left = leftPos + 'px'; 
+		h2Element.style.top =  topPos + 'px';
+
+		leftPos +=10;
+		topPos++;
+
+		console.log(sender);
+	}, 500);
+}
+
+<div style="width: 100%; height: 200px;background-color: lightgray;">
+	<h2 id="JumpingFlash" style="position: relative;left: 0px;top: 0px; font-size: larger;color: red;font-weight: bolder;">Jumping</h2>
+</div><br>
+<button onclick="StartMoving(this)">Start Moving</button>
+
+The following code demonstrates how to alter an element’s position using jQuery.
+<html>
+<head>
+<script src="jquery-2.0.3.min.js" type="text/javascript"></script>
+<style>
+p {
+position:fixed;
+left: 1px;
+}
+</style>
+<script>
+var pos = 1;
+$("document").ready(function () {
+setInterval(function () {
+var newPos = (pos + 1) + "px";
+$("#scrollMe").css("left", newPos);
+pos += 1;
+}, 20);
+});
+</script>
+</head>
+<body>
+<p id="scrollMe">This text moves accross the screen.</p>
+</body>
+</html>
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+60) Which of the following is not a valid way to alter the size of an element?
+
+A. div{height: 50px; width: 50%;}
+B. div{height: 50px; width: 50px;}
+C. div{height: 50cm; width: 50px;
+D. div{height: 50ft; width: 50ft;}
+
+D
+
+Correct answer: D
+A. Incorrect: div{height: 50px; width: 50%;} is valid.
+B. Incorrect: div{height: 50px; width: 50px;} is valid.
+C. Incorrect: div{height: 50cm; width: 50px; is valid.
+D. Correct: div{height: 50ft; width: 50ft;} ft is not a valid unit of measurement.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+61) Which of the following will successfully style the border of a div element?
+
+A. 	border-top: 5px dotted blue;
+	border-right: 5px solid green;
+	border-left: 3px dashed red;
+	border-bottom: 10px double black;
+B. border-sides: 5px solid green;
+C. border-all: 1px solid black;
+D. border: full red;
+
+A
+
+Correct answer: A
+A. Correct: Each side will be styled differently and the syntax is correct.
+B. Incorrect: border-sides is not a valid property.
+C. Incorrect: border-all is not a valid property.
+D. Incorrect: The syntax is not correct to set the border properties with the shorthand.
+Full is not a valid value.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+62) When looking from the outside edge of an HTML element and moving to the inside
+edge, what order does the padding, margin, and border occur in?
+
+A. padding, border, margin
+B. margin, border, padding
+C. border, padding, margin
+D. margin, padding, border
+
+B
+
+Correct answer: B
+A. Incorrect: This is not the correct sequence.
+B. Correct: Margin, border, padding is the correct sequence.
+C. Incorrect: This is not the correct sequence.
+D. Incorrect: This is not the correct sequence.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+63) Which of the following statements will apply a box shadow to the right and bottom
+edge of a div element?
+
+A. box-shadow: gray 5px 5px;
+B. box-shadow: gray -5px 5px;
+C. box-shadow: gray 5px -5px;
+D. box-shadow: gray -5px -5px;
+
+A
+
+A. Correct: box-shadow: gray 5px 5px; will apply a box shadow to the right and bottom
+edge of a div element.
+B. Incorrect: The shadow will be on the left and bottom.
+C. Incorrect: The shadow will be on the top and right.
+D. Incorrect: The shadow will be the top and left.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+64) Which of the following will place an element relative to the browser window?
+
+A. absolute
+B. fixed
+C. relative
+
+B
+
+Correct Answer: B
+A. Incorrect: Absolute positioning is relative to the parent.
+B. Correct: Fixed positioning is the correct answer.
+C. Incorrect: Relative positioning is relative to the elements in normal flow.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+65) Consider how you can get very specific styles applied to your HTML elements
+through the combination of pseudo-classes and pseudo-elements. For example,
+how would you change the appearance of the first letter of the first paragraph of
+each group of paragraphs on the page but only when the user hovers over it? Experiment
+with other combinations of selectors to achieve specific effects.
+
+For example:
+
+p:hover::first-letter {
+	color: orange;
+	font-weight: bold;
+	margin-right: .75em;                
+}
+
+When you want to achieve specific formatting on complex webpages, you need to account
+for the hierarchy of your page and ensure that you understand how the inheritance is going
+to impact the nested HTML elements’ styles. The more specific your selectors, the more CSS
+you need to write but have more control. The following code will demonstrate a specific selector
+that will alter only the first character of the first paragraph when a user hovers over it:
+p:first-child:hover:first-letter {
+font-size: xx-large;
+}
+This code does not seem like much, but it is very specific. It will override default inheritance
+and any other styles defined for that same element. Consider the following CSS:
+p:first-child:first-letter {
+font-size: xx-small;
+}
+p:first-child:hover:first-letter {
+font-size: xx-large;
+}
+The first selector will default the size of the first letter to xx-small but the hover class will
+override this. This is where it may be desirable to use the !important keyword to force the xxsmall
+font. In this example, the two styles purely conflict. You would need to choose one over
+the other.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+66) Answer the following questions to test your knowledge of the information in this objective.
+You can find the answers to these questions and explanations of why each answer choice is
+correct or incorrect in the “Answers” section at the end of this chapter.
+The review questions use the following HTML listing (line numbers are for reference only):
+
+1. <html>
+2. <body>
+3. <div>
+4. <hgroup>
+5. <h1></h1>
+6. <h2></h2>
+7. </hgroup>
+8. </div>
+9. <div>
+10. <section>
+11. <article>
+12. <h1></h1>
+13. <p></p>
+14. <p></p>
+15. </article>
+16. <article>
+17. <h1></h1>
+18. <p></p>
+19. <aside></aside>
+20. <p></p>
+21. </article>
+22. </section>
+23. </div>
+24. <div>
+25. <footer>
+26. <p></p>
+27. <p></p>
+28. </footer>
+29. </div>
+30.</body>
+31.</html>
+
+Referencing the HTML listing, how would you style only the first paragraph inside the
+footer element to have a smaller font size?
+A.
+footer p:first-child {
+font-size: x-small;
+}
+B.
+footer p.first-child {
+font-size: x-small;
+}
+C.
+Footer:p:first-child {
+font-size: x-small;
+}
+D.
+Footer=>p,first-child {
+font-size: x-small;
+}
+
+A
+
+Correct answer: A
+A. Correct: This is the correct syntax specifying the first paragraph child of the footer
+element to have a smaller font.
+B. Incorrect: The p.firstchild is not the correct syntax. It would need to be
+p:first-child.
+C. Incorrect: The colon after the footer is not correct syntax.
+D. Incorrect: The => notation is not the correct syntax.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+67) Referencing the HTML listing, how would you apply a new font to all the H1 elements?
+In addition, the <h1> elements in an article should be italic.
+A.
+	h1 {
+		font-family: ‘Courier New’;
+		
+		article h1 {
+			font-style:italic;
+		}
+	}
+B.
+	h1 {
+		font-family: ‘Courier New’;
+	}
+	
+	article h1 {
+		font-style:italic;
+	}
+C.
+	h1 {
+		font-family: ‘Courier New’;
+		font-style:italic;
+	}
+	article h1 {
+		font-style:italic;
+	}
+D.
+	h1 {
+		font-family: ‘Courier New’;
+	}
+	
+	article, h1 {
+		font-style:italic;
+	}
+
+B
+
+Correct answer: B
+A. Incorrect: Styles cannot be nested inside each other in this way.
+B. Correct: It is correct to first specify the H1 style, then specify the H1 styles for
+H1 elements that are beneath an article element.
+C. Incorrect: This will make all H1 elements italic.
+D. Incorrect: This will make all H1 elements italic as the comma after article creates a
+list of elements to apply the styles to.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+68) Referencing the preceding HTML listing, write the CSS code to apply a border to the
+aside element that is 100 pixels high and 50 pixels wide. In addition, provide a shadow
+effect and slightly skew the element to the right 5 degrees.
+
+aside {
+	border-top: black solid 100px;
+	border-left: black solid 50px;
+	border-right: black solid 50px;
+	border-bottom: black solid 20px;
+	box-shadow: 20px 20px 10px grey;
+	transform: skew(5deg,5deg);
+}
+
+aside {
+height:100px;
+width:50px;
+border: 2px solid black;
+transform: skew(-5deg);
+box-shadow: 5px 5px;
+}
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+69) Consider how you can use jQuery to select elements using pseudo-classes and
+pseudo-elements. Using only jQuery, apply CSS styles to the first paragraph of any
+group of paragraph elements. 
+
+p:first-child {
+
+}
+
+
+What is interesting about this thought experiment is recognizing that not all pseudo-class
+or pseudo-element selectors are supported by jQuery. For example, inserting content via
+pseudo selectors does not work in this way. However, some things can be done via jQuery. In
+this example, the following code shows how the pseudo-element selector works in a jQuery
+selector:
+<script>
+$("document").ready(function () {
+$("p:first-child").css("color", "green");
+});
+</script>
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+70) Which one of the following is a CSS class selector?
+
+A. .code
+B. #code
+C. div[code]
+D. :code
+
+A
+
+Correct answer: A
+A. Correct: .code is a CSS class selector.
+B. Incorrect: #code is an ID selector.
+C. Incorrect: div[code] is an attribute selector.
+D. Incorrect: :code is not a valid statement.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+71) Which one of the following is an attribute selector?
+
+A. .required
+B. #required
+C. input[required]
+D. :required
+
+C
+
+Correct answer: C
+A. Incorrect: .required is a class selector.
+B. Incorrect: #required is an ID selector.
+C. Correct: input[required] is an attribute selector.
+D. Incorrect: :required is a pseudo-class that would be combined with an element
+selector.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+72) Which of the following statements would alter the style of an anchor element when
+the mouse is moved over it?
+
+A. a:link
+B. a:mouseover
+C. a:beforeclick
+D. a:hover
+
+D
+
+Correct answer: D
+A. Incorrect: a:link would specify the styles for an unvisited hyperlink.
+B. Incorrect: a:mouseover is not a valid pseudo-class.
+C. Incorrect: a:beforeclick is not a valid pseudo-class.
+D. Correct: a:hover will change the style when the user moves the mouse over the
+link.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+73) Consider combining transitions with transformations. Individually, transitions and
+transformations provide interesting effects to the HTML page. Consider what kind
+of effects can be achieved by using them together.
+
+You can create animations by combining transitions with transformations. When used together, 
+these properties allow you to create simple animations and add valuable interaction and visual feedback for your users.
+
+.box1 {
+	border: black solid 2px;
+	background: mediumturquoise;
+}
+
+.box2 {
+	border: black solid 2px;
+	background: #2b3f53;
+	transition: all 3s;
+}
+
+.box {
+	border-radius: 5px;
+	height: 40px;
+	margin: 50px auto;
+	width: 80px;
+}
+
+.box2:hover, .box1:hover  {
+	transform: scale(2);
+}
+
+By combining the transition with the transform, you are able to create effects that you otherwise
+would not be able to create. For example, if you want to create the effect of a box spinning
+or rotating, you can apply a transform: rotate(360deg); to the box. However, this happens
+so fast that you cannot see that the box rotated. Alternatively, by applying a transform effect
+with a longer duration, you actually can see the box rotate. Look at the following code, which
+demonstrates this effect on a series of div boxes:
+<html>
+<head>
+<style>
+div {
+margin: 10px 10px 10px 10px;
+height: 50px;
+width: 50px;
+background-color: red;
+transition: transform 3s;
+}
+div:hover {
+transform: rotate(360deg);
+}
+</style>
+</head>
+<body>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+</body>
+</html>
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+74) Which of the following statements will hide an element but keep its space in the overall flow?
+
+A. display: none;
+B. visibility: hidden;
+C. display: inline;
+D. visibility: visible;
+
+B
+
+Correct answer: A
+A. Correct: display:none; will hide an element but keep its space in the overall flow.
+B. Incorrect: visibility: hidden; will maintain the element in the normal flow.
+C. Incorrect: display: inline; will show the element in the normal flow.
+D. Incorrect: visibility: visible; will show the element in the normal flow.
+
+By setting the visibility to hidden, the control is not visible to the end user of the webpage. When hiding an element using the visibility property, 
+the overall layout still behaves as though the element is there. If you prefer to have the element hidden and the layout behave as though it is not there, 
+the display property should be used as shown in the following code:
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+75) Media queries are best suited for what purpose?
+
+A. Setting the priority of style sheet references in a webpage
+B. Creating a responsive user interface based on the screen size of the view port
+C. Modifying the view port to properly fit the content of the page
+D. Connecting to third-party style sheets to alter the layout
+
+B
+
+Correct answer: B
+A. Incorrect: Media queries are not best suited for setting the priority of style sheet
+references in a webpage.
+B. Correct: Media queries are best suited for creating a responsive user interface
+based on the screen size of the view port.
+C. Incorrect: Media queries are not best suited for modifying the view port to properly
+fit the content of the page.
+D. Incorrect: Media queries are not best suited for connecting to third-party style
+sheets to alter the layout.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+76) Which of the following transition-timing-function properties makes the transition start slow, speed up, then end slow?
+
+A. ease
+B. ease-in
+C. ease-out
+D. ease-in-out
+
+A, ease - specifies a transition effect with a slow start, then fast, then end slowly (this is default)
+
+Correct answer: A
+A. Correct: ease will start slow, speed up and end slow. This is also the default value.
+B. Incorrect: ease-in will start slow and speed up.
+C. Incorrect: ease-out will slow near the end.
+D. Incorrect: ease-in-out will slow at the beginning and at the end.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+77) Extend the current grid layout blog page so that the main content area uses a
+column layout. Each layout is very powerful on its own to serve its specific purpose.
+It is important though to know that you can create some very powerful layouts by
+combining them where it makes sense.
 
 --------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------------------
+78) Which of the following layouts is based on columns and rows?
+
+A. flexbox
+B. multi-column
+C. grid layout
+D. exclusions
+
+C
+
+Correct answer: C
+A. Incorrect: Flexbox lays elements out in a flow direction.
+B. Incorrect: Multi-column lays elements out only in columns.
+C. Correct: Grid layout allows layout in rows and columns.
+D. Incorrect: Exclusions do not deal with the layout in rows and columns.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+79) Which of the following is false about a flexbox layout?
+
+A. The direction of the elements in a flexbox can be controlled with the flex-direction property.
+B. The elements layout can be configured along the layout axis using the flex-pack property.
+C. Elements in a flexbox are called flexbox items.
+D. Elements in a flexbox can be set into rows and columns.
+
+D
+
+Correct answer: D
+A. Incorrect: This is a true statement.
+B. Incorrect: This is a true statement.
+C. Incorrect: This is a true statement.
+D. Correct: Grid layouts can be set into rows and columns.
+--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------
+80) Which of the following property values for wrap-flow will allow the text to wrap along
+both sides of an element?
+
+A. both
+B. all
+C. left and right
+D. cross
+
+A
+
+Correct answer: A
+A. Correct: both will allow the text to wrap along both sides of an element.
+B. Incorrect: all is not a valid value.
+C. Incorrect: left and right is not a valid value.
+D. Incorrect: cross is not a valid value.
+--------------------------------------------------------------------------------------------------------------------------------
+
 --------------------------------------------------------------------------------------------------------------------------------

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<meta charset="utf-8" />
+		<title>Structure a CSS file by using CSS selectors.</title>
+		<meta name="viewport" content="width=device-width" />		
+        <style>
+            /*::first-letter https://css-tricks.com/almanac/properties/i/initial-letter/  */
+            
+            /*p:hover { 
+             p:hover:first-letter {   */
+            p:hover::first-letter {
+                color: orange;
+                font-weight: bold;
+                margin-right: .75em;                
+            }
+
+            aside {
+                border-top: black solid 100px;
+                border-left: black solid 50px;
+                border-right: black solid 50px;
+                border-bottom: black solid 20px;
+                box-shadow: 20px 20px 10px grey;
+                transform: skew(5deg,5deg);
+            }
+
+            h2 {
+                font-family:'Courier New', Courier, monospace;
+            }
+
+            section h2 {
+                font-style: italic;
+            }
+            
+            footer p:first-child {
+                font-size: x-small;
+            }
+
+            footer p:nth-child(3) {
+                font-size:larger ;
+            }
+
+            code {
+                color: red;
+                font-size: 125%;
+                font-weight: bold; 
+            }
+
+            div.style01 {
+                font-family: sans-serif;
+                color: green;
+            }
+
+            p.style02 {
+                color: blue;
+                font-size: 125%;
+            }
+
+        </style>
+    
+    </head>
+    <body>
+        <header>
+            <h1>Structure a CSS file by using CSS selectors.</h1>
+            <h2>H2 header with style applied to it.</h2>
+        </header>
+        <article>
+            <h2>Structure a CSS file by using CSS selectors.</h2>
+            <section>
+                <h2>Summary</h2>
+                <ul>
+                    <li>Referencing elements correctly takes careful consideration of how you will structure
+                        your CSS and your HTML elements.</li>
+                    <li>Selectors can be nested and joined together to get more specific.</li>
+                    <li>HTML elements inherit styles automatically from their parent elements.</li>
+                    <li>CSS is processed from the top down, so that last style processed wins if it conflicts with
+                        other style declarations.</li>
+                    <li>!important can be used to ensure that the desired style is rendered when there is a
+                        competing CSS declaration.</li>
+                </ul>
+            </section>
+            <section>
+                <h2>Referencing elements correctly</h2>
+                <p>
+                    CSS files can become large and complex. Structuring them in an organized fashion will
+                    make them easier to maintain and also to know what selectors are best suited to be used to
+                    reference the HTML on your page.
+                    CSS is used to apply styles to elements in an HTML page. To do so, the CSS has to know which
+                    elements to apply the styles to. There are a few ways to reference elements from CSS. This
+                    is known as the selector syntax. This has been demonstrated throughout the chapter. This
+                    section will explain specifically how to reference elements from CSS. The key consideration is
+                    to ensure that you reference elements such that the styles affect only the elements you want
+                    affected. In large complex CSS, it can get complicated.
+                    Elements can be referenced from CSS by their element name. For example:                    
+                </p>
+                <code>
+                    p{…}<br>
+                    article{…}<br>
+                    div{…}                    
+                </code>
+                <p>
+                    In this code, styles are applied to all paragraph elements, article elements, and div
+                    elements.The next method to select elements is through the use of classes as shown here:                    
+                </p>
+                <code>
+                    .bold{…}<br>
+                    .largeTitle{…}
+                </code>
+                <p>
+                    In this code, the styles are applied only to HTML elements that have their class attribute
+                    assigned these class names. Element names and classes can be combined to narrow the
+                    selector even further:                    
+                </p>
+                <code>
+                    p.largeTitle{…}
+                </code>
+                <p>
+                    This code applies the styles only to paragraph elements that have the class largeTitle
+                    assigned to the class attribute.
+                    The most granular method to reference HTML elements from CSS is by using the id or
+                    name of the element:                    
+                </p>
+                <code>
+                    #nameBox{…}
+                </code>
+                <p>
+                    This code applies the specified styles only to the single element on the page with the
+                    specified name.
+                    In some cases, you might want to apply the same style to many elements of different
+                    types. In this case, you can group them and define the styles only once:                    
+                </p>
+                <code>
+                    p, H1, H2 {…}
+                </code>
+                <p>
+                    In this sample, all three of the HTML elements noted will have the defined styles applied to them.
+                </p>
+            </section>
+            <section>
+                <h2>Implementing inheritance</h2>
+                <p>
+                    Some styles applied to a parent element are automatically inherited by children elements.
+                    For example, if a series of paragraph elements are inside an article element, and font and text
+                    styles are applied to the article, all the paragraph elements will automatically inherit the font
+                    and text styles as well. The following code demonstrates this concept:                    
+                </p>
+                <div class="style01">
+                    hello div world.
+                    <p>
+                    Hello paragraph world.
+                    </p>
+                    <p class="style02">
+                        Hello paragraph world, has it own style defined.
+                    </p>    
+                </div>
+                <p>
+                    Both the div and the paragraph will have the font and color styles applied to them because
+                    the paragraph element does not have any of its own styles defined. If you assign styles to the
+                    paragraph element to override the div styles you would be able to prevent the inheritance of
+                    the styles.                    
+                </p>
+            </section>
+            <section>
+                <h2>Overriding inheritance using !important</h2>
+                <p>
+                    CSS for large websites can be complicated. Large websites may have CSS coming from different
+                    sources. It could be on each page and referenced externally. External libraries are more
+                    and more common as experts throughout the community have created themes that can be
+                    imported into your web applications. With all this styling coming from different sources,
+                    inheritance of styles can be tricky. In some cases you may just need to override all other 
+                    competing styles completely with your own desired style. This is where the !important keyword
+                    comes in. Consider the following simple CSS example:                    
+                </p>
+                <code>
+                    p {<br>
+                        &nbsp;font-family: serif;<br>
+                        &nbsp;color: blue;<br>
+                        }<br>
+                        p {<br>
+                            &nbsp;color: purple;<br>
+                        }<br>
+                        p{<br>
+                            &nbsp;color: yellow;<br>
+                        }                    
+                </code>
+                <p>
+                    In this CSS code, you have three competing styles for the paragraph element. How the
+                    browser renders this is based on the last style it reads for an element it applies to. So in
+                    this case, the text in all the paragraphs will be yellow. However, if you want to override this
+                    behavior and force the paragraph elements on the page to be purple, you simply add the
+                    !important keyword to the style you want to have applied:                    
+                </p>
+                <code>
+                    p {<br>
+                        &nbsp;font-family: serif;<br>
+                        &nbsp;color: blue;<br>
+                        }<br>
+                        p {<br>
+                            &nbsp;color: purple !important;<br>
+                        }<br>
+                        p{<br>
+                            &nbsp;color: yellow;<br>
+                        }                    
+                </code>
+                <p>
+                    The paragraph elements will render purple and not yellow. The !important notation tells
+                    the parser to give that style priority. This is a simplistic example, but the concept is the same
+                    whether the styles are in a single page such as this or if they come from a variety of external
+                    sources with conflicting styles.                    
+                </p>
+            </section>
+        </article>
+        
+        <div>
+            <hgroup>
+                <h1>H1 header in hgroup</h1>
+                <h2>H2 header in hgroup</h2>
+            </hgroup>
+        </div>
+        <div>
+            <section>
+                <h2>HTML examples from book</h2>
+                <article>
+                    <h2>H2 in article</h2>
+                    <p>Article paragraph 1 </p>
+                    <p>Article paragraph 2 </p>
+                </article>
+
+                <article>
+                    <h2>H2 in article</h2>
+                    <p>Article paragraph 1 </p>
+                    <aside>
+                        <p>The Epcot center is a theme park at Walt Disney World Resort featuring exciting attractions, international pavilions, award-winning fireworks and seasonal special events.</p>
+                    </aside>                    
+                    <p>Article paragraph 2 </p>
+                </article>
+
+            </section>
+        </div>
+
+        <div>
+            <footer>
+                <p>First paragraph element in footer.</p>
+                <p>Second paragraph element in footer.</p>
+                <p>Third paragraph element in footer.</p>
+            </footer>
+        </div>     
+        <hr>
+        <h2>Examples using CSS selectors.</h2>
+        
+        <p class="style03">
+            It was the best of times, it was the worst of times, it was the age of wisdom, it was the age 
+            of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season 
+            of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair, 
+            we had everything before us, we had nothing before us, we were all going direct to Heaven, we were 
+            all going direct the other way - in short, the period was so far like the present period, that some
+            of its noisiest authorities insisted on its being received, for good or for evil, in the superlative 
+            degree of comparison only.            
+        </p>
+        <hr>
+        <h2>References:</h2>
+        <ul>
+            <li><a href="https://www.w3schools.com/cssref/css_selectors.asp" target="_blank">CSS Selector Reference</a></li>
+            <li><a href="https://www.w3schools.com/cssref/trysel.asp" target="_blank">CSS Selector Example</a></li>
+        </ul>
+    </body>
+</html>

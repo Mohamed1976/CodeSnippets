@@ -1,0 +1,50 @@
+[
+	{
+		"image":"image1.jpeg",
+		"name":"Apple iPhone 8 Plus || RED (Red, 256 GB)", 
+		"price":"Price : $ 990",
+		"list":[" 256 GB ROM "," 13.97 cm (5.5 inch) Retina HD Display"," 12MP + 12MP | 7MP Front Camera"," A11 Bionic Chip with 64-bit Architecture, Neural Engine."]
+	},
+	{
+		"image":"image2.jpeg",
+		"name":"Apple iPhone 8 Plus (Gold, 64 GB)",
+		"price":"Price : $ 760",
+		"list":[" 64 GB ROM "," 13.97 cm (5.5 inch) Retina HD Display"," 12MP + 12MP | 7MP Front Camera"," A11 Bionic Chip with 64-bit Architecture with Neural Engine."]
+	},
+	{
+		"image":"image3.jpeg",
+		"name":"Apple iPhone 8 Plus || RED (Red, 64 GB)",
+		"price":"Price : $ 499",
+		"list":[" 256 GB ROM "," 13.97 cm (5.5 inch) Retina HD Display"," 12MP + 12MP | 7MP Front Camera"," A11 Bionic Chip with 64-bit Architecture with Neural Engine."]
+	},
+	{
+		"image":"image4.jpeg",
+		"name":"Apple iPhone 8 Plus || RED (Red, 256 GB)",
+		"price":"Price : $ 649",
+		"list":[" 64 GB ROM "," 13.97 cm (5.5 inch) Retina HD Display"," 12MP + 12MP | 7MP Front Camera"," A11 Bionic Chip with 64-bit Architecture with Neural Engine."]
+	},
+	{
+		"image":"image5.jpeg",
+		"name":"Apple iPhone 7 Plus (Black, 32 GB)",
+		"price":"Price : $ 329",
+		"list":[" 64 GB ROM "," 13.97 cm (5.5 inch) Retina HD Display"," 12MP + 12MP | 7MP Front Camera"," A11 Bionic Chip with 64-bit Architecture with Neural Engine."]
+	},
+	{
+		"image":"image6.jpeg",
+		"name":"Apple iPhone 7 Plus (Rose Gold, 32 GB)",
+		"price":"Price : $ 329",
+		"list":[" 64 GB ROM "," 13.97 cm (5.5 inch) Retina HD Display"," 12MP + 12MP | 7MP Front Camera"," A11 Bionic Chip with 64-bit Architecture with Neural Engine."]
+	},
+	{
+		"image":"image7.jpeg",
+		"name":"Apple iPhone 7 Plus (Gold, 32 GB)",
+		"price":"Price : $ 319",
+		"list":[" 64 GB ROM "," 13.97 cm (5.5 inch) Retina HD Display"," 12MP + 12MP | 7MP Front Camera"," A11 Bionic Chip with 64-bit Architecture with Neural Engine."]
+	},
+	{
+		"image":"image1.jpeg",
+		"name":"Apple iPhone 7 Plus (Gold, 32 GB)",
+		"price":"Price : $ 760",
+		"list":[" 64 GB ROM "," 13.97 cm (5.5 inch) Retina HD Display"," 12MP + 12MP | 7MP Front Camera"," A11 Bionic Chip with 64-bit Architecture with Neural Engine."]
+	}
+]

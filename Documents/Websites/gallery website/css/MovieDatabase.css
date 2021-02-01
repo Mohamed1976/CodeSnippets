@@ -1,0 +1,16 @@
+body {
+    font-family: 'Roboto Slab', serif;
+  }
+
+  .carousel-item img {
+    height: 70vh;
+  }
+  
+  input {
+    height: 40px;
+    width: 220px;
+    background: white;
+    color: black;
+    text-align: center;
+    text-indent: 10px;
+  }

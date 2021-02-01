@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <title>Validate user input by using HTML5 elements</title>
+    </head>
+    <body>
+        <h1>Validate user input by using HTML5 elements</h1>
+        
+        <ul>
+            <li>Input controls such as text and textarea allow users to type information into a
+                webpage.</li>
+            <li>Some input controls provide built-in validation, such as for URLs and email addresses.</li>
+            <li>Radio buttons and check boxes provide controls for users to select items in a list.</li>
+            <li>Reset and submit buttons control behavior of the HTML form.</li>
+            <li>Users cannot modify the content of a control that has the readonly attribute assigned.</li>
+            <li>You can add a spelling checker to a text box to help users avoid spelling errors.</li>
+            <li>The pattern attribute helps define a regular expression for custom validation of
+                formatted data.</li>
+            <li>The required attribute ensures that a field is populated before users can submit the
+                form.</li>            
+        </ul>
+                
+        <p>
+            This objective examines the user interface elements made available by HTML5 that allow
+            users to provide input. The ability to capture information from users is a great feature. However,
+            you must ensure that user privacy and safety are protected as best as possible. You also
+            must ensure that the website doesn’t open any holes that an attacker can exploit to disrupt
+            the site’s services. Part of protecting the site is choosing the correct user input controls for
+            the job and setting the appropriate attributes on those controls to ensure that the data is
+            validated. For the exam, you need to know these input controls and the attributes they use
+            for this purpose.HTML5 provides a wide assortment of controls to make capturing user input simple and
+            secure.            
+        </p>
+        <p>
+            The &lt;input&gt; element in HTML denotes input controls. This element contains a type attribute
+            that specifies the type of input element to render. The exceptions to the &lt;input type=’’&gt;
+            rule are the &lt;textarea&gt; and &lt;button&gt; elements, which have their own element support.            
+        </p>        
+        <ul>
+            <li>color* Provides a color picker</li>
+            <li>date* Provides a date picker</li>
+            <li>datetime* Provides a date/time picker</li>
+            <li>month* Enables users to select a numeric month and year</li>
+            <li>week* Enables users to select a numeric week and year</li>
+            <li>time* Enables users to select a time of day</li>
+            <li>number* Forces the input to be numeric</li>
+            <li>Range Allows users to select a value within a range by using a slider bar</li>
+            <li>tel* Formats entered data as a phone number</li>
+            <li>url Formats entered data as a properly formatted URL</li>
+            <li>Radio† Enables users to select a single value for a list of choices</li>
+            <li>Checkbox† Enables users to select multiple values in a list of choices</li>
+            <li>Password† Captures a password and glyphs the entered characters</li>
+            <li>Button† Enables users to perform an action such as run script</li>
+            <li>Reset† Resets all HTML elements within a form</li>
+            <li>Submit† Posts the form data to a destination for further processing</li>            
+        </ul>
+        <span>
+            *Not supported currently by Internet Explorer<br>
+            †Not new in HTML5
+        </span>
+        <h4>Using text and textarea input types</h4>  
+        <p>                       
+            The text and textarea input controls are the most flexible. By using these controls, you allow
+            users to enter any text that they want into a regular text box. A text box provides a single-line
+            text entry, whereas a textarea allows for a multiline data entry. 
+            For the first and last names, the input is a standard text box as denoted
+            by type=”text”. This tells the renderer to display an input field into which users can enter freeform
+            text. However, this type of input field is limited to a single line. The Other Comments
+            text box provides a multiline text area for users to enter text into. The rows and cols attributes
+            define the viewable size of the text area. In this case, users can enter many lines of text into
+            the text area.
+            Other attributes that help with controlling how much information is entered into the text
+            fields is the maxlength attribute:
+            &lt;input type="text" id="firstNameText" maxlength="50"/&gt;    
+            Users can’t enter any more than 50 characters into the text field with the maxlength set to
+            a value of 50. In some cases, you might want to ensure that users enter only certain information in a
+            certain format.
+        </p>
+
+        <h4>url input type</h4>
+        <p>            
+            The &lt;input&gt; type of url displays a text box similar to what the &lt;input&gt; type of text provides.
+            However, the renderer is instructed that the input type is url, so when users try to submit
+            a form with this type of information on it, it validates that the text in the box matches the
+            format of a valid URL.Form 2 code demonstrates the power of the url input type in validating that the text a user
+            entered is indeed a valid URL format. If a user typed something other than a URL or an incomplete
+            URL into the Your Favorite Website box, such as contoso.com, and then clicked the
+            Submit Query button, the form would show a validation error. If you require more flexibility and want to accept partially entered URL information, such
+            as contoso.com, don’t use the url input box. A regular text input with a pattern specified would
+            be more appropriate.
+        </p>
+        
+        <h4>Using the password input control</h4>
+        <p>
+            The password input control is the standard method of prompting users for sensitive
+            information. As you type your password, each character is replaced with a glyph so that any
+            onlookers can’t see your password.
+            The password text box doesn’t look any different than any other text box. However,
+            typing into the box provides a different experience.The password input type captures information securely. Users typing this information don’t
+            want others who are nearby to be able to see what they’ve been typing and hence compromise
+            their data.
+            <br><br><i>
+                You can’t specify default text in a password box or write to it via JavaScript. This is a security
+                safeguard to help ensure the safety of passwords. However, the browsers provide a
+                mechanism to store a password should a user choose to have the password remembered
+                by the browser.
+            </i>            
+        </p>
+        
+        <h4>Using the email input type</h4>
+        <p>
+            You can use the email input type to ensure that the format of the text entered into the text
+            box matches that of a valid email address. Being able to capture an email address is often important
+            to enable further follow up with a user. This control helps ensure that the information
+            entered matches what’s expected in the form of an email address. Note validation of the email input type confirms only that the information entered matches the
+            expected format of a valid email address. It in no way verifies that the email address itself
+            is a valid mailbox that can receive messages. This validation helps ensure that you don’t mistype your email address. Of course, it
+            doesn’t prevent you from entering an invalid email address, only one where the format
+            doesn’t match correctly to what would be expected such as having the @ symbol and ending
+            with a .com or other domain suffix.            
+        </p>
+        
+        <h4>Using the checkbox input type</h4>
+        <p>
+            In some cases when capturing information from users, you need to be able to capture more
+            than one choice as it relates to a specific question. In this case, the checkbox input control
+            is the best choice. You can provide a series of check boxes and allow users to select all that
+            apply.provides a way to default a check box to the “checked” (or selected) state. By default, check
+            boxes aren’t selected. However, by adding the attribute as follows, the check box defaults to
+            the “checked” state when the page is loaded:<br><br>
+            &lt;input type="checkbox" id="chkBrown" checked="checked"/&gt; Brown<br>
+            &lt;input type="checkbox" id="chkBrown" checked/&gt; Brown<br><br>
+            In other cases, when presented with a list of items, users might be able to choose only a
+            single item from the list.
+        </p>
+
+        <h4>Using the radio input type</h4>
+        <p>
+            The radio button is similar to the check box in that it provides a list of options for users to
+            select from. The difference from the check box is that users can select only a single item from
+            the list. An example would be asking users to rate something on a scale from 1 to 5.
+            Notice that as with all HTML elements, each radio input type needs a unique id. However,
+            the name attribute ties all the radio buttons together. With the same name specified for each
+            radio type, the browser knows that they are part of a group and that only one radio button
+            of the group can be selected.In this output, the radio buttons are shown from left to right and enable users to select
+            only one option. When a user changes the selection to a different option, the previously
+            selected option is automatically cleared. Notice that as with all HTML elements, each radio input type needs a unique id. However,
+            the name attribute ties all the radio buttons together. With the same name specified for each
+            radio type, the browser knows that they are part of a group and that only one radio button
+            of the group can be selected. In Form 1 and 2, the radio buttons are shown from left to right and enable users to select
+            only one option. When a user changes the selection to a different option, the previously
+            selected option is automatically cleared.Like with the checkbox input types, defaulting the state of the radio input to selected is
+            possible. This is done in exactly the same way, by specifying the checked attribute:<br><br>
+            &lt;input type="radio" id="chkFive" name="experience" checked="checked"/&gt; 5 - Very Good<br><br>
+            In this case, the rating of 5 - Very Good defaults to selected for the group of radio buttons.
+            You can have multiple groups of radio buttons on the same page by specifying a different
+            name for each group of buttons.        
+        </p>
+
+        <h4>Using the range input type</h4> 
+        <p>
+            Using the range input type enables users to specify a value within a predefined range by
+            using a slider bar. This type can be used in cases where a wider range of values is required to
+            choose from but using radio buttons would be too unwieldy.<br><br>    
+        
+            &lt;input type="range" min="1" max="25" value="20"/&gt;<br><br>
+
+            This HTML markup provides users with a slider bar that they can use to specify a value
+            between 1 and 25. The min attribute specifies the minimum value of the range; the max attribute
+            specifies the maximum value. The value attribute specifies a default value. If you omit
+            the value attribute, the range defaults to the minimum value.In this output, the range control is displayed as a slider bar. The bar defaults to the value of
+            20 as specified in the markup. Users can grab the black endpoint of the slider and change the
+            value lower or higher by dragging it left or right. As a user changes the value, a tooltip shows
+            the current value where the slider resides.  
+        </p>
+
+        <h4>Using the button input type</h4>
+        <p>            
+            The input type that allows users to submit the form or clear it is button. The button input isn’t
+            new to HTML5 but is an essential piece to the data-capture puzzle. Buttons are what tell the
+            website when a user finishes doing something and that they want to perform an action. The
+            &lt;input&gt; element supports three types of button controls: submit, reset, and button.
+            The submit input type tells the HTML form to post its information to the server (or, in some
+            cases, to another site or webpage). The reset type automatically clears all form elements to
+            their default values. The button type provides a generic button with no predefined functionality.
+            It can be used to provide a custom function, such as cancel out from this page and
+            return to the home page. All three button types are added to the bottom of the survey page.
+            That’s all that’s required to add the functionality to the page for each button. Of course,
+            type=”button” requires some JavaScript to be wired up to actually do something. However,
+            the submit and reset buttons come with the described functionality built in.
+            The text on the buttons is the default text. The submit button comes with the text Submit
+            Query, and the reset button comes with the text Reset. This can’t be changed. However, the
+            button type doesn’t have any text on it because none was specified and the button doesn’t
+            come with any predetermined behavior. To specify text for this button, add the value attribute.
+            <br><br>
+            &lt;input type="button" value="Cancel"/&gt;                        
+            <br><br>
+            That’s what you get with the input type of button. However, in some cases, more flexibility
+            in the button’s content is desired. This is where the button element comes in handy.
+
+            <br><br>
+            <i>Note Anything can be a “button.” Because most DOM elements have a click event or at least
+            a mousedown and mouseup event, the concept of clicking can be captured and custom
+            actions processed. This can inherently turn any part of the DOM into a ”button.”</i>            
+        </p>
+
+        <h4>Using the button element</h4>
+        <p>
+            The button element provides a button on the user interface, just as the name implies.
+            However, from a graphical perspective, this element behaves very differently.
+            The button element also supports a type attribute, like as the ones seen previously: submit,
+            reset, and button. This example steps away from the survey and demonstrates these buttons
+            on a stand-alone page.This output displays three buttons, as expected. However, it doesn’t provide any text on
+            the buttons. The button element provides only the desired click behavior, such as submitting,
+            resetting, or providing a custom behavior like with type=”button”. Everything else must be
+            specified in the HTML, including the label or text that goes on the button. In this way, you
+            have much more control over what’s put on the button. Instead of Submit Query as with the
+            &lt;input&gt; element, the text can be set as Submit Survey or Save Data.
+            You can take the button element even further. The element’s contents don’t have to be just
+            plain text. You can embed images within the element by using the &lt;img&gt; element in addition
+            to text, or embed an entire clickable paragraph. You also can apply cascading style sheets
+            (CSS) to the button to change its appearance.
+            Within the button element lies the capability to create a highly customized button and get
+            default behavior from the browser.
+        </p>
+
+
+        <h3>Implementing content attributes</h3>
+        <p>
+            In addition to what’s provided by the various input types, such as range, email, and url,
+            other attributes are available and common across most of the input controls and provide additional
+            flexibility in how the fields are validated. Input controls provide content attributes that allow you to control their behavior in the
+            browser declaratively rather than have to write JavaScript code.
+        </p>
+
+        <h4>Making controls read-only</h4>
+        <p>
+            Part of the specification for the HTML input controls includes a readonly attribute. If you want
+            to present information to users in elements such as text boxes but don’t want them to be able
+            to alter this data, use the readonly attribute. When readonly is specified, the renderer won’t
+            allow users to change any of the data in the text box. You can specify readonly as follows:<br><br>
+            &lt;input type="text" readonly value="00XY998BB"/&gt;<br>
+            &lt;input type="text" readonly="readonly" value="00XY998BB"/&gt;<br><br>
+            In the Form below at the top of the survey form, users are provided a secret code to correspond
+            with their survey. They can’t change this because the readonly attribute is specified.    
+        </p> 
+
+        <h4>Providing a spelling checker</h4>
+        <p>
+            Checking spelling is another method available to validate user input. The spellcheck attribute
+            helps provide feedback to users that a word they’ve entered is misspelled. Again, this attribute
+            is applied to the input element:<br><br>
+            &lt;textarea id="otherCommentsText" rows="5" cols="20" spellcheck="true"&gt;&lt;/textarea&gt;<br><br>
+            In this HTML, the spellcheck option has been turned on for the Other Comments text area
+            because users can type whatever they want and might make spelling errors.
+            The output of a text box with spellcheck isn’t any different until a user starts typing and
+            enters a spelling error.In some cases, the built-in validation provided by the input controls isn’t sufficient, and
+            providing a custom pattern to validate is better
+        </p>
+
+        <h4>Specifying a pattern</h4> 
+        <p> 
+            As you saw with the email and url input types, built-in validation is fairly thorough in ensuring
+            that the information entered is accurate and as expected. However, in some cases you might
+            require looser or stricter validation. Suppose that you don’t want users to have to specify
+            the HTTP protocol in a url type, but you want to allow only .com or .ca websites. This can be
+            achieved by using the pattern attribute, which allows the use of a regular expression to define
+            the pattern that should be accepted.
+            The following code shows the pattern attribute used to achieve the desired validation:<br><br>
+            &lt;input type="text" title="Only .com and .ca are permitted."
+            pattern="^[a-zA-Z0-9\-\.]+\.(com|ca)$"/&gt;<br><br>
+            Plenty of regular expressions are available to validate a URL; this one is fairly simple. When
+            specifying the pattern attribute, you should specify the title attribute as well. The title attribute
+            specifies the error message to users in the tooltip when validation fails.
+            To ensure that users enter the data in the correct format, you should show them a sample
+            of what the data should look like. This is achieved with the placeholder attribute.            
+            <br><br>
+            <i>Note The pattern attribute applies only to text boxes. It can’t be used to override the validation
+            built into the email or url types.</i>            
+        </p>
+
+        <h4>Using the placeholder attribute</h4> 
+        <p>
+            The placeholder attribute enables you to prompt users with what’s expected in a certain
+            text box. For example, an email text box might show placeholder text such as
+            me@mydomain.com. More importantly, this placeholder text doesn’t interfere with users
+            when they start typing their information into the text box. The placeholder attribute achieves this.            
+            <br><br>
+            &lt;input type="email" placeholder="me@mydomain.com" /&gt;
+            <br><br>
+            The placeholder text is slightly lighter in color. As soon as a user puts the mouse cursor
+            into the box to type, the placeholder text disappears and the user’s typing takes over.
+            HTML fields can be validated in many ways. In some cases, it’s not so much what is put into
+            the field, but that the field is indeed filled in. The required attribute controls this for the HTML
+            elements.            
+        </p>
+        
+        <h4>Making controls required</h4>
+        <p>
+            To ensure that a user fills in a field, use the required attribute with the &lt;input&gt; element. Doing
+            so ensures that users will be told that the field is required. In this example, the email address
+            will be made a required text box:<br><br>
+            &lt;input type="email" placeholder="me@mydomain.com" required/&gt;<br><br>
+            With the required control specified, if users try to submit the form without specifying an
+            email address, they get an error message. Now users can’t submit until they
+            specify a valid email address. The capabilities of the input controls can provide quite a robust validation framework.
+            However, more needs to be done to ensure that the website is safe and secure.
+        </p>
+
+        <i>
+            You can validate data in many ways. Even more options become available in HTML5,
+            such as the url input type. Also available are the pattern attribute and the use of regular
+            expressions in JavaScript.            
+        </i>
+
+        <br><hr>
+        
+        <!-- FORM 1-->
+        <h3>FORM 1: HTML5 markup for a customer survey.</h3>
+        <form>
+            <div>
+                <hgroup>
+                    <h1>Customer Satisfaction is #1</h1>
+                    <h2>Please take the time to fill out the following survey</h2>
+                </hgroup>
+            </div>
+            <table>
+                <tr>
+                    <td>Your Secret Code:
+                    </td>
+                    <td>
+                        <input type="text" readonly="readonly" value="00XY998BB"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Password:
+                    </td>
+                    <td>
+                        <input type="password"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>First Name:
+                    </td>
+                    <td>
+                        <input type="text" id="firstNameText" maxlength="50"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Last Name:
+                    </td>
+                    <td>
+                        <input type="text" id="lastNameText"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    Your favorite website:
+                    </td>
+                    <td>
+                        <input type="url"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    Your age in years:
+                    </td>
+                    <td>
+                        <input type="number"/></td>
+                </tr>
+                <tr>
+                    <td>
+                    What colors have you colored your hair:
+                    </td>
+                    <td>
+                        <input type="checkbox" id="chkBrown" checked="checked"/>
+                        Brown
+                        <input type="checkbox" id="chkBlonde"/>
+                        Blonde
+                        <input type="checkbox" id="chkBlack"/>
+                        Black
+                        <input type="checkbox" id="chkRed"/>
+                        Red
+                        <input type="checkbox" id="chkNone"/>
+                        None
+                    </td>
+                </tr>
+                <tr>
+                    <td>Rate your experience:
+                    </td>
+                    <td>
+                        <input type="radio" id="chkOne" name="experience"/>
+                        1 - Very Poor
+                        <input type="radio" id="chkTwo" name="experience"/>
+                        2
+                        <input type="radio" id="chkThree" name="experience"/>
+                        3
+                        <input type="radio" id="chkFour" name="experience"/>
+                        4
+                        <input type="radio" id="chkFive" name="experience" checked="checked"/>
+                        5 - Very Good
+                    </td>
+                </tr>
+                <tr>
+                    <td>How likely would you recommend the product:
+                    </td>
+                    <td>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <input type="range" min="1" max="25" value="20"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Other Comments:
+                    </td>
+                    <td>
+                        <textarea id="otherCommentsText" rows="5" cols="20" spellcheck="true">
+                        </textarea>
+                    </td>
+                        </tr>
+                        <tr>
+                    <td>
+                    Email address:
+                    </td>
+                    <td>
+                        <input type="email" placeholder="me@mydomain.com" required/>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="submit"/>
+                        <input type="reset"/>
+                        <input type="button" value="Cancel"/>
+                    </td>
+                </tr>
+            </table>
+        </form>        
+        <br><hr>
+        
+        <!-- FORM 2-->
+        <h3>FORM 2: HTML5 markup for a customer survey.</h3>
+        <form>
+            <table>
+                <tr>
+                    <td>Last Name:
+                    </td>
+                    <td>
+                        <input type="text" required="required" title="Last Name is required."/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    Your favorite website:
+                    </td>
+                    <td>
+                        <input type="url"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    Password:
+                    </td>
+                    <td>
+                        <input type="password"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    Email address:
+                    </td>
+                    <td>
+                        <input type="email"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    What colors have you colored your hair:
+                    </td>
+                    <td>
+                        <input type="checkbox"  checked="checked"/> Brown
+                        <input type="checkbox" /> Blonde
+                        <input type="checkbox" /> Black
+                        <input type="checkbox" /> Red
+                        <input type="checkbox" /> None
+                    </td>
+                </tr>                                
+                <tr>
+                    <td>
+                    Rate your experience:
+                    </td>
+                    <td>
+                        <input type="radio" id="_chkOne" name="_experience" checked="checked"/> 1 - Very Poor
+                        <input type="radio" id="_chkTwo" name="_experience"/> 2
+                        <input type="radio" id="_chkThree" name="_experience"/> 3
+                        <input type="radio" id="_chkFour" name="_experience"/> 4
+                        <input type="radio" id="_chkFive" name="_experience"/> 5 - Very Good
+                    </td>
+                    </tr>                
+                <tr>
+                    <td>How likely would you recommend the product:
+                    </td>
+                    <td>
+                        <input type="range" min="1" max="25" value="20"/><span>100</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" value="submit"/>
+                        <input type="reset" value="reset"/>
+                        <input type="button" value="button"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button type="button">Go Home</button>
+                        <button type="reset" >Reset</button>
+                        <button type="submit">Submit Survey</button>        
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button type="button" style="border: black 2px solid; border-radius: 15px;background-color: lightgray;">
+                            <span>Something exciting lies behind this button</span><br>
+                            <img style="width: 40px;height: 40px;" src="../coursera-course/resources/img/bird.jpg" alt="Blad eagle"/>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Please enter you website:
+                    </td>
+                    <td>
+                        <input type="text" title="Only .com and .ca are permitted." placeholder="Only .com and .ca." pattern="^[a-zA-Z0-9\-\.]+\.(com|ca)$"/>                    
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td colspan="2">
+                        <input type="submit"/>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <hr><br>
+
+    </body>
+</html>

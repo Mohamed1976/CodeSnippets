@@ -1,0 +1,185 @@
+@media only screen and (max-width: 500px) {
+    .cardbox {
+      flex-direction: column;
+    }
+    #title {
+      font-size: 2.5rem;
+      font-weight: 300;
+      letter-spacing: 0.8rem;
+      text-align: center;
+    }
+    .col-md-6 {
+      text-align: center;
+    }
+  }
+  
+  @media only screen and (max-width: 800px) and (min-width: 500px) {
+    .cardbox {
+      flex-direction: column;
+    }
+    #title {
+      font-size: 3.5rem;
+      font-weight: 300;
+      letter-spacing: 0.8rem;
+      text-align: center;
+    }
+    .col-md-6 {
+      text-align: center;
+    }
+  }
+  
+  @media screen and (max-width: 1000px) and (min-width: 800px) {
+    #title {
+      font-size: 5rem;
+      font-weight: 300;
+      letter-spacing: 0.8rem;
+      text-align: center;
+    }
+  }
+  
+  body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    margin: 0px;
+    background-color: #fffcf5;
+    font-family: "Courier", Courier, monospace;
+  }
+  
+  .container {
+    flex: 1 0 auto;
+    padding: 20px;
+  }
+  
+  footer {
+    height: 25px;
+    text-align: center;
+    margin-bottom: 5px;
+  }
+  
+  .cardbox {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .card {
+    flex: 1;
+    margin: 5px;
+    background-color: #fffcf5;
+    border: black 2px solid;
+    margin: 10px;
+  }
+  
+  .card-body {
+    padding: 0;
+  }
+  
+  .card-header {
+    font-size: 2em;
+    text-align: center;
+    background-color: #fffcf5;
+    border-bottom: none;
+  }
+  
+  h1 {
+    font-size: 7rem;
+    font-weight: 300;
+    line-height: 1.2;
+    letter-spacing: 1.5rem;
+    text-align: center;
+  }
+  
+  ul {
+    list-style: none;
+  }
+  
+  li {
+    font-size: 1.8rem;
+  }
+  
+  #searchParam {
+    border-color: black;
+    border-top: solid 1px;
+    border-bottom: solid 1px;
+    text-transform: uppercase;
+  }
+  
+  #searchParam:hover {
+    border-top: solid 2px black;
+    border-bottom: solid 2px black;
+    border-left: 0px;
+    border-right: 0px;
+  }
+  
+  #locate {
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+    border: black solid 3px;
+  }
+  
+  #search {
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    border: black solid 3px;
+  }
+  
+  .btn {
+    color: black;
+  }
+  
+  .btn-outline-secondary:hover {
+    width: 5rem;
+    background-color: thistle;
+    color: black;
+  }
+  
+  .fa-heart {
+    color: red;
+  }
+  
+  #bigTemp {
+    font-size: 8vw;
+    display: inline;
+  }
+  
+  .col-md-12 {
+    font-size: 1rem;
+  }
+  
+  .wi-thermometer {
+    margin-right: 1rem;
+  }
+  
+  #changeTemp {
+    color: black;
+    background-color: #fffcf5;
+    border: black solid 3px;
+    border-radius: 0.5rem;
+  }
+  
+  #changeTemp:hover {
+    width: auto;
+    background-color: thistle;
+  }
+  
+  img {
+    transition: transform 0.5s ease-in-out;
+  }
+  
+  img:hover {
+    transform: rotate(360deg);
+  }
+  
+  #cardbox {
+    visibility: hidden;
+    margin-top: 30px;
+  }
+  
+  .badge {
+    font-size: 2rem;
+  }
+  
+  .wi-refresh {
+    font-size: 5rem;
+  }

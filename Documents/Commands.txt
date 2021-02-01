@@ -153,6 +153,6 @@ C:\Users\moham>browser-sync --version
 2.26.12
 
 Start browser-sync
-C:\Users\moham\Desktop\Websites>browser-sync start --server --directory --files "*"
+C:\Users\moham\Desktop\Websites>browser-sync start --server --directory --files "**/*"
 Use "**/*" instead of "*" to watch all files in the subfolders of root
 https://browsersync.io/docs/command-line

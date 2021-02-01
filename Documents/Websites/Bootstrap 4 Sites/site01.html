@@ -1,0 +1,341 @@
+<!-- Reference to tutorial: https://www.youtube.com/watch?v=9cKsq14Kfsw&t=134s -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Complete Bootstrap 4 Website Layout</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+	<script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+	<link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
+	<div class="container-fluid">
+		<a class="navbar-brand" href="#0">
+			<img src="images/logo.png">
+		</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarResponsive">
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item" >
+					<a class="nav-link active" href="#0">Home</a>
+				</li>
+				<li class="nav-item" >
+					<a class="nav-link" href="#0">About</a>
+				</li>
+				<li class="nav-item" >
+					<a class="nav-link" href="#0">Services</a>
+				</li>
+				<li class="nav-item" >
+					<a class="nav-link" href="#0">Team</a>
+				</li>
+				<li class="nav-item" >
+					<a class="nav-link" href="#0">Contact</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>
+
+<!--- Image Slider -->
+<div id="slides" class="carousel slide" data-ride="carousel"> 
+
+	<ul class="carousel-indicators">
+		<li class="active" data-target="#slides" data-slide-to="0"></li>
+		<li data-target="#slides" data-slide-to="1"></li>
+		<li data-target="#slides" data-slide-to="2"></li>
+	</ul>
+
+	<div class="carousel-inner">
+		<div class="carousel-item active">
+			<img src="images/background.png">
+			<div class="carousel-caption">
+				<h1 class="display-2">Bootstrap</h1>
+				<h3>Complete Website Layout</h3>
+				<button type="button" class="btn btn-outline-light btn-lg">View demo</button>
+				<button type="button" class="btn btn-primary btn-lg">Get started</button>
+			</div>
+		</div>
+		<div class="carousel-item">
+			<img src="images/background2.png">
+		</div>
+		<div class="carousel-item">
+			<img src="images/background3.png">
+		</div>
+	</div>
+
+</div>
+
+<!--- Jumbotron -->
+<div class="container-fluid">
+	<div class="row jumbotron">
+		<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 col-xl-10">
+			<p>
+				Mr. Ryan, thank you very much for this absolute unique tutorial. It really helped me to understand the logic of Bootstrap engine. One recommendation for watchers.... try to write the whole code by yourself. Every change test immediately. Don't just copy'n'paste blocks of code from other creators. Only by this way you will understand.				
+			</p>
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-2">
+			<a href="#0"><button type="button" class="btn btn-outline-secondary btn-lg">Web hosting</button></a>
+		</div>
+	</div>
+</div>
+
+<!--- Welcome Section -->
+<div class="container-fluid padding">
+	<div class="row welcome text-center">
+		<div class="col-12">
+			<h1 class="display-4">Built with ease.</h1>
+		</div>
+		<hr>
+		<div class="col-12">
+			<p class="lead">
+				This is really great. Introduces some very cool concepts. And I love how you separated the HTML into logical sections. Makes it so easy to identify and I am modifying as I go along so I can just copy and paste into a Bootcamp project. Thanks so much.
+			</p>
+		</div>
+	</div>
+</div>
+
+<!--- Three Column Section -->
+<div class="container-fluid padding">
+	<div class="row text-center padding">
+		<div class="col-xs-12 col-sm-6 col-md-4">
+			<i class="fas fa-code"></i>
+			<h3>HTML5</h3>
+			<p>Built with the latest verion of HTML, HTML5.</p>
+		</div>
+		<div class="col-xs-12 col-sm-6 col-md-4">
+			<i class="fas fa-bold"></i>
+			<h3>Bootstrap</h3>
+			<p>Built with the latest verion of Bootstrap, Bootstrap 4.</p>
+		</div>
+		<!-- <div class="col-xs-12 col-sm-12 col-md-4"> -->
+		<div class="col-xs-12 col-md-4">
+			<i class="fab fa-css3-alt"></i>
+			<h3>CSS3</h3>
+			<p>Built with the latest verion of CSS, CSS3.</p>
+		</div>		
+	</div>
+
+	<hr class="my-4">
+</div>
+
+
+<!--- Two Column Section -->
+<div class="container-fluid padding">
+	<div class="row padding">
+		<div class="col-xs-12 col-lg-6">
+			<h2>If you build it...</h2>
+			<p>
+				Thank you so much; this is the first time I built my own bootstrap website completely. Your video is the best so far I have seen. I need more. God bless you.				
+			</p>
+			<p>
+				Thank you for this tutorial. I spent the day building the site along with the video and was able to get it working in the end.
+				Much appreciated!				
+			</p>
+			<p>
+				Thanks a lot for the tutorial Drew. This is awesome. I have learned a lot from this. Looking forward to more exciting tutorials.
+			</p>
+			<br>
+			<a href="#0" class="btn btn-primary">Learn more</a>
+		</div>
+		<div class="col-xs-12 col-lg-6">
+			<img src="images/desk.png" class="img-fluid">
+		</div>
+	</div>
+</div>
+
+<hr class="my-4">
+<!--- Fixed background -->
+<figure>
+	<div class="fixed-wrap">
+		<div id="fixed">
+
+		</div>
+	</div>
+</figure>
+
+<!--- Emoji Section -->
+<button class="fun" data-toggle="collapse" data-target="#emoji">
+	Click for fun
+</button>
+<div id="emoji" class="collapse">
+	<div class="container-fluid padding">
+		<div class="row text-center">
+			<div class="col-sm-12 col-md-6 col-lg-3">
+				<img class="gif" src="images/gif/chicken.gif">	
+			</div>
+			<div class="col-sm-12 col-md-6 col-lg-3">
+				<img class="gif" src="images/gif/panda.gif">	
+			</div>
+			<div class="col-sm-12 col-md-6 col-lg-3">
+				<img class="gif" src="images/gif/poo.gif">	
+			</div>
+			<div class="col-sm-12 col-md-6 col-lg-3">
+				<img class="gif" src="images/gif/unicorn.gif">	
+			</div>
+		</div>
+	</div>
+</div>  
+<!--- Meet the team -->
+<div class="container-fluid padding">
+	<div class="row welcome text-center">
+		<div class="col-12">
+			<h1 class="display-4">Meet the team</h1>
+		</div>
+		<hr>
+	</div>
+</div>
+
+<!--- Cards -->
+<div class="container-fluid padding">
+	<div class="row padding">
+		<div class="col-md-4">
+			<div class="card">
+				<img class="card-img-top" src="images/team1.png">
+				<div class="card-body">
+					<h4 class="card-title">John Doe</h4>
+					<p class="card-text">
+						John, thanks for supporting my channel and taking my Bootstrap Theme course on Udemy  :).
+					</p>
+					<a href="#0" class="btn btn-outline-secondary">See profile</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="card">
+				<img class="card-img-top" src="images/team2.png">
+				<div class="card-body">
+					<h4 class="card-title">Mary Doe</h4>
+					<p class="card-text">
+						Mary, thanks for supporting my channel and taking my Bootstrap Theme course on Udemy  :).
+					</p>
+					<a href="#0" class="btn btn-outline-secondary">See profile</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="card">
+				<img class="card-img-top" src="images/team3.png">
+				<div class="card-body">
+					<h4 class="card-title">Joe Doe</h4>
+					<p class="card-text">
+						Joe, thanks for supporting my channel and taking my Bootstrap Theme course on Udemy  :).
+					</p>
+					<a href="#0" class="btn btn-outline-secondary">See profile</a>
+				</div>
+			</div>
+		</div>				
+	</div>
+</div>
+
+
+<!--- Two Column Section -->
+<!--- Two Column Section -->
+<div class="container-fluid padding">
+	<div class="row padding">
+		<div class="col-xs-12 col-lg-6">
+			<h2>Our philosophy</h2>
+			<p>
+				Thank you so much; this is the first time I built my own bootstrap website completely. Your video is the best so far I have seen. I need more. God bless you.				
+			</p>
+			<p>
+				Thank you for this tutorial. I spent the day building the site along with the video and was able to get it working in the end.
+				Much appreciated!				
+			</p>
+			<p>
+				Thanks a lot for the tutorial Drew. This is awesome. I have learned a lot from this. Looking forward to more exciting tutorials.
+			</p>
+			<br>
+		</div>
+		<div class="col-xs-12 col-lg-6">
+			<img src="images/bootstrap2.png" class="img-fluid">
+		</div>
+	</div>
+	<hr class="my-4">
+</div>
+
+<!--- Connect -->
+<div class="container-fluid padding">
+	<div class="row text-center padding">
+		<div class="col-12">
+			<h2>Connect</h2>
+		</div>
+		<div class="col-12 social padding">
+			<a href="#0"><i class="fab fa-facebook"></i></a>
+			<a href="#0"><i class="fab fa-twitter"></i></a>
+			<a href="#0"><i class="fab fa-google-plus-g"></i></a>
+			<a href="#0"><i class="fab fa-instagram"></i></a>
+			<a href="#0"><i class="fab fa-youtube"></i></a>
+		</div>
+	</div>
+</div>
+
+
+<!--- Footer -->
+<footer>
+	<div class="container-fluid padding">
+		<div class="row text-center">
+			<div class="col-md-4">
+				<img src="images/w3newbie.png">
+				<hr class="light">
+				<p>567-345621</p>
+				<p>moo@gmail.com</p>
+				<p>Hoofdstraat 32</p>
+				<p>6754DL Arnhem</p>
+			</div>
+			<div class="col-md-4">
+				<hr class="light">
+				<h5>Our hours</h5>
+				<hr class="light">
+				<p>
+					Monday: 9am - 5pm 
+				</p>
+				<p>
+					Saturday: 10am - 4pm
+				</p>
+				<p>
+					Sunday: closed					
+				</p>
+			</div>
+			<div class="col-md-4">
+				<hr class="light">
+				<h5>Service Area</h5>
+				<hr class="light">
+				<p>6754DL Arnhem</p>
+				<p>6755DL Arnhem</p>
+				<p>6777DL Arnhem</p>
+				<p>6788DL Arnhem</p>
+			</div>
+			<div class="col-12">
+				<hr class="light-100">
+				<h5>&copy; Moccasoft</h5>
+			</div>			
+		</div>
+	</div>
+</footer>
+
+
+
+</body>
+</html>
+
+
+
+
+<!-- View in Browser: Drew's #1 Trending YouTube Tutorial -->
+<!-- <div class="youtube-tutorial">
+	<a href="http://w3n.link/bundle-bonus-playlist" target="_blank" style="cursor: pointer!important;">
+    <img src="https://w3newbie.com/wp-content/uploads/12-site-bundle-banner.png" style="max-width: 100%; position: absolute; bottom: 0;">
+  </a>
+</div> -->
+<!-- End View in Browser: Drew's #1 Trending YouTube Tutorial -->
+
+

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<meta charset="utf-8" />
+        <title>Course 1</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>        
+
+        <meta name="viewport" content="width=device-width" />
+        <script src="../js/jquery-3.5.1.min.js"></script>
+        <script src="js/script12.js"></script>
+        <style>
+
+            .paused {
+                background: #ddd;
+                color: #555;
+            }
+
+        </style>
+	</head>
+    <body>
+        <h1>Serialize, deserialize, and transmit data</h1>
+        <article>
+            <h1>Summary</h1>
+            <ul>
+                <li>Browsers provide native support via the JSON object to work with serializing and
+                    deserializing JSON strings.</li>
+                <li>The JSON.parse method deserializes a JSON string into an object, and the
+                    JSON.stringify method serializes an object into a JSON string.</li>
+                <li>By setting the XMLHttpRequest responseType property to the value ‘blob’, you can
+                    retrieve binary data.</li>
+                <li>By default, the form submit action sends the entire page to the server (based on the
+                    action attribute) for processing.</li>
+                <li>Handling the submit event allows you to customize how the form data is posted to the
+                    server.</li>
+                <li>The jQuery.serialize method provides a convenient shortcut to convert specified input
+                    controls into a query string.</li>
+            </ul>
+        </article>
+        <article>
+            <section>
+                <h1>JSON and XML data</h1>
+                <p>
+                    Data can be received and sent in many forms. In the preceding objective, JSON and XML were
+                    examined specifically. The notion of presenting JSON or XML data directly to users isn’t ideal.
+                    Users would appreciate receiving the data in a more usable or readable and meaningful way.
+                    For this, you need to have the data converted from an XML string or JSON string into something
+                    else. The concept of converting the data from one form to another is called serialization
+                    or deserialization.
+                    With serialization, the data is put into a format for transmission. With deserialization, the
+                    transmitted data is converted into something that can be worked with, such as a custom
+                    object. In addition to working with string data, applications can work with binary data. An
+                    application might capture drawings or pictures on a canvas and send that data back to the
+                    server. The data needs to be serialized into a binary stream to achieve this.
+                    This objective reviews the serialization, deserialization, and transmission of binary
+                    and text data. The ability to submit data via the HTML Form and sending data with the
+                    XMLHttpRequest object is also reviewed.                    
+                </p>
+            </section>
+            <section>
+                <h1>Sending data by using XMLHttpRequest</h1>
+                <p>
+                    Sending data to the server is similar to receiving data. The code examples in the preceding
+                    objective used the XMLHttpRequest object to receive data. The XMLHttpRequest object itself
+                    is agnostic to sending or receiving. It can accomplish both tasks based on how the object is
+                    set up. To send data, the send method must have data passed into it, and that data can be
+                    transmitted to the endpoint specified in the URL of the open method. The following code
+                    example sends the XML data to the server                                        
+                </p>
+                <button id="PostData">Post Data</button>
+            </section>
+            <section>
+                <h1>Serializing and deserializing JSON data</h1>
+                <p>
+                    The browser provides native support for working with JSON and XML. The JSON object
+                    is available for converting a JSON string to and from an object (serialize/deserialize). The
+                    following code shows how this is accomplished:<br><br>
+                    <code>
+                        var person = {<br>
+                            &nbsp;FirstName: "Rick",<br>
+                            &nbsp;HairColor: "Brown"<br>
+                            };<br>
+                            var jsonPerson = JSON.stringify(person);
+                    </code><br><br>
+                    The person object has been serialized into a JSON string that can be sent to an endpoint
+                    URL for processing. To return the person back to a person object from a JSON string, the
+                    object can be deserialized by using the parse method:<br><br>
+                    <code>
+                        var req = new XMLHttpRequest();<br>
+                        req.open("GET", "MyJsonData.json", false);<br>
+                        req.send(null);<br>
+                        var jsonPerson = JSON.parse(req.responseText);
+                    </code><br><br>
+                    When this code runs, the person object is reconstructed from the JSON string.
+                </p>
+            </section>
+            <section>
+                <h1>Serializing and deserializing binary data</h1>
+                <p>
+                    Capturing dynamic image data follows a similar pattern as with the other techniques
+                    reviewed. The key difference is now the responsetype property must be set to blob. The
+                    following code demonstrates retrieving a binary image object and deserializing it into the
+                    webpage:<br><br>
+                    <code>
+                        var xReq = new XMLHttpRequest();<br>
+                        xReq.open("GET", "orange.jpg", false);<br>
+                        xReq.responseType = 'blob';<br>
+                        xReq.send(null);<br>
+                        var blob = xReq.response;<br>
+                        document.getElementById("result").src = URL.createObjectURL(blob);                        
+                    </code><br><br>
+                    The XMLHttpRequest object’s responseType property has been set to blob. Then
+                    by using the response property to extract the binary data, the BLOB is passed to the
+                    URL.createObjectURL method. The createObjectURL method gives the img element a URL
+                    linking to the BLOB, and the image is displayed in the browser. For the inverse, the data can
+                    also be submitted to the server as soon as it’s serialized into a BLOB:<br><br>
+                    <code> 
+                        var xReq = new XMLHttpRequest();<br>
+                        xReq.open("POST", "saveImage.aspx", false);<br>
+                        xReq.responseType = 'blob';<br>
+                        xReq.send(data);<br> 
+                    </code>
+                </p>
+            </section>
+            <section>
+                <p>
+                    <h1>Using the Form.Submit method</h1> 
+                    The form element of an HTML page is the area of the form that contains elements that are
+                    typically input controls to gather information from users. The form element contains an action
+                    attribute that tells the form where to submit its data. Submitting the data in this way submits the
+                    entire HTML page back to the server for processing. However, another available mechanism is to
+                    hook up to the form’s submit event and handle the submission through JavaScript. This is useful
+                    for submitting the form’s data through an AJAX request so that users don’t have to leave the current
+                    page while the request is being processed.The form in this case will post its data to the processSignUp server page for processing,
+                    which in turn should redirect users back to a confirmation page of some sort. The other
+                    option for handling the form’s submission is to wire up the event in JavaScript.
+                    Iterating over all the form elements, capturing the data out of them, and constructing a
+                    query string for use with an AJAX call would be possible inside the click event.
+                    The data from each field in the form is extracted and concatenated into a query string
+                    to submit to the server from the AJAX call. Although this method is functional, it has some
+                    drawbacks. First, a form with many elements will cause this code to get long. As new elements
+                    are added, the code will need to be updated. There is another option in the form of a jQuery
+                    method called serialize().                    
+                </p>
+            </section>
+            <section>
+                <h1>Using the jQuery.serialize method</h1>
+                <p>
+                    jQuery provides a seamless way to encode data from an HTML form by traversing the form
+                    that’s passed into it and looking for input boxes to construct and return a query string. Then
+                    the query string can be posted to the server for processing.
+                    In this case, the jQuery.serialize method handles the extraction of the data from all the
+                    input elements and creates the query string. The advantage of using this method— beyond
+                    saving a lot of code—is that the query string is also encoded.
+                    The serialize method requires that all elements have the name attribute specified.
+                    The serialize method acts on any results from the selector that’s passed into the $() segment
+                    of the jQuery. However, the serialize method has some limitations that you should know
+                    about. Only successful controls are serialized—meaning, only controls that are in a valid state.
+                    For input controls such as check boxes and radio buttons, only the ones that are in a selected
+                    state are considered. For radio buttons, because the name attribute must be the same for
+                    them all to be considered in a radio button group, you would specify the value attribute to
+                    differentiate them in the query string:<br><br>
+                    <code>
+                        &lt;input type="radio" name="gender" value="m"/&gt;<br>
+                        &lt;input type="radio" name="gender" value="f"/&gt;<br>
+                    </code><br><br>
+                    The jQuery.serialize method makes the code involved to generate a query string of the
+                    parameters from a form much simpler to create and less error prone.
+                </p>
+            </section>            
+        </article>
+        <hr>
+            <p>
+                The blur event fires when an element has lost focus. The opposite of blur is focus.            
+            </p>
+            <input id="log" type="text">
+            <p id="logTxt">Click on this document to give it focus.</p>
+        <hr>
+            <button id="PostRequest">Post Data</button>
+            <p>Post data to server using XMLHttpRequest(), Note we need to implement serverside code to make this work.</p>
+        <hr>
+        <hr>
+            <p>Retrieving a binary image object and deserializing it into the webpage.</p>
+            <button id="GetImage">Get Image</button><br><br>
+            <div id="binaryImage">
+                <img id="resultImage">
+            </div>
+        <hr>
+        <form id="signupForm">
+            <label>FirstName</label>
+            <input style="width: 200px;" type="text" id="firstName" name="firstName"><br>
+            <label>LastName</label>
+            <input style="width: 200px;" type="text" id="lastName" name="lastName"><br>
+
+            <label>Male</label>
+            <input type="radio" name="gender" value="m" checked="checked"/>
+            <label>Female</label>
+            <input type="radio" name="gender" value="f"/><br>
+
+            <input type="submit" value="Submit">
+        </form>
+        <hr>
+        <article>
+            <h1>NASA Image Of The Day</h1>
+            <label>Select Day: </label>
+            <input type="date" value="2017-06-01">
+            <button id="FetchImage">Fetch Image</button><br><br>
+            <img style="width: 100%;" id="ImageOfTheDay"><br><br>
+            <p id="ImageDescription"></p>
+        </article>
+        <br><br>
+        <p><strong>The raw Json Response.</strong></p>
+        <div id="JsonResponse"></div>
+        <hr>
+        <a href="http://time.jsontest.com/" target="_blank">In this example, we use JSON data from http://time.jsontest.com.</a>
+        <p>The GET request returns this JSON string.</p>
+        <code>
+        {<br>
+            &nbsp;"time": "11:27:26 AM",<br>
+            &nbsp;"milliseconds_since_epoch": 1494934046126,<br>
+            &nbsp;"date": "05-16-2017"<br>
+        }            
+        </code><br><br>
+        <button id="fetchDate">Fetch Date</button><br><br>
+        <div class="mypanel"></div><br><br>
+        <div id="div10"></div><br>
+        <h4>Reading JSON with Fetch API</h4>
+        <p>            
+            Fetch API is interface for fetching resources. It is similar to XMLHttpRequest but its API provides a more powerful and flexible feature set.            
+        </p>
+        <div id="div11"></div>
+        <br>
+        <button id="getIPAddress">Get IP address</button><br><br>
+        <div id="div12"></div>
+
+        <hr><br>        
+        <h4>References</h4>
+        <ul>
+            <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch" target="_blank">Using Fetch</a></li>
+            <li><a href="http://time.jsontest.com/" target="_blank">Simple Json time provider</a></li>
+            <li><a href="https://mathiasbynens.be/demo/ip" target="_blank">Simple Json Get My IP Address</a></li>
+            <li><a href="https://www.tutorialsteacher.com/jquery/jquery-ajax-method" target="_blank">Using AJAX</a></li>
+            <li><a href="http://zetcode.com/javascript/jsonurl/" target="_blank">Using getJSON</a></li>            
+            <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getMonth" target="_blank">Format Date object</a></li>
+            <li><a href="https://stackoverflow.com/questions/12409299/how-to-get-current-formatted-date-dd-mm-yyyy-in-javascript-and-append-it-to-an-i" target="_blank">Format Date object</a></li>
+            <li><a href="https://mathiasbynens.be/notes/xhr-responsetype-json" target="_blank">Combine XMLHttpRequest with JavaScript promises</a></li>
+            <li><a href="https://jsonplaceholder.typicode.com/posts" target="_blank">Json Array with objects</a></li>
+        </ul>
+    </body>
+</html>
+
+

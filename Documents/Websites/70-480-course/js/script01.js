@@ -1,233 +1,108 @@
-const BUFFER_NAME = "Tasks";
-const DEBUG = false;
+"use strict"
+
+const EnterkeyCode = 13;
 let taskManager = null;
 
-window.addEventListener("load", () => {
-    LogMessage("Entering Webpage load.");
-    taskManager = new TaskManager();    
+/* Document Ready Event, initializing the event handlers. */
+$(document).ready(function(){
+    /* Initialize the Todo List. */
+    init();
+
+    /* Processing the enter key in textbox */
+    $("#addTask").keydown(function(event) {
+        if(event.keyCode === EnterkeyCode && event.target.value !== "") {
+            addNewTask();
+            event.target.value = ""; /* Clear textbox */
+        }
+    });
+
+    /* Add task button clicked. */
+    $("#addTaskBtn").click(function() {
+        if($("#addTask").val() !== "") {
+            addNewTask();
+            $("#addTask").val(""); /* Clear textbox */    
+        }    
+    }); 
 });
- 
-class TaskManager {
-    constructor() {
-        LogMessage("TaskManager constructor.");
-        /* Task Textbox is referenced multiple times  */
-        this.taskTextbox = document.getElementById("addTask");
-        this.addEventListeners();
 
-        /*this.tasks = new Array(new Task("Get groceries", false, DateFormatter(new Date())), 
-            new Task("Go to Dentist", false, DateFormatter(new Date())),
-            new Task("Do Gardening.", false, DateFormatter(new Date())),
-            new Task("Renew Library Account", false, DateFormatter(new Date())));*/
-  
-        this.load();    
-        //this.save();    
-        //this.print();     
-        /*for(var i = 0; i < tasks.length; i++)
-        {
-            console.log("Task[" + i + "]: " + tasks[i].description + ", " 
-                + tasks[i].isComplete + ", " + tasks[i].dateCreated); //DateFormatter()
-        }
-        
-        var tasksJson = JSON.stringify(tasks);
-        console.log("tasksJson: " + tasksJson);
-        var tasksFromJson = JSON.parse(tasksJson); 
-        
-        tasksFromJson[0].isComplete = true;
-
-        for(i = 0; i < tasksFromJson.length; i++)
-        {
-            console.log("Task[" + i + "]: " + tasksFromJson[i].description + ", " 
-                + tasksFromJson[i].isComplete + ", " + tasksFromJson[i].dateCreated);
-        } */
+function init() {
+    /* TaskManager is created and used by functions in this file. */
+    taskManager = new taskNamespace.TaskManager("Tasks");
+    taskManager.load(); /* Load localstorage */
+    for (const task of taskManager.tasks) {
+        addTaskToWebPage(task);       
     }
-
-    addEventListeners() {
-        //document.getElementById("addTaskBtn").addEventListener("click", this.onTaskAddClick);
-        document.getElementById("addTaskBtn").addEventListener("click", () =>
-        {
-            var content = this.taskTextbox.value;
-            LogMessage("OnTaskAddClick executed, value textbox: " + content);
-            if(content !== "") {
-                LogMessage("Calling add Task, task description: " + content);
-                this.addTask(content)
-                this.taskTextbox.value = "";
-            }                
-        });
-                
-        /* Note we can call local methods if we call them from the definition of the eventhandler (as shown below).
-           We cannot reference a function and then call local function fromthat defined eventhandler method, 
-           because the this pointer points to the control that initiaited the event.   
-        */
-        //keypress/event.keyCode event  is no longer recommended.
-        //https://developer.mozilla.org/en-US/docs/Web/API/Document/keypress_event 
-        //https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/keyCode
-        //https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
-        //document.getElementById("addTask").addEventListener("keypress", this.onKeyPress);
-        //document.getElementById("addTask").addEventListener("keydown", (event) =>
-        this.taskTextbox.addEventListener("keydown", (event) =>
-        {
-            LogMessage("Entering onKeyPress, event.key === " + event.key + ", value === " + event.target.value);
-            //https://stackoverflow.com/questions/154059/how-can-i-check-for-an-empty-undefined-null-string-in-javascript
-            if(event.key === "Enter" && event.target.value !== "") {
-                LogMessage("Calling add Task, task description: " + event.target.value);
-                this.addTask(event.target.value)
-                event.target.value = "";
-            }
-        });
-
-        LogMessage("addEventListeners");
-    }
-
-    /* Add task when enter is pressed in textbox. */
-    onKeyPress(event) {
-        LogMessage("Entering onKeyPress, event.keyCode === " + event.keyCode + ", value === " + event.target.value);
-        //https://stackoverflow.com/questions/154059/how-can-i-check-for-an-empty-undefined-null-string-in-javascript
-        if(event.keyCode === 13 && event.target.value !== "") {
-            LogMessage("Calling add Task, task description: " + event.target.value);
-            //self.addTask(event.target.value)
-            event.target.value = "";
-            //this.self.print(); /* This refers to the event source textbox */
-        }
-    }     
-
-    onTaskAddClick() {
-        LogMessage("OnTaskAddClick executed.");
-    }
-
-    load() {
-        LogMessage("Entering loadTasks().");
-        LogMessage("BUFFER_NAME: " + BUFFER_NAME);
-        var Json = localStorage.getItem(BUFFER_NAME);
-        LogMessage("Json (tasks serialized data read from localstorage): " + Json);        
-        var tasksObj = JSON.parse(Json);
-        LogMessage("Number of tasks deserialized: " + tasksObj.length);
-        this.tasks = tasksObj;
-        /* Add tasks to html page. */
-        let tasksHtml = this.tasks.reduce((html, task, index) => html += this.generateTaskHtml(task, index), '');
-        //var tasksHtml = this.generateTaskHtml(tasksObj[0], 0);
-        LogMessage(tasksHtml);
-        document.getElementById('taskList').innerHTML = tasksHtml;
-    }
-
-    save() {
-        LogMessage("Entering save().");
-        var Json = JSON.stringify(this.tasks);
-        LogMessage("BUFFER_NAME: " + BUFFER_NAME);
-        LogMessage("Json (tasks serialized): " + Json);
-        localStorage.setItem(BUFFER_NAME, JSON.stringify(this.tasks));
-        LogMessage("Exiting save().");           
-    }
-
-    clear() {
-        localStorage.clear();
-    }
-
-    addTask(description) {
-        LogMessage("Entering addTask(), description: " + description);
-        //The push() method adds new items to the end of an array, and returns the new length. 
-        //Note: The new item(s) will be added at the end of the array
-        this.tasks.push(new Task(description, false, DateFormatter(new Date())));
-        //let task = new Task(description, false, DateFormatter(new Date()));
-        this.save();
-        this.load();
-    }
-
-    print() {
-        for(var i = 0; i < this.tasks.length; i++)
-        {
-            LogMessage("Task[" + i + "]: " + this.tasks[i].description + ", " 
-                + this.tasks[i].isComplete + ", " + this.tasks[i].dateCreated);
-        }
-    }
-
-    generateTaskHtml(task, index) {
-        return `
-          <li class="list-group-item checkbox">
-            <div class="row">
-              <div class="col-md-1 col-xs-1 col-lg-1 col-sm-1 checkbox">
-                <label><input id="toggleTaskStatus" type="checkbox" onchange="taskManager.toggleTaskStatus(${index})" value="" class="" ${task.isComplete?'checked':''}></label>
-              </div>
-              <div class="col-md-6 col-xs-6 col-lg-6 col-sm-6 task-text ${task.isComplete?'complete':''}">
-                ${task.description}
-              </div>
-              <div class="col-md-4 col-xs-4 col-lg-4 col-sm-4 task-date">
-                ${task.dateCreated}
-              </div>
-
-              <div class="col-md-1 col-xs-1 col-lg-1 col-sm-1 delete-icon-area">
-                <a class="" href="#0" onClick="taskManager.deleteTask(event, ${index})">
-                <i id="deleteTask" data-id="${index}" class="fas fa-trash"></i></a>
-              </div>
-            </div>
-          </li>
-        `;
-      }
-
-      toggleTaskStatus(index) {
-        LogMessage("toggleTaskStatus(index), index = " + index);
-        this.tasks[index].isComplete = !this.tasks[index].isComplete;
-        this.save();
-        this.load();
-      }
-
-      deleteTask(event, index) {
-        LogMessage("deleteTask(event, index), index = " + index + " event = " + event);
-        //console.log(event);
-        event.preventDefault();
-        this.tasks.splice(index, 1);
-        this.save();
-        this.load();
-      }
 }
 
-class Task {
-    constructor(description, isComplete, dateCreated) {
-        this.description = description;
-        this.isComplete = isComplete;
-        this.dateCreated = dateCreated;
-        LogMessage("Task constructor.");
-    }
+/* Adds task information to <ul> list. */
+function addTaskToWebPage(task) {
+    const content = generateTaskHtml(task);
+    $("#taskList").append(content);    
+} 
 
-    /* Members can als be accessed via setters, getters or via this.isComplete. */
-    GetDateCreated() {
-        return this.dateCreated;
-    }
+function addNewTask() {
+    const description = $("#addTask").val();
+    const task = new taskNamespace.Task(description, helpersNamespace.dateFormatter(new Date()));
+    taskManager.add(task);
+    taskManager.save();
+    addTaskToWebPage(task);
+}
+
+/* Removes a task from the task list. */
+function deleteTask(event, id) {
+    event.preventDefault(); /* Prevents redirect by <a> link. */
+    taskManager.remove(id);
+    taskManager.save();
+    $('#' + id).remove();
+}
+
+/* Set task status.  */
+function toggleTaskStatus(sender, id) {    
+    const task = taskManager.find(id);
+    const divElement = sender.parentNode.parentNode.nextElementSibling;
     
-    GetDescription() {
-        return this.description;
-    }
+    //task.isComplete = sender.checked;
+    task.setComplete(sender.checked);
+    taskManager.save();
 
-    GetStatus() {
-        return this.isComplete;
+    /* Update Web Page. */
+    if(sender.checked === true) {
+        divElement.classList.add("complete");
     }
-
-    SetStatus(status) {
-        this.isComplete = status;
-    }
-}
-
-function LogMessage(message) {
-    if(DEBUG) {
-        var date = new Date();
-        console.log(date.toLocaleTimeString() + ": " + message);    
+    else {
+        divElement.classList.remove("complete");
     }
 }
 
-function DateFormatter(dateObj) {
-    const monthNames = ["January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"];
-    let month = monthNames[dateObj.getMonth()];
-    let day = String(dateObj.getDate()).padStart(2, '0');
-    let year = dateObj.getFullYear();
-    let hours = String(dateObj.getHours()).padStart(2, '0'); 
-    let minutes = String(dateObj.getMinutes()).padStart(2, '0');
-    let seconds = String(dateObj.getSeconds()).padStart(2, '0');
-    let formatter = day  + "-" + month  + "-" + year + " " + hours + ":" + minutes + ":" + seconds;
-    //let formatter = month  + '\n'+ day  + ',' + year;
-    return formatter; 
+/* Generates a HTML list item containing the task info. */
+function generateTaskHtml(task) {
+    return `
+      <li id="${task.id}" class="list-group-item checkbox">
+        <div class="row">
+          <div class="col-md-1 col-xs-1 col-lg-1 col-sm-1 checkbox">
+            <label><input type="checkbox" onchange="toggleTaskStatus(this, '${task.id}')"${task.isComplete ? ' checked':''}></label>
+          </div>
+          <div class="col-md-6 col-xs-6 col-lg-6 col-sm-6 task-text${task.isComplete ? ' complete':''}">
+            ${task.description}
+          </div>
+          <div class="col-md-4 col-xs-4 col-lg-4 col-sm-4 task-date">
+            ${task.dateCreated}
+          </div>
+          <div class="col-md-1 col-xs-1 col-lg-1 col-sm-1 delete-icon-area">
+            <a href="#0" onClick="deleteTask(event, '${task.id}')">
+            <i class="fas fa-trash"></i></a>
+          </div>
+        </div>
+      </li>
+    `;
 }
 
-/* References
+/*
+REFERENCES:
+
+https://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid  How to generate a GUID.
+https://gist.github.com/wch/7090027 Namespace example in Javascript. This also demonstrates the module pattern.
+
 Defining classes
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
 
@@ -248,7 +123,88 @@ https://stackoverflow.com/questions/12409299/how-to-get-current-formatted-date-d
 Non-Navigating Links for JavaScript Handling
 https://weblog.west-wind.com/posts/2019/Jan/21/NonNavigating-Links-for-JavaScript-Handling
 
-Notes:
-Json serialization and deserialization of new date() object gives rise to problems.  
+String empty check 
+https://stackoverflow.com/questions/154059/how-can-i-check-for-an-empty-undefined-null-string-in-javascript
 
+https://stackoverflow.com/questions/154059/how-can-i-check-for-an-empty-undefined-null-string-in-javascript
+
+keypress/event.keyCode event  is no longer recommended.
+https://developer.mozilla.org/en-US/docs/Web/API/Document/keypress_event 
+https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/keyCode
+https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
+
+Notes:
+Json serialization and deserialization of new date() object gives rise to problems.
+
+-------------------------------------------------------------------------
+- Namespace example below from: https://gist.github.com/wch/7090027
+-------------------------------------------------------------------------
+// mynamespace is an object to use as a namespace
+mynamespace = (function() {
+
+  // Variables in the namespace
+  var mynamespace = {
+    foo: "Yes, this is foo."
+  };
+
+  // "Public" methods for the namespace
+  mynamespace.fooTwo = function() {
+    return twice(this.foo);
+  };
+
+  // "Private" methods in the namespace
+  function twice(x) {
+    return x + x;
+  }
+
+
+  // A class in the namespace
+  mynamespace.CoolClass = (function() {
+    // Contstructor
+    var coolclass = function() {
+      this.bar = "A bar.";
+    };
+
+    // Convenience  var for the prototype
+    var prototype = coolclass.prototype;
+
+    // "Public" methods - add to the prototype
+    prototype.barThree = function() {
+      return thrice(this.bar);
+    };
+
+    // "Private" methods - functions starting with "_" are private only by
+    // convention. 
+    prototype._barNine = function() {
+      return thrice(thrice(this.bar));
+    };
+
+    // Internal functions - these are captured in the closure, note that they
+    // are not duplicated when you do `new CoolClass()`. They cannot access
+    // `this`.
+    function thrice(x) {
+      return x + x + x;
+    }
+
+    return coolclass;
+  })();
+
+  // Instantiate the CoolClass (must be after CoolClass is defined)
+  mynamespace.coolObject = new mynamespace.CoolClass();
+
+  return mynamespace;
+})();
+
+
+// Outside of the anonymous function, can access the following:
+console.log(mynamespace.foo);        // "Yes, this is foo."
+console.log(mynamespace.fooTwo());   // "Yes, this is foo.Yes, this is foo."
+
+// The instantiated CoolClass object, and public members
+console.log(mynamespace.coolObject);
+console.log(mynamespace.coolObject.bar);        // "A bar."
+console.log(mynamespace.coolObject.barThree()); // "A bar.A bar.A bar."
+
+// Constructor for CoolClass
+console.log(new mynamespace.CoolClass());
 */

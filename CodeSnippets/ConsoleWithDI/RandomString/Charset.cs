@@ -30,7 +30,7 @@ namespace ConsoleWithDI.RandomString
         /// <summary>
         /// All readable special ascii characters - '!', '&quot;', '#', '$', '%', '&amp;', ''', '*', '+', ',', '.', '/', ':', ';', '=', '?', '@', '\', '^', '´', '`', '|', '~' (Count: 23)
         /// </summary>
-        Specials = 0x08,
+        SpecialChars = 0x08,
         /// <summary>
         /// The minus ('-') character (Count: 1)
         /// </summary>
@@ -47,6 +47,10 @@ namespace ConsoleWithDI.RandomString
         /// All bracket characters '&lt;', '&gt;', '{', '}', '[', ']', '(', ')' (Count: 8)
         /// </summary>
         Brackets = 0x80,
+        /// <summary>
+        /// All characters specified in AllowedCharacters (Count: xx)
+        /// </summary>
+        All = 0xFF
     }
 
     public static class Charset
@@ -112,7 +116,7 @@ namespace ConsoleWithDI.RandomString
                 allowedCharslist.AddRange(Digits);
             }
 
-            if (allowedChars.HasFlag(AllowedCharacters.Specials))
+            if (allowedChars.HasFlag(AllowedCharacters.SpecialChars))
             {
                 allowedCharslist.AddRange(SpecialReadableAsciiLetters);
             }

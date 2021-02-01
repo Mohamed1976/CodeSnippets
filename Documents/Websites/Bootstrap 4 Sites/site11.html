@@ -1,0 +1,199 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/site11.css">
+    <link rel="shortcut icon" href="https://getbootstrap.com/docs/4.4/assets/brand/bootstrap-solid.svg" type="image/x-icon">
+    <title>Hello, world!</title>
+  </head>
+  <body>
+<!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+      <a href="#" class="navbar-brand">
+        <img src="https://getbootstrap.com/docs/4.4/assets/brand/bootstrap-solid.svg" width="30" height="30" alt="logo">
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a href="#" class="nav-link">Home</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link" data-toggle="modal" data-target="#exampleModal">Log in</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link disabled">About us</a>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0" action="http://google.com/search" target="_blank">
+          <input type="search" class="form-control mr-sm-2" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0">Search</button>
+        </form>
+      </div>
+    </nav>
+<!-- Carousel -->
+    <div class="container-fluid p-0">
+      <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+          <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+          <div class="carousel-item active border500">
+            <img class="d-block w-100" src="images/site11_1.jpg" alt="Первый слайд">
+            <div class="carousel-caption d-none d-md-block">
+              <h3>Lorem ipsum</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi suscipit obcaecati quia quae voluptas! Ipsa exercitationem at magnam hic eveniet, consectetur explicabo. Unde id, saepe? Temporibus repellat sunt veritatis perspiciatis.</p>
+            </div>
+          </div>
+          <div class="carousel-item border500">
+            <img class="d-block w-100" src="images/site11_2.jpg" alt="Второй слайд">
+            <div class="carousel-caption d-none d-md-block">
+              <h3>Lorem ipsum</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa iste et corporis in ad aut eveniet, unde ut consequuntur natus, enim minima quibusdam nulla aspernatur tempora. Natus, voluptatem optio voluptate.</p>
+            </div>
+          </div>
+          <div class="carousel-item border500">
+            <img class="d-block w-100" src="images/site11_3.jpg" alt="Третий слайд">
+            <div class="carousel-caption d-none d-md-block">
+              <h3>Lorem ipsum</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos quas tempora quibusdam illo amet provident illum hic qui quod, dignissimos veritatis rerum error voluptate cum perspiciatis. Natus, alias deleniti minima!</p>
+            </div>
+          </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+    </div>
+<!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid">
+            <!-- Form -->
+            <form class="needs-validation" novalidate>
+              <div class="form-row">
+                <div class="col">
+                  <div class="form-group">
+                    <label for="exampleInputEmail">Email address</label>
+                    <input type="email" class="form-control" id="exampleInputEmail" aria-descridbdy="emailHelp" placeholder="Email" required>
+                    <small class="form-text text-muted" id="emailHelp">Enter your email</small>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group">
+                    <label for="exampleInputPass">Password</label>
+                    <input type="password" class="form-control" id="exampleInputPass" placeholder="Password" required>
+                    <small class="form-text text-muted" id="passHelp">Password must be 8 characters</small>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col">
+                  <div class="form-check">
+                    <label class="form-check-label">
+                      <input type="checkbox" class="form-check-input">
+                      Remember me
+                    </label>
+                  </div>
+                </div>
+                <div class="col text-right">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- Flexbox cards-->
+<div class="container-fluid mt-5" style="background-color: #eee">
+  <div class="container p-5">
+
+      <div class="row">
+        <div class="col-sm-12 col-md-6 col-lg-4">
+          <div class="card m-3">
+            <img src="images/site11_1.jpg" alt="card1" class="card-img-top">
+            <div class="card-body">
+              <h4 class="card-title">Title</h4>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempora reiciendis saepe sit modi aut accusamus, voluptatum recusandae eius molestias consequatur asperiores nisi quis rem in adipisci fugiat repellat quam libero.</p>
+              <a href="#" class="btn btn-primary">Submit</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-4">
+          <div class="card text-center m-3">
+            <img src="images/site11_2.jpg" alt="card2" class="card-img-top">
+            <div class="card-body">
+              <h4 class="card-title">Title</h4>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempora reiciendis saepe sit modi aut accusamus, voluptatum recusandae eius molestias consequatur asperiores nisi quis rem in adipisci fugiat repellat quam libero.</p>
+              <a href="#" class="btn btn-primary">Submit</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-lg-4">
+          <div class="card text-right m-3">
+            <img src="images/site11_3.jpg" alt="card3" class="card-img-top">
+            <div class="card-body">
+              <h4 class="card-title">Title</h4>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempora reiciendis saepe sit modi aut accusamus, voluptatum recusandae eius molestias consequatur asperiores nisi quis rem in adipisci fugiat repellat quam libero.</p>
+              <a href="#" class="btn btn-primary">Submit</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+  </div>
+</div>
+<!-- Video -->
+<div class="container p-5">
+  <div class="row m-5">
+    <div class="col-sm-12 col-md-6 p-3">
+      <div class="embed-responsive embed-responsive-16by9">
+        <iframe src="https://www.youtube.com/embed/DOU2-H-rFM4" class="embed-responsive-item" allowfullscreen></iframe>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-6 p-3">
+      <div class="embed-responsive embed-responsive-16by9">
+        <iframe src="https://www.youtube.com/embed/01OlWfW24eQ" class="embed-responsive-item" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+<footer class="footer mt-auto py-3" style="background-color: #343a40">
+  <div class="container d-flex justify-content-between">
+    <span><img src="images/site11_4.png" alt="github"> <a href="https://masakras.github.io/" target="_blank" rel="noopener noreferrer">github.com</a></span>
+    <span>Email : <a href="mailto:dmi3case@gmail.com" target="_blank" rel="noopener noreferrer">dmi3case@gmail.com</a></span>
+  </div>
+</footer>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="js/site11.js" type="text/javascript"></script>
+  </body>
+</html>

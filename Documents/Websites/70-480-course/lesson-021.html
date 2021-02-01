@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Find elements using CSS selectors and jQuery.</title>
+    <link rel="stylesheet" href="../bootstrap-4.5.2-dist/css/bootstrap.min.css"> 
+    <link rel="stylesheet" href="../bootstrap-4.5.2-dist/css/bootstrap.css"> 
+    <link rel="stylesheet" href="css/styles01.css">
+    <script src="../js/jquery-3.5.1.min.js"></script>
+    <script src="../bootstrap-4.5.2-dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.0/css/all.css" integrity="sha384-OLYO0LymqQ+uHXELyx93kblK5YIS3B2ZfLGBmsJaUyor7CpMTBsahDHByqSuWW+q" crossorigin="anonymous">
+    <style>
+        p.pStyle05:first-child:hover {
+            font-size: xx-large;
+        }
+
+        p.pStyle05:nth-child(2)::first-letter {
+            font-size: xx-small;
+            color:red;
+        }
+
+       p.pStyle05:nth-child(3):hover::first-letter {
+           font-size: larger;
+           margin-right: .75em;
+       } 
+
+        a.linkStyle01 {
+            font-weight: bolder;
+        }
+
+        /* unvisited link */
+        a.linkStyle01:link {
+            color: purple;
+        }
+
+        /* visited link */
+        a.linkStyle01:visited {
+            color:magenta;
+        }
+
+        a.linkStyle01:hover {
+            background-color: yellow;
+            color: red;
+        }
+
+        input[type="radio"]:checked {
+            height: 50px;
+            width: 50px;
+            box-shadow: 10px 10px  red ;
+        }
+
+        input[type="checkbox"]:checked {
+            height: 50px;
+            width: 50px;
+        }
+
+
+        /* Applies for both checkbox and radiobutton 
+        input:checked { 
+            height: 50px;
+            width: 50px;
+        } */
+
+        input:required {
+            border: 4px solid red;
+        }
+
+        input:disabled {
+            background-color: blue;
+        }
+
+        input:enabled {
+            background-color: whitesmoke;
+        }
+
+        p.pStyle01:first-child {
+            font-weight: bolder;
+            color:purple;
+        }
+
+        p.pStyle01:nth-child(3) {
+            font-weight: bolder;
+            color:red;
+        }
+
+        .pStyle02::first-letter {
+            font-weight: bolder;
+            color: yellow;
+            letter-spacing: .5em;
+        }
+
+        p.pStyle03::first-line {
+            color:green;
+            font-size: x-large;
+        }
+
+        p.pStyle04::before{
+            content: "==>";
+        }
+
+        p.pStyle04::after {
+            font-weight: bolder;
+            color: tomato;
+            content: "<==";
+        }
+
+    </style>    
+</head>
+<body>
+    <h1>Find elements using CSS selectors and jQuery.</h1>
+    <h4>Summary</h4>
+    <ul>
+        <li>Pseudo-elements and pseudo-classes provide an advanced mechanism for searching
+            HTML elements in a page and applying styles.</li>
+        <li>Using pseudo-elements and pseudo-classes you can change the style of an element
+            based on user actions.</li>
+        <li>
+            Using pseudo-elements and pseudo-classes you can gain granular control over parts
+            of the text in a text block.                    
+        </li>
+    </ul>
+
+    <article>
+        <h2>CSS     Selectors and jQuery.</h2>
+        <section>
+        <h2>Defining element, style, and attribute selectors.</h2>
+        <p>
+            CSS uses selectors that you define in a CSS file or style block to identify which elements in a
+            webpage the defined styles should be applied to. This can be done by specifying the element
+            itself as the selector. For example, the following CSS is an element selector for the div element:            
+        </p>
+        <code>
+            div {
+                …
+                }
+        </code><br><br>
+        <p>
+            Any div within scope of the declaration will have the styles applied to it. Another possible
+            selector is a class selector. To use a class selector, you define a custom class name in the CSS
+            file. This can be any name prefixed with a period. Then, any element that has that class assigned
+            to it via the class attribute will have the defined styles applied. For example:            
+        </p>
+        <code>
+            .mycustomclass{
+                ….
+                }
+        </code><br><br>
+        <p>
+            Another way to use CSS to select specific elements on the page is to use attribute selection.
+            This is achieved by specifying an element type followed by a specific attribute. For
+            example if you have a web form that needs to be filled in, you may attribute required fields
+            with a red border around the textboxes. The following code achieves this for any elements
+            that have the required attribute specified:            
+        </p>
+        <code>
+            input[required] {<br>
+                &nbsp;border: 1px red solid;<br>
+                }
+        </code><br><br>
+        <p>
+            There are other possibilities for the use of attribute selectors. These are outlined in the list below.
+        </p>
+
+        <h5>Attribute selector capabilities</h5>
+        <ul>
+            <li>= Specifies that an attribute equals a specific value. For example, the URL of an anchor is a specify URL.</li>
+            <li>~= Specifies a space-separated list of words as the values for an attribute.</li>
+            <li>^= Specifies that the attribute has a value starting with the text specified.</li>
+            <li>$= Specifies that the attribute has a value ending with the specified text.</li>
+            <li>*= Specifies that the attribute has a value containing the specified text.</li>
+        </ul>
+    </section>
+    <section>
+        <h2>Choosing the correct selector to reference an element</h2>
+        <p>
+            Choosing the correct selector to reference an element is an important consideration. You
+            need to ensure that you organize your selectors and your elements such that only the desired
+            elements are impacted by the defined styles. For example, the following style affects all
+            article elements:
+        </p>
+        <code>
+            article{<br>
+                &nbsp;border-color: 1px solid red;<br>
+                }            
+        </code><br><br>
+        <p>
+            If you do not want to affect all articles but only the newest article, you must distinguish
+            them, perhaps by adding a custom CSS class to the definition and assigning this to only the
+            newest article.By specifying it this way, you are assured that not every article on the page is impacted
+            by the style.            
+        </p>
+        <code>
+            article.newest{<br>
+                &nbsp;border-color: 1px solid red;<br>
+                }            
+        </code><br><br>
+    </section>
+    <section>
+        <h2>Finding elements by using pseudo-elements
+            and pseudo-classes</h2>
+        <p>
+            Pseudo-classes and pseudo-elements provide some very powerful ways to add styles to
+            elements. Pseudo-classes allow you to apply styles to an element based on its state (for example link visited), 
+            its interaction with the user (for example on hover), or its position in the document (for example first letter or line). Pseudo-elements allow you to insert
+            content into the page in locations relative to the elements that the CSS is being applied to.
+            You will examine each of the common pseudo-classes and pseudo-elements in this section.            
+        </p>        
+
+        <h4>:link, :visited and :hover</h4>
+        <p>
+            These are the most commonly used pseudo-classes, used most frequently with the anchor
+            element, providing a clickable link for the user of the webpage. With these pseudo-classes,
+            you can control what styles are applied to a hyperlink in the different states. For example, the
+            following CSS changes the color of the link based on its state:            
+        </p>
+        <code>
+            a:link {<br>
+                &nbsp;color: green;<br>
+                }<br>
+                a:hover {<br>
+                    &nbsp;color: red;<br>
+                }<br>
+                a:visited {<br>
+                    &nbsp;color: black;<br>
+                }<br>
+        </code><br><br>
+        <p>
+            In this example, the link by default will be green. When a user moves the mouse over the
+            link, the color of the link will change to red. If the user does not click the link and then moves
+            off of it, the link will go back to green. However, if the user clicks the link, it becomes a visited
+            link and will change to black.            
+        </p>
+        <a class="linkStyle01" href="https://www.w3schools.com/" target="_blank">w3schools link</a><br><br>
+        <a href="https://www.w3schools.com/" target="_blank">w3schools link (default style, Bootstrap)</a><br><br>
+
+        <h4>:checked</h4>
+        <p>
+            The :checked pseudo-class lets you apply styles to elements that are in a checked state.
+            Elements that support this pseudo-class are check boxes and radio buttons. The amount of
+            styling you can apply to the default elements is minimal. However, there are ample resources
+            to customize these elements using CSS. The following example shows how to hide a check
+            box when a user clicks it.            
+        </p>
+        <code>
+            input[type="checkbox"]:checked {<br>
+                &nbsp;display: none;<br>
+                }<br>
+
+                input[type="radio"]:checked {<br>
+                    &nbsp;height: 50px;<br>
+                    &nbsp;width: 50px;<br>
+                    &nbsp;box-shadow: 10px 10px red;<br>
+                }<br>
+        
+                input[type="checkbox"]:checked {<br>
+                    &nbsp;height: 50px;<br>
+                    &nbsp;width: 50px;<br>
+                }                
+        </code><br><br>
+        <div class="noSel newsletter" style="background-color:#99D6FF;border:1px solid #0099FF;padding:10px;">
+            <form>
+                <h4>Subscribe to my newsletter:</h4>
+                <div class="noSel" style="margin-top:10px;">
+                    Female: <input name="rr" type="radio" id="rr1" checked="checked" style="outline:2px solid transparent"/>
+                    Male: <input name="rr" type="radio" id="rr2" style="outline:2px solid transparent" />
+                    Other: <input name="rr" type="radio" id="rr3" disabled="disabled" style="outline:2px solid transparent" />  
+                </div>
+                <h4>Newscategories:</h4>
+                <div style="overflow:auto;">
+                    <div style="width:60px;float:left;">Ducks:</div><div style="width:20px;float:left;"><input id="cc1" type="checkbox" checked="checked" style="outline:2px solid transparent" /></div>
+                </div>
+                <div style="overflow:auto;">
+                    <div style="width:60px;float:left;">Dogs:</div><div style="width:20px;float:left;"><input id="cc2" type="checkbox" style="outline:2px solid transparent" /></div>
+                </div>
+                <div style="overflow:auto;">
+                    <div style="width:60px;float:left;">Humans:</div><div style="width:20px;float:left;"><input id="cc3" type="checkbox" style="outline:2px solid transparent" /></div>
+                </div>                
+            </form>
+        </div><br>
+        <h4>:required</h4>
+        <p>
+            The :required pseudo-class lets you apply styles to any elements on the page that have
+            the required attribute. This is a convenient way to highlight required fields on a form. The
+            following CSS demonstrates applying styles to all required input controls.
+            All required input controls will now have a red border to highlight this to the user.
+        </p>
+        <code>
+            input:required {<br>
+                &nbsp;border: 2px solid red;<br>
+                }
+        </code><br><br>
+
+        <form>
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username" required>
+          <input type="submit">
+        </form><br>
+        <h4>:enabled and :disabled</h4>
+        <p>
+            The :enabled and :disabled pseudo-classes allow you to style controls based on their enabled
+            or disabled state. By default, disabled controls typically are light gray. With these pseudo
+            classes, you can control how the element displays in either state. The following code
+            demonstrates this:            
+        </p>
+        <code>
+            input:disabled {<br>
+                &nbsp;background-color: blue;<br>
+                }<br>
+                input:enabled {<br>
+                    &nbsp;background-color: white;<br>
+                }            
+        </code><br><br>
+        <form>
+            <label for="_username">Username:</label>
+            <input id="_username" type="text" name="_username" disabled="disabled">
+            <label for="_lastname">Lastname:</label>
+            <input id="_lastname" type="text" name="_lastname">
+            <input type="submit">
+          </form><br>
+  
+        <p>
+            If a control is enabled, the background will be white; otherwise disabled controls will be blue.              
+        </p>
+        <h4>:first-child</h4>
+        <p>
+            The :first-child pseudo-element applies the specified styles to the first instance of the element
+            that occurs in a list, for example, the first paragraph element in this HTML:            
+        </p>
+        <code>
+            &lt;div&gt;<br>
+            &nbsp;&lt;p&gt;Lorem Ipsum ...&lt;/p&gt;<br>
+            &nbsp;&lt;p&gt;Lorem Ipsum ...&lt;/p&gt;<br>
+            &nbsp;&lt;p&gt;Lorem Ipsum ...&lt;/p&gt;<br>
+            &nbsp;&lt;p&gt;Lorem Ipsum ...&lt;/p&gt;<br>
+            &lt;/div&gt;            
+        </code><br><br>
+        <p>The following CSS will change the text color to green in the first paragraph element:</p>
+        <code>
+            p:first-child {<br>
+                &nbsp;color:green;<br>
+                }            
+        </code><br><br>
+        <div>
+            <p class="pStyle01">Lorem Ipsum ...</p>
+            <p class="pStyle01">Lorem Ipsum ...</p>
+            <p class="pStyle01">Lorem Ipsum ...</p>
+            <p class="pStyle01">Lorem Ipsum ...</p>
+        </div>
+
+        <h4>:first-letter</h4>
+        <p>
+            The :first-letter pseudo-element will alter the style of the first letter in the specified element.
+            Continuing with the example HTML above, the following CSS will increase the size of the first
+            letter in each paragraph element:            
+        </p>
+        <code>
+            p::first-letter {<br>
+                &nbsp;font-size: xx-large;<br>
+                }            
+        </code><br><br>
+        <p class="pStyle02">The first letter will be Bold and yellow.</p>
+
+        <h4>:first-line</h4>
+        <p class="pStyle03">
+            The :first-line pseudo-element alters the styles of the first line of a text element. The following
+            CSS will make the first line of the text inside the paragraph element green and larger.<br> 
+            The second line will not be changed.
+        </p>
+        <code>
+            p::first-line {<br>
+                &nbsp;color:green;<br>
+                &nbsp;font-size: x-large;<br>
+                }            
+        </code><br><br>
+        <h4>:before and :after</h4>
+        <p>
+            The :before and :after pseudo-elements will add the specified content in front of or after the
+            indicated element selector. So, the following code would add ** to the front and end of the
+            paragraph element:            
+        </p>
+        <code>
+            p::before {<br>
+                &nbsp;content: '**';<br>
+                }<br>
+                p::after {<br>
+                    &nbsp;content: '**';<br>
+                }<br>            
+        </code><br>
+
+        <p class="pStyle04">A text prepended and appended using p::before and p::after.</p>
+    </section>
+    <section>
+        <h4>Demonstrates styling of &lt;p&gt;child elements.</h4>
+        <div>
+            <p class="pStyle05">CHILD 1:<br>
+                When you want to achieve specific formatting on complex webpages, you need to account
+                for the hierarchy of your page and ensure that you understand how the inheritance is going
+                to impact the nested HTML elements’ styles. The more specific your selectors, the more CSS
+                you need to write but have more control.                
+            </p>
+            <p class="pStyle05">CHILD 2:<br>
+                When you want to achieve specific formatting on complex webpages, you need to account
+                for the hierarchy of your page and ensure that you understand how the inheritance is going
+                to impact the nested HTML elements’ styles. The more specific your selectors, the more CSS
+                you need to write but have more control.                
+            </p>
+            <p class="pStyle05">CHILD 3:<br>
+                When you want to achieve specific formatting on complex webpages, you need to account
+                for the hierarchy of your page and ensure that you understand how the inheritance is going
+                to impact the nested HTML elements’ styles. The more specific your selectors, the more CSS
+                you need to write but have more control.                
+            </p>            
+        </div>
+    </section>
+    </article>
+</body>
+</html>

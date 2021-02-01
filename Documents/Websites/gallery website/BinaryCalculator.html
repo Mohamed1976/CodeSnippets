@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Binary to Decimal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="images/bin_converter_favicon.png">    
+    <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/skeleton.css">  
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="column" style="margin-top: 2%;">
+                <h1>Binary to Decimal</h1>
+            </div>
+        </div>
+        <div class="row" id="app">
+            <div class="one-half column">
+                <label id="binLabel"></label>
+                <input id="inputBinary" type="text" value="0" maxlength="20" style="width: 100%;" />
+                <label id="decLabel"></label>
+                <input id="inputDecimal" type="text" value="0" readonly style="width: 100%;" />
+                <br>
+                <button id="ConvertBtn" class="button-primary" style="width: 49.5%;">Convert!</button>
+                <button id="ResetBtn" class="button-warning" style="width: 49.5%;">Reset!</button>
+            </div>
+            <div class="one-half column" style="margin-top: 2%">
+                <h3>Your Binary is <b id="inputBinaryLbl"></b></h3>
+                <h3>The Decimal is <b id="inputDecimalLbl"></b></h3>
+            </div>
+        </div>
+      </div>
+
+      <script src="js/BinaryCalculator.js"></script>
+</body>   

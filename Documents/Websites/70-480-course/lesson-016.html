@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<meta charset="utf-8" />
+		<title>Course 1</title>
+        <meta name="viewport" content="width=device-width" />
+        <script src="js/script11.js"></script>		
+	</head>
+    <body>
+        <header>
+            <h1>Consume Data using XMLHttpRequest object</h1>
+        </header>
+        <ul>
+            <li>JSON and XML are the most common formats used for data exchange.</li>
+            <li>JSON consists of name/value pairs.</li>
+            <li>XML is a structured element-based document.</li>
+            <li>JavaScript provides built-in support for receiving data via the XMLHttpRequest object.</li>
+        </ul>
+        <h4>Consuming JSON and XML data by using web services</h4>
+        <p>
+            The ability to
+            consume data from external sources is more popular than ever. Website mash-ups and social
+            integration are major catalysts for this. The two data formats commonly used in data transmission are JSON and XML. JSON is
+            unstructured data, whereas XML is structured. JSON uses a special syntax that allows the
+            definition of name value pairs in a lightweight string format. XML, as a relative of HTML, is
+            more structured than JSON with named tags and opening and closing tags. Tags can have
+            attributes.When publishing data services such as Web Services or a REST API, you can control how
+            you publish the data. When consuming third-party resources, you won’t have control over
+            how they’ve published the data.
+        </p>
+        
+        <h4>Using the XMLHttpRequest object</h4>
+        <p>            
+            JavaScript provides built-in support for receiving HTML data via the XMLHttpRequest object.
+            The object makes a call to a web service, REST API, or other data provider services. The
+            advantage of doing this via JavaScript on the client side is to be able to reload portions of the
+            page from an external source without having to post the entire page back to the server.
+            XMLHttpRequest makes an HTTP request and expects to receive back data in XML format.
+            Both synchronous and asynchronous calls are supported. Tables below
+            list the available events, methods, and properties of the XMLHttpRequest object.            
+        </p>
+
+        <article>
+            <section>
+                <h4>Available events of the XMLHttpRequest object:</h4>
+                <ul>
+                    <li><i>Onreadystatechange </i>Sets an event handler for when the state of the request has changed. Used
+                    for asynchronous calls.</li>
+                    <li><i>Ontimeout </i>Sets an event handler for when the request can’t be completed.</li>
+                </ul>
+            </section>
+            <section>
+                <h4>Available methods of the XMLHttpRequest object</h4>
+                <ul>
+                    <li><i>Abort </i>Cancels the current request</li>
+                    <li><i>getAllResponseHeaders </i>Gives a complete list of response headers</li>
+
+                    <li><i>getResponseHeader </i>Returns the specific response header</li>
+                    <li><i>Send </i>Makes the HTTP request and receives the response</li>
+                    <li><i>setRequestHeader </i>Adds a custom HTTP header to the request</li>
+                    <li><i>Open </i>Sets properties for the request such as the URL, a user name, and a password</li>
+                </ul>
+            </section>
+            <section>
+                <h4>Available properties of the XMLHttpRequest object</h4>
+                <ul>
+                    <li><i>readyState </i>Gets the current state of the object</li>
+                    <li><i>Response </i>Gets the response returned from the server</li>
+                    <li><i>responseBody </i>Gets the response body as an array of bytes</li>
+                    <li><i>responseText </i>Gets the response body as a string</li>
+                    <li><i>responseType </i>Gets the data type associated with the response, such as blob, text, arraybuffer,
+                        or document</li>
+                    <li><i>responseXML </i>Gets the response body as an XML DOM object</li>
+                    <li><i>Status </i>Gets the HTTP status code of the request</li>
+                    <li><i>statusText </i>Gets the friendly HTTP text that corresponds with the status</li>
+                    <li><i>Timeout </i>Sets the timeout threshold on the request</li>
+                    <li><i>withCredentials </i>Specifies whether the request should include user credentials</li>
+                </ul>
+            </section>
+        </article>
+        <button id="SimpleGet">Simple Get</button>
+        <div id="response"></div>
+
+        <p>
+            <strong>Parameters for the XMLHttpRequest open method</strong>
+            <ul>
+                <li><strong>Method </strong>The HTTP method being used for the request: GET, POST, etc.</li>
+                <li><strong>URL </strong>The URL to make the request to.</li>
+                <li><strong>async </strong>A Boolean value to indicate whether the call should be made asynchronously. If true, an
+                    event handler needs to be set for the onreadystatechanged.</li>
+                <li><strong>User name </strong>A user name if the destination requires credentials.</li>
+                <li><strong>Password </strong>A password if the destination requires credentials.</li>
+            </ul>
+            <br>
+            <i>
+                Note: The open method doesn’t make any server requests. If the user name and password is
+                specified, it doesn’t send this information to the server in the open method. When the
+                send method is called, the user name and password aren’t passed to the server either. The
+                credentials are passed to the server only in response to a 401 security response from the
+                server.                    
+            </i>            
+        </p>
+
+        <h4>Setting a timeout on a XMLHttpRequest</h4>
+        <p>
+            The XMLHttpRequest object provides some mechanisms for handling errors. The most
+            common error to account for is a timeout error. By default, the value of the timeout is zero,
+            which is infinite. A timeout value should always be specified. This results in not allowing the call to take any more than two seconds. The timeout is
+            expressed in milliseconds. After the timeout period, the ontimeout event handler is called to
+            allow for this condition to be handled appropriately in the webpage.            
+        </p>
+        <h4>Asynchronous calls using XMLHttpRequest object</h4>
+        <p>
+            An additional consideration for this code is whether to make the call synchronously or
+            asynchronously. Ideally, you should ensure that the call to the service to get the data won’t
+            interfere with users and won’t block them, unless of course they need to wait on the reply
+            before taking any further action. Synchronous calls, as the examples so far have shown,
+            block the user interface while the request is being made. To prevent this, the call should be
+            asynchronous.
+            The onreadystate event is assigned a function to run when the state of the
+            XMLHttpRequest object is changed. When the request is complete, the readyState changes
+            to complete (readyState == 4). At this point, the HTTP return status can be evaluated for a
+            success value such as 200, and then the processing of the XML data can occur.
+            The same code that has been used so far to retrieve XML data can also be used to make a
+            request for JSON data. When the data is received via the XMLHttpRequest object, the data will need to be
+            deserialized into a more user-friendly format. You also might want to submit data to the
+            server in response to user actions.
+        </p>
+        <button id="GetRequestWithTimeout">Async Get Request With Timeout</button>
+        <div id="response2"></div>        
+        <h4>NASA Response</h4>
+        <hr>
+        <div id="NASAResponse"></div>
+        <br>
+        <hr>
+        <H4>References</H4>
+        <ul>
+            <li><a href="https://xhr.spec.whatwg.org/" target="_blank">whatwg</a></li>
+        </ul>
+    </body>
+</html>    

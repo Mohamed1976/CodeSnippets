@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="css/styles03.css">
+        <!-- Use font from https://fontlibrary.org/en/font/rebecca -->
+        <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/rebecca" type="text/css"/>
+        <title>Style HTML text properties</title>
+        <style>
+            .highlight {
+                font-style: italic;
+            }
+        </style>
+        <script>
+            function myButton(sender) {
+                console.log(sender);
+                console.log(sender.style);
+                if(sender.style.backgroundColor === "red")
+                    sender.style.backgroundColor =  "green";
+                else
+                    sender.style.backgroundColor =  "red";
+            }
+        </script>
+	</head>
+    <body>
+        <article>
+            <h1>Style HTML text properties</h1>
+
+            <ul>
+                <li>CSS3 provides the ability to style the appearance of text in the following ways:
+                    <ul>
+                        <li>Changing the color with the color property</li>
+                        <li>Changing the text to bold with the <span class="highlight">font-weight</span> property</li>
+                        <li>Changing the text to italics with the <span class="highlight">font-style</span> property</li>
+                        <li>Changing the font type with the <span class="highlight">font-family</span> property</li>
+                        <li>Changing the size of the text with the <span class="highlight">font-size</span> property</li>
+                    </ul>
+                </li>
+                <li>CSS3 provides the ability to style the alignment of text with the text-align property.</li>
+                <li>CSS3 provides the ability to alter text indentation with the text-indent property.</li>
+                <li>CSS3 provides the ability to alter the spacing between letters and the spacing between
+                    words with the letter-spacing and word-spacing properties.</li>
+                <li>CSS3 allows you to control how text hyphenates when the text needs to wrap within
+                    the boundaries of its container.</li>        
+            </ul>
+
+            <section>
+                <h2>Apply styles to text appearance</h2>
+                <p>
+                    Text is the basis for all web applications. Some web applications have more text than others.
+                    Ultimately, the viewer of the website will read the content of the website that is in text. CSS
+                    provides many capabilities to customize the appearance of the text in order to provide
+                    your own unique look and feel to your web application.
+                    Applying styles such as color, bold, or italic makes certain text stand out on a webpage. Any
+                    of these styling techniques can be applied in combination or individually.                    
+                </p>
+            </section>
+            <section>
+                <h2>Applying color to text</h2>
+                <p>
+                    The color of text can be changed by specifying the color property to the CSS element. CSS3
+                    accepts the color value in any of the following three methods.
+                </p>
+
+                <ol>
+                    <li>Hexadecimal value: Specify the color as a hexadecimal value, for example as #00FF00
+                        to display the text in green. The first two digits (base 16) are the value for Red, the
+                        second two digits are the value for Green, and the last two digits are the value for Blue.
+                        This is commonly referred to as the RGB code.</li>
+                    <li>Color name: Use a word to specify the color value, such as green to display the text in
+                        green.</li>
+                    <li>RGB function: Specify the color value using the RGB function, which takes three
+                        parameters, each representing a color spectrum bit value from 0 to 255. For example,
+                        rgb(0,255,0) specifies green as the text color.</li>      
+                </ol>
+
+                    <span>The following code demonstrates each method in use.</span> <br><br>
+                    <code>
+                        &lt;style&gt;<br><br>
+                            h1{<br>
+                            &nbsp;color:#00FF00;<br>
+                            }<br>
+                            h2 {<br>
+                            &nbsp;color: green;<br>
+                            }<br>
+                            h3{<br>
+                            &nbsp;color: rgb(0,255,0);<br>
+                            }<br><br>
+                        &lt;/style&gt;                        
+                    </code><br><br>
+                    <h4 class="greenColored">Colored using CSS</h4>
+                    <h2 id="redColored">Colored using CSS</h2>
+                    <h3 id="blueColored">Colored using CSS</h3>
+                    <br>
+                    <h4 class="greenColored">Colored using CSS</h4>
+                    <h5 class="greenColored">Colored using CSS</h5>
+                    <h6 class="greenColored">Colored using CSS</h6>
+                <p>    
+                    With this code, each of the h1 through h3 headers have a CSS style applied to change the
+                    color to green, each using a different method. Using the hexadecimal or RGB method gives
+                    you more granular control over the color then using the color name as was done on the &lt;h2&gt;
+                    element. There are just far more colors that exist then could be named. The hexadecimal and
+                    RGB methods allow you to access the full range of colors.<br><br> 
+                    <i>
+                        Note that even though all three text items are set to pure green, one is
+                        darker than the others. It is important to know that some elements, such as the various
+                        header elements, have default styles already applied to them. In this case, the style for the
+                        element defaults to a bolder type.                        
+                    </i> 
+                </p>
+            </section>
+            <section>
+                <h2>Applying bold to text</h2>
+                <p>CSS also provides access to other properties of the text display via the font object. The font
+                    object provides the ability to make text bold or italic . The following code demonstrates
+                    changing the text to bold for all &lt;p&gt; elements:</p><br>
+                <code>
+                    p {<br>
+                        &nbsp;font-weight: bold;<br>
+                    }<br>                    
+                </code><br><br>    
+                <p>
+                    The font-weight CSS property accepts the following values to specify how bold you would
+                    like the text to be: <strong>lighter, normal, bold, and bolder</strong> . In addition, the numeric values 100
+                    (lighter) to 900 (darker) are supported. The values increase by 100, providing nine values in
+                    total to control the weight of the text.                    
+                </p>
+                <p style="font-weight:bolder">bolder text</p>                
+                <p style="font-weight:bold">bold text</p>    
+                <p style="font-weight:normal">Normal text</p>
+                <p style="font-weight:lighter">lighter text</p>
+                <p style="font-weight:900">900 text</p>
+                <p style="font-weight:100">100 text</p>
+            </section>
+            <section>
+                <h2>Applying italic style to text</h2>
+                <p>
+                    Through the font object, you can also make specific text italic. This is done by specifying the
+                    font-style for the text. The following code demonstrates applying the italic style to all &lt;p&gt;
+                    elements on the webpage:
+                </p><br><br>
+                <code>
+                    p{<br>
+                        &nbsp;font-style:italic;<br>
+                    }<br>
+                </code><br><br>
+                <p>Applying the italic style to a text element produces the output shown below.</p>            
+                <p style="font-style: italic;">italic text</p>
+            </section>
+            <section id="fontSection">
+                <h2>Apply styles to text font</h2>
+                <p>
+                    The font CSS object contains other properties to allow you to control how text is rendered on
+                    your pages. You can change the font typeface and control the size of the text. You can control
+                    the font typeface in a few different ways. The first method is to simply rely on the fonts that
+                    are installed on the system rendering the webpage. This is achieved using the font-family as
+                    shown in the following code:<br><br>
+                    <code>
+                    p{<br>
+                    &nbsp;font-family:Arial,'Times New Roman',Webdings;<br>
+                    }<br>
+                    </code><br>
+                    This CSS code renders the fonts in order from left to right until it finds one that is available
+                    on the client computer. If the font name contains spaces, it must be contained within quotes.
+                    If none of the specified fonts are available, the text falls back to the browser’s default font.
+                    In the previous example, the client looks first for the Arial font. If that is not installed, it then
+                    looks for the Times New Roman font, and so on. This is a simple approach, but many people
+                    prefer to use fonts that are not available on the system. There are many custom fonts available
+                    on the Internet for inclusion in your web applications. These fonts are known as WOFF
+                    (Web Open Font Format). To use these fonts in your webpage, you define a font family using
+                    the special keyword @font-face.<br><br>
+
+                    <span style="font-style: italic;">Be aware that certain font types will work in some browsers but not others. It is important
+                        to declare each font type by using @font-face so that the browser has access to the one it
+                        needs.</span><br><br>
+
+                        The following code defines a @font-face for a webpage and implements it for the &lt;p&gt;
+                        elements of the page:<br><br>
+                        <code>
+                        @font-face {<br>
+                        font-family: "My Nicer Font";<br>
+                        src: url('fonts/my_woff_font.eot');<br>
+                        src: url('fonts/my_woff_font.woff');<br>
+                        }<br>
+                        p {<br>
+                        &nbsp;font-family: 'My Nicer Font';<br>
+                        }
+                        </code><br><br>
+                        First, you add the @font-face keyword to the page, then you give it a name by specifying
+                        the font-family property. Next, you specify where the font can be loaded from. This could be
+                        from the local web server if you downloaded the fonts to it or from an Internet source. In the
+                        previous declaration, both eot and woff types are specified.<br><br>
+
+                    <span style="font-family: 'My Horror Font';font-size: xx-large;">The horror font in action, font can be found <a href="https://www.1001freefonts.com/horror-fonts.php" target="_blank">here</a>.</span><br><br>
+                    <span style="font-family: GreatVibesRegular;font-size: xx-large;">The great vibes font in action, font can be found <a href="https://fontlibrary.org/en/font/rebecca" target="_blank">here</a>.</span><br><br>
+                    It’s possible to supply multiple src attributes. This way, you can include both an EOT and OTF version of a font so that it will work on a wide variety of browsers.
+
+                    When you use this technique, you need to have a copy of the font file locally. It should be in the 
+                    same directory as your web page. When you begin hosting on a web server, you’ll want to move your 
+                    font file to the server along with all the other resources your web page needs. Just because you 
+                    can include a font doesn’t mean you should. Think carefully about readability.
+                </p>
+                <p>
+                    After you have decided on a font for your web application, you might decide to resize the
+                    text for different scenarios as you see fit. Of course, the &lt;h1&gt; through &lt;h6&gt; elements provide
+                    some default formatting, but you would not want to use those elements throughout a
+                    website to control the size of the text. Instead you can use the font-size property. The font-size
+                    property accepts relative values that when rendered are relative to the default text size in
+                    the browser. The available values are: xx-small, x-small, small, smaller, medium, larger, large,
+                    x-large, xx-large. The following code demonstrates setting the font-size for the &lt;p&gt; elements:<br><br>
+                    p{
+                    &nbsp;font-size: x-large;
+                    }<br><br>
+                    The application of the size attribute to the font results in the text rendering as shown below.<br><br>                    
+                    <span style="font-size: large;">Specified: font-size: large</span><br>
+                    <span style="font-size: larger;">Specified: font-size: larger</span><br>
+                    <span style="font-size: x-large;">Specified: font-size: x-large</span><br>
+                    <span style="font-size: x-small;">Specified: font-size: x-small</span><br>                                        
+                </p>
+            </section>
+            <section>
+                <h2>Applying styles to text alignment, spacing, and indentation</h2>
+                    CSS3 can also be used to alter text alignment, spacing, and indentation. This provides great
+                    control over positioning text within parent containers.<br><br>
+                    <span style="font-weight: bolder;">Text alignment</span><br>
+                    To control the alignment of text within a container, you specify the text-align attribute. The
+                    text-align attribute supports the values outlined in the list below.
+                    <ol>
+                        <li><span style="font-style: italic; font-weight: bold;">right: </span>Aligns text to the right side of the parent container</li>
+                        <li><span style="font-style: italic; font-weight: bold;">left: </span>Aligns text to the left side of the parent container</li>
+                        <li><span style="font-style: italic; font-weight: bold;">center: </span>Aligns text to the horizontal center of the parent container</li>
+                        <li><span style="font-style: italic; font-weight: bold;">justify: </span>Stretches text horizontally to fill the full width of the parent container</li>
+                    </ol>
+                    The following code sample demonstrates the use of the text-align attribute, and the example below
+                    displays the results within the boundaries of a defined div element.<br><br>
+                    <code>
+                    p {
+                    &nbsp;text-align: center;
+                    }                    
+                    </code><br><br>
+                    <div style="text-align:center;background-color: lightgrey;border: black dotted 1px;">
+                        This example illustrates text-align:center.
+                    </div>
+                    <div style="text-align:left;background-color:lightsalmon;border: black dotted 1px;">
+                        This example illustrates text-align:left.
+                    </div>
+                    <div style="text-align:right;background-color:lightskyblue;border: black dotted 1px;">
+                        This example illustrates text-align:right.
+                    </div>
+                    <div style="text-align:justify;background-color:lightcyan;border: black dotted 1px;">
+                        This example illustrates text-align:justify.
+                    </div>
+            </section>
+            <section>
+                <h2>Text indentation</h2>
+                <p>
+                    Text indentation is configured using the text-indent attribute. The text-indent attribute
+                    accepts an integer value to indicate how much to indent. The following code sample
+                    illustrates how to indent the text from the left border of the parent div element. Code below
+                    shows the results of this code.                    
+                </p>
+                <code>
+                    p {<br>
+                        &nbsp;text-indent: 50px;<br>
+                    }                    
+                </code><br><br>
+                <div style="text-indent: 100px;background-color:lightcyan;border: black dotted 1px;">
+                    This example illustrates text-indent: 100px.
+                </div>
+            </section>
+            <section>
+                <h2>Text spacing</h2>
+                <p>There are two ways to control the spacing of text. This can be done by specifying the spacing
+                between each character in the text or by specifying the spacing between each word in the
+                text. The following CSS code demonstrates both examples. Example below shows the output of
+                this code.</p>
+                <code>
+                p {<br>
+                    &nbsp;letter-spacing: 8px;<br>
+                }<br>
+                p {<br>
+                    &nbsp;word-spacing: 8px;<br>
+                }
+                </code><br><br>
+                <div style="letter-spacing: 8px;word-spacing: 20px;text-align: center;background-color:lightcyan;border: black dotted 1px;">
+                    letter-spacing: 8px;word-spacing: 20px;text-align: center;.
+                </div>
+            </section>
+            <section>
+                <h2>Applying styles to text hyphenation</h2>
+                <p>
+                    Applying styles to text hyphenation allows you to control how a sentence or word wraps or
+                    breaks at the end of the line. The hyphen attribute can be specified to control this behavior.
+                    The values available for the hyphen attribute are defined in list below.
+                </p>
+                <ul>
+                    <li><span style="font-weight: bolder;">none: </span>Words will not break with a hyphen and the sentence will only break on whitespace.</li>
+                    <li><span style="font-weight: bolder;">Auto: </span>Words will break based on a predefined algorithm.</li>
+                    <li><span style="font-weight: bolder;">Manual: </span>Words will break based on specified hints in the words indicating an appropriate space for the
+                        break. This is done using the &amp;shy; (soft hyphen) notation within the text.</li>
+                </ul>
+                The following code demonstrates using the none value, and the results are shown below.<br>
+                <code>
+                    div {<br>
+                        &nbsp;hyphens: none;<br>
+                    }
+                </code><br><br>
+
+                <div style="hyphens: none; width: 40px;background-color:lightcyan;border: black dotted 1px;">
+                    width: 40px; hyphens: none.
+                </div>
+                <p>
+                    In the example above, the browser is not hyphenating any of the text and is letting it overflow
+                    beyond the boundaries of the container. To force hyphenation, specify auto for the value of
+                    the hyphen attribute. The output of this change is shown in the example below.                    
+                </p>
+                <div style="hyphens: auto; width: 40px;background-color:lightcyan;border: black dotted 1px;">
+                    width: 40px; hyp&shy;hens: auto.
+                </div>
+                <p>
+                    When auto is specified, the browser calculates where to hyphenate the words based on
+                    its own rules so that the text does not go outside the bounds of the container. The manual
+                    option behaves much the same way except that you can specify an external rule set to use
+                    and also supply hints by using the &amp;shy; (soft hyphen) notation.                    
+                </p>
+            </section>
+            <span>Click to change color: </span><button onclick="myButton(this)">change color</button>
+        </article>
+    </body>
+</html>

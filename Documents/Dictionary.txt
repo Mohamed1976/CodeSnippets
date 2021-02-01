@@ -160,4 +160,4 @@ ES6		ECMAScript 6
 SPA		Single-page application
 cors	Cross-origin resource sharing
 DOM		Document Object Model
-	
+IDE		Integrated Development Environment (such as Visual Studio)	

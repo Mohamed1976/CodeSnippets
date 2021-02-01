@@ -1,0 +1,2403 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/Resources/icon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/Resources/icon/favicon-16x16.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../js/jquery-3.5.1.min.js"></script>
+    <script src="./js/script13.js"></script>
+    <title>70-480 Exercises.</title>
+    <style>
+
+        .myMenuItem:hover {
+            color:yellow;
+            transition-property: color;
+            transition-duration: 1s;
+        }
+
+        .posting {
+            line-height: 150%;
+            font-style: italic;
+        }
+
+        input:disabled {
+            /*background-color:#e0e0e0;*/
+            background-color:orange;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr 1fr;
+            background-color: lightgray;
+            width: 100%;
+            height: 100px;
+        }
+
+        .bluebox {
+            grid-row: 2;
+            grid-column: 2;
+            float: none;
+            background-color: blue;
+            z-index: 2;
+        }
+
+        .text {
+            grid-row: 1 / span 3;
+            grid-column: 1 / span 3;
+            background-color: red;                        
+        }
+
+        span#myTextSpan {
+            font-size: larger;
+        } 
+
+        .redText {
+            color:red;
+        }
+
+        #tableEx38 tr:first-of-type, #tableEx38 tr:last-of-type {
+            background-color: blue;
+        }
+
+        #dataTable31 tbody tr.selectedRow { /*:not(tr:last-child) { */
+            background-color: chartreuse;
+        }
+
+        div#GeneralHTMLExercise30 > ul {
+            border: 1px solid black;
+        }
+
+        .GridExercise29 {
+            display: grid;
+            grid-template-columns: 100px 250px 100px 250px 100px;
+            grid-template-rows: auto;
+        }
+
+        .styleExample01 h4 {
+            color:powderblue;
+        }
+
+        #myHeadline01 {
+            color:red;
+        }
+
+        .styleExample01 article aside h4 {
+            font-style: italic;
+            color:pink;
+        }
+
+        .tableStyle1 {
+            border:1px solid black;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .tableStyle1 tr:nth-child(odd) {
+            background-color: red;
+        }
+
+        .tableStyle1 tr td:nth-of-type(even) {
+            background-color: blue;
+        }
+
+        #GeneralHTMLExercise4 {
+            border: 3px solid;
+            background: #b6aaaa;
+            width:200px;
+            height:100px;
+            top:10%;
+            left:10%;
+            border-radius: 25px 0px 25px 0px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 100px 100px;
+            grid-template-rows: 50px 50px 50px;
+            background-color: gray;
+        }
+
+        .underlineMe {
+            text-decoration: underline;
+        }
+
+        #hotarea3 > a:link {
+            color: red;
+        }
+
+        /* visited link */
+        #hotarea3 > a:visited {
+            color: green;
+        }
+
+        /* mouse over link */
+        #hotarea3 > a:hover {
+            color: hotpink;
+        }
+
+        /* selected link */
+        #hotarea3 > a:active {
+            color: blue;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>70-480 Exercises.</h1>
+    <article>
+        <h2>Using Regular Expressions to Validate Data</h2>
+        <section>
+            <h4>Question #RegEx1</h4>
+            <p>
+                You are validating user input by using JavaScript and regular expressions.<br>
+                A group of predefined regular expressions will validate two input fields:
+            </p>
+            <ul>
+                <li>An email address in a function named validateEmail (for example, firstname@contoso.com)</li>
+                <li> A nine-digit number that allows optional hyphens after the second and fifth character in a function named validateSSN(for example, 555555555 or 555-55-5555)</li>
+            </ul>
+            <label for="emailAddress">Email address:</label> 
+            <span> 
+                <input name="emailAddress" id="emailAddressTxt" 
+                       type="text" placeholder="Enter your email address"/> 
+            </span><br><br>
+            <label for="SSN">SSN:</label> 
+            <span> 
+                <input style="margin-left: 60px;" name="SSN" id="SSNTxt" 
+                       type="text" placeholder="Enter your social security number"/> 
+            </span>
+            <p>
+                The resulting Regex Patterns are:<br>
+                For SSN: <em>/^[0-9]{3}\-?[0-9]{2}\-?[0-9]{4}$/;</em> Or <em>/^\d{3}[\-]?\d{2}[\-]?\d{4}$/;</em><br>
+                For email: <em>/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;</em>
+            </p>
+            
+            <a href="https://www.rexegg.com/regex-quickstart.html" target="_blank">Regex quick reference.</a>
+        </section>
+        <section>
+            <h4>Question #RegEx2</h4>
+            <p>
+                You are developing a customer web form that includes the following HTML.<br>
+                &lt;input id="txtValue" type="text" /&gt;<br>
+                A customer must enter a valid age in the text box prior to submitting the form.
+            </p>
+            <label for="age">Age:</label> 
+            <span> 
+                <input name="age" id="ageTxt" 
+                       type="text" placeholder="Enter your age"/> 
+            </span><br><br>
+            <button onclick="validate()">Validate Age</button>
+            <div id="ageValidation" style="color: red;"></div>
+        </section>
+        <section>
+            <h4>Question #RegEx3</h4>
+            <p>
+                You are developing a customer contact form that will be displayed on a page of a company's website. The page collects information about the customer.
+                If a customer enters a value before submitting the form, it must be a valid email address.
+                You need to ensure that the data validation requirement is met.                
+            </p>
+            <form id="form1">
+                <input type="email" id="emailAddressTxt1"><br><br>
+                <input type="submit" value="Submit">
+            </form>
+        </section>
+
+    </article>
+
+    <article>
+        <h2>Javascript Errorhandler</h2>
+        <section>
+            <h4>Question #Errorhandler1</h4>
+            <p>
+                You are developing an application that uses a third-party JavaScript library named doWork().
+                The library occasionally throws an "object is null or undefined" error with an error code of -2146823281.<br>
+                The application must:                
+            </p>
+            <ul>
+                <li>Extract and handle the exceptions thrown by doWork()</li>
+                <li>Continue normal program execution if other exceptions occurs</li>
+            </ul>
+            <button onclick="DoWork()">DoWork</button><br><br>
+            <p>
+                While it is possible to throw any object, best practice is to extend the Error object with a new class. 
+                In environments that support it, this allows for features like the automatic stack trace to be included 
+                in the exception response, which can be crucial when it comes to diagnosing issues later down the line.                
+            </p>
+            <code>
+                function CustomException(message) {<br>
+                    &nbsp;const error = new Error(message);<br>
+                    &nbsp;return error;<br>
+                  }<br><br>
+                  
+                  CustomException.prototype = Object.create(Error.prototype);<br>
+                  throw new CustomException('Exception message');<br><br>
+            </code>
+            <a href="https://rollbar.com/guides/javascript-throwing-exceptions/" target="_blank">Create custom exceptions</a>        
+        </section>
+
+        <section>
+            <h4>Question Errorhandler 2</h4>
+            <p>
+                You are developing an online shopping application that accepts credit cards for payment.
+                If the credit card number is invalid, the application must:<br>
+                <ul>
+                    <li>Assign "200" to the error number</li>
+                    <li>Assign "Invalid" to the error description</li>                    
+                </ul>
+                You need to write the code that meets the requirements.                
+            </p>
+            <div id="ErrorhandlerQ2"></div>
+            <button onclick="GenerateErrorQ2()">Generate Error</button>
+        </section>
+
+        <section>
+            <h4>Question Errorhandler 3</h4>
+            <p>
+                You create an application that sends information to a web service by using a custom error that inherits from Error.
+                When the web service returns a non-zero result code, you must raise an exception that contains the result code.
+                You need to implement the code that generates the exception.
+            </p>
+
+            <input type="button" onclick="Errorhandler3()" value="Process Call">
+        </section>
+
+        <section>
+            <h4>Question Errorhandler 4</h4>
+            <p>
+                You are developing an application that uses a JavaScript library.<br>
+                The library may throw many types of exceptions. The exceptions are grouped by category.<br>
+                You need to catch and identify the exceptions by group.
+            </p>
+            <button onclick="BookHotelRoom()">Process Error</button>
+        </section>
+
+        <section>
+            <h4>Question Errorhandler 5</h4>
+            <p>
+                You develop an application to host user-generated HTML and JavaScript content.
+                A common error handler in your application must process all unhandled errors.
+                You need to implement global error handling for the application.                
+            </p>
+            <button onclick="ProcessErrorEx5()">Process Error</button>
+        </section>
+
+    </article>
+
+    <article>
+        <h2>Prototype Exercises</h2>
+        <section>
+            <h4>Question Prototype Exercise 1</h4>
+            <p>
+                You are creating a function by using JavaScript. The function accepts an object as the parameter and returns 
+                a string that identifies the data type of the object.<br>
+                You have the following requirements:<br>                
+            </p>
+            <ul>
+                <li>The function must return "Number" if the object is a number.</li>
+                <li>The function must return "String" if the object is a string.</li>
+                <li>The function must return "Unknown" if the object is neither a number nor a string.</li>
+            </ul>
+            <button onclick="CheckType()">Check Type</button>
+        </section>
+        <section>
+            <h4>Question Prototype Exercise 2</h4>
+            <p>
+                You are creating a JavaScript object that represents a customer.
+                You need to extend the Customer object by adding the GetCommission() method.
+                You need to ensure that all future instances of the Customer object implement the GetCommission() method.                
+            </p>
+            <button onclick="CreateCustomer()">Create Customer</button>
+        </section>
+        <section>
+            <h4>Question Prototype Exercise 3</h4>
+            <p>
+                You are creating a class named Consultant that must inherit from the Employee class. 
+                The Consultant class must modify the inherited PayEmployee method. The
+                Employee class is defined as follows:<br>                                
+            </p>
+            <code>
+                function Employee() {}<br>
+                Employee.prototype.PayEmployee = function (){<br>
+                &nbsp;alert('Hi there!');<br>
+                }<br>                
+            </code>
+            <p>
+                Future instances of Consultant must be created with the overridden method.
+                You need to write the code to implement the Consultant class.                
+            </p>
+            <button onclick="CreateConsultant()">Create Consultant</button><br><br>
+            <a href="https://www.tutorialsteacher.com/javascript/inheritance-in-javascript" target="_blank">Inheritance in javascript</a>
+        </section>
+        <section>
+            <h4>Question Prototype Exercise 4</h4>
+            <p>
+                You are creating a JavaScript object that represents a customer.
+                You need to extend the Customer object by adding the GetCommission() method.
+                You need to ensure that all future instances of the Customer object implement the GetCommission() method                
+            </p>
+            <button onclick="CreateCustomer()">Create Customer</button>
+        </section>
+
+        <section>
+            <h4>Question Prototype Exercise 5</h4>
+            <p>
+                You are creating a class named Sedan that must inherit from the Car class. 
+                The Sedan class must modify the inherited fourDoor() method. 
+                The Car class is defined as follows.
+                Future instances of Sedan must be created with the overridden method.
+                You need to write the code to implement the Sedan class.                                
+            </p>
+            <input type="button" onclick="CreateCar()" value="Create Car">
+        </section>
+
+        <section>
+            <h4>Question Prototype Exercise 6</h4>
+            <p>
+                You are creating a custom function. You pass an object named testObj to the function as a parameter. You do not use inheritance through the functions.
+                The function must establish whether testObj inherits from another object named parentObj.
+                You need to ensure that the function performs as required.
+                Which method or operator should you add to the function?                
+            </p>
+            <button onclick="CheckPrototype()">Check Prototype</button>
+        </section>
+
+    </article>
+
+    <article>
+        <h2>HTML Control Exercises</h2>
+        <section>
+            <h4>HTML Control Exercise 1</h4>
+            <p>
+                You are developing a web page for runners who register for a race. The page includes a slider control that allows users to enter their age.
+                You have the following requirements:                
+            </p>
+            <ul>
+                <li>All runners must enter their age.</li>
+                <li>Applications must not be accepted from runners less than 18 years of age or greater than 90 years.</li>
+                <li>The slider control must be set to the average age (37) of all registered runners when the page is first displayed.</li>
+            </ul>
+            <input type="range" max="90" min="18" value="37" step="5" required onchange="updateTextInput(this.value);"><label id="sliderVal">37</label><br><br>
+            <a href="https://www.w3schools.com/html/html_form_input_types.asp" target="_blank">Html form input types</a>
+        </section>
+        <section>
+            <h4>HTML Control Exercise 2</h4>
+            <p>
+                You are developing a customer web form that includes the following HTML.<br>
+                &lt;input id = "txtValue" /&gt;<br>
+                A customer must enter a value in the text box prior to submitting the form.
+                You need to add validation to the text box control.                
+            </p>
+            <input type="text" id="inputCtrl1"  required="required">
+        </section>
+        <section>
+            <h4>HTML Control Exercise 3</h4>
+            <p>
+                You are developing an HTML5 web page.
+                The appearance of the text box must change when a user moves the focus to another element on the page.
+                You need to develop the page to respond to user action.                
+            </p>
+
+            <input type="text" onblur="resetStyle(this);">
+        </section>
+
+        <section>
+            <h4>HTML Control Exercise 4</h4>
+            <p>
+                You are developing a form that captures a user's email address by using HTML5 and jQuery.
+                The form must capture the email address and return it as a query string parameter. 
+                The query string parameter must display the @ symbol that is used in the email address.
+            </p>
+            <form id="form4">
+                Email address: <input type="text" name="EmailAddress" placeholder="Enter email address please."><br>
+                First name: <input type="text" name="FirstName" value="Mickey"><br>
+                Last name: <input type="text" name="LastName" value="Mouse"><br><br>
+                <button type="submit">Submit</button>
+            </form>
+            <h5>References:</h5>
+            <ul>
+                <li><a href="https://jsfiddle.net/luken/4VVs3/" target="_blank">Process serialized data.</a></li>
+                <li><a href="https://www.w3schools.com/jsref/jsref_decodeuricomponent.asp" target="_blank">JavaScript decodeURIComponent() Function.</a></li>
+                <li><a href="https://www.w3schools.com/jquery/ajax_serialize.asp" target="_blank">jQuery serialize() Method.</a></li>
+            </ul> 
+        </section>
+
+        <section>
+            <h4>HTML Control Exercise 5</h4>
+            <p>
+                You are developing a web form that includes the following code.<br><br>
+                <code>
+                    &lt;div style="background-color: lightgray;" id="dynamicForm"&gt;<br>
+                    &nbsp;&nbsp;&lt;input type="checkbox" id="myCheckbox" onclick="ShowInputBox('dynamicForm')"&gt;<br>
+                    &lt;/div&gt;<br>        
+                </code><br>
+                When a user selects the check box, an input text box must be added to the page dynamically.<br>
+                You need to ensure that the text box is added.<br>
+            </p>
+            <div style="background-color: lightgray;" id="dynamicForm">
+                <input type="checkbox" id="myCheckbox" onclick="ShowInputBox('dynamicForm')">
+            </div>
+        </section>
+
+        <section>
+            <h4>HTML Control Exercise 6</h4>
+            <p>
+                You develop an HTML messaging application that allows users to send messages.<br>
+                The messages can have an optional file attachment that is identified by a filename.
+                You use the following function to send a message:<br>
+                You need to send a message with a file attachment.<br>                
+            </p>
+            <label>Recipient:</label><input type="text" id="recipient"><br>
+            <label>Message:</label><input type="text" id="body"><br>
+            <label>Attachment:</label><input type="text" id="Attachment"><br>
+            <button onclick="SendMessage()">Send</button>
+        </section>
+
+        <section>
+            <h4>HTML Control Exercise 7</h4>
+            <p>
+                You develop a webpage by using HTML5. You create the following markup:<br>
+                &lt;input type "url" name= "website" required="required" /&gt;<br>
+                You need to ensure that the value that the user enters contains a secure URL.                
+            </p>
+
+            <form id="form5">
+                <input type="url" name="website" id="secureUrl" required="required" pattern="https://.+">
+                <button type="submit">Submit URL</button>
+            </form>
+        </section>
+
+        <section>
+            <h4>HTML Control Exercise 8</h4>
+            <p>
+                You develop a webpage by using HTML5.
+                You need to ensure that the values that users enter are only numbers, letters, and underscores, regardless of the order
+            </p>
+            <div style="background-color: lightgray;">
+                Given Name: <input type="text" onblur="ValidateInputData(this)"><br>
+                SurName: <input type="text" onblur="ValidateInputData(this)">
+            </div>
+        </section>
+
+        <section>
+            <h4>HTML Control Exercise 9</h4>
+            <p>
+                You are creating an HTML5 application that allows users to play video on a page by using the VIDEO element.
+                You need to enable the user to start, stop, and pause the video.                
+            </p>
+            <video id="myvideo" height="200" width="200" src="https://drive.google.com/uc?export=download&id=1oAt_7A3ozyXXTSSCA-3sgn8OiRb5QjyM" controls> </video>
+        </section>
+
+        <section>
+            <h4>HTML Control Exercise 10</h4>
+            <p>
+                You create a webpage that includes the following HTML markup.
+                You need to ensure that a form cannot be submitted unless the INPUT element contains the word OK.                
+            </p>
+            <div>
+                <p>Type OK to validate form.</p>
+                <form id="form6" action="javascript:console.log('Success processed form.');">
+                    <input type="text" id="inputOK">
+                    <input type="submit">
+                </form>
+            </div>
+        </section>
+
+    </article>
+
+    <article>
+        <h2>Json Exercises</h2>
+        <section>
+            <h4>Json Exercise 1</h4>
+            <p>
+                You are developing a customer web form that includes the following HTML.
+            </p>
+            <code>
+                &lt;label id="txtValue"&lt;/label&gt;
+            </code>
+            <p>Information from the web form is submitted to a web service. The web service returns the following JSON object.</p>
+            <code>
+                {<br>
+                &nbsp;"Confirmation": "1234",<br>
+                &nbsp;"FirstName": "John"<br>
+                }<br>
+            </code>
+            <p>You need to display the Confirmation number from the JSON response in the txtValue label field.</p>
+            <label id="JsonExercise1"></label><br>
+            <button onclick="JsonExercise1()">Display Value</button>
+        </section>
+
+        <section>
+            <h4>Json Exercise 2</h4>
+            <p>
+                You create an HTML5 webpage.<br>
+                You also have the following JavaScript code segment:<br>
+                var jsonFruit = { "apples" : "12", "bananas" : "8", "watermelon" : "3" }<br>
+                You need to add additional rows to the fruitTable element by processing the jsonFruit values in the order listed.
+            </p>
+            <table id="fruitTable">
+                <tr>
+                    <th>Fruit</th>
+                    <th>Inventory</th>
+                </tr>
+            </table><br>
+
+            <button onclick="AppendFruitData()">Append Data</button>
+        </section>
+
+        <section>
+            <h4>Json Exercise 3</h4>
+            <p>
+                The web service returns a JSON object that contains two properties named Description and FileName.<br>
+                The PersonImage object must meet the following requirements:<br>
+                <ul>
+                    <li>Create an object that represents an image that will be displayed.</li>
+                    <li>Set the image properties from the values that are returned by the web service.</li>
+                    <li>Expose the image as a property of the PersonImage object.</li>
+                </ul>
+                You need to insert code at line 13 to complete the implementation of the PersonImage object.
+            </p>
+            <div id="happyFace"></div>
+            <button onclick="ProcessImage3()">Process Image</button>                
+        </section>
+
+        <section>
+            <h4>Json Exercise 4</h4>
+            <p>
+                You develop an HTML application that calls a web service to retrieve JSON data. The web service contains one method named GetFullName that returns an
+                Object named data. The data object contains two properties named GivenName and Surname.
+                You need to load data from the web service to the webpage.                
+            </p>
+            <label id="givenName"></label><br>
+            <label id="surname"></label><br>
+
+            <button onclick="GetPersonData()">Get Person Data</button>
+        </section>
+
+    </article>    
+
+    <article>
+        <h2>Javascript functions</h2>
+        <section>
+            <h4>Javascript functions Exercise 1</h4>
+            <p>
+                You are developing an HTML5 web application that displays the current temperature whenever a button is clicked.
+            </p>
+            <label id="currentTemperature">Current temperature is:</label><br><br>
+            <button id="UpdateTemperature">Update temperature</button>
+        </section>
+        <section>
+            <h4>Javascript functions Exercise 2</h4>
+            <p>
+                You need to test the value of the following variable in JavaScript. <em>var length = "75";</em>
+                A block of code must execute if the length equals 75 regardless of the data type.
+                You need to use the statement that meets this requirement.                
+            </p>
+            <button onclick="ProcessDigits()">Process</button>
+        </section>
+        <section>
+            <h4>Javascript functions Exercise 3</h4>
+            <p>
+                You are troubleshooting a web page that includes the following code.
+                The button is processed using an eventhandler.
+            </p>
+            <input type="button" id="JavascriptFunctionsExercise3" value="Click me">
+        </section>
+
+        <section>
+            <h4>Javascript functions Exercise 4</h4>
+            <p>
+                You are developing an application for an online retailer. The company ships only to certain countries.<br>
+                The application must:<br>
+                <ul>
+                    <li>Store a list of country codes in an array</li>
+                    <li>Validate the country code of the shipping address against the countries array</li>
+                    <li>Include a Boolean value in the array that indicates whether or not you can ship to the country</li>
+                    <li>Display a list of countries that can be shipped to if the user inputs a code for a country that the retailer cannot ship to</li>
+                </ul>
+                You need to develop the application to meet the requirements.                
+            </p>
+            <input type="text" id="CountryEx4">
+            <button onclick="CheckValidCountries()">Check Valid Countries</button><br>
+            <div id="ValidCountries"></div>
+        </section>
+
+        <section>
+            <h4>Javascript functions Exercise 5</h4>
+            <p>
+                You are developing application web form by using HTML5 and JavaScript.
+                You need to prevent users from submitting form data more than once.
+            </p>
+            <input id="btnSubmit" type="button" value="Submit" onclick="disable(this)">
+            <input id="btnCancel" type="button" value="Cancel" onclick="disable(this)">
+        </section>
+
+        <section>
+            <h4>Javascript functions Exercise 6</h4>
+            <p>
+                A company asks you to create a function that displays loan amounts to their customers.<br>
+                You must create the function by using JavaScript to meet the following requirements:<br>
+                <ul>
+                    <li>Display three different loan amounts to each customer.</li>
+                    <li>Display loan amounts in order starting with the greatest amount and ending with the least amount.</li>
+                </ul>
+                You need to implement the function.<br>                                
+            </p>
+            <button onclick="DisplayLoanAmounts()">Display Loan Amounts</button>
+        </section>
+
+        <section>
+            <h4>Javascript functions Exercise 7</h4>
+            <p>
+                You must complete the ShowCanWeAfford() function:<br>
+                <ul>
+                    <li>Display the message Denied! If the PaymentAmount variable is greater than 500.</li>
+                    <li>Display the message Approved! If the PaymentAmount variable is less than 300.</li>
+                    <li>Display the message Approved with caution! If the PaymentAmount variable is less than 500 and greater than 300.</li>
+                </ul>
+                You need to add statements to the ShowCanWeAfford() JavaScript function to meet the requirements.
+            </p>
+            <div id="paymentAmount"></div>
+            <button onclick="ProcessLoan()">Process Loan</button>
+        </section>
+
+        <section>
+            <h4>Javascript functions Exercise 8</h4>
+            <p>
+                You need to ascertain how the webpage responds when it loads and how it reacts to user actions.
+            </p>
+            <div style="background-color: lightgray;padding: 10px;">
+                <input type="text" class="BackgroundInputTxt" onblur="checkTxt(this)" onfocus="checkTxt(this)"><br>
+                <input type="text" class="BackgroundInputTxt" onblur="checkTxt(this)" onfocus="checkTxt(this)"><br>
+                <input type="button" style="margin-top:10px ;" value="Reset" onclick="ResetTxt()"><br>
+            </div>
+        </section>
+
+        <section>
+            <h4>Javascript functions Exercise 9</h4>
+            <p>
+                You need to evaluate the value of the variable named customer.name.
+            </p>
+            <button onclick="ProcessCustomerObj()">Process Customer</button>
+        </section>
+
+        <section>
+            <h4>Javascript functions Exercise 10</h4>
+            <p>
+                You have the following requirements:<br>
+                <ul>
+                    <li>Display a message if users select the first OPTION element, and then submit the form.</li>
+                    <li>Do not display an alert message if users select any other OPTION element, and then submit the form.</li>
+                </ul>
+                You need to implement the madeSelection() function.
+            </p>
+            <form>
+                <label for="city">City:</label>
+                <select id="city">
+                    <option>Please Choose</option>
+                    <option>Moscow</option>
+                    <option>London</option>
+                    <option>Paris</option>                                                            
+                </select>
+                <input type="button" id="submitFormEx10" value="Submit"
+                onclick="madeSelection(document.getElementById('city'), 'Please Select A City.')">
+            </form>            
+        </section>
+
+        <section>
+            <h4>Javascript functions Exercise 11</h4>
+            <p>
+                You are developing a shared library to format information. The library contains a method named _private.
+                The _private method must never be called directly from outside of the shared library.
+                You need to implement an API for the shared library.
+            </p>
+            <input type="button" value="Get Formatter" onclick="GetFormatter()">
+        </section>
+
+        <section>
+            <h4>Javascript functions Exercise 12</h4>
+            <p>
+                You are creating a function by using JavaScript.
+                You have the following requirements:
+                The function must display loan amounts to the user within the following HTML element:<br>
+                &lt;div id="display"&gt;&lt;/div&gt;<br>
+                The loan amount of 2100 must display in the HTML element.
+                All declared variables and functions must be scoped to the myApp variable.
+                You need to implement the function.                
+            </p>
+            <div id="displayEx12"></div>
+            <button onclick="JavascriptFunctionsExercise12()">Execute</button>
+        </section>
+
+        <section>
+            <h4>Javascript functions Exercise 13</h4>
+            <p>
+                You are developing an application by using JavaScript.
+                You must write a function named Add that returns the sum 
+                of the variables named v1, v2, v3, v4. The addValues function 
+                must call the Add function and use the appropriate owner object.
+                You need to complete the sum function.
+            </p>
+            <button onclick="PerformCalculationV2()">Perform Calculation</button>
+        </section>
+
+        <section>
+            <h4>Javascript functions Exercise 14</h4>
+            <p>
+                You create an HTML5 application that includes JavaScript. The application performs several AJAX requests. One AJAX request retrieves order information from a web service and then sends the information back to a webpage within the application.
+                You must create a custom event.<br> You have the following requirements:<br>                
+            </p>
+            <lu>
+                <li>The webpage must contain an HTML element named ordersListing that will receive the custom event notification.</li>
+                <li>The event name must be ordersReceived.</li>
+                <li>The event must pass a custom value named orderCount.</li>
+                <li>The event must run a JavaScript method named showOrdersReceivedCount after the orders Listing HTML element receives the event.</li>
+                <li>Do not allow other DOM elements to receive the event.</li>
+                <li>Allow the event to be cancelled.</li>
+                <li>Send the event into the event system</li>
+            </lu>
+            <p>
+                You need to implement the custom event to notify specific DOM elements of the AJAX response.
+            </p>
+            <div id="orderlisting">Click me</div><br>   
+            <button onclick="CreateCustomEvent()">Create Custom Event</button>
+        </section>
+
+        <section>
+            <h4>Javascript functions Exercise 15</h4>
+            <p>
+                You are creating a custom object as described by the following code.
+                You need to implement the calcArea method.
+            </p>
+            <button onclick="CalculateArea()">Calculate Area</button>
+        </section>
+
+        <section>
+            <h4>Javascript functions Exercise 16</h4>
+            <p>
+                You are developing a web page that includes the following HTML.
+                You need to ensure that the email element is enabled only if the user selects the IT Support check box.
+                Which CSS selectors should you use? 
+            </p>
+            <input type="checkbox" id="IT" value="IT" onclick="enable(this, document.getElementById('eMail'))">
+            <label for="IT">IT Support</label><br><br>
+            <input type="email" disabled placeholder="IT@contos.com" id="eMail" name="eMail">
+            <label for="IT">Your email</label>
+        </section>    
+
+        <section>
+            <h4>Javascript functions Exercise 17</h4>
+            <p>
+                You develop an HTML5 webpage that contains the following HTML markup:<br>
+                &lt;input id="loanTermTextBox" type="text" /&gt;<br>
+                Users must enter a valid integer value into the text box.<br>
+                You need to validate the data type that is received from the input element.<br>
+            </p>
+            <input id="loanTermTextBox" type="text" />
+            <button onclick="GetLoanTerm()">Get LoanTerm</button>
+        </section>
+
+        <section>
+            <h4>Javascript functions Exercise 18</h4>
+            <p>
+                You develop an HTML5 webpage. You have the following HTML markup:
+                You need to update the content of the DIV element when the mouse 
+                hovers over an image and when the mouse coordinates change.
+            </p>
+            <div id="mapContents"></div>
+            <img src="./Resources/img/rose-garden.jpg" id="UsMap" alt="rose garden" width="100px" height="100px">
+        </section>
+
+        <section>
+            <h4>Javascript functions Exercise 19</h4>
+            <p>
+                You develop an HTML5 webpage. You have the following HTML markup:
+                You need to call the click event for the addOneItem button a 
+                determined number of times when the user clicks the addBoxOfItems button.
+            </p>
+            <div>
+                Total Products: <span id="ProductsEx19"></span><br>
+                Total Boxes: <span id="BoxesEx19"></span><br><br>
+                <input type="button" id="addOneItem" value="Add One Item to the order.">
+                <input type="button" id="addBoxOfItems" value="Add A Box to the order.">
+            </div>
+             
+        </section>
+
+        <section>
+            <h4>Javascript functions Exercise 20</h4>
+            <p>
+                You develop an HTML5 webpage. You have the following HTML markup:<br>
+                &lt;input type="text" id="username" /&gt;<br>
+                You need to prevent users from entering specific characters into the username field.
+                What should you do?                
+            </p>
+            <input type="text" id="usernameEx20" />
+        </section>
+
+        <section>
+            <h4>Javascript functions Exercise 21</h4>
+            <p>
+                You are developing an application that processes order information. 
+                Thousands of orders are processed daily.<br>
+                The application must:<br>
+                <ul>
+                    <li>Display the number of orders processed and the number of orders remaining</li>
+                    <li>Update the display for every 25th record processed</li>                    
+                </ul>
+                You need to develop the application to meet these requirements.                
+            </p>
+            <button onclick="ProcessRecords()">Process Records</button>
+        </section>
+
+        <section>
+            <h4>Javascript functions Exercise 22</h4>
+            <p>
+                You develop an HTML5 webpage. You have the following JavaScript code:<br>
+                You need to handle the click event when a user clicks the showDialog button.
+            </p>
+            <button id="showDialogBtn">Show Dialog</button>
+        </section>
+
+        <section>
+            <h4>Javascript functions Exercise 23</h4>
+            <p>
+                You create the following JavaScript code:<br>
+                You have the following requirements:
+            </p>
+            <ul>
+                <li>You must invoke a function that displays the vehicle information within the following HTML element: &lt;div id="display"&gt;&lt;/div&gt;</li>
+                <li>The output of the function must appear on thewebpage as follows:</li>
+            </ul>
+            <p>
+                Vehicle Color is silver<br>
+                Stay safe!<br>
+                Vehicle TransmissionType is manual<br>
+                Big machine!<br><br>
+                You need to invoke the JavaScript function to display the required output in the HTML element.<br>
+            </p>
+            <div id="displayVehicle"></div>
+            <button onclick="ProcessVehicle()">Process Vehicle</button>
+        </section>
+
+        <section>
+            <h4>Javascript functions Exercise 24</h4>
+            <p>
+                You are developing an application in HTML5.
+                You have the following HTML markup.
+                You have the following JavaScript code.                
+            </p>
+            <div >
+                <div>
+                    <div style="background-color:lightgray" onclick="myValidation1()">
+                        <label id="userNameLabel" for="userName">User Name:</label>
+                        <input type="text" id="userName" onclick="myValidation2()">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </article>  
+
+    <article>
+        <h2>General HTML Exercises</h2>
+        <section>
+            <h4>General HTML Exercise 1</h4>
+            <p>
+                You are modifying an existing web page. The page is being optimized for accessibility. 
+                Standards-compliant screen readers must be able to identify the links contained within the navigation structure automatically.                
+            </p>
+            <nav>
+                <ul>
+                    <li><a href="#0">Home</a></li>
+                    <li><a href="#0">Sales</a></li>
+                    <li><a href="#0">Operations</a></li>
+                </ul>
+            </nav>
+        </section>
+        <section>
+            <h4>General HTML Exercise 2</h4>
+            <p>
+                You are developing an HTML5 web application for displaying encyclopedia entries.
+                Each encyclopedia entry has an associated image that is referred to in the entry.
+                You need to display the image by using the correct semantic markup.                
+            </p>
+            <figure>
+                <img src="./Resources/img/rose-garden.jpg" width="100px" height="100px" alt="Rose garden">
+                <figcaption>
+                    A Rose garden to enjoy    
+                </figcaption>
+            </figure>   
+        </section>
+        <section>
+            <h4>General HTML Exercise 3</h4>
+            <p>
+                You are developing an HTML5 page that includes several paragraph elements.
+                You have the following requirements:
+                Add a drop shadow that is one inch below the text in the paragraph
+                Set the radius of the drop shadow to five pixels
+                You need to style the paragraphs to meet the requirements.
+                <em>Note: 72pt = 1in</em><br><br>
+                <span style="font-style:italic;">
+                    Syntax: text-shadow: h-shadow v-shadow blur-radius color|none|initial|inherit;
+                </span>                
+            </p>
+            <h4 style="text-shadow: 0px 72pt 5px #FF0000;">The text-shadow Property</h4>            
+            <span>The correct answer is: <strong>text-shadow: 0px 1in(or 72pt) 5px;</strong></span>            
+            <p><b>Note:</b> Internet Explorer 9 and earlier do not support the text-shadow property.</p>
+            <a href="https://www.w3schools.com/cssref/css3_pr_text-shadow.asp" target="_blank">text-shadow examples</a>
+        </section>
+        <section>
+            <h4>General HTML Exercise 4</h4>
+            <p>
+                You are developing an HTML5 web application and are styling text.
+                You need to use the text-transform CSS property.
+                Which values are valid for the text-transform property?                
+            </p>
+
+            <p>
+                Text-transform property supports the following properties: 
+            </p>
+            <ul>
+                <li><strong>Capitalize: </strong>Transforms the first character of each word to uppercase.</li>
+                <li><strong>Uppercase: </strong>Transforms all characters to uppercase.</li>
+                <li><strong>Lowercase: </strong>Transforms all characters to lowercase.</li>
+            </ul>
+            <span style="text-transform: capitalize;">Ships will sail around the world but the Flat Earth Society will flourish.</span>
+            <br><br>
+            <a href="https://www.w3schools.com/cssref/pr_text_text-transform.asp" target="_blank">CSS text-transform Property</a>
+        </section>
+        <section>
+            <h4>General HTML Exercise 5</h4>
+            <p>
+                You are developing a customer web form that includes the following HTML input field.<br>
+                <code>&lt;input id="txtValue"/&gt;</code><br>
+                If a customer enters a value in the input field, then it must be a numeric value.
+                You need to add validation to the input field.
+            </p>
+            <form id="form2">
+                <input type="number" id="numberInput">
+                <input type="submit" value="Submit">
+            </form>
+        </section>
+        <section>
+            <h4>General HTML Exercise 6</h4>
+            <p>
+                You are developing a customer web form that includes the following HTML.<br>
+                &lt;input id="txtValue"/&gt;<br>
+                You need to change the HTML markup so that customers can enter only a valid three-letter country code.                
+            </p>
+            <form id="form3">
+                <input type="text" pattern="[a-zA-Z]{3}" id="threeLetterInput" placeholder="Please enter three chars.">
+                <input type="submit" value="Submit">
+            </form>
+        </section>
+        <section>
+            <h4>General HTML Exercise 7</h4>
+            <p>
+                You are developing a customer web form that includes following HTML.<br>
+                <code>&lt;input id="txtValue"/&gt;</code><br>
+                You need to develop the form so that customers can enter only a valid country code consisting of three English alphabet characters.
+            </p>
+            <input type="text" id="HtmlExercise7">
+            <button onclick="HtmlExercise7()">Validate</button>
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 8</h4>
+            <p>
+                You are developing a web form that includes the following HTML.<br>
+                <code>&lt;input id="txtValue" type="text" /&gt;</code>
+                You need to ensure that a value is entered into txtValue before the form is submitted.
+            </p>
+            <input type="text" id="HtmlExercise8">
+            <button onclick="HtmlExercise8()">Validate</button>
+        </section>
+        <section>
+            <h4>General HTML Exercise 9</h4>
+            <p>You are developing an HTML5 application for a company. You apply the following style to a DIV element on a page.</p>
+            <code>
+                &lt;style&gt;<br>
+                    &nbsp;#GeneralHTMLExercise4 {<br>
+                        &nbsp;&nbsp;border: 3px solid;<br>
+                        &nbsp;&nbsp;background: #b6aaaa;<br>
+                        &nbsp;&nbsp;width:200px;<br>
+                        &nbsp;&nbsp;height:100px;<br>
+                        &nbsp;&nbsp;top:10%;<br>
+                        &nbsp;&nbsp;left:10%;<br>
+                        &nbsp;&nbsp;border-radius: 25px 0px 25px 0px;<br>
+                    &nbsp;}<br>
+                &lt;/style&gt;            
+            </code><br><br>
+
+            <div id="GeneralHTMLExercise4"></div>
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 10</h4>
+            <p>
+                You are developing a web page that enables customers to upload documents to a web server. 
+                The page includes an HTML5 PROGRESS element named progressBar that displays information about 
+                the status of the upload. This example simulates progress bar.                
+            </p>
+            <label id="progressFileLabel"></label>
+            <progress id="progressFileCtrl" value="0" min="0" max="100"></progress>
+            <button onclick="StartSimulation()">Start Simulation</button><br><br>
+            <a href="https://stackoverflow.com/questions/3352555/xhr-upload-progress-is-100-from-the-start" 
+            target="_blank">xhr upload progress</a>
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 11</h4>
+            <p>
+                You are developing an HTML5 page that has an element with an ID of logo. The page includes the following HTML.<br><br>
+                <code>
+                    &lt;div&gt;<br> 
+                    &nbsp;&nbsp;Logo: &lt;br&gt;<br>
+                    &nbsp;&nbsp;&lt;div id="logo"&gt;<br>
+                    &nbsp;&nbsp;&lt;/div&gt;<br>
+                    &lt;/div&gt;<br>
+                </code>
+                You need to move the logo element lower on the page by five pixels.            
+            </p>
+            <div style="background-color: lightgray;">
+                Logo:<br>
+                <!--div id="logo" style="position: relative;left: 50px;background-color: lightpink;"-->
+                <div id="logo" style="background-color: lightpink;">
+                        My great Logo
+                </div>
+            </div><br>
+            <button onclick="MoveLogo('logo')">Move Logo</button><br><br>
+            <a href="https://www.w3schools.com/cssref/pr_pos_top.asp" target="_blank">CSS top Property</a><br>
+            <a href="https://www.w3schools.com/cssref/pr_class_position.asp" target="_blank">CSS position Property</a>
+        </section>
+        <section>
+            <h4>General HTML Exercise 12</h4>
+            <p>
+                You are developing a web page by using HTML5 and C5S3. The page includes a &lt;div&gt; tag with the ID set to validate.
+            </p>
+            <div style="background-color: lightgray;">
+                Content
+                <div style="border: 2px blue solid;width: 100px;height: 150px;display: inline;background-color: lightpink;" id="validateDiv">
+                    Div Content
+                </div>
+                More Content
+            </div><br>
+            <a href="https://www.w3schools.com/cssref/pr_class_display.asp" target="_blank">CSS display Property</a><br>
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 13</h4>
+            <p>
+                You are creating a JavaScript function that displays the name of a web application.
+                You declare the following button element.<br>
+                &lt;input type="button" id= "About" value="About" /&gt;<br>
+                When a user clicks the button, a JavaScript function named About must be called.
+                You need to create an event handler that calls the About function when the button is clicked.                
+            </p>
+            <button id="aboutBtn">About</button>
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 14</h4>
+            <p>
+                You are developing a web page by using HTML5.<br>
+                You have the following requirements:<br>                
+            </p>
+            <ul>
+                <li>An H1 element must be placed at the top left corner of the page.</li>
+                <li>The size and location of the H1 element must not change if additional elements are added to the page.</li>
+            </ul>
+            <p>
+                &lt;h1 style="position:absolute;left:250px;top:30px;color:greenyellow"&gt;Absolute position H1 tag.&lt;/h1&gt;                
+            </p>
+            <h1 style="position:absolute;left:250px;top:30px;color:greenyellow">Absolute position H1 tag.</h1>                
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 15</h4>
+            <p>
+                You are styling a box object on a page by using CSS3.
+                You need to set the transparency of the object to 50%.                
+            </p>
+            <h1 style="color:rgba(200, 217, 248, 0.5)">Transparency set to 50%.</h1>
+            <h1 style="color:hotpink;opacity: 0.5;">Transparency set to 50%.</h1>
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 16</h4>
+            <p>
+                You are creating a web form that users will use to enter their personal information. The form includes the following HTML.
+            </p>
+            <table id="table1">
+                <tr>
+                    <td>Item</td>
+                    <td>Input</td>
+                    <td>Current</td>
+                </tr>
+                <tr>
+                    <td>First Name</td>
+                    <td><input type="text"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Last Name</td>
+                    <td><input type="text"></td>
+                    <td></td>
+                </tr>
+            </table>
+
+            <p>
+                You have the following requirements:<br>                
+            </p>
+            <ul>
+                <li>When a user enters an input box, the cell on the right must turn green.</li>
+                <li>When a user leaves an input box, the cell on the right must turn white.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 17</h4>
+            <p>
+                You are developing a web page. You create a grid layout by using the following CSS segment.
+            </p>
+            <code>
+                .grid-container {<br>
+                    &nbsp;display: grid;<br>                    
+                    &nbsp;grid-template-columns: 100px 100px;<br>
+                    &nbsp;grid-template-rows: 50px 50px 50px;<br>
+                    &nbsp;background-color: gray;<br>
+                }                
+            </code><br>
+            <div class="grid-container">
+                <div style="background-color: rgba(255, 0, 0, 0.8);grid-row: 2;grid-column: 1 / span 2;">grid-row: 2;grid-column: 1 / span 2;</div>
+            </div><br>
+            <a href="https://www.w3schools.com/cssref/pr_grid.asp" target="_blank">CSS grid Property</a><br>    
+            <a href="https://www.w3schools.com/css/css_grid.asp" target="_blank">CSS Grid Layout Module</a>
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 18</h4>
+            <p>
+                You are developing a website that has many web pages with hyperlinks to other sites.
+                You need to ensure that if a hyperlink contains an image, the linked web page opens in a new window.                
+            </p>
+            <a href="https://www.nu.nl/">
+                <img src="Resources/img/rose-garden.jpg" style="width: 100px;height: 100px;">
+            </a>
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 19</h4>
+            <p>
+                You are developing a web page that has a group of H1 and H2 elements. The page also includes a CSS class named underlineMe.
+                You have the following requirements:                
+            </p>
+            <ul>
+                <li>The font color of all H1 and H2 elements must be changed to red.</li>
+                <li>The CSS class underlineMe must be applied to all H1 and H2 elements.</li>
+            </ul>
+            <div class="HotArea1">
+                <h1>H1 element</h1>
+                <h2>H2 element</h2>
+                <h3>H3 element</h3>
+                <h4>H4 element</h4>
+                <h5>H5 element</h5>
+                <h6>H6 element</h6>                
+            </div>
+        </section>
+        <section>
+            <h4>General HTML Exercise 20</h4>
+            <p>
+                You are developing an HTML5 page. The page includes the following code.
+            </p>
+            <code>
+                &lt;p id="outerP" style="position: relative;background-color: lightgrey;border:1px black solid"&gt;<br>
+                    &nbsp;Some text<br>
+                    &nbsp;&lt;p id="innerP" style="background-color: lightgrey;border:1px black solid;position: relative; top: 15px; left:15px;">Another text.&lt;/p&gt;<br>
+                &lt;/p&gt;<br>                    
+            </code>
+            <p id="outerP" style="position: relative;background-color: lightgrey;border:1px black solid">
+                Some text
+                <p id="innerP" style="background-color: lightgrey;border:1px black solid;position: relative; top: 15px; left:15px;">Another text.</p>
+            </p><br>
+            <p>
+                The inner paragraph must be exactly 15 pixels from the top left corner of the outer paragraph. You set the left style for the inner paragraph to the appropriate value.
+                You need to set the position property of the inner paragraph.                
+            </p>
+            <a href="https://www.w3schools.com/cssref/pr_class_position.asp"
+            target="_blank">Positioning elements</a>    
+        </section>    
+        
+        <section>
+            <h4>General HTML Exercise 21</h4>
+            <p>
+                You are developing a web page by using HTML5 and CSS3.
+                Hyperlinks on the page must be rendered with a style that reflects the last user action performed.
+                You need to style the four anchor elements in the document.
+                In what order should you specify the four anchor selectors?                
+            </p>
+            <ol>
+                <li>a:Link</li>
+                <li>a:Visited</li>                
+                <li>a:Hover</li>
+                <li>a:Active</li>
+            </ol>
+            <div id="hotarea3">
+                <a href="https://www.w3schools.com/" target="_blank">w3schools website</a>
+            </div>
+            <p><b>Note:</b> a:hover MUST come after a:link and a:visited in the CSS definition in order to be effective.</p>
+            <p><b>Note:</b> a:active MUST come after a:hover in the CSS definition in order to be effective.</p>
+            <a href="https://www.w3schools.com/css/css_pseudo_classes.asp" target="_blank">Anchor Pseudo-classes</a>
+        </section>
+        <section>
+            <h4>General HTML Exercise 22</h4>
+            <p>
+                You are developing a web page that will be divided into three vertical sections. 
+                The main content of the site will be placed in the center section.<br> 
+                The two outer sections will contain advertisements.<br>
+                You have the following requirements:<br>
+                <ul>
+                    <li>The main content section must be set to two times the width of the advertising sections.</li>
+                    <li>The layout must be specified by using the CSS3 flexible box model.</li>
+                </ul>
+                You need to ensure that the visual layout of the page meets the requirements.                
+            </p>
+            <div style="display: flex;background-color: DodgerBlue;width:100%;height:100px">
+                <div style="flex-grow: 1;border: 1px solid black;">Side 1</div>
+                <div style="flex-grow: 4;border: 1px solid black;">Main</div>
+                <div style="flex-grow: 1;border: 1px solid black;">Side 2</div>
+            </div><br>
+            <strong>References:</strong>
+            <ul>
+                <li><a href="https://www.html5rocks.com/en/tutorials/flexbox/quick/" target="_blank">Flexible Box Model</a></li>
+                <li><a href="https://www.w3schools.com/css/css3_flexbox.asp" target="_blank">CSS Flexbox</a></li>
+            </ul>
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 23</h4>
+            <p>
+                You are creating a JavaScript function to display the current version of a web application
+                You declare a button as follows.<br>
+                &lt;input type="button" id="About" value="About" /&gt;<br>
+                You need to create an event handler for the button by using an anonymous function.<br><br>
+                <input type="button" id="showVersionBtn" value="Show Version">
+            </p>            
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 24</h4>
+            <p>
+                You are developing an HTML5 page.
+                You need to add author and copyright information.                
+            </p>
+            <footer>
+                &copy; Copyright 2020
+                <p>Author: Moo Kal<br>
+                <a href="mailto:Moo@example.com">Moo@example.com</a></p>                                
+            </footer>
+            <a href="https://html.spec.whatwg.org/multipage/sections.html"
+            target="_blank">HTML tags described</a>
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 25</h4>
+            <p>
+                You are modifying a website. The body of the page will be divided into two sections.<br>
+                The site must conform to HTML5 standards and must use HTML5 semantic tags.<br>
+                You need to ensure that the advertisements are on the rightmost section of the page.<br>                
+                <ul>
+                    <li>A content section will contain blog posts and comments.</li>
+                    <li>An area on the right-hand side will contain advertisements.</li>
+                </ul>
+            </p>
+
+            <table border="2px black solid" width="100%" background-color="lightgray">
+                <tr>
+                    <td class="myHeader" colspan="2">
+                        Welcome to my blog!
+                    </td>
+                </tr>
+                <tr height="100px">
+                    <td width="70%">
+                        <article>
+                            <section>
+                                Blog posts and comments.
+                            </section>
+                        </article>
+                    </td>
+                    <td width="30%">
+                        <aside>
+                            Advertisements.
+                        </aside>                        
+                    </td>
+                </tr>
+                <tr>
+                    <td class="myFooter" colspan="2">
+                        <footer>
+                            Footer
+                        </footer>                        
+                    </td>
+                </tr>                
+            </table>
+        </section>
+        <section>
+            <h4>General HTML Exercise 26</h4>
+            <p>
+                You are developing an HTML5 page that has an element with an ID of picture. The page includes the following HTML.
+                You need to move the picture element lower on the page by five pixels.
+            </p>
+            <div width="100%" style="background-color:lightgray;">
+                Picture:<br>
+                <div id="pictureEx26" style="background-color:lightpink;">                    
+                    The picture
+                </div>
+            </div><br>
+            <button onclick="MoveLower()">Move Lower</button>
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 27</h4>
+            <p>
+                Color rows and cells using CSS style.
+            </p>
+            <table class="tableStyle1">
+                <tr>
+                    <th>Fruit</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                </tr>
+                <tr>
+                    <td>Apples</td>
+                    <td>48</td>
+                    <td>$0.29</td>
+                </tr>
+                <tr>
+                    <td>Bananas</td>
+                    <td>72</td>
+                    <td>$0.19</td>
+                </tr>
+                <tr>
+                    <td>Watermelon</td>
+                    <td>14</td>
+                    <td>$3.99</td>
+                </tr>
+                <tr>
+                    <td>Ananas</td>
+                    <td>4</td>
+                    <td>$2.99</td>
+                </tr>
+            </table>
+            <p>
+                <code>
+                    .tableStyle1 {<br>
+                        &nbsp;border:1px solid black;<br>
+                        &nbsp;font-family: Arial, Helvetica, sans-serif;<br>
+                    }<br><br>
+            
+                    .tableStyle1 tr:nth-child(odd) {<br>
+                        &nbsp;background-color: red;<br>
+                    }<br><br>
+            
+                    .tableStyle1 tr td:nth-of-type(even) {<br>
+                        &nbsp;background-color: blue;<br>
+                    }<br><br>                    
+                </code>                    
+
+                The first row of the table will have a red background.<br>
+                The second cell in the third row of the table will have a blue background.<br>
+                Note the first row uses &lt;th&gt; tags instead of &lt;td&gt;.
+            </p>
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 28</h4>
+            <p>
+                You are reviewing the CSS markup for an HTML5 page that displays a news article. 
+                The CSS markup for the page is as follows:
+            </p>
+            <div class="styleExample01">
+                <h4>International new</h4>
+                <article>
+                    <h4 id="myHeadline01">New Developments</h4>
+                    <aside>
+                        <h4>Impact on markets</h4>    
+                    </aside>
+                </article>
+            </div>
+            <p>
+                If both of these rules have the same specificity, of 2 (article h4 {} or aside h4 {}), 
+                the last specified rule wins.<br> 
+                If we were to keep the original ordering, but add an additional element designation,
+                (article aside h4 {}) this rule would be applied because it is more specific.
+            </p>
+            <a href="https://www.w3schools.com/css/css_specificity.asp" target="_blank">CSS Specificity</a><br>
+            <a href="https://vecta.io/blog/definitive-guide-to-css-styling-order" target="_blank">CSS Styling Order</a>
+        
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 29</h4>
+            <p>
+                You develop a webpage.
+                The webpage must display a grid that contains one row and five columns. 
+                Columns one, three, and five are the same width. Columns two and four are the same width, 
+                but much wider than columns one, three, and five.<br>
+                The grid must meet the following requirements:<br>                
+                <ul>
+                    <li>Each row must be tall enough to ensure that images are not cut off.</li>
+                    <li>Each row must contain five columns.</li>
+                    <li>The width of the columns must not change when the screen is resized or rotated.</li>
+                </ul>
+                You need to define the style for the grid.                
+            </p>
+            <div class="GridExercise29">
+                <div style="grid-column: 1;background-color: pink;height: 50px;"></div>
+                <div style="grid-column: 2;background-color: green;height: 50px;"></div>
+                <div style="grid-column: 3;background-color: yellow;height: 50px;"></div>
+                <div style="grid-column: 4;background-color: red;height: 50px;"></div>
+                <div style="grid-column: 5;background-color: orchid;height: 50px;"></div>
+            </div><br>
+            <code>
+                .GridExercise29 {<br>
+                    &nbsp;display: grid;<br>
+                    &nbsp;grid-template-columns: 100px 250px 100px 250px 100px;<br>
+                    &nbsp;grid-template-rows: auto;<br>
+                }                
+            </code>
+            <p>
+                Note by specifing "grid-template-rows: auto;", the size of the row dynamically adjusts to content. 
+            </p>
+        
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 30</h4>
+            <p>
+                You implement an application by using HTML5 and JavaScript.
+                The application must place a border on only the first UL element that is contained in the DIV element.
+            </p>
+            <div id="GeneralHTMLExercise30">
+                <ul>
+                    <li>First List Item
+                        <ul>
+                            <li>Child List Item</li>
+                        </ul>
+                    </li>
+                    <li>Second List Item</li>
+                    <li>Third List Item</li>
+                    <li>Fourth List Item</li>
+                </ul>
+            </div>
+            <code>
+                div#GeneralHTMLExercise30 > ul {<br>
+                    &nbsp;border: 1px solid black;<br>
+                }<br>        
+            </code>
+
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 31</h4>
+            <p>
+                You are implementing an application by using HTML5 and JavaScript. A web page contains the following HTML table.<br>
+                The application must:<br>
+                <ul>
+                    <li>Identify all rows in the table body that have a class attribute of selected</li>
+                    <li>Exclude the last selected row in the table</li>
+                </ul>
+                You need to implement the web page according to the requirements.                                    
+            </p>
+
+            <table id="dataTable31">
+                <tbody>
+                    <tr>
+                        <td>Row 1, Column 1</td>
+                    </tr>
+                    <tr class="selectedRow">
+                        <td>Row 2, Column 1</td>
+                    </tr>
+                    <tr>
+                        <td>Row 3, Column 1</td>
+                    </tr>
+                    <tr class="selectedRow">
+                        <td>Row 4, Column 1</td>
+                    </tr>
+                    <tr>
+                        <td>Row 5, Column 1</td>
+                    </tr>
+                    <tr class="selectedRow">
+                        <td>Row 6, Column 1</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="selectedRow">
+                        <td>Tfoot Row 1, Column 1</td>
+                    </tr>
+                    <tr class="selectedRow">
+                        <td>Tfoot Row 2, Column 1</td>
+                    </tr>
+                    <tr class="selectedRow">
+                        <td>Tfoot Row 3, Column 1</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 32</h4>
+            <p>
+                You develop an HTML5 webpage. 
+                You also have the following JavaScript variable defined:<br>
+                <code>
+                    var languages = [];<br>
+                </code>
+                You need to add statements to an existing JavaScript function to sort the list items.
+            </p>
+            <ul id="languages">
+                <li>HTML</li>
+                <li>JavaScript</li>
+                <li>Classic ASP</li>
+                <li>DDD</li>
+                <li>C++</li>
+                <li>AAA</li>
+                <li>BBB</li>
+            </ul>
+            <input type="button" value="Process Languages" onclick="ProcessLanguages()">
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 33</h4>
+            <p>
+                An HTML page contains no embedded JavaScript or CSS code. The body of the page contains only the following line of code.<br>
+                &lt;p id="test"&gt;test&lt;/p&gt;<br>
+                A CSS style sheet must be applied dynamically. The style must visibly change the appearance of the paragraph on the page.
+                You need to apply a style the paragraph.                
+            </p>
+            <div style="background-color:blueviolet;">
+                Text in Div before
+                <p style="background-color:aquamarine" id="testExercise33">test</p>
+                Text in Div after
+            </div>
+            <button onclick="ApplystyleToPElement()">Apply style</button>
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 34</h4>
+            <p>
+                You need to ascertain how the webpage responds when the user enters characters and then clicks the add and divide buttons.
+            </p>
+            <label>Integer 1</label>
+            <input type="text" id="inputIntVal1"><br>
+            <label>Integer 2</label>
+            <input type="text" id="inputIntVal2"><br>
+            <input type="button" value="Divide" onclick="MathDivide()"><br>
+            <input type="button" value="Add" onclick="MathAdd()"><br>
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 35</h4>
+            <p>
+                You develop an HTML5 web application. The web application contains a form that allows users to enter only their month of birth.
+                The value that the users enter must be numbers between 1 and 12, inclusive.
+                You need to implement the form element for the month of birth.                
+            </p>
+            <input type="range" min="1" max="12" value="5" step="1" onchange="AgeChanged(this)">
+            <label id="ageRangeLbl">5</label>
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 36</h4>
+            <p>
+                You are developing a web application that can function when users are not connected to the Internet.
+                You need to check the Internet connectivity status of a user's browser.                
+            </p>
+            <div id="OnlineStatusDiv"></div>
+            <input type="button" value="Check Online Status" onclick="CheckOnlineStatus()">
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 37</h4>
+            <p>
+                You are creating a page that contains detailed employee information for a company portal. 
+                The page uses a jQuery library. The page contains a hidden button named btnEdit that is defined by the following code<br>                
+                <code>
+                    &lt;button id="btnEdit" style="display: none;"&gt;Edit&lt;/button&gt;
+                </code>
+                The button is not displayed by default.
+                The button must be displayed only if the user is logged on.
+                You need to add code to the document.ready() function to meet the requirements for the button.                
+            </p>
+            <p class="dynamicP">This is a paragraph with little content.</p>
+            <p class="dynamicP">This is another small paragraph.</p>
+            <button onclick="ShowParagraphs()">Show Paragraphs</button>
+            <button onclick="HideParagraphs()">Hide Paragraphs</button>
+        </section>    
+
+        <section>
+            <h4>General HTML Exercise 38</h4>
+            <p>
+                You develop an HTML application that contains a table that displays a list of products. 
+                The table is defined with the following HTML markup:
+                You must style the table to look like the following image:
+                You need to implement the CSS selectors to select the rows that must have a blue background.
+                Which CSS selector should you use?                
+            </p>
+            <table id="tableEx38">
+                <thead>
+                    <tr>
+                        <th>
+                            Product
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            Adjustable Race
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Blade
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Chainring
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Down Tube
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </section>    
+        <section>
+            <h4>General HTML Exercise 39</h4>
+            <p>
+                You develop an HTML5 application. You give users a numeric access code that can be used only one time.
+                Users must enter the numeric access code in the login form of the application. The numeric characters must be hidden by a masking character.
+                You need to implement the form element for users to enter the code.
+                Which HTML element should you use?                
+            </p>
+            <input type="password" required autocomplete="off">
+        </section>    
+
+        <section id="section38">
+            <h4>General HTML Exercise 40</h4>
+            <p>
+                You develop an HTML5 webpage that contains the following HTML markup:
+                You have the following requirements:
+                <ul>
+                    <li>Retrieve the content for any OPTION elements when the value of the selected attribute equals selected.</li>
+                    <li>Add the content to a comma separated string.</li>
+                </ul>
+                You need to retrieve the required data.
+            </p>
+            <label for="LoanTypes">Loan Types:</label>
+            <select name="LoanTypes" id="loanTypes" multiple="multiple">
+                <option>Secured</option>
+                <option selected="selected">Unsecured</option>
+                <option>Demand</option>
+                <option selected="selected">Subsidized</option>
+            </select><br><br>
+            <button onclick="ProcessSelection()">Process Selection</button>
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 41</h4>
+            <p>
+                You create a custom style by using CSS3.
+                A box with rounded corners must appear around text. The box must match the following illustration:
+                You need to add the CSS3 markup to your style.
+            </p>
+            <p style="border:solid;box-sizing: border-box;border-radius: 10px;">
+                Hello 2021, A crazy US president and a Mutant Virus, what could go possibly wrong   
+            </p>
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 42</h4>
+            <p>
+                You are developing a web page that includes the following HTML.<br>
+                &lt;span id = "myTextSpan" class = "redText"&gt; Hello There! &lt;/span&gt;<br>
+                The font color of text inside the span must be red.
+                You need to develop the web page to meet the requirement.                
+            </p>
+            <span id = "myTextSpan" class = "redText"> Hello There! </span><br><br>
+            <code>
+                span#myTextSpan {<br>
+                    &nbsp;font-size: larger;<br>
+                } <br><br>
+        
+                .redText {<br>
+                    &nbsp;color:red;<br>
+                }<br>                
+            </code>
+        
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 43</h4>
+            <p>
+                You review a webpage that contains the following markup:
+            </p>
+            <div name="container" class="container">
+                <div name="bluebox" class="bluebox"></div>
+                <div name="content" class="text"></div>
+            </div>
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 44</h4>
+            <p>
+                You develop an HTML5 webpage.
+                You need to change the background color for all of the elements whose name attribute ends with the word name.
+            </p>
+            
+            <label for="personname">Given and Surname:</label>
+            <input type="text" name="personname"><br>
+
+            <label for="businessname">Business Name:</label>
+            <input type="text" name="businessname"><br>
+            
+            <label for="emailaddress">Email Address:</label>
+            <input type="text" name="emailaddress"><br>
+
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 45</h4>
+            <p>
+                You are building a web page for a newspaper publisher.<br>
+                You have the following requirements:<br>                
+            </p>
+            <ul>
+                <li>The web page should split the content into columns that are at least 100 pixels wide</li>
+                <li>The number of columns displayed must be set by the browser.</li>                
+            </ul>
+            <p>You need to implement the correct CSS properties.</p>
+            <div id="outer" style="column-width: 100px;background-color: lightgray;height: auto;">
+                <div style="background-color: lime;">The first div, max width is set by the parent div to 100px.</div>
+                <div>Another div</div>
+            </div>
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 46</h4>
+            <p>
+                You develop a webpage with a standard input control by using HTML5.
+                The input control must display the text Enter your given name, as shown below:
+                When a user selects the input control, the text must disappear.
+                You need to create the input control.
+                Which input control should you use?                                
+            </p>
+            <input type="text" name="GivenName" placeholder="Enter your given name.">
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 47</h4>
+            <p>
+                You are developing an HTML5 web form to collect feedback information from site visitors.
+                The web form must display an INPUT element that meets the following requirements:
+                <ul>
+                    <li>Allow numeric values between 1 and 10.</li>
+                    <li>Default to the value of 5.</li>
+                    <li>Display as a slider control on the page.</li>
+                </ul>
+                You need to add the INPUT element to the form.
+                Which HTML element should you add?
+            </p>
+            Rating (Between 1 and 10):<input type="range" min="1" max="10" value="5">
+        </section>
+
+        <section id="Exercise48">
+            <h4>General HTML Exercise 48</h4>
+            <p>
+                You develop an HTML5 webpage. You have the following HTML markup:
+                You need to add a background color to the first article in each section.
+                Which code segment should you add to the webpage?
+            </p>
+
+            <section id="news">
+                <h1>World News</h1>
+                <article id="news1">article news 1</article>                
+                <article id="news2">article news 2</article>
+                <article id="news3">article news 3</article>                
+            </section>
+
+            <section id="sports">
+                <h1>Sports News</h1>
+                <article id="sports1">article sports 1</article>                
+                <article id="sports2">article sports 2</article>
+                <article id="sports3">article sports 3</article>                
+            </section>
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 49</h4>
+            <p>
+                You develop an HTML5 application for a company. Employees must enter a personal identification 
+                number (PIN) in an INPUT element named SecurityCode to access their employee records.<br>
+                The SecurityCode element must meet the following requirements:<br>
+                <ul>
+                    <li>Allow up to 6 digits.</li>
+                    <li>Do not display numbers as they are entered.</li>
+                    <li>Display the text Enter PIN Code before the user enters any data.</li>
+                </ul>
+                You need to implement the SecurityCode element.                
+            </p>
+            <input type="password" maxlength="6" placeholder="Enter PIN Code">
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 50</h4>
+            <p>
+                You are creating a custom CSS3 style.<br>
+                You have the following requirements to complete the style:<br>
+                <ul>
+                    <li> Box1 has a red outline</li>
+                    <li>Box1 contains box2, and box2 must remain inside box1</li>
+                    <li>Box2 must have a green to black gradient.</li>
+                    <li>Box2 must be surrounded by white space.</li>                                        
+                </ul>
+                The style resembles the following diagram:
+                You need to add the CSS3 code to the styles.                
+            </p>
+            <div style="margin:5em; border:#f00 solid 1px" id="_box1">
+                <div style="width:6em;height:4em;margin:10px 10px 10px 10px;background-image:linear-gradient(to bottom, green, black);" id="_box2"></div>
+            </div>
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 51</h4>
+            <p>
+                You are creating a blog site by using HTML5 and JavaScript. An inline frame enables users to post comments. It is possible for users to inject malicious scripts into their comments.
+                You need to minimize the ability for malicious scripts to execute on the site.
+                Which line of code should you use?
+                You use SandBox as illustrated below.<br><br>
+                &lt;iframe <em>sandbox</em> width="560" height="315" src="https://www.youtube.com/embed/E8gmARGvPlI"&gt;&lt;/iframe&gt;<br><br>                    
+            </p>
+
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/E8gmARGvPlI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 52</h4>
+            <p>
+                You are developing an HTML page that includes the following code.
+                &lt;h1 id="header">A Static Page&lt;/hl&gt;
+                You need to modify the content of the H1 element dynamically by using JavaScript.
+            </p>
+            <h1 id="headerEx52">A Static Page</h1>
+
+            <button onclick="ChangeContentEx52()">Change Content</button>        
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 53</h4>
+            <p>
+                You are developing a web page that includes the following HTML.<br>
+                &lt;span id="myTextSpan" class="myStyle"&gt;Hello, World!&lt;/Span&gt;<br>
+                You need to use inline CSS styling to format the text with Arial font.
+                Which code segment should you use?                
+            </p>
+            <span id="myTextSpan" class="myStyle" style="font-family: Arial, Helvetica, sans-serif;">Hello, World!</Span>
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 54</h4>
+            <p>
+                You develop a website for a company by using HTML5.<br>
+                You have the following requirements:<br>                
+            </p>
+            <ul>
+                <li>Allow multiple news postings per page under the title "Welcome to the Semantic Web!".</li>
+                <li>Search engines must be able to index individual news postings.</li>
+                <li>News postings must be styled by using the following CSS markup: .posting ( line-height: 150%; )</li>                                
+            </ul>
+            <p>
+                You need to structure the markup for each individual news posting.                
+            </p>
+            <article>
+                <header>
+                    Welcome to semantic web!
+                </header>
+                <div class="posting">
+                    My first post on semantic web! 
+                </div>
+            </article>
+
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 55</h4>
+            <p>
+                You are developing an application to track project management for your company. The status of the project is stored in a variable named percentComplete.
+                The method must execute only when percentComplete is equal to the numeric value 100.
+                You need to develop the application to meet the requirement.                
+            </p>
+            <button onclick="CheckPercentage()">Check Percentage</button>
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 56</h4>
+            <p>
+                You are developing a customer contact form that will be displayed on a page of a company's website. The page collects information about the customer.
+                If a customer enters a value before submitting the form, it must be a valid email address.
+                You need to ensure that the data validation requirement is met.
+                What should you use?                
+            </p>
+            <input type="email" name="email">
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 57</h4>
+            <p>
+                You develop a webpage by using HTML5.
+                The user interface of the webpage must show a gray-lined box that contains the label Enter your information:. Inside the box are two labels and two input boxes.
+                The first input box must be labeled Name:. The second input box must be labeled Email:. Below the box is a Submit button.
+                The user interface must look like the following;                
+            </p>
+            <fieldset>
+                <legend>Enter your information:</legend>
+                Name: <input type="text"><br>
+                Email: <input type="text"><br>
+            </fieldset>    
+            <button>Submit</button>
+        </section>    
+
+        <section>
+            <h4>General HTML Exercise 58</h4>
+            <p>
+                You troubleshoot a webpage that contains the following HTML markup: (Line numbers are included for reference only.)
+                The webpage also contains the following JavaScript function named someEvent() that is declared in the HEAD section of the HTML:
+                <br><br>    
+                <code>
+                    Function someEvent() {<br>
+                    &nbsp;&nbsp;Alert('someEvent fired!');<br>
+                    }<br>
+                </code><br>
+                The JavaScript function named someEvent() must run only when the user clicks the DIV element, not the INPUT elements.
+                You need to modify the webpage to invoke the JavaScript function named someEvent().                
+            </p>
+
+            <div style="background-color: lightgray;" onclick="somevent()">
+                <input type="radio" value="1">
+                <label>Small</label><br>
+                <input type="radio" value="2">
+                <label>Medium</label><br>
+                <input type="radio" value="3">
+                <label>Large</label>
+            </div>
+            <hr>
+            <div style="background-color: lightgray;" onclick="stopPropagation(event)">
+                <input type="radio" value="1">
+                <label>Small</label><br>
+                <input type="radio" value="2">
+                <label>Medium</label><br>
+                <input type="radio" value="3">
+                <label>Large</label>
+            </div>
+
+            <hr>
+            <div style="background-color: lightgray;" onclick="someOtherEvent(this, event)">
+                <input type="radio" value="1">
+                <label>Small</label><br>
+                <input type="radio" value="2">
+                <label>Medium</label><br>
+                <input type="radio" value="3">
+                <label>Large</label>
+            </div>
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 59</h4>
+            <p>
+                You have a webpage that includes the following markup and code:
+                You need to troubleshoot the code by clicking the Submit button.
+                Which value will be displayed?
+            </p>
+            <button onclick="console.log(CalculateValue());">Calculate</button>
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 60</h4>
+            <p>
+                You are developing a web application by using HTML5.
+                You have the following requirements.
+            </p>
+            <ul>
+                <li>The color of a menu item must change when a user hovers over the item.</li>
+                <li>The color of the menu item must change back to its original color after five seconds.</li>
+            </ul>
+            You need to ensure that the animation is applied to all menu items.<br>
+            Which CSS3 code should you use?<br><br>
+            <a class="myMenuItem" href="" target="_blank">w3schools</a>
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 61</h4>
+            <p>
+                Your company uses a third-party component that generates HTML for a website.<br>
+                The third-party component creates DIV elements that display a yellow background.
+                The third-party component uses inline styles in the DIV elements that are inconsistent with your corporate standards. 
+                You must override the DIV elements in the style sheet with the corporate styles.
+                You need to ensure that the website meets corporate standards.
+                Which style should you use?
+            </p>
+            <code>
+                div {<br>
+                    &nbsp;background-color:yellow !important;<br>
+                }<br>
+            </code>
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 62</h4>
+            <p>
+                You develop an HTML5 webpage that contains the following HTML markup:
+                Users must receive a message after they click the Submit button if the text entered into the favoriteColor text box is fewer than 2 characters or greater than 10 characters.
+                You need to implement the testLength() function.
+            </p>
+            <label>Favorite Color(2-10 characters):</label>
+            <input type="text" id="favoriteColor">
+            <input type="button" value="Submit" onclick="testLength(document.getElementById('favoriteColor'), 2, 10)">
+        </section>   
+
+        <section>
+            <h4>General HTML Exercise 63</h4>
+            <p>
+                You are developing a website that helps users locate theaters in their area from a browser. 
+                You created a function named findTheaters ().
+                <br>The function must:<br>                
+            </p>
+            <ul>
+                <li>Get the current latitude and longitude of the user's device</li>
+                <li>Pass the user's location to findTheaters()</li>
+            </ul>
+            <p>
+                The user needs to access the geolocation information from the browser before searching for theaters.
+            </p>
+            <input type="button" value="Find Theaters" onclick="FindTheaters()">
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 64</h4>
+            <p>
+                You are developing an HTML5 web application. The application loads data from a web service by using AJAX. 
+                The application displays the data by calling the displayData function. The data is loaded by using the 
+                following code. You need to ensure that the data is displayed when it is successfully retrieved from the web service.                
+            </p>
+            <button onclick="displayJsonData()">Get Data</button>
+        </section>
+
+        <section>
+            <h4>General HTML Exercise 65</h4>
+            <p>
+                You develop a webpage.
+                The layout of the webpage must resemble the following image:
+                You need to ensure that the page renders properly.                
+            </p>
+            <div style="background-color: lightgray;width: 100%;height:250px;">
+                <p>
+                    Start of main contents.
+                    <span id="span1" style="color:red;position: relative;">Start of span1 contents.
+                        <span id="span2" 
+                        style="background-color: honeydew; color:green;position: absolute;top: 200px;left:-100px;height: 130px;width: 130px;">Span2 contents.</span>
+                        End of span1 contents.
+                    </span>
+                    End of main contents. 
+                </p>
+            </div>
+            
+        </section>
+
+    </article>     
+
+    <article>
+        <h2>Ajax Exercises</h2>
+        <section>
+            <h4>Ajax Exercises 1</h4>
+            <p>
+                You are developing an application that consumes a local Json file or external url.
+                The Json file is retrieved using Ajax.  
+            </p>
+            <button onclick="GetCountry()">Execute Ajax Call</button><br><br>
+            <a href="https://api.jquery.com/jQuery.ajax/" target="_blank">jQuery.ajax() explained</a>        
+        </section>
+        <section>
+            <h4>Ajax Exercises 2</h4>
+            <p>
+                You are developing an HTML5 web application that displays customer mailing address information.
+                The application loads addresses from a web service by using AJAX.                 
+            </p>
+            <button onclick="processInformation()">Process Customer Info</button>
+        </section>
+
+        <section>
+            <h4>Ajax Exercises 3</h4>
+            <p>
+                You are developing a web page that consumes a Windows Communication Foundation (WCF) service. 
+                The page includes the following code segment. var xhr = new XMLHttpRequest() ;
+                The page uses the xhrHandler() method to listen for changes to the request status of the WCF service calls. 
+                It uses the xmlToJavaScript() method to convert the response from the WCF service to a JavaScript object.
+                The xhrHandler() method must be called automatically each time the request status changes. 
+                You need to add the event handler to the request object.               
+            </p>
+            <div id="ProcessAjaxCallResult"></div>
+            <button onclick="ProcessAjaxCall()">Process Ajax Call</button><br><br>
+            <strong>References:</strong>
+            <ul>
+                <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest" 
+                    target="_blank">XMLHttpRequest</a></li>
+                <li><a href="http://mrfwebdesign.blogspot.com/2008/11/xmlhttprequest-xhr.html" 
+                    target="_blank">XMLHttpRequest (XHR)</a></li>
+                <li><a href="https://www.w3schools.com/js/js_ajax_http_response.asp" 
+                    target="_blank">The onreadystatechange Property</a></li>
+                <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/onreadystatechange" 
+                    target="_blank">The onreadystatechange Property</a></li>
+                </ul>
+        </section>
+
+        <section>
+            <h4>Ajax Exercises 4</h4>
+            <p>
+                You are developing an application that consumes an external web service that returns the latest stock rate.<br>
+                The application has two methods:<br>
+                <ul>
+                    <li>The getResults() method makes an AJAX web service request</li>
+                    <li>The ShowRate() method displays the stock rate from the web service response</li>
+                </ul>
+                You need to ensure that the ShowRate() method always displays the latest stock rate.
+            </p>            
+            <button onclick="ShowStockRate()">Show Stock Rate</button><br><br>
+            <a href="https://api.jquery.com/jquery.ajax/" target="_blank">Perform an asynchronous HTTP (Ajax) request.</a>
+        </section>
+
+        <section>
+            <h4>Ajax Exercises 5</h4>
+            <p>
+                You are creating a function named getText().
+                The function must retrieve information from text files that are stored on a web server.
+                You need to develop the function to meet the requirement.
+            </p>
+
+            <button onclick="getText()">Get Text</button>
+        </section>
+
+        <section>
+            <h4>Ajax Exercises 6</h4>
+            <p>
+                You are developing a code-based solution to parse the contents of the XML file and display the information on the page.
+                The solution must work on both modern and older browsers.
+                You need to display the information from the XML file onto the page.
+                How should you create the JavaScript code?                
+            </p>
+            <div id="toDiv"></div>
+            <div id="fromDiv"></div>            
+            <div id="messageDiv"></div>            
+            <button onclick="processXmlfile()">Process Xml File</button>
+        </section>
+
+        <section>
+            <h4>Ajax Exercises 7</h4>
+            <p>
+                You are developing an HTML5 web application that displays stock information.
+                The application loads information from a web service by using AJAX.
+                The following code defines a Stock object and loads stock data.
+            </p>
+            <button onclick="GetStockData()">Get Stock Data</button>
+        </section>
+
+        <section>
+            <h4>Ajax Exercises 8</h4>
+            <p>
+                You develop an HTML5 application. The application uses an image that is returned from an HTTP POST request.                
+                You need to display the loaded image in the application.
+            </p>
+            <div id="imageKeeper">
+
+            </div>
+            <button onclick="GetImage()">Get Image</button>
+        </section>
+
+    </article>
+
+    <article>
+        <h2>Local Storage Exercises</h2>
+        <section>
+            <h4>Local Storage Exercise 1</h4>
+            <input type="text" id="txtDestination">
+            <input type="submit" onclick="processDestination('txtDestination')" value="Submit">
+        </section>
+    </article>
+
+    <article>
+        <h2>Webworker Exercises</h2>
+        <section>
+            <h4>Webworker Exercise 1</h4>
+            <p>
+                You are creating a web worker for an HTML5 application.<br>
+                The following tasks must be performed from within the web worker:<br>
+            </p>
+            <ul>
+                <li>Register an event listener for the web worker</li>
+                <li>Start and stop the web worker</li>
+            </ul>
+            <p>You need to define a function that performs the required tasks.</p>
+            
+            <p>Count numbers: <output id="result"></output></p>
+            <button onclick="startWorker()">Start Worker</button>
+            <button onclick="stopWorker()">Stop Worker</button>
+            <br><br>
+
+            <button onclick="startWorkerV2()">Start Worker</button>
+            <button onclick="stopWorkerV2()">Stop Worker</button>
+            <p>
+                You are developing a web application that consumes services from a third-party application. 
+                A web worker processes the third-party application requests in the background. 
+                A page in the application instantiates the web worker process.
+                You need to establish two-way communications between the web worker process and the page.
+                As can be read in the examples above, you need to handle the onmessage and postmessage
+                in the worker and mainpage.<br><br>
+                From the main page, use the onmessage event handler of the web worker to capture events from the worker.<br>
+                From the web worker, use the onmessage event handler of the main page to capture events.<br>
+            </p>
+
+            <ul>
+                <li><a href="https://stackoverflow.com/questions/30735645/what-does-the-self-keyword-mean-in-webworkers"
+                     target="_blank">WebWorkers example</a></li>
+                <li><a href="https://www.w3schools.com/html/html5_webworkers.asp"
+                    target="_blank">HTML Web Workers Example</a></li>
+                <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API"
+                    target="_blank">Web Workers API</a></li>
+                <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers"
+                    target="_blank">Using web workers</a></li>           
+            </ul>
+        </section>
+        <section>
+            <h4>Webworker Exercise 2</h4>
+            <p>
+                You are implementing a web worker by using JavaScript and HTML5. The web worker processes a long-running loop and returns the result to a webpage.
+                You have the following requirements:
+                <ul>
+                    <li>Evaluate the message value in the web worker.</li>
+                    <li>Process the loop based on the iterations value that is passed from the webpage.</li>
+                    <li>Return a value back to the webpage from the web worker.</li>
+                </ul>
+                You need to implement the web worker.
+            </p>
+            <button onclick="StartWorkerEx2()">Start Worker</button>
+        </section>            
+    </article>
+
+    <article>
+        <h2>CSS Style Sheet Exercises</h2>
+        <section>
+            <h4>CSS Style Sheet Exercise 1</h4>
+            <p>
+                You are creating an application by using HTML5 and CSS3. The styles for the pages are derived from five style sheets.
+                The styles are not being applied correctly to the pages in the application.
+                You need to apply the styles from highest priority to lowest priority.
+            </p>
+            <ol>
+                <li>User important style sheets</li>
+                <li>Author important style sheets</li>
+                <li>Author normal style sheets</li>
+                <li>User normal style sheets</li>
+                <li>User agent style sheets</li>
+            </ol>
+            <p>
+                user agent declarations (the default styles your browser applies to elements)<br>
+                user normal declarations (a user's own stylesheet if they're using one)<br>
+                author normal declarations (this is your normal stylesheet)<br>
+                author important declarations (anything your mark important)<br>
+                user important declarations (any important styles from the user's stylesheet)<br>                
+            </p>        
+        </section>    
+    </article>
+
+    <article>
+        <h2>Canvas Exercises</h2>
+        <section>
+            <h4>Canvas Exercise 1</h4>
+            <p>
+                An HTML page has a CANVAS element.<br>
+                You need to draw a red rectangle on the CANVAS element dynamically. 
+            </p>
+            <canvas id="CanvasExercise1" width="300" height="300"></canvas>
+        </section>
+
+        <section>
+            <h4>Canvas Exercise 2</h4>
+            <p>
+                You troubleshoot a webpage that contains the following HTML element:<br><br>
+                &lt;canvas id= "clickCanvas" width="300" height= "300"&gt;Your browser does not support the HTML5 canvas.&lt;/canvas&gt;<br><br>
+                The following JavaScript code is included in a script tag in the HEAD section of the webpage:<br>
+                <code>
+                    
+                </code>
+                You need to invoke the clickReporter() JavaScript function when a user clicks the mouse on the canvas HTML element.
+            </p>
+            <canvas id= "clickCanvas" style="background-color: lightgreen;"  width="300" height= "300">Your browser does not support the HTML5 canvas.</canvas>
+        </section>
+    </article>
+
+    <article>
+        <h2>Scalable Vector Graphics (SVG) Exercises</h2>
+        <section>
+            <h4>Scalable Vector Graphics (SVG) Exercise 1</h4>
+            <p>
+                You develop an interactive scalable vector graphics (SVG) application. 
+                You write the following HTML markup that makes a rectangle rotate:
+                You need to control the speed of the rotating rectangle.
+            </p>
+            <svg width="200px" height="200px">
+                <g transform="translate(50,50)" id="myImage">
+                    <rect id="mySquare" x="30" y="30" width="50px" height="50px" style="fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)"></rect>
+                </g>
+            </svg><br>
+            <label>Speed</label><input style="margin-left: 5px;" type="text" value="10" id="rotationSpeed"><br>
+            <button style="margin-top: 5px;" onclick="StartAnimation(document.getElementById('mySquare'))">Start Animation</button>    
+            
+        </section>
+
+        <section>
+            <h4>Scalable Vector Graphics (SVG) Exercise 2</h4>
+            <p>
+                You develop an interactive scalable vector graphic (SVG) application.
+                You need to increase the size of the circle by 50 percent.
+            </p>
+
+            <svg width="200px" height="200px" id="myGraphics">
+                <circle r="20" cx="100" cy="100" fill="orange" id="myCircle"></circle>
+            </svg><br>
+            <button onclick="zoomIn()">Zoom In</button><br><br>
+            <a href="https://developer.mozilla.org/en-US/docs/Web/API/SVGCircleElement"
+            target="_blank">SVGCircleElement</a><br>
+            <a href="https://www.w3schools.com/cssref/css3_pr_transform.asp"
+            target="_blank">CSS transform Property</a><br>
+        </section>
+    </article>
+
+    <article>
+        <h2>References:</h2>
+        <ul>
+            <li><a href="https://api.jquery.com/text/" target="_blank">jquery text() vs val()</a></li>
+            <li><a href="https://www.w3schools.com/html/html_form_input_types.asp" target="_blank">HTML Input Types</a></li>
+            <li><a href="https://stackoverflow.com/questions/858181/how-to-check-a-not-defined-variable-in-javascript" 
+                target="_blank">Check for "undefined"</a></li>
+            <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments" 
+                target="_blank">Argument list of function</a></li>
+        </ul>
+    </article>
+</body>
+</html>

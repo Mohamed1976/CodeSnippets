@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Create an animated and adaptive UI.</title>
+
+    <style>
+        #flexbox1 {
+            display: flex;
+            background-color: gray;
+            border: 1px solid black;
+            margin-top: 20px;
+            min-height: 15px;
+        }
+
+        #flexbox2 {
+            display: flex;
+            background-color: gray;
+            border: 1px solid black;
+            margin-top: 20px;
+            min-height: 15px;
+        }
+
+        #flexbox2 > div {
+            min-width: 80px;
+            min-height: 80px;
+            text-align: center;
+            line-height: 75px;
+            font-size: 30px;
+            color: white;
+            border: 1px solid black;
+            margin: 5px;
+        }
+
+        #flexbox2 > div:nth-child(1) {
+            background-color: green;
+        }
+
+        #flexbox2 > div:nth-child(2) {
+            background-color: blue;
+        }
+
+        #flexbox2 > div:nth-child(3) {
+            background-color: red;
+        }
+
+
+        #flexbox3 {
+            display: flex;
+            background-color: gray;
+            border: 1px solid black;
+            margin-top: 20px;
+            min-height: 15px;
+        }
+
+        #flexbox3 > div {
+            min-width: 80px;
+            min-height: 80px;
+            text-align: center;
+            line-height: 75px;
+            font-size: 30px;
+            color: white;
+            border: 1px solid black;
+            margin: 5px;
+        }
+
+        #flexbox3 > div:nth-child(1) {
+            background-color: green;
+            flex:2;
+        }
+
+        #flexbox3 > div:nth-child(2) {
+            background-color: blue;
+            flex:4;
+        }
+
+        #flexbox3 > div:nth-child(3) {
+            background-color: red;
+            flex:14;
+        }
+
+        .flex-container {
+            display: flex;
+            flex-wrap: nowrap;
+            background-color: DodgerBlue;
+        }
+
+        .flex-container > div {
+            background-color: #f1f1f1;
+            width: 100px;
+            margin: 10px;
+            text-align: center;
+            line-height: 75px;
+            font-size: 30px;
+        }
+
+        .flex-container > div:nth-child(1) {
+            background-color: thistle;
+        }
+
+        .flex-container > div:nth-child(2) {
+            background-color:violet ;
+        }
+
+        .flex-container > div:nth-child(3) {
+            background-color:orange ;
+        }
+
+        #flexbox4 {
+            display: flex;
+            flex-flow: row;
+            flex-wrap: wrap;
+            border: 1px solid black;
+            margin-top: 20px;
+            min-height: 15px;
+            width: 200px;
+        }
+
+        #flexbox4 > div {
+            min-width: 80px;
+            min-height: 80px;
+            text-align: center;
+            line-height: 75px;
+            font-size: 30px;
+            color: white;
+            border: 1px solid black;
+            margin: 5px;
+        }
+
+        #flexbox4 > div:nth-child(1) {
+            background-color: green;
+        }
+
+        #flexbox4 > div:nth-child(2) {
+            background-color: blue;
+        }
+
+        #flexbox4 > div:nth-child(3) {
+            background-color: red;
+        }
+
+        #flexbox4 > div:nth-child(4) {
+            background-color:coral ;
+        }
+
+        #flexbox4 > div:nth-child(5) {
+            background-color:darkorchid ;
+        }
+
+        #c_lo {
+            width: 80%;
+            /*height: 400px; */
+            border: 1px solid black;
+            column-count: 5;
+            column-rule-color: black;
+            column-rule-style: dashed;
+            column-rule-width: 2px;
+            column-gap: 5px;
+            padding: 20px;
+            background-color: lightgray;
+        }
+
+        hgroup {
+            column-span: all;
+            text-align:center;
+        }
+
+        #mainGrid {
+            border: solid black 1px;
+            display: grid;
+            grid-template-columns: 150px 150px 150px 150px;
+            grid-template-rows: 75px 75px;
+        }
+
+        #mainGrid > div:nth-child(1){
+            grid-column: 1;
+            grid-row:1;
+            background-color: blue;
+        }
+
+        #mainGrid > div:nth-child(2){
+            grid-column:2;
+            grid-row:1;
+            background-color: aqua;
+        }
+
+        #mainGrid > div:nth-child(3){
+            grid-column: 3;
+            grid-row:1;
+            background-color: red;
+        }
+
+        #mainGrid > div:nth-child(4){
+            grid-column: 4;
+            grid-row:1;
+            background-color: green;
+        }
+
+        #mainGrid > div:nth-child(5){
+            grid-column: 1;
+            grid-row:2;
+            background-color: magenta;
+        }
+
+        #mainGrid > div:nth-child(6){
+            grid-column: 2;
+            grid-row:2;
+            background-color: yellow;
+        }
+
+        #mainGrid > div:nth-child(7){
+            grid-column: 3;
+            grid-row:2;
+            background-color: orange;
+        }
+
+        #mainGrid > div:nth-child(8){
+            grid-column: 4;
+            grid-row:2;
+            background-color: olive;
+        }
+
+        #blogPage {
+            display: grid;
+            columns: 15% 60% 25%; /* columns: 15% 1fr 25%; */
+            grid-template-rows: 10% 30% 25% 25% 10%;
+            width: 90%;
+            height: 600px;
+            border: 1px dotted black;
+            margin: auto;
+        }
+
+        #blogPage > header {
+            grid-row: 1;            
+            grid-column: 1 / span 3;
+            border: 1px dotted black;
+            background-color: green;
+            text-align: center; 
+            vertical-align:middle;
+            font-size:xx-large;
+            color: white;
+        }
+
+        #blogPage > footer {
+            grid-row: 5;
+            grid-column: 1 / span 3;            
+            border: 1px dotted black;
+            background-color: orchid;
+            text-align: center; 
+            vertical-align:middle;
+            font-size:xx-large;
+            color: white;            
+        }
+
+        #blogPage > article {
+            grid-row: 2 / span 3;        
+            grid-column: 2;
+            border: 1px dotted black;
+            background-color: yellow;
+            text-align: center; 
+            vertical-align:middle;
+            font-size:xx-large;
+            color: white;                      
+        }
+
+        #blogPage > #calendar {
+            grid-row: 3;            
+            grid-column: 3;
+            border: 1px dotted black;
+            background-color: red;
+            text-align: center; 
+            vertical-align:middle;
+            font-size:xx-large;
+            color: white;                      
+        }
+
+        #blogPage > #blogRoll {
+            grid-row: 4;
+            grid-column: 3;
+            border: 1px dotted black;
+            background-color:chartreuse ;
+            text-align: center; 
+            vertical-align:middle;
+            font-size:xx-large;
+            color: white;                                  
+        }
+
+        #blogPage > #aboutMe {
+            grid-row: 2 / span 3;
+            grid-column: 1;
+            border: 1px dotted black;
+            background-color:cyan ;
+            text-align: center; 
+            vertical-align:middle;
+            font-size:xx-large;
+            color: white;                                  
+
+        }
+
+        #blogPage > #bloghistory {
+            grid-row: 2;
+            grid-column: 3;            
+            border: 1px dotted black;
+            background-color:deeppink;
+            text-align: center; 
+            vertical-align:middle;
+            font-size:xx-large;
+            color: white;                                              
+        }
+
+        article > hgroup {
+            column-span: all;
+            text-align: center;            
+        }
+
+        #cols {
+            width: 100%; /* 80% */
+            height: 100%;
+            border: 1px solid black;
+            column-count: 3;
+            column-rule-color: black;
+            column-rule-style: dashed;
+            column-rule-width: 2px;
+            column-gap: 5px;
+        }
+
+        .flex-container-nowrap {
+            display: flex;
+            flex-wrap: nowrap;
+            background-color: DodgerBlue;
+        }
+
+        .flex-container-nowrap > div {
+            background-color: #f1f1f1;
+            width: 100px;
+            margin: 10px;
+            text-align: center;
+            line-height: 75px;
+            font-size: 30px;
+        }
+
+        .flex-container-nowrap > div:nth-child(1){
+            background-color: aquamarine;
+        } 
+
+        .flex-container-nowrap > div:nth-child(2){
+            background-color:blueviolet;
+        } 
+
+        .flex-container-wrap {
+            display: flex;
+            flex-wrap:wrap;
+            background-color: DodgerBlue;
+        }
+
+        .flex-container-wrap > div {
+            background-color: #f1f1f1;
+            width: 100px;
+            margin: 10px;
+            text-align: center;
+            line-height: 75px;
+            font-size: 30px;
+        }
+
+        .flex-container-wrap > div:nth-child(1){
+            background-color: red;
+        } 
+
+        .flex-container-wrap > div:nth-child(2){
+            background-color:yellow;
+        } 
+
+        .flex-container-column {
+            display: flex;
+            flex-direction: column;
+            background-color: DodgerBlue;
+        }
+
+        .flex-container-column > div {
+            background-color: #f1f1f1;
+            width: 100px;
+            margin: 10px;
+            text-align: center;
+            line-height: 75px;
+            font-size: 30px;
+        }
+
+        .flex-container-column > div:nth-child(1) {
+            background-color: red;
+        }
+
+        .flex-container-column > div:nth-child(2) {
+            background-color: yellow;
+        }
+
+        .flex-container-column > div:nth-child(3) {
+            background-color: blue;
+        }
+
+        .flex-container-row {
+            display: flex;
+            flex-direction: row;
+            background-color: DodgerBlue;
+        }
+
+        .flex-container-row > div {
+            background-color: #f1f1f1;
+            width: 100px;
+            margin: 10px;
+            text-align: center;
+            line-height: 75px;
+            font-size: 30px;
+        }
+
+        .flex-container-row > div:nth-child(1) {
+            background-color: red;
+        }
+
+        .flex-container-row > div:nth-child(2) {
+            background-color: yellow;
+        }
+
+        .flex-container-row > div:nth-child(3) {
+            background-color: blue;
+        }
+
+        .flex-container-wrap-reverse {
+            display: flex;
+            flex-wrap: wrap-reverse;
+            background-color: DodgerBlue;
+        }
+
+        .flex-container-wrap-reverse > div {
+            background-color: #f1f1f1;
+            width: 100px;
+            margin: 10px;
+            text-align: center;
+            line-height: 75px;
+            font-size: 30px;
+        }
+
+    </style>
+    <script>
+
+        function changeFlexDirection() {
+            const flexPackStartEnd = document.querySelector("#flexPackStartEnd");
+            const flexContainer = document.querySelector("#flexbox2");
+
+            if(flexPackStartEnd.checked) {
+                flexContainer.style.justifyContent = "flex-end"
+            }
+            else {
+                flexContainer.style.justifyContent = "flex-start"
+            }
+
+            if(flexContainer.style.flexDirection === "row") {
+                flexContainer.style.flexDirection = "row-reverse";
+            }
+            else {
+                flexContainer.style.flexDirection = "row";
+            }
+        }
+
+        function switchFlexDirection() {
+            const flexContainer = document.querySelector(".flex-container-column");    
+        
+            if(flexContainer.style.flexDirection === "column") {
+                flexContainer.style.flexDirection = "column-reverse";
+            }
+            else {
+                flexContainer.style.flexDirection = "column";
+            }
+        }
+
+        function switchFlexRowDirection() {
+            const flexContainer = document.querySelector(".flex-container-row");    
+        
+            if(flexContainer.style.flexDirection === "row") {
+                flexContainer.style.flexDirection = "row-reverse";
+            }
+            else {
+                flexContainer.style.flexDirection = "row";
+            }        
+        }
+
+    </script>
+
+</head>
+<body>
+    <article>
+        <h1>Create an animated and adaptive UI.</h1>
+
+        <section>
+            <h2>Summary</h2>
+            <ul>
+                <li>Flexbox allows you to lay out elements in a flow-like fashion.</li>
+                <li>Multi-column layout allows you to separate content into a fixed number of columns,
+                    like a newspaper layout.</li>
+                <li>The flow of text around elements like images can be controlled using wrap-flow
+                    layouts.</li>
+                <li>The grid layout provides the best way to separate the layout from the content by specifying
+                    explicitly in CSS where each element should be displayed within a predefined
+                    grid.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Introduction</h2>
+            <p>
+                Organizing content on the page has always been a challenge in webpage design. The concept
+                of design patterns to separate layout from content/logic has existed for a long time in
+                other development spaces. However, it has been less readily and easily available in the HTML
+                space. CSS3 introduces new concepts such as the grid layout and flexbox layout that provide
+                mechanisms to achieve this proper separation.                
+            </p>
+        </section>
+
+        <section>
+            <h2>Implement a layout using a flexible box model</h2>
+            <p>
+                The Flexible Box Layout Module, makes it easier to design flexible responsive layout structure 
+                without using float or positioning.
+                A Flexible Layout must have a parent element with the display property set to <em>flex</em>.
+                Direct child elements(s) of the flexible container automatically becomes flexible items.                                
+                The flexbox is a CSS3 construct that provides a way to lay out elements that flow. Flow means
+                that the elements will flow from either left to right, also known as horizontal, or up and
+                down, also known as vertical. In order to begin with a flexbox, you need to create a container
+                element and give it a name. Use a &lt;div&gt; element and name it as shown in this code: 
+                <span style="font-style:italic;">Note: Flexbox is not supported in Internet Explorer 10 or earlier versions.</span>                               
+            </p>
+            <code>
+                &lt;div id="flexbox1"&gt;&lt;/div&gt;
+            </code>
+            <p>
+                With this code block, you have the beginnings of a flexbox. All that is left to do is to create
+                the CSS to indicate that the container is indeed a flexbox.
+                The flex container becomes flexible by setting the <em>display</em> property to <em>flex</em>.                
+                The following CSS achieves this:                
+            </p>
+            <code>
+                #flexbox1 {<br>
+                    &nbsp;display: flex;<br>
+                    &nbsp;border: 1px solid black;<br>
+                    &nbsp;margin-top: 100px;<br>
+                    &nbsp;min-height: 15px;<br>
+                    }
+            </code>
+            <p>
+                With that HTML and CSS in place, you can run the page and see a container specified to
+                have a flexbox layout. The output is shown below.
+            </p>
+
+            <div id="flexbox1"></div>
+            <p>
+                All the elements within a flexbox are called flexbox items. You can specify that the flexbox
+                layout runs horizontally or vertically. You will need to be familiar with some of the key styles
+                that can be applied to a flexbox and how the browser will interpret them.The list below outlines
+                the important styles related to the flow of the child elements.                
+            </p>
+
+            <p>The flex container properties are:</p>
+            <ul>
+                <li><a href="#flex-direction">flex-direction</a></li>
+                <li><a href="#flex-wrap-property">flex-wrap</a></li>
+                <li>flex-flow</li>
+                <li>justify-content</li>
+                <li>align-items</li> 
+                <li>align-content</li>   
+            </ul>
+
+            <hr>
+            <h3 id="flex-direction">The flex-direction Property</h3>
+            <p>The flex-direction property defines in which direction the container wants to stack the flex items.</p>
+            <p><span style="font-weight: normal;">The flex-direction </span>can have one of the following values:</p>
+            <ul>
+                <li><span style="font-style: italic;">Column </span>Flows the child elements of the flexbox across the vertical
+                    axis top to bottom.</li>
+                <li><span style="font-style: italic;">row (default) </span>Flows the child elements of the flexbox along the
+                    horizontal axis left to right.</li>
+                <li><span style="font-style: italic;">column-reverse </span>Renders the child elements along the vertical axis from the
+                    reverse end bottom to top.</li>
+                <li><span style="font-style: italic;">row-reverse </span>Renders the child elements along the horizontal axis from
+                    the reverse end right to left.</li>
+            </ul> 
+
+            <p>In the example below, the column value stacks the flex items vertically (from top to bottom):</p>
+            <code>
+                .flex-container {<br>
+                    &nbsp;display: flex;<br>
+                    &nbsp;flex-direction: column;<br>
+                  }                
+            </code><br><br>
+
+            <div class="flex-container-column">
+                <div>1</div>
+                <div>2</div>
+                <div>3</div>  
+            </div>
+
+            <p>The <em>column-reverse</em> value stacks the flex items vertically (but from bottom to top). 
+                Press the button to switch the flex-direction between <em>column</em> and <em>column-reverse</em>.</p>
+            <code>
+                .flex-container {<br>
+                    &nbsp;display: flex;<br>
+                    &nbsp;flex-direction: column-reverse;<br>
+                    }                
+            </code><br><br>
+    
+             <button onclick="switchFlexDirection()">Column / Column-reverse</button>   
+
+             <p> The row value stacks the flex items horizontally (from left to right).</p>
+             <code>
+                .flex-container {<br>
+                    &nbsp;display: flex;<br>
+                    &nbsp;flex-direction: row;<br>
+                    }                
+            </code><br><br>
+            <div class="flex-container-row">
+                <div>1</div>
+                <div>2</div>
+                <div>3</div>  
+            </div>
+
+            <p>The <em>row-reverse</em> value stacks the flex items horizontally (but from right to left).
+                Press the button to switch the flex-direction between <em>row</em> and <em>row-reverse</em>.</p>
+            <code>
+                .flex-container {<br>
+                    &nbsp;display: flex;<br>
+                    &nbsp;flex-direction: row-reverse;<br>
+                }    
+            </code><br><br>
+            <button onclick="switchFlexRowDirection()">Row / Row-reverse</button>   
+ 
+            <hr>
+
+            <h3 id="flex-wrap-property">The flex-wrap Property</h3>
+            <p>The flex-wrap property specifies whether the flex items should wrap or not.</p>
+            <p>The wrap value specifies that the flex items will wrap if necessary.</p>   
+            
+            <p>The example below is an example using flex-wrap: nowrap;</p>            
+            <code>
+                .flex-container {<br>
+                    &nbsp;display: flex;<br>
+                    &nbsp;flex-wrap: no-wrap;<br>
+                  }                
+            </code><br><br>
+            <div class="flex-container-nowrap">
+                <div>1</div>
+                <div>2</div>
+                <div>3</div>  
+                <div>4</div>
+                <div>5</div>
+                <div>6</div>  
+                <div>7</div>
+                <div>8</div>
+            </div>
+            
+            <p>
+                When you resize the browser window, A container with "flex-wrap: nowrap;" 
+                will never wrap its items.<br><br>                
+            </p>
+
+            <p>The example below is an example using flex-wrap: wrap;</p>
+            <code>
+                .flex-container {<br>
+                    &nbsp;display: flex;<br>
+                    &nbsp;flex-wrap: wrap;<br>
+                  }                
+            </code><br><br>            
+            <div class="flex-container-wrap">
+                <div>1</div>
+                <div>2</div>
+                <div>3</div>  
+                <div>4</div>
+                <div>5</div>
+                <div>6</div>  
+                <div>7</div>
+                <div>8</div>
+            </div>
+
+            <p>The wrap-reverse value specifies that the flexible items will wrap if necessary, in reverse order.</p>
+            <code>
+                .flex-container {<br>
+                    &nbsp;display: flex;<br>
+                    &nbsp;flex-wrap: wrap-reverse;<br>
+                  }<br><br>                
+            </code>
+            <div class="flex-container-wrap-reverse">
+                <div>1</div>
+                <div>2</div>
+                <div>3</div>  
+                <div>4</div>
+                <div>5</div>
+                <div>6</div>
+                <div>7</div>
+                <div>8</div>                
+            </div>
+            <hr>
+
+            <p><span style="font-weight: bolder;">flex-pack </span>can have one of the following values:</p>
+            <ul>
+                <li><span style="font-style: italic;">End </span>Renders the child elements from the end in relation to the
+                    layout axis set direction.</li>
+                <li><span style="font-style: italic;">Start </span>Renders the child elements from the start in relation to the
+                    layout axis set direction.</li>
+                <li><span style="font-style: italic;">center </span>Renders the child elements centered on the layout axis.</li>
+                <li><span style="font-style: italic;">distribute </span>Evenly spaces the child elements along the layout axis.</li>                
+            </ul>
+            
+            <p>Example below illustrates <span style="font-weight: bolder;">display: flex;</span> </p>
+
+            <div id="flexbox2">
+                <div>Green</div>
+                <div>Blue</div>
+                <div>Red</div>
+            </div><br>
+            <button onclick="changeFlexDirection()" style="height: 40px;"><span style="font-style: italic;font-weight: bolder;">Change flex-direction from row (default) to row-reverse.</span> </button><br>
+            <div style="margin-top: 10px;">
+                <label>Use flex-pack:<span style="font-weight: bolder;">end</span> instead of <span style="font-weight: bolder;">start</span>."</label>
+                <input type="checkbox" id="flexPackStartEnd"> <br>    
+            </div>
+
+            <p>
+                Here you have changed the direction to row-reverse. This changes the order of the boxes.
+                When you run this, you see that it has not only reversed the order of the boxes, but also
+                moved them to the right end. This is because the flex direction controls what is considered
+                the origin points on the layout axis. By reversing the direction, you have indicated that the
+                layout start is now at the right end and the layout end is at the left end. In order to prevent
+                reversing the order, you will need to specify the flex-pack property to indicate the end of the
+                layout axis:                
+            </p>
+
+            <p>
+                There is also some additional functionality that provides the ability for each child element
+                to flex itself to take up the amount of space that is specified. If you wanted one box to take up
+                15 percent of the space, another to take up 25 percent and the last one to take up whatever
+                space is left without leaving in blank space between, you would implement the flex property.
+                The flex property is specified on each of the children elements to designate the amount of
+                space each should occupy.
+                In the updated CSS code, the flex property is added to each of the children elements. The
+                flex property takes a parameter that is a relative value. This is not a hardcoded measurement
+                in pixels or inches. It is relative to the value as specified among all the children elements. In
+                this case, the first element will hold 10 percent of the space, the last element will hold 15
+                percent of the space, and the middle element will hold whatever space is left. To do this, you
+                need to calculate the relative values that would be necessary to generate those proportions.
+                The rest of the calculations to render the output will be handled by the browser.
+                Because we are talking about percentages, it stands to reason that the entire width of
+                the space is 100 percent. The easy way to show this is to put into each element its respective
+                percentage since the relative size would be what you are looking for. To illustrate the point,
+                you can factor the units into something smaller by dividing by 20. This would make 10 percent
+                equal 2 parts of 100 percent and 15 percent equal 3 parts of 100 percent. The remaining
+                section will use 15 parts, or 75 percent of 100 percent. Figure below shows the output with
+                these values.                                
+            </p>
+
+            <div id="flexbox3">
+                <div>Green</div>
+                <div>Blue (20%)</div>
+                <div>Red (70%)</div>
+            </div><br>
+            <span style="font-size: small;">FIGURE Distributing the flexbox content using the flex property</span>
+
+            <p>
+                The order of the flexbox items can also be explicitly specified by using the 
+                <span style="font-style: italic;">flex-order</span> property on the flexbox items.
+                Figure below demonstrates that the flexbox items are displayed in the order you specified
+                instead of the default order, which would have just been in the order the items are listed in
+                the HTML.                                
+            </p>
+
+            <div class="flex-container">
+              <div style="order: 4">1</div>
+              <div style="order: 3">2</div>
+              <div style="order: 2">3</div>  
+              <div style="order: 1">4</div>
+              <div style="order: 5">5</div>
+              <div style="order: 6">6</div>  
+              <div style="order: 7">7</div>
+              <div style="order: 8">8</div>
+            </div>            
+
+            <p>
+                Another property that is important to understand is the wrapping option. Just as with text
+                wrapping, flex-wrap provides the ability to specify what the browser should do in the event
+                that the content within the flexbox exceeds the available space of the flexbox itself. In this
+                case, you can specify that the flexbox should wrap or not wrap. An example of wrapping is
+                shown next.                
+            </p>
+
+            <code>
+                #flexbox1 {<br>
+                    &nbsp;display: flex;<br>
+                    &nbsp;flex-flow: row;<br>
+                    &nbsp;flex-wrap: wrap;<br>
+                    &nbsp;border: 1px solid black;<br>
+                    &nbsp;margin-top: 100px;<br>
+                    &nbsp;min-height: 15px;<br>
+                    &nbsp;width: 200px;<br>
+                    }                
+            </code>
+
+            <p>
+                To demonstrate the wrapping functionality, you need to add a couple more flexbox items
+                so that they will overflow the flexbox:                
+            </p>
+
+            <div id="flexbox4">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <p style="font-size: small;">Figure demonstrates the wrapping functionality of the flexbox.</p>
+
+            <p style="font-style: italic;">
+                Important: The flexbox is oriented based on the flex direction. The flex direction is based on the layout
+                axis. If the layout of the flexbox is column, the layout axis is vertical. If the flexbox layout is
+                row, the layout axis is horizontal. For the exam, this is important to understand in order to
+                know how other properties on the flex grid will be rendered. 
+                <br><br>                
+                On the exam, you might see the shorthand version of what you have just done with
+                the wrapping. The flex-flow property supports specifying the wrap style as the second
+                parameter: flex-flow: row wrap.
+            </p>
+
+        </section>    
+
+        <section>
+            <h2>Implementing a layout using multi-column</h2>
+            <p>
+                CSS3 provides the ability to create a layout using columns. This provides a look and feel to
+                the content like what you might see in a newspaper article where the content wraps up to
+                the next column. As with the other layout techniques, the multi-column technique starts with
+                specifying a container to hold the columns. In this case, an article element will be used.                
+            </p>
+            <code>
+                #c_lo {<br>
+                    &nbsp;width:80%;<br>
+                    &nbsp;height: 400px;<br>
+                    &nbsp;border: 1px solid black;<br>
+                    &nbsp;column-count: 5;<br>
+                    &nbsp;column-rule-color: black;<br>
+                    &nbsp;column-rule-style: dashed;<br>
+                    &nbsp;column-rule-width: 2px;<br>
+                    &nbsp;column-gap: 5px;<br>
+                    }
+                    <br><br>
+                    &lt;body&gt;<br>
+                    &nbsp;&lt;article id="c_lo"&gt;
+                    &lt;/article&gt;<br>
+                    &lt;/body&gt;                
+            </code>
+
+            <p>
+                This HTML page contains a style block to set up the multi-column layout. The body
+                contains an article element that will be set up to handle the multiple columns. Some multicolumn
+                properties are already set on the article element. Table below details the multi-column
+                properties.                
+            </p>
+            <ul>
+                <li><span style="font-style: italic;">column-count: </span>Specifies the number of columns</li>                
+                <li><span style="font-style: italic;">column-gap: </span>Specifies the amount of space to place between columns</li>                
+                <li><span style="font-style: italic;">column-rule-color: </span>Specifies the color of the vertical rule drawn between columns</li>                
+                <li><span style="font-style: italic;">column-rule-style: </span>Specifies the type of vertical rule to draw between columns, for example, solid or dashed line</li>
+                <li><span style="font-style: italic;">column-rule-width: </span>Specifies the width of the vertical rule drawn between the columns</li>
+                <li><span style="font-style: italic;">column-rule: </span>A shorthand way to specify the color, style, and width of the vertical rule between the columns</li>                                
+                <li><span style="font-style: italic;">column-span: </span>Specifies how many columns the element should span across; possible values are a number of columns or all; the default value is 1</li>
+                <li><span style="font-style: italic;">column-width: </span>Specifies how wide the columns should be</li>
+                <li><span style="font-style: italic;">Columns: </span>A shorthand method to specify the number of columns and their width</li>
+            </ul>                
+
+            <p>
+                After reviewing Table below, you now know that the article element in the previous code
+                block is set up to have five columns, each 5 px apart. The vertical rule between columns will
+                use a dashed line that is black and 2-px wide. It is common for articles to have a title. Usually
+                the title will span across all the columns of the article. To achieve this effect, you need to use
+                the column-span property on an element to indicate that it should render across multiple
+                columns. You have added an hgroup element, added style elements to specify that the hgroup text
+                should be centered, and specified the all value for the column-span property.
+                This markup produces the output shown in Figure below.
+            </p>
+
+            <article id="c_lo">
+                <hgroup>
+                    <h2>Daily Ping</h2>
+                </hgroup>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut 
+                    laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation 
+                    ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor 
+                    in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at 
+                    vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis 
+                    dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet 
+                    doming id quod mazim placerat facer possim assum.                    
+                </p>
+            </article>
+            <p style="font-size: small;">FIGURE 4-41 Using the multi-column layout technique to display text in an article format</p>
+            
+            <p style="font-style: italic;">
+                Whenever you see a property with the same name prefix as with the column-rule property,
+                you can know that there is a shorthand mechanism to specify the most common properties
+                in one line.
+            </p>
+
+        </section>
+
+        <section>
+            <h2>Implementing a layout using position, floating, and exclusions</h2>
+            <p>
+                Using position and float to position elements was discussed in the Objective 4.3 section titled,
+                “Apply styles to establish and change an element’s position.” In this section, you will examine
+                how these can be used in overall layout. Float is a mechanism by which the surrounding
+                content will flow smoothly around the element with its float property specified to either
+                float: left or float: right. Left and right are the only two options available for the float property.
+                Exclusions provide a way to overcome this limitation with float. Exclusions are achieved by
+                specifying the CSS3 property wrap-flow.                
+            </p>
+            <p style="font-style: italic;color: red ;">
+                Note -ms-wrap-flow: This feature is non-standard and is not on a standards track. Do not use it on production sites facing the Web: it will not work for every user. There may also be large incompatibilities between implementations and the behavior may change in the future. 
+                As can be read <a href="https://developer.mozilla.org/en-US/docs/Archive/Web/CSS/-ms-wrap-flow" target="_blank">here</a>.
+                At this time, the wrap-flow property is only implemented in Internet Explorer 10+. Therefore,
+                this element requires the –ms prefix be applied to it.
+                The -ms-wrap-flow CSS property is a Microsoft extension that specifies how exclusions impact inline content within block-level elements.
+            </p>
+
+        </section>
+
+        <section>
+            <h2>Implementing a layout using grid alignment</h2>
+            <p>
+                The grid layout capability of CSS3 provides a way to lay out the content of the webpage much
+                like an HTML table but using only CSS to achieve the results. This provides more flexibility and
+                more maintainable code. Traditionally, you would create a Table structure to structure the 
+                layout of a webpage, as illustrated below.                 
+            </p>
+            <table style="width:100%; height: 500px;border: solid black 1px;background-color: lightgrey;">
+                <tr>
+                    <td style="font-size: xx-large; text-align: center; vertical-align: middle; height: 50px;width: 100%; background-color: limegreen;" colspan="3">My Webpage Header</td>
+                </tr>
+                <tr>
+                    <td style="text-align: center; vertical-align: middle;background-color: violet; width: 20%;" rowspan="3">ABOUT ME</td>
+                    <td style="text-align: center; vertical-align: middle;background-color: blue;" rowspan="3">MAIN BODY</td>
+                    <td style="text-align: center; vertical-align: middle;background-color:yellowgreen; width: 20%;">HISTORY</td>
+                </tr>
+                <tr>
+                    <td style="text-align: center; vertical-align:middle; background-color: yellow;">CALENDAR</td>
+                </tr>
+                <tr>
+                    <td style="text-align: center; vertical-align:middle; background-color:tomato;">BLOGROLL</td>
+                </tr>
+                <tr>
+                    <td style="text-align: center; vertical-align: middle; height: 50px;width: 100%; background-color: steelblue;" colspan="3">FOOTER</td>
+                </tr>
+            </table>
+            
+            <p>
+                Using an HTML table works and has worked for a very long time. However, best practices
+                today suggest separating content from layout. This is seen in many other spaces of software
+                development and design in the context of design patterns. In this example, the layout
+                is right in the HTML. You will reconstruct the page such that the content can be provided
+                independent of layout and all the layout will be defined in the CSS code.
+                The grid layout is fully defined in CSS. To create the grid, CSS properties will need to be
+                applied to the HTML elements. Just as with the flexbox, the grid is based on a having the
+                display specified for a container. You will use simple div element for your grid container.
+                Create the following div and apply the styles as indicated:                
+            </p>
+
+            <code>
+                &lt;style&gt;<br>
+                &nbsp;#mainGrid {<br>
+                    &nbsp;&nbsp;display: grid;<br>
+                    &nbsp;}<br>
+                &lt;/style&gt;<br>
+                &lt;div id="mainGrid"&gt;
+                &lt;/div&gt;<br>                
+            </code>
+
+            <p>
+                You have designated your div with the id of mainGrid to be the container for a grid layout
+                by specifying its display to be grid. However, running this in the browser will not yield much
+                of a result. You need to define the structure of the grid. In this example, you will create a
+                simple four-by-two grid layout. Add the child elements to the div as shown and update the
+                styles as shown to supply information to the container about how you would like it to render
+                the child cells.                
+            </p>
+
+            <code>
+                #mainGrid {<br>
+                    &nbsp;display: grid;<br>
+                    &nbsp;grid-template-columns: 150px 150px 150px 150px;<br>
+                    &nbsp;grid-template-rows: 75px 75px;<br>
+                    }<br><br>
+                    &lt;div id="mainGrid"&gt;<br>
+                    &nbsp;&lt;div&gt;&lt;/div&gt;<br>
+                    &nbsp;&lt;div&gt;&lt;/div&gt;<br>
+                    &nbsp;&lt;div&gt;&lt;/div&gt;<br>
+                    &nbsp;&lt;div&gt;&lt;/div&gt;<br>
+                    &nbsp;&lt;div&gt;&lt;/div&gt;<br>
+                    &nbsp;&lt;div&gt;&lt;/div&gt;<br>
+                    &nbsp;&lt;div&gt;&lt;/div&gt;<br>
+                    &nbsp;&lt;div&gt;&lt;/div&gt;<br>
+                    &lt;/div&gt;                
+            </code>
+        </section>
+
+        <section>
+            <p>
+                You have added two additional CSS properties to mainGrid. These properties are rather
+                self-explanatory. As their name suggests, the grid-columns property allows you to specify how
+                many columns are in your grid. The grid-rows property allows you to specify how many rows
+                are in your grid. The property values accepted are size attributes separated by spaces. The
+                renderer will interpret each value as a new column or row.
+                If you run this HTML in the browser, the output will be less than exciting. One reason is
+                that the div elements are empty. Go ahead and put some text in each div and examine the
+                output that you get in the browser. If all goes as expected, your div elements will display all
+                on top of each other. They are, for all intents and purposes, ignoring your previous CSS instructions
+                provided to the container to layout in a four-by-two style. Well, they are not really
+                ignoring the instructions. Recall, the instructions were to the container mainGrid regarding
+                how you wanted it to lay out its child elements. You still need to give each child element its
+                own identity within the grid. That is, the container knows it needs to set up a four-by-two
+                grid, but it does not know which element goes where within that four-by-two grid. It just
+                floats them all on top of each other. You will now specify to the grid elements where they
+                should live in the relative space available within the grid. You will apply some background
+                colors so that the rendered page will easily demonstrate the concepts.
+                With this code, you have instructed the elements where they should be positioned within
+                the grid. When the renderer processes these elements, it will now know by asking each
+                element where it should go and how to place them. Now the page displayed in the browser
+                looks like Figure 4-47. Each element is placed according to the column and row position
+                specified for it: blue, aqua, red, and green elements respectively in columns 1 through 4, row
+                1; magenta, yellow, orange, and olive elements respectively in columns 1 through 4, row 2.                        
+            </p>
+
+            <p>mainGrid is illustrated below.</p>
+
+            <div id="mainGrid">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+
+            <p>
+                Now with the foundation in place, you can take this a step further to create a grid that will
+                correspond with the table layout specified earlier. To do this, you need only a couple more
+                CSS properties that will provide the equivalent functionality as the colspan and the rowspan.
+                In addition, your styles will provide some sizing properties to ensure that the grid expands on
+                the page as you would like it to. This is optional of course in the real world. You may want to
+                have content force the sizing of your grid or you may want to explicitly specify the size.            
+            </p>
+
+            <p>
+                Since you are producing a real webpage that will hold real content, the appropriate
+                semantic tags are being used. You can see from looking at the HTML portion of the code
+                that there is no indication to layout. You have defined only a series of sections for the page
+                to display. All the layout implementation happens in the CSS. You will notice the addition of
+                two CSS properties to your repertoire: grid-row-span and grid-column-span. As their names
+                suggest, you can expect them to behave the same way as the HTML attributes colspan and
+                rowspan. They tell the browser to lay out the column or the row such that it spans the specified
+                number of columns or rows. When you run this code in the browser you will get the
+                output displayed in Figure below.                
+            </p>
+
+            <div id="blogPage">
+                <header>My Blog Header</header>
+                <article id="cols">
+                    <hgroup>
+                        <h2>My Blog's Main Body</h2>
+                    </hgroup>
+                    <p>
+                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, 
+                        totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae 
+                        dicta sunt explicabo.
+                    </p>                                        
+                </article>
+                <footer>My Blog Footer</footer>
+                <aside id="calendar">A calendar</aside>
+                <aside id="blogRoll">My favorite blogs</aside>
+                <aside id="aboutMe">Who am I?</aside>
+                <aside id="bloghistory">My blog history</aside>
+            </div>
+            <p style="font-size: small;">FIGURE 4-48 The webpage layout using only the CSS3 grid layout</p>
+        </section>
+
+        <section>
+            <h2>Implementing a layout using regions, grouping, and nesting</h2>
+            <p style="font-style: italic;">
+                Regions are currently in the experimental and development phase. There is limited browser
+                support at this time. This section highlights only the key design goals of this feature.
+                Since the regions feature is still experimental, the exam is not likely to cover this topic.
+                However, this is only at the time of writing and could change at any time. Be familiar and
+                keep checking on updates with respect to the readiness of this CSS construct in the real
+                world.                
+            </p>
+
+            <p>
+                Regions is a new CSS3 construct that allows you to have content flow through various regions
+                in a webpage. This could provide some very interesting scenarios. To get started, you will
+                need an HTML page with regions defined in it. The following HTML provides the starting
+                point for establishing regions.                
+            </p>       
+            <code>
+                &lt;body&gt;<br>
+                &nbsp;&lt;div class="regionLayout"&gt;<br>
+                &nbsp;&nbsp;&lt;div id="region1"&gt;&lt;/div&gt;<br>
+                &nbsp;&nbsp;&lt;div id="region2"&gt;&lt;/div&gt;<br>
+                &nbsp;&nbsp;&lt;div id="region3"&gt;&lt;/div&gt;<br>
+                &nbsp;&nbsp;&nbsp;…<br>
+                &nbsp;&nbsp;&lt;div id="region-n"&gt;&lt;/div&gt;<br>
+                &nbsp;&lt;/div&gt;<br>
+                &lt;/body&gt;                
+            </code>
+            <p>
+                Layout of a webpage using regions requires two things: a content source and the regions
+                that will be the content destination. The HTML above outlines the regions. The content can
+                come from another page via an iframe or another element on the page itself (though this
+                currently does not work in any browser). By adding an iframe to the page, you can set the
+                iframe src to the content that will be rendered in the regions:                
+            </p>
+            <code>
+                &lt;iframe src="content_source.html"/&gt;
+            </code>
+            <p>
+                With the content source established in the HTML, there are now only two things that
+                need to occur. CSS is used to control the functionality of the content from the source to the
+                destination. The new CSS properties called flow-into and flow-from are used to assign the role
+                of the HTML elements in the region layout. The flow-into property is assigned a value to hold
+                the content. This value can be anything such as in this example:                
+            </p>
+            <code>
+                .content_source{<br>
+                    &nbsp;flow-into: myflow;<br>
+                    }<br>
+            </code>
+            <p>
+                Then the destination of the content is defined in a class like this:                
+            </p>
+            <code>
+                .content_regions{<br>
+                    &nbsp;flow-from: myflow;<br>
+                    }                
+            </code>
+
+            <p>
+                As long as the same name is used in the flow-into and the flow-from, they will work
+                together. This is called a named flow. All the elements forming the regions to display the
+                content source in the same named flow is called a region chain. You can have multiple sources
+                and multiple region chains. The name assigned to the flow-* properties are used to coordinate
+                which content source goes into which regions.                                
+            </p>
+        </section>
+
+        <section>
+            <h2>References:</h2>
+            <ul>
+                <li><a href="https://www.w3schools.com/css/css3_flexbox.asp" target="_blank">flexbox explained</a></li>
+                <li><a href="https://webplatform.github.io/docs/css/properties/justify-content/" target="_blank">flexbox justify-content property</a></li>
+                <li><span>CSS property names that contain a dash, are typically converted to camel case when used in JavaScript, so justify-content becomes justifyContent. </span>
+                    <a href="https://stackoverflow.com/questions/58699722/using-javascript-to-change-css-style-in-flexbox" target="_blank">more info here</a>
+                </li>
+                <li><a href="https://www.w3schools.com/css/css3_multiple_columns.asp" target="_blank">CSS Multi-column Layout</a></li>
+                <li><a href="https://vanseodesign.com/css/exclusions/" target="_blank">-ms-wrap-flow illustrated (deprecated)</a></li>                
+                <li><a href="https://stackoverflow.com/questions/8986260/how-to-align-center-the-text-in-html-table-row" target="_blank">How to align center the text in html table row.</a></li>                
+                <li><a href="https://www.w3schools.com/css/css3_flexbox.asp" target="_blank">CSS Flexbox.</a></li>                
+                <li><a href="https://www.w3schools.com/css/css_grid.asp" target="_blank">CSS Grid Layout Module.</a></li>                
+                <li><a href="./lesson-024.html" target="_blank">Image gallery using flexbox.</a></li>                                
+            </ul>
+        </section>
+
+    </article>
+</body>
+</html>

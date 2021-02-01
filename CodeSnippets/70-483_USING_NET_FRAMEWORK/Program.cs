@@ -12,6 +12,20 @@ namespace _70_483_USING_NET_FRAMEWORK
         static void Main(string[] args)
         {
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
+            
+            try
+            {
+                RandomStringExamples randomString = new RandomStringExamples();
+                randomString.Run().Wait();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+                throw;
+            }
+
+            Console.ReadLine();
+            return;
 
             try
             {

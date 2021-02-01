@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins');
+
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+section {
+    margin: 0 auto;
+    width: 750px;
+    height: 500px;
+    background-color: #17334f;
+    border-radius: 10px;
+    color: #fff;
+    font-family: 'Poppins', arial;
+  }
+
+  #title {
+    display: block;
+    height: 25px;
+    padding: 20px;
+    text-align: center;
+    font-size: 2em;
+    color: #cc0044;
+  }
+
+  #location {
+    display: block;
+    height: 25px;
+    padding: 20px;
+    border-bottom: 1px solid #fff;
+  }
+
+  #weather-info {
+    margin: 0 auto;
+    text-align: center;
+    width: 100%;
+  }
+
+  #description {
+    font-size: 2em;
+  }
+
+  #weather-pic {
+    width: 120px;
+  }
+
+  #current-temp {
+    font-size: 5em;
+    display: inline-block;
+    width: 150px;
+  }
+
+  .unit-toggle {
+    font-size: 2em;
+    display: inline-block;
+  }
+
+  .fahrenheit, .celsius {
+    cursor: pointer;
+  }
+  
+  .active {
+    color: #cc0044;
+    cursor: default;
+  }

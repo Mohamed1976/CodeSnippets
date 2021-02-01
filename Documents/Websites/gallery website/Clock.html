@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Prompt&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/clock.css">
+    <link rel="stylesheet" 
+        href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+        integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+        crossorigin="anonymous"
+    />
+
+    <link rel="shortcut icon" href="./images/favicon.png" type="image/x-icon" />
+    <title>What Time Is It?</title>
+</head>
+<body>
+    <time id="time"></time>
+    <h1>
+        <span id="greeting"></span>
+        <span id="name" contenteditable="true"></span>
+    </h1>
+
+    
+    
+    <div class="flex-container">
+        <h2>Quote of the day by <span id="author" style="font-style: italic;font-weight: bold;"></span>:</h2>
+        <h2 style="align-content: center;font-size: 2rem;" id="quote"></h2>
+        <br>
+        <span style="border: black 1px solid;padding: 5px;" class="md-chip" onclick="getQuote()" id="getQuote">
+            <i class="fa fa-sync" style="margin-right: 1rem;"></i>Get Another Quote
+        </span>        
+    </div>
+    <br>
+    <footer>
+        <strong>
+            &copy; Made with <span style="color: red; font-size: 1.5rem;">♥</span> by
+            <a href="https://github.com/Mohamed1976" target="_blank">Moccasoft</a>
+        </strong>
+    </footer>        
+    <script src="./js/clock.js"></script>
+</body>
+</html>

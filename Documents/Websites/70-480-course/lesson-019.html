@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Style HTML Box properties</title>
+        <style>
+            .myImg2:nth-child(2) {
+                position: relative;
+                left: -25px;
+                border: solid red 2px;
+            }
+
+            .myImg2:nth-child(3) {
+                position: relative;
+                left: -50px;
+                border: solid green 2px;
+            }
+
+            .myImg2:nth-child(4) {
+                position: relative;
+                left: -75px;
+                border: solid blue 2px;
+            }
+
+            .myImg:nth-child(1n+0) {
+                position: relative;
+                left: 25px;
+                top: 5px;
+            }
+
+            .clipper{
+                position: absolute;
+                /* position: fixed; */
+                clip: rect(50px,350px,250px,50px);
+            }
+
+            div.shadow5 {
+                width: 100px;
+                height: 100px;
+                border: solid 1px black;
+                box-shadow: 10px 10px inset red;
+            }
+
+            div.shadow4 {
+                width: 100px;
+                height: 100px;
+                border: solid 1px black;
+                box-shadow: 100px 100px 10px;
+            }
+
+            div.shadow3 {
+                width: 100px;
+                height: 100px;
+                border: solid 1px black;
+                box-shadow: 10px 10px 10px 20px;
+            }
+
+            div.shadow2 {
+                width: 100px;
+                height: 100px;
+                border: solid 1px black;
+                box-shadow: 10px 10px 10px;
+            }
+
+            div.shadow1 {
+                /*position: absolute;
+                left: 50px;top: 50px;*/
+                width: 100px;
+                height: 100px;
+                border: solid 1px black;
+                box-shadow: 10px 10px;
+            }
+
+            div.bald-eagle {
+                background-image: url(../coursera-course/resources/img/bird.jpg);
+                background-size: 20px;
+                background-repeat: repeat;
+                width: 100%;
+                height: 200px;
+                text-align: center;
+                color: white;
+                font-size: 133%;
+                font-weight: bolder;            
+            }
+
+            p.background-desert {
+                color:white;
+                background-image: url("Resources/img/bgdesert.jpg");
+                background-repeat: repeat;
+                width: 100%;
+                height: 400px;
+                font-size: 150%;
+                text-align: center;
+                border: black 3px solid;
+            }
+
+            p.background-paper {
+                color:black;
+                background-image: url("Resources/img/paper.gif");
+                background-repeat: repeat;
+                width: 100%;
+                height: 400px;
+                font-size: 150%;
+                text-align: center;
+                border: black 3px solid;
+            }
+
+            p.background-bird {
+                color: white;
+                background-image: url("../coursera-course/resources/img/bird.jpg");
+                height: 350px;
+                font-size: 150%;
+                text-align: center;
+                border: red 3px solid;
+            }
+
+            p.MyStyle01 {
+                border-top: 15px solid black;
+                border-left: 10px solid black;
+                border-right: 10px solid black;
+                border-bottom: 5px solid black;
+            }
+
+            p.MyStyle02{
+                border-style: solid ;
+                border-color: red;
+                border-width: 5px;
+                background-color: lightgreen;                
+                width: 33.33%;
+            }
+
+            table, td, th {
+                border: 1px solid black;
+            }
+
+            #table1 {
+                border-collapse: separate;
+                border-spacing: 15px;
+            }
+
+            #table2 {
+                border-collapse: separate;
+                border-spacing: 15px 50px;
+            }
+
+            div.MyGreen {
+                background-color: steelblue;
+            }
+
+            div.first {
+                opacity: 0.1;
+            }
+
+            div.second {
+                opacity: 0.3;
+            }
+
+            div.third {
+                opacity: 0.6;
+            }
+
+        </style>
+        <script>
+
+            function ShowFixedDiv(sender) {
+                console.log(sender);
+                if(sender.innerText === "Show") {
+                    sender.innerText = "Hide";
+                    document.querySelector("#fixedDiv").style.visibility = "visible";
+                }
+                else {
+                    sender.innerText = "Show";
+                    document.querySelector("#fixedDiv").style.visibility = "hidden";
+
+                }                
+            }
+
+            function StartMoving(sender) {
+                const h2Element = document.querySelector("#JumpingFlash");
+                let topPos = 0; 
+                let leftPos = 0;
+                setInterval(() => {
+                    h2Element.style.left = leftPos + 'px'; 
+                    h2Element.style.top =  topPos + 'px';
+
+                    leftPos +=10;
+                    topPos++;
+
+                    console.log(sender);
+                }, 500);
+            }
+
+        </script>
+    </head>
+    <body>        
+        <article>
+            <h1>Style HTML Box properties</h1>
+            <hr>
+            <section>
+                <h2>Summary</h2>
+                <ul>
+                    <li>Every HTML element is a box and has the properties of a box such as height and width.</li>
+                    <li>CSS3 allows you to change the size of a box by specifying a new height and width.</li>
+                    <li>CSS3 allows you to style box properties in the following ways:
+                        <ul>
+                            <li>The border-style property allows you to specify a solid or dashed line for the border.</li>
+                            <li>The border-color property allows you to specify the color of the border.</li>
+                            <li>The border-spacing property allows you to specify the amount of space between
+                                adjacent elements.</li>
+                            <li>The border-width property allows you to specify a thickness for the border.</li>        
+                            <li>Each side of the box can by styled differently.</li>        
+                        </ul>
+                    </li>
+                    <li>
+                        CSS3 provides a way to define the padding and margin that a box should have relative
+                        to adjacent elements. This can be configured differently for each side of the box.
+                    </li>
+                    <li>An element can be made transparent or partially transparent by setting the opacity
+                        property.
+                    </li>
+                    <li>
+                        An element can contain a background image by setting its background-image
+                        property.                    
+                    </li>
+                    <li>
+                        CSS3 provides the ability to create shadow effects by specifying the box-shadow property.
+                    </li>
+                    <li>
+                        CSS3 provides the ability to clip images using the clip property to show only a portion of an image.
+                    </li>
+                    <li>
+                        CSS3 can be used to establish an element’s position as either fixed, absolute, or relative.
+                    </li>
+                    <li>
+                        The left and top CSS properties can be used to alter an element’s position.
+                    </li>
+                </ul>                
+            </section>
+            <hr>    
+            <section>
+                <h2>Applying styles to alter appearance attributes</h2>
+                <p>
+                    Every HTML element has box properties. These are the properties that control how the
+                    element is spaced on the page and control the position of the box contents. In addition,
+                    the graphic effects can be applied to the box of an element. There are a variety of ways to alter the appearance of a box as it applies to an HTML element.
+                    This section demonstrates how to alter the appearance by changing the attributes related to
+                    size, bordering, outlining, padding, and margin.
+                </p>
+                <h3>Altering the size</h3>
+                <p>
+                    The size of any element is controlled by its height and width properties. These can be set on
+                    any object or class in CSS. By default, an object will size itself to be able to display its contents.
+                    So, a div element with some text inside it will have a width and height that is sufficient to
+                    display the text. The size can be changed by setting a value for the width and/or height. The
+                    width and height can be specified as a measurement in pixels (px) or centimeters (cm) or
+                    can be specified as a percentage of its parent element. For example, the following code will
+                    set the width of a table to be 50 percent of its parent container, which in this case is just the
+                    window object.<br><br>
+                    <code>
+                        table {<br>
+                        &nbsp;height: 50%;<br>
+                        &nbsp;width: 50%;<br>
+                        }<br><br>
+                        div {<br>
+                        &nbsp;width: 200px;<br>
+                        &nbsp;height: 100px;<br>
+                        }
+                    </code><br><br>
+                </p>
+                <div style="background-color: lightgray;width: 200px;height: 100px;">
+                Example of width: 200px;height: 100px.</div>
+                <h3>Bordering</h3>
+                <p>
+                    CSS provides very granular control over the styles of the borders of any HTML element. The
+                    name of the root CSS property to do this is the border property. With the use of the border
+                    property, you can control the style, spacing, color, and width of the border.
+                    The first thing that you need to set on the border is the style. This will essentially bring
+                    the border into existence. There are a variety of border styles that exists. These include, solid
+                    <span style="font-style: italic;font-weight: bold;"> border, dashed border, dotted line border, grooved line border</span>, and so on. The border is set
+                    by specifying the border-style property:<br><br>
+                    <code>
+                        p {<br>
+                        &nbsp;border-style: solid;<br>
+                        &nbsp;border-color: black;<br>
+                        }<br><br>
+                        p {<br>
+                        &nbsp;border-style: solid;<br>
+                        }<br>
+                    </code>                                        
+                </p>
+                <p style="border: double red 5px;">
+                    Text with a border: border: double black 3px
+                </p>
+                
+                <p>Border-spacing is used to set the amount of space desired between adjacent elements. The
+                    following CSS will provide 250 px border spacing to all paragraph elements on the page:                
+                </p>
+                <h2>border-spacing: 15px:</h2>
+                <p>When using "border-collapse: separate", the border-spacing property can be used to set the space between the cells:</p>
+                <table id="table1">
+                <tr>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
+                </tr>
+                <tr>
+                    <td>Peter</td>
+                    <td>Griffin</td>
+                </tr>
+                <tr>
+                    <td>Lois</td>
+                    <td>Griffin</td>
+                </tr>
+                </table>
+
+                <h2>border-spacing: 15px 50px:</h2>
+                <p>Using two values (the first sets the horizontal spacing and the second sets the vertical spacing):</p>
+                <table id="table2">
+                <tr>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
+                </tr>
+                <tr>
+                    <td>Peter</td>
+                    <td>Griffin</td>
+                </tr>
+                <tr>
+                    <td>Lois</td>
+                    <td>Griffin</td>
+                </tr>
+                </table>
+
+
+
+                <p>
+                    In addition to being able to set all the properties discussed so far in a single line, the
+                    border element allows even more granular control. The properties discussed can also be set to
+                    different values specific to each side of the box, as shown in the example below.<br><br>
+                    <code>
+                        p {<br>
+                            &nbsp;border-top: 15px solid black;<br>
+                            &nbsp;border-left: 10px solid black;<br>
+                            &nbsp;border-right: 10px solid black;<br>
+                            &nbsp;border-bottom: 5px solid black;<br>
+                            }
+                    </code>
+                </p>                
+
+                <p class="MyStyle01">
+                    Some text with a border.
+                </p>
+
+                <p style="font-style: italic;">
+                    Note that the border needs to exist before it can have any visible changes done to it. This is
+                    why in the above example, the border-style is set first.                    
+                    The border element supports many variants in its ability to set properties in a single line.
+                    Take some time to experiment with all the possible combinations so you will be able to
+                    read them and identify them easily on the exam.
+                </p>
+                <h3>Padding and margin</h3>
+                <p>
+                    Padding and margin are additional methods to create space around an HTML element. In
+                    essence, there are three layers around an HTML element. As you look from the inside to
+                    the outside of the element there is the padding, the border, and the margin. If you take a
+                    look again at the sample in Figure 4-12, the text is squished quite close to the border. The
+                    border width has been set, but the padding (the space between the text and the border)
+                    has its default value of 0 px. In order to create space between the text and the border, you
+                    must increase the padding as shown in the following code sample. The results are shown in
+                    Figure below.<br><br>
+                    <code>
+                        p {<br>
+                            &nbsp;border-top: 15px solid black;<br>
+                            &nbsp;border-left: 10px solid black;<br>
+                            &nbsp;border-right: 10px solid black;<br>
+                            &nbsp;border-bottom: 5px solid black;<br>
+                            &nbsp;padding: 25px;<br>
+                        }                        
+                    </code>
+                </p>
+
+                <p style="background-color: lightgrey; padding: 25px;">
+                    Some Text with padding: 25px; 
+                </p>
+                <p>
+                    In this code, the padding is set to 25 px. With only a single value specified, it is assumed
+                    that this value is applied to all four sides of the box. However, the padding can be specified as
+                    different values for all four sides. The above code is in effect the same as saying:<br><br>
+                    <code>
+                        padding: 25px 25px 25px 25px;<br><br>
+                        padding-top: 25px;<br>
+                        padding-bottom: 25px;<br>
+                        padding-left: 25px;<br>
+                        padding-right: 25px;<br>
+                    </code>                    
+                </p>
+                <p style="background-color: lightgrey; padding-top: 80px; padding-bottom: 10px; padding-left: 50px;padding-right: 80px;">
+                    Some Text with padding:padding-top: 80px; padding-bottom: 10px; padding-left:50px;padding-right: 80px; 
+                    Some Text with padding:padding-top: 80px; padding-bottom: 10px; padding-left:50px;padding-right: 80px;
+                    Some Text with padding:padding-top: 80px; padding-bottom: 10px; padding-left:50px;padding-right: 80px;
+                    Some Text with padding:padding-top: 80px; padding-bottom: 10px; padding-left:50px;padding-right: 80px;
+                </p>
+                <p>
+                    The next area where you can create spacing for your HTML elements is in the margin.
+                    The margin is the space between the border of your element and the surrounding elements.
+                    The browser provides a default margin based on the HTML element that is used.
+                    The margin can be controlled in exactly the same ways as
+                    the padding. You can specify a single value to be applied equally to all four sides, specify
+                    individual values in a single line, or specify each side of the box individually. The following
+                    code demonstrates increasing the margin of the paragraph element and the results are shown
+                    in the Figure below.
+                    As you can see in the Figure below that not only did the margin create space between the two
+                    paragraph elements, but it also created space between the top of the window and the top of
+                    the first paragraph element.                    
+                    <br><br>
+                    <code>
+                        p {<br>
+                            &nbsp;border-top: 15px solid black;<br>
+                            &nbsp;border-left: 10px solid black;<br>
+                            &nbsp;border-right: 10px solid black;<br>
+                            &nbsp;border-bottom: 5px solid black;<br>
+                            &nbsp;padding-top: 25px;<br>
+                            &nbsp;padding-bottom: 25px;<br>
+                            &nbsp;padding-left: 25px;<br>
+                            &nbsp;padding-right: 25px;<br>
+                            &nbsp;margin: 40px;<br>
+                            }                        
+                    </code><br>
+                </p>
+                <div style="width: 100%; border: black 1px solid; background-color: lightpink;">
+                    <div style="width: 25%; background-color: lightsteelblue;margin: 10px;border: solid 5px black;">
+                      Some text with margin: 10px;  
+                    </div>
+                    <div style="width: 25%; background-color:limegreen;margin: 50px;">
+                        Another text with margin: 50px;  
+                    </div>
+                </div>
+            </section>
+            <section>
+                <h2>
+                    Applying styles to alter graphic effects
+                </h2>
+                <p>
+                    There are a variety of options in applying graphic effects to a box to provide a unique display
+                    to end users. This section demonstrates setting transparency, opacity, a background image,
+                    gradients, shadows, and clipping.                    
+                </p>
+                <h3>Applying transparency/opacity</h3>
+                <p>
+                    Setting the opacity (also known as transparency) of an element in CSS provides the ability
+                    to make the element effectively see through. The value used in setting the opacity is a ratio
+                    from 0 to 1.0. A setting of 0 indicates that the element is fully transparent, essentially invisible.
+                    A value of 1.0 indicates that the element is fully opaque, the default when no opacity value is
+                    specified.
+                </p>   
+                    <h3>Transparent Box</h3>
+                    
+                    <p>When using the opacity property to add transparency to the background of an element, all of its child elements become transparent as well. This can make the text inside a fully transparent element hard to read:</p>
+                    
+                    <div class="first MyGreen">
+                      <h3>opacity 0.1</h3>
+                    </div>
+                    
+                    <div class="second MyGreen">
+                      <h3>opacity 0.3</h3>
+                    </div>
+                    
+                    <div class="third MyGreen">
+                      <h3>opacity 0.6</h3>
+                    </div>
+                    
+                    <div class="MyGreen">
+                      <h3>opacity 1 (default)</h3>
+                    </div>                                        
+                
+                <p style="font-style: italic;">
+                    Note: When using the opacity property to add transparency to the background of an element, all of its child elements inherit the same transparency. This can make the text inside a fully transparent element hard to read.                    
+                </p>
+                <p>
+                    If you do not want to apply opacity to child elements, like in our example above, use RGBA color values. The following example sets the opacity for the background color and not the text:                    
+                    An RGBA color value is specified with: rgba(red, green, blue, alpha). The alpha parameter is a number between 0.0 (fully transparent) and 1.0 (fully opaque).
+                </p>
+                <h3>With RGBA color values:</h3>
+                <div style="background: rgba(0, 128, 0, 0.1);">
+                  <h3>10% opacity</h3>
+                </div>
+                
+                <div style="background: rgba(0, 128, 0, 0.3);">
+                  <h3>30% opacity</h3>
+                </div>
+                
+                <div style="background: rgba(0, 128, 0, 0.6);">
+                  <h3>60% opacity</h3>
+                </div>
+                
+                <div style="background: rgba(0, 128, 0, 1);">
+                  <h3>default</h3>
+                </div>
+            </section>
+            <hr>
+            <section>
+                <h2>Applying a background image</h2>
+                <p>
+                    Any HTML element can also contain a background image. This is achieved by specifying
+                    the background-image property. The background property itself has many other options to
+                    control its size and repeating pattern. However, to simply set a background image, you need
+                    only specify the image to the backround-image property. The following code demonstrates
+                    the use of this property to assign a background image.The text color is changed to white to make it
+                    more visible over the image.<br><br>
+                    <code>
+                        p {<br>
+                            &nbsp;background-image: url('orange.jpg');<br>
+                            &nbsp;color: white;<br>
+                            }<br>
+                    </code><br>
+                </p>
+            
+                <p class="background-bird">
+                    A Bald Eagle, Free and Proud. 
+                </p>
+
+                <p>
+                    The background-image property specifies an image to use as the background of an element.
+                    By default, the image is repeated so it covers the entire element. 
+                    The configuration options for the background image are specified in the list below.
+                </p>
+                <ul>
+                    <li><span style="font-weight: bolder;">size</span> Changes the dimensions of the image</li>
+
+                    <li><span style="font-weight: bolder;">repeat</span> Specifies whether the image should be repeated/tiled through the available
+                        space of the box</li>
+                    <li><span style="font-weight: bolder;">clip</span> Specifies whether the image should be clipped at a border</li>
+                    <li><span style="font-weight: bolder;">position-x/position-y</span> Specifies the origin position of the image within the box</li>
+                </ul>                     
+
+                <p class="background-desert">
+                    This text is not easy to read on this background image.
+                </p>  
+                <p class="background-paper">
+                    This text is not easy to read on this background image.
+                </p>
+                <p>
+                    All the properties are prefixed with the token background-.The following example
+                    demonstrates using the repeat property and the size property. It specifies that the image
+                    should be smaller and repeat. This example specifies to repeat continuously, both horizontally
+                    and vertically. However, you can specify repeat-x or repeat-y to repeat only in the specified
+                    direction.                    
+                </p>
+                <div class="bald-eagle">
+                    A Proud Bird, ready to take flight.<br><br>
+                    The use of the size and repeat properties for a background image
+                </div>                  
+            </section>
+            <section>
+                <h2>Applying gradients</h2>
+                <p>
+                    A gradient effect changes the color of an object gradually from one spectrum to another.
+                    There are two types of gradient effects supported. The first is a linear gradient where the
+                    color changes in a line across the object in any direction. The other gradient is a radial
+                    gradient where the color starts in the center and changes toward the outer edges. The
+                    gradient can be applied to the background of the element in the following way:                    
+                </p>
+                <code>
+                    background:linear-gradient(direction, color-stop1, color-stop2, ...);
+                </code>
+
+                <p>The linear-gradient function takes a few parameters. The parameters are outlined in
+                </p>
+                <ul>
+                    <li><span style="font-weight: bolder;">Direction: </span>Specify the direction of the gradient as to right or to left. This parameter is optional and
+                        the default when blank is an up/down gradient effect. A diagonal effect can also be
+                        applied by specifying to bottom right or to bottom left. You may also specify an angle, as
+                        in 100deg.</li>
+                    <li><span style="font-weight: bolder;">Color stop…n: </span>The second and subsequent parameters is the color to start with followed by the
+                        transitional colors known as the color stops. This tells the browser what color to start with
+                        and transition into with the gradient effect.</li>
+                </ul>
+                <p>
+                    The following example shows a linear gradient that starts at the top. It starts red, transitioning to yellow:                    
+                </p>
+                <code>
+                    background-image: linear-gradient(red, yellow);
+                </code><br>
+                <div style="border:black solid 2px; text-align: center; width: 100%;height: 200px;background-color: red;background-image: linear-gradient(red, yellow); /* For browsers that do not support gradients */">
+                    background-image: linear-gradient(red, yellow);
+                </div>
+                <p>
+                    The following example shows a linear gradient that starts from the left. It starts red, transitioning to yellow:
+                </p>
+                <div style="border:black solid 2px; text-align: center; width: 100%;height: 200px;background-color: red;background-image: linear-gradient(to right, red, yellow); /* For browsers that do not support gradients */">
+                    background-image: linear-gradient(to right, red, yellow);
+                </div>
+                <p>
+                    You can make a gradient diagonally by specifying both the horizontal and vertical starting positions.
+                    The following example shows a linear gradient that starts at top left (and goes to bottom right). It starts red, transitioning to yellow:                    
+                </p>
+                <div style="border:black solid 2px; text-align: center; width: 100%;height: 200px;background-color: red;background-image: linear-gradient(to bottom right, red, yellow); /* For browsers that do not support gradients */">
+                    background-image: linear-gradient(to bottom right, red, yellow);
+                </div>
+
+                <p>
+                    If you want more control over the direction of the gradient, you can define an angle, instead of the 
+                    predefined directions (to bottom, to top, to right, to left, to bottom right, etc.). A value of 0deg 
+                    is equivalent to "to top". A value of 90deg is equivalent to "to right". A value of 180deg is equivalent 
+                    to "to bottom".                    
+                </p>
+                <code>
+                    linear-gradient(angle, color-stop1, color-stop2);
+                </code>
+                <p>
+                    The following example shows how to use angles on linear gradients:
+                </p>
+
+                <div style="border:black solid 2px; text-align: center; width: 100%;height: 200px;background-color: red;background-image: linear-gradient(180deg, red, yellow); /* For browsers that do not support gradients */">
+                    background-image: linear-gradient(180deg, red, yellow);
+                </div>
+
+                <p>
+                    Using Multiple Color Stops
+                    The following example shows a linear gradient (from top to bottom) with multiple color stops:                    
+                </p>
+
+                <div style="border:black solid 2px; text-align: center; width: 100%;height: 200px;background-color: red;background-image:linear-gradient(red, green, blue, yellow); /* For browsers that do not support gradients */">
+                    background-image: linear-gradient(red, green, blue, yellow);
+                </div>
+
+                <p>
+                    The following example shows how to create a linear gradient (from left to right) with the color of the rainbow and some text:                    
+                </p>
+
+                <div style="border:black solid 2px; text-align: center; width: 100%;height: 200px;background-color: red;background-image: linear-gradient(to right, red,orange,yellow,green,blue,indigo,violet); /* For browsers that do not support gradients */">
+                    background-image: linear-gradient(to right, red,orange,yellow,green,blue,indigo,violet);
+                </div>
+
+                <p>
+                    TODO make it work.
+                    Using Transparency
+                    CSS gradients also support transparency, which can be used to create fading effects.                    
+                    To add transparency, we use the rgba() function to define the color stops. The last parameter in the rgba() function can be a value from 0 to 1, and it defines the transparency of the color: 0 indicates full transparency, 1 indicates full color (no transparency).
+                    The following example shows a linear gradient that starts from the left. It starts fully transparent, transitioning to full color red:                    
+                </p>
+
+                <div style="border:black solid 2px; text-align: center; width: 100%;height: 200px;background-color: red;background-image: linear-gradient(to right, rgba(255,0,0,0), rgba(255,0,0,1)); /* For browsers that do not support gradients */">
+                    background-image: linear-gradient(to right, rgba(255,0,0,0), rgba(255,0,0,1));
+                </div>
+
+                <p>
+                    Repeating a linear-gradient
+                    The repeating-linear-gradient() function is used to repeat linear gradients:                    
+                </p>
+
+                <div style="border:black solid 2px; text-align: center; width: 100%;height: 200px;background-color: red;background-image: repeating-linear-gradient(red, yellow 10%, green 20%); /* For browsers that do not support gradients */">
+                    background-image: repeating-linear-gradient(red, yellow 10%, green 20%);
+                </div>
+
+            </section>
+
+            <section>
+                <h2>Applying a shadow effect</h2>
+                <p>
+                    Shadow effects allow you to apply a shadow to your HTML element’s box or to the text.
+                    There are two CSS3 properties to control the shadow effect: 
+                </p>
+                   <ul>
+                       <li>box-shadow</li>
+                       <li>text-shadow</li>
+                   </ul> 
+                <p>
+                    The box-shadow controls the shadow effect surrounding the box of the HTML element. The
+                    text-shadow property controls the shadow of text.
+                    The box-shadow property supports the parameters outlined in the Table below. The first two
+                    parameters are required to create the shadow effect. The blur and spread parameters are
+                    optional effects that can be applied to the box-shadow.
+                </p>
+                <ul>
+                    <li>h-shadow: Specifies the position of the horizontal shadow. The value can also be a negative number.</li>
+                    <li>v-shadow: Specifies the position of the vertical shadow. The value can also be a negative number.</li>
+                    <li>blur: Specifies the distance of the blur effect. This parameter is optional and defaults to 0.</li>
+                    <li>spread: Specifies the size of the shadow.</li>
+                    <li>color: Specifies the color of the shadow.</li>
+                    <li>inset: Specifies that the shadow should be inside the box instead of outside the box.</li>                                        
+                </ul>
+                <p>
+                    In its simplest form, the box-shadow property requires only that h-shadow and v-shadow
+                    are specified. The following code shows a basic shadow applied to a div element.
+                    The div element is rendered with a shadow as shown below. 
+                </p>
+                <code>
+                    div{<br>
+                        &nbsp;position: absolute;<br>
+                        &nbsp;left: 50px;top: 50px;<br>
+                        &nbsp;width: 100px;<br>
+                        &nbsp;height: 100px;<br>
+                        &nbsp;border: solid 1px black;<br>
+                        &nbsp;box-shadow: 10px 10px;<br>
+                        }                    
+                </code><br><br>
+                <div class="shadow1"></div>
+                <p>
+                    The shadow effect in the Figure above is a solid box shadow. To provide an effect where the
+                    shadow fades out gradually, you will need to specify the blur parameter. By adding the blur
+                    parameter, you can create the effect shown in the Figure above. The following code adds the blur
+                    parameter:                    
+                </p>
+                <code>
+                    div{<br>
+                        &nbsp;position: absolute;<br>
+                        &nbsp;left: 50px;top: 50px;<br>
+                        &nbsp;width: 100px;<br>
+                        &nbsp;height: 100px;<br>
+                        &nbsp;border: solid 1px black;<br>
+                        &nbsp;box-shadow: 10px 10px 10px;<br>
+                        }
+                </code><br><br>
+                <div class="shadow2"></div>                                        
+                <p>
+                    The next parameter that adds a special effect to the shadow is the spread parameter. This
+                    parameter specifies the size of the shadow. The following code specifies a spread value to
+                    increase the size of the shadow. This code produces the output shown below.
+                    A box-shadow effect with addition of the spread parameter to increase the shadow’s size.                    
+                </p>
+                <code>
+                    div{<br>
+                        &nbsp;position: absolute;<br>
+                        &nbsp;left: 50px;top: 50px;<br>
+                        &nbsp;width: 100px;<br>
+                        &nbsp;height: 100px;<br>
+                        &nbsp;border: solid 1px black;<br>
+                        &nbsp;box-shadow: 10px 10px 10px 20px;<br>
+                        }
+                </code><br><br>
+                <div class="shadow3"></div>
+                <br><br>
+                <p>
+                    The figure above shows the output of the previous code with the addition of the spread
+                    parameter. The spread parameter specifies the size of the shadow. In the context of real-world
+                    objects and their shadows, the spread is like indicating how close a light source is to an
+                    object. The closer the light source, the larger the shadow it produces. The spread parameter
+                    can be used to elicit this type of effect on the HTML element. In Figure 4-21, the shadow was
+                    intentionally created to be larger than the HTML box itself. This was done to demonstrate
+                    an additional concept of the shadow effects. The shadow itself is a full-size box. In this case,
+                    the shadow was made to be larger than the original box so it is visible around all four sides
+                    of the box. Normally, for a box where the spread is not specified to be larger, the shadow is only
+                    visible on the two axes specified by the first two parameters. This is because the shadow box is
+                    offset from center of the HTML element it is shadowing. The rest of the shadow is still behind
+                    the HTML element being shadowed. You can demonstrate this by setting the position of the
+                    shadow to be completely away from the HTML element. This is achieved by specifying the
+                    position to be a greater number value then the size of the HTML element. The following code
+                    demonstrates this:                    
+                </p>
+                <code>
+                    div{<br>
+                        &nbsp;position: absolute;<br>
+                        &nbsp;left: 50px;top: 50px;<br>
+                        &nbsp;width: 100px;<br>
+                        &nbsp;height: 100px;<br>
+                        &nbsp;border: solid 1px black;<br>
+                        &nbsp;box-shadow: 100px 100px 10px;<br>
+                        }
+                </code><br><br>                    
+                <p>
+                    In this code, the position of the box shadow is set to be 100 px along the horizontal axis
+                    and 100 px along the vertical axis, which will place the shadow to the bottom right corner of
+                    the div element, as shown in the Figure below. It illustrates, the entire shadow of an element displayed by specifying the position to be greater then the
+                    size of the HTML element                    
+                </p>
+                <div class="shadow4"></div>
+                <br><br><br><br><br><br>
+                <p>
+                    Another parameter for the box-shadow is the inset parameter. If omitted, this parameter
+                    creates the shadow on the outside of the box. If inset is specified, the shadow is then created
+                    on the inside of the box. This is demonstrated in the following code.
+                    This code produces the output shown in Figure below. The shadow is now displayed on the
+                    inside of the box instead of the outside of the box.                    
+                </p>
+                <code>
+                    div{<br>
+                        &nbsp;position: absolute;<br>
+                        &nbsp;left: 50px;top: 50px;<br>
+                        &nbsp;width: 100px;<br>
+                        &nbsp;height: 100px;<br>
+                        &nbsp;border: solid 1px black;<br>
+                        &nbsp;box-shadow: 10px 10px inset;<br>
+                        }
+                </code><br><br> 
+                <div class="shadow5"></div>
+                <p>
+                    The color property accepts values as a hex code, rgb(), or literal color. This property
+                    changes the color of the shadow. Since the book is printed in black and white, demonstrating
+                    the use of this parameter will not present well. So, in your own code, change the color of the
+                    shadow to see what effect it has—the color should change.                    
+                </p>
+                <p style="font-style: italic;">
+                    NOTE UNDERSTANDING H-SHADOW AND V-SHADOW PARAMETERS
+                    h-shadow and v-shadow parameters can accept negative values. To place the shadow on
+                    the left side of the box instead of the right, specify a negative value for the h-shadow. To
+                    place the shadow on top of the box instead of the bottom, specify a negative value for the
+                    v-shadow parameter.                    
+                </p>
+
+                <p>
+                    Text shadows can be created in the same way as box shadows. The CSS property to apply
+                    a shadow to text is called text-shadow. The text-shadow property has parameters similar to
+                    those of the box-shadow property. The parameters are described in Table below.
+                    All of the text-shadow parameters are familiar. They all have the same effect as their
+                    counterparts in the box-shadow element. The following code demonstrates applying a
+                    shadow effect to text on an HTML page.                    
+                </p>
+                
+                <ul>
+                    <li>h-shadow Specifies the position of the shadow along the horizontal axis. This value accepts negative
+                        numbers.</li>
+                    <li>
+                        v-shadow Specifies the position of the shadow along the vertical axis. This value accepts negative numbers.
+                    </li>
+                    <li>
+                        blur Specifies the distance of the blur effect. This parameter is optional and defaults to 0.
+                    </li>
+                    <li>
+                        color Specifies the color of the shadow.
+                    </li>                        
+                </ul>
+
+                <code>
+                    p {<br>
+                        &nbsp;position: absolute;<br>
+                        &nbsp;left: 250px;<br>
+                        &nbsp;top: 250px;<br>
+                        &nbsp;text-shadow: -10px -10px;<br>
+                        }                
+                </code><br>
+
+                <p>
+                    In this example, negative numbers are supplied to the h-shadow and v-shadow parameters
+                    in order to place the shadow to the top left of the text. The output of this code is shown below.                
+                    In its simplest use, you only specify the horizontal shadow (2px) and the vertical shadow (2px):
+                </p>
+    
+                <p style="font-size: 150%;text-shadow: -10px -10px;">
+                    Ghost Story, text-shadow: -10px -10px;
+                </p>
+    
+                <p style="font-size: 150%;text-shadow: 2px 2px;">
+                    Text shadow effect!, text-shadow: 2px 2px;
+                </p>
+
+                <p style="font-size: 150%;text-shadow: 2px 2px red;">
+                    Text shadow effect!, text-shadow: 2px 2px red;
+                </p>
+                <p style="font-size: 150%;text-shadow: 2px 2px 5px red;">
+                    Text shadow effect with blur effect!, text-shadow: 2px 2px  5px red;
+                </p>
+                <p style="color: yellow;font-size: 150%;text-shadow: 2px 2px 5px 4px #000000;">
+                    Text shadow effect with blur effect!, text-shadow: 2px 2px 4px #000000;
+                </p>
+                
+                <p style="color: yellow;font-size: 150%; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">
+                    Text shadow effect with blur effect!,  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;;
+                </p>
+
+
+            </section>
+            <section>
+                <h2>Applying clipping</h2>
+                <p style="font-style: italic;">Note: Where possible, authors are encouraged to use the newer clip-path property instead.</p>
+                <p>
+                    The clip property allows you to specify what portion of an element is visible. The clip property
+                    takes only one parameter, the shape to clip to. Currently, the only shape supported is a
+                    rectangle, so the only parameter value that will yield any results is the rect() function. For
+                    example, the following code is the valid syntax to specify a clip property:
+                </p>
+                <code>
+                    img{<br>
+                        &nbsp;position: absolute;<br>
+                        &nbsp;clip: rect(25px, 50px, 50px, 25px);<br>
+                        }
+                </code>
+                <p>
+                    In the above code sample, the clip region is set to be a rectangle. The first two parameters
+                    of the rect function build the coordinates for what part of the image will be clipped. The
+                    parameters run in clockwise order as top, right, bottom, and left sides of the rectangle. In
+                    addition, all measurements are taken from the left of the top edge of the source box being
+                    clipped. So, in the above code sample, a region of the image is defined as 25 px from the top
+                    to form the top edge of the clipped region, 50 px from the left to form the right edge of the
+                    clipped region, 50 px from the top to form the bottom edge of the clipped region, and 25 px
+                    from the left to form the right edge of the clipped region. This essentially creates a rectangle
+                    starting from the point (25px, 25px) and with a height and width of 25px. Figure 4-25 shows
+                    an image before and after being clipped with these values.                    
+                </p>
+                <div>
+                    <img src="./Resources/img/rose-garden.jpg" style="height: 400px;width: 600px;" alt="Rose garden"/><br>
+                    <img class="clipper" src="./Resources/img/rose-garden.jpg" style="height: 400px;width:600px;" alt="Rose garden"/>
+                </div><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                <p>
+                    The clip CSS property defines a visible portion of an element. The clip property applies only to absolutely positioned elements — that is, elements with position:absolute or position:fixed.                    
+                </p>
+            </section>
+            <section>
+                <h2>Apply styles to establish and change an element’s position</h2>
+                <p>
+                    The browser provides a coordinate system for how to lay out elements on a page. The default
+                    behavior is essentially a layout where the elements, without any other position attributes
+                    specified, will simply lay out on the page in a default flow. In this context, the base coordinate
+                    is the top left corner of the window which can be understood as (x,y) coordinate (0,0). This is
+                    called static layout. CSS provides some mechanisms where you can override the default layout
+                    of the page. This is achieved by specifying the desired position behavior with the position
+                    property. Once the position property is set, other CSS properties such as top, left, bottom, or
+                    right are set. In a static layout, the elements will not respond to the top, left, bottom, or right
+                    properties. The positioning type must be specified.
+                    The position property allows you to specify one of three different options:
+                </p>
+                <ul>
+                    <li style="font-weight: bolder;">fixed</li>
+                    <li style="font-weight: bolder;">relative</li>
+                    <li style="font-weight: bolder;">absolute</li>
+                </ul>
+
+                <p>
+                    With fixed positioning, elements are placed relative to the browser window. With
+                    relative positioning, elements are positioned relative to their position in normal flow. With
+                    absolute positioning, the element is positioned relative to its first parent element. You will
+                    start with an image placed on a page inside a div element.
+                    The figure below shows an image at its default position inside a div element
+                </p>
+                <div style="border: black dotted 2px; width: 100%; height: 200px;background-color: aquamarine;">
+                    <img src="Resources/img/bgdesert.jpg" alt="Desert image">
+                </div>
+                <p>
+                    By applying the following style to the image, you are able to reposition the image inside
+                    the div element. The output of this is shown in Figure below. You need to press the button 
+                    to see the hidden div.
+                </p>
+                <button onclick="ShowFixedDiv(this)">Show</button><br><br>
+
+                <code>
+                    img {<br>
+                        &nbsp;position: fixed;<br>
+                        &nbsp;left: 25px;<br>
+                        &nbsp;top: 25px;<br>
+                        }                    
+                </code>
+
+                <div id="fixedDiv" style="visibility: hidden;  position: fixed;left: 50px;top: 50px; border: black dotted 2px; width: 100%; height: 200px;background-color: aquamarine;">
+                    <img src="Resources/img/bgdesert.jpg" alt="Desert image">
+                </div>
+
+                <p>
+                    Using relative positioning, you can adjust the layout of elements relative to where they
+                    would be in the normal static flow. To demonstrate this, you will copy the image element
+                    many times to show the flower picture many times inside the div. This is shown in static flow in
+                    Figure below.                    
+                </p>
+
+                <div style="border: black dotted 2px; width: 100%; height: 200px;background-color: aquamarine;">
+                    <img style="position: relative; left: 0px; top: 0px;"  src="Resources/img/bgdesert.jpg" alt="Desert image">
+                    <img style="position: relative; left: 40px; top: 40px;"  src="Resources/img/bgdesert.jpg" alt="Desert image">
+                    <img style="position: relative; left: 75px; top: 50px;"  src="Resources/img/bgdesert.jpg" alt="Desert image">
+                    <img style="position: relative; left: 95px; top: 60px;"  src="Resources/img/bgdesert.jpg" alt="Desert image">
+                    <img style="position: relative; left: 120px; top: 70px;"  src="Resources/img/bgdesert.jpg" alt="Desert image">
+                    <img style="position: relative; left: 140px; top: 80px;"  src="Resources/img/bgdesert.jpg" alt="Desert image">
+                    <img style="position: relative; left: 150px; top: 90px;"  src="Resources/img/bgdesert.jpg" alt="Desert image">
+                </div>
+
+                <p>
+                    Now, you will move all the images to the left by 25 px. This will be done by specifying
+                    relative positioning and -25 px for the left property. As this demonstrates, you can specify
+                    negative numbers for the left or top properties. Figure below shows the output of the following
+                    code:                    
+                </p>
+                <code>
+                    img:nth-child(1n+0) {<br>
+                        &nbsp;position: relative;<br>
+                        &nbsp;left: -25px;<br>
+                        &nbsp;top: 25px;<br>
+                        }
+                </code><br><br>
+
+                <div style="border: black dotted 2px; width: 100%; height: 200px;background-color: aquamarine;">
+                    <img class="myImg" src="Resources/img/bgdesert.jpg" alt="Desert image">
+                    <img class="myImg" src="Resources/img/bgdesert.jpg" alt="Desert image">
+                    <img class="myImg" src="Resources/img/bgdesert.jpg" alt="Desert image">
+                    <img class="myImg" src="Resources/img/bgdesert.jpg" alt="Desert image">
+                    <img class="myImg" src="Resources/img/bgdesert.jpg" alt="Desert image">
+                    <img class="myImg" src="Resources/img/bgdesert.jpg" alt="Desert image">
+                    <img class="myImg" src="Resources/img/bgdesert.jpg" alt="Desert image">
+                </div>
+
+                <p>
+                    As shown in Figure above, all image elements have moved to the left by 25 px. Using relative
+                    positioning, you can actually make your HTML elements overlap. While the above code moves
+                    all the images over by 25 px, if you were to modify the code such that each element was
+                    moved proportionately more to make them overlap, you can create some nice effects. Recall
+                    that the elements are moved based on where they would have been in normal flow. Since
+                    the images at center are 100 px from each other, you will need to move the second image,
+                    third, and further image by the same amount as its neighbor moved, plus the amount of the
+                    desired overlap. The following code shows this:                    
+                </p>                    
+                <code>
+                    img:nth-child(2) {<br>
+                        &nbsp;position: relative;<br>
+                        &nbsp;left: -25px;<br>
+                        }<br>
+                        &nbsp;img:nth-child(3) {<br>
+                            &nbsp;position: relative;<br>
+                            &nbsp;left: -50px;<br>
+                        }<br>
+                        &nbsp;img:nth-child(4) {<br>
+                            &nbsp;position: relative;<br>
+                            &nbsp;left: -75px;<br>
+                        }                    
+                </code><br><br>
+                <div style="border: black dotted 2px; width: 100%; height: 200px;background-color: aquamarine;">
+                    <img class="myImg2" src="Resources/img/bgdesert.jpg" alt="Desert image">
+                    <img class="myImg2" src="Resources/img/bgdesert.jpg" alt="Desert image">
+                    <img class="myImg2" src="Resources/img/bgdesert.jpg" alt="Desert image">
+                    <img class="myImg2" src="Resources/img/bgdesert.jpg" alt="Desert image">
+                </div>
+                <p>
+                    The use of relative positioning to overlap images.
+                    This code produces the output in Figure 4-30. Each element after the first is moved over
+                    enough so that it overlaps its left-side neighbor by 25 px. Notice that the left property value
+                    is incrementally larger to account for the fact that its neighbor has moved as well.                    
+                </p>
+                <p>
+                    The use of absolute positioning to overlap an image over the normal flow.
+                    Using absolute positioning allows you to specify the location of an element such that it is
+                    removed from the normal flow of the page. That is to say that the rest of the page flows as
+                    if this element does not exist. The element can be considered to be hovering over or under
+                    the content that is in the normal flow of the page. With this approach, it is also possible to
+                    overlap elements.
+                    The following code demonstrates using absolute positioning of an image over a block of
+                    text. The text underneath the image renders in its normal flow. The image does not impact
+                    anything in the normal flow of the document. The output of this code is shown in Figure below.
+                </p>
+                <code>
+                    img {<br>
+                        &nbsp;position: absolute;<br>
+                        &nbsp;left: 215px;<br>
+                        &nbsp;top: 100px;<br>
+                        &nbsp;height: 50px;<br>
+                        &nbsp;width:50px;<br>
+                        }                    
+                </code><br><br>
+                <p style="width: 200px;position: relative;">
+                    <img style="border: black 1px solid; opacity:0.8 ; width: 40px; height: 40px;position: absolute;left: 100px; top: 100px;" src="Resources/img/bgdesert.jpg" alt="Desert image">
+                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed
+                    diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut
+                    wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper
+                    suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure
+                    dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+                    feugiat nulla facilisis at vero eros et accumsan et iusto odio...
+                </p>
+
+                <p>
+                    The final property available to use for positioning elements is the float property. The float
+                    property automatically moves an element to the left or right of surrounding content. This is
+                    most commonly used to place images in line with text to force the text to wrap around the
+                    image. Building on the sample above, you will move the img element in line with the text as
+                    shown below.In this paragraph element, there are two images in line with the text. An image put in this
+                    way will push the text out of the way to make room for itself. This is shown in Figure below.
+                    Images embedded in line with the text in normal flow                    
+                </p>
+
+                <p style="width: 200px;margin-left: 200px;">
+                    Lorem ipsum dolor sit amet,<img src="Resources/img/bgdesert.jpg" alt="Desert image"/> consectetuer adipiscing elit, sed
+                    diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut
+                    wisi enim<img src="Resources/img/bgdesert.jpg" alt="Desert image"/> ad minim veniam, quis nostrud exerci tation ullamcorper
+                    suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure
+                    dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+                    feugiat nulla facilisis at vero eros et accumsan et iusto odio...
+                </p>                
+                
+                <p>
+                    The float property allows you to specify how you want the element to lay out amongst
+                    the other elements around it. You can specify to float: left or to float: right. This will move
+                    the image element to the left or the right, respectively, and allow the text to flow around it
+                    smoothly. The following code demonstrates how to specify this.
+                    Now, with the float property specified, the text is flowing smoothly around the images.                    
+                </p>
+                <code>
+                    img.flower {<br>
+                        &nbsp;float: left;<br>
+                        &nbsp;left: 215px;<br>
+                        &nbsp;top: 100px;<br>
+                        &nbsp;height: 50px;<br>
+                        &nbsp;width: 50px;<br>
+                    }<br>
+                    img.orange {<br>
+                        &nbsp;float: right;<br>
+                        &nbsp;left: 215px;<br>
+                        &nbsp;top: 100px;<br>
+                        &nbsp;height: 50px;<br>
+                        &nbsp;width: 50px;<br>
+                    }                    
+                </code><br><br>
+                <p style="width: 200px;margin-left: 200px;">
+                    Lorem ipsum dolor sit amet,<img style="float: left;" src="Resources/img/bgdesert.jpg" alt="Desert image"/> consectetuer adipiscing elit, sed
+                    diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut
+                    wisi enim<img style="float: right;" src="Resources/img/bgdesert.jpg" alt="Desert image"/> ad minim veniam, quis nostrud exerci tation ullamcorper
+                    suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure
+                    dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+                    feugiat nulla facilisis at vero eros et accumsan et iusto odio...
+                </p>                
+
+                <div style="width: 100%; height: 200px;background-color: lightgray;">
+                    <h2 id="JumpingFlash" style="position: relative;left: 0px;top: 0px; font-size: larger;color: red;font-weight: bolder;">Jumping</h2>
+                </div><br>
+                <button onclick="StartMoving(this)">Start Moving</button>
+                <br><br>
+                <div style="box-shadow: gray 5px 5px; width: 100px; height: 50px;border: black solid 1px;">
+
+                </div>
+
+                <p style="font-style: italic;">                    
+                    For the exam, be sure you understand that each HTML element is a box and each box begins
+                    its own new coordinate system. If you place a div element on the page at (50px,50px),
+                    any elements placed inside it are not placed at a coordinate starting at (50px, 50px) just
+                    because that is where the div element is. The child elements inside the div start at coordinate
+                    (0,0), which is the top left corner of the div itself. All child elements are positioned
+                    relative to the container in which they are placed.                
+                </p>
+                <p style="font-style: italic;">
+                    The left and right properties start their measurements from the outer-most edge of the
+                    box. For the exam, keep in mind that if there are margins or padding specified, this will
+                    influence the position of the object as well.
+                </p>
+                <p>
+                    When overlapping elements using absolute positioning, CSS provides a z-index property.
+                    This allows you to specify in what order the elements should stack on the page along the
+                    z-axis (the third dimension!).                    
+                </p>    
+
+            </section>
+            <hr>
+            <section>
+                <h2>References</h2>
+                <ul>
+                    <li><a href="https://css-tricks.com/clipping-masking-css/" target="_blank">The difference between clipping and masking</a></li>
+                    <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/clip" target="_blank">Clip</a></li>
+                    <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/shape" target="_blank">Shape explains coordinates rect(top, right, bottom, left)</a></li>
+                </ul>
+            </section>
+        </article>        
+    </body>
+</html>

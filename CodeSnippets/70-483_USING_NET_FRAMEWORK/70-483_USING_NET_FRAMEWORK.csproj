@@ -120,6 +120,7 @@
     <Compile Include="Exercises\PerformancecounterExercises.cs" />
     <Compile Include="Exercises\PerformanceCounterTypeAverageBaseExample.cs" />
     <Compile Include="Exercises\PerformanceCounterTypeAverageBaseExample2.cs" />
+    <Compile Include="Exercises\RandomStringExamples.cs" />
     <Compile Include="Exercises\SerializationExercises.cs" />
     <Compile Include="Exercises\WcfExamples.cs" />
     <Compile Include="Exercises\WcfServices.cs" />
@@ -153,6 +154,10 @@
     <ProjectReference Include="..\MusicStorage\MusicStorage.csproj">
       <Project>{249b263e-716a-474f-8c83-9aefb9c4dab1}</Project>
       <Name>MusicStorage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RandomString\RandomString.csproj">
+      <Project>{d9d542b6-9d4e-4683-a84f-14d99f008e0c}</Project>
+      <Name>RandomString</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

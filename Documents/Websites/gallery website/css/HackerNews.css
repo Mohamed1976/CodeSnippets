@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css?family=Oswald&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    font-family: 'Oswald', sans-serif;
+    background-color: orange;
+}
+header{
+    background-color: orange;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    font-size: 30px;
+}
+.inner-container{
+    margin: 40px;
+}
+.Story-Element{
+    border-radius: 10px;
+    background-color: white;
+    color: black;
+    padding: 10px;
+    margin: 20px;
+    box-shadow: 0 2px 10px gray;
+}
+.Story-Row{
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+}
+.Story-Vote{
+    margin-right: 5px;
+    font-size: 15px;
+}
+.Story-Time{
+    margin-left: 5px;
+    font-size: 15px;
+}
+.Story-Title{
+    padding: 5px;
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+.Story-Link{
+    padding: 5px;
+    text-decoration: none;
+    color: orange;
+}
+.Story-Link:hover{
+    color: red;
+}
+
+@media (max-width:700px){
+    .Story-Title{
+        padding: 5px;
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+}

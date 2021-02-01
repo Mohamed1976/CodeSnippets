@@ -3,6 +3,69 @@
     <title>Implement HTML5 APIs</title>
     <link rel="stylesheet" href="css/w3.css">
     <link rel="stylesheet" href="css/styles.css">
+    <script>
+
+        function getPos() {
+            const geoLocator = window.navigator.geolocation;
+            const posOptions = { 
+                enableHighAccuracy: true,
+                timeout: 45000,
+                maximumAge: 0
+            };
+
+            geoLocator.getCurrentPosition(successPosition, errorPosition, posOptions);        
+        }
+
+        function successPosition(pos) {
+            console.log(pos);
+            const sp = document.createElement("p");
+            sp.innerText = "Latitude: " + pos.coords.latitude +
+            " Longitude: " + pos.coords.longitude +
+            " Timestamp: " + pos.timestamp;
+            document.getElementById("geoResults").appendChild(sp);            
+        }
+
+        function errorPosition(err) {
+            console.log(err);
+            const sp = document.createElement("p");
+            sp.innerText = "error: " + err.message; + " code: " + err.code;
+            document.getElementById("geoResults").appendChild(sp);
+        }
+
+        /* Global variable */
+        var _watcherId;
+        var _geoLocator;
+
+        function startWatch()
+        {
+            _geoLocator = window.navigator.geolocation;
+            const posOptions = { enableHighAccuracy: true, timeout: 45000};
+            _watcherId = _geoLocator.watchPosition(_successPosition, _errorPosition, posOptions);
+        }
+
+        function stopWatch()
+        {
+            if(_geoLocator !== undefined && _watcherId !== undefined) {
+                _geoLocator.clearWatch(_watcherId);
+                console.log("_geoLocator.clearWatch()");                
+            }   
+        }
+
+        function _successPosition(pos) {
+            const sp = document.createElement("p");
+            sp.innerText = "Latitude: " + pos.coords.latitude + 
+                " Longitude: " + pos.coords.longitude +
+                " Timestamp: " + pos.timestamp;
+            document.getElementById("watchPositions").appendChild(sp);
+        }
+
+        function _errorPosition(err) {
+            // var sp = document.createElement("p");
+            // sp.innerText = "error: " + err.message; + " code: " + err.code;
+            // document.getElementById("geoResults").appendChild(sp);
+        }
+
+    </script>
 </head>
 <body>
     <h1>Implement HTML5 APIs</h1>
@@ -56,6 +119,181 @@
                 This feature is no longer recommended/supported. As can be read 
                 <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/HTML/Using_the_application_cache">here</a>. 
             </p>
+        </section>
+        <hr>
+        <section>
+            <h2>Examples using the &lt;video&gt;, &lt;audio&gt; element</h2>
+            <video controls height="400" width="600" 
+                poster="https://drive.google.com/uc?export=download&id=1ISso20uPO3BuU9rGWyT9dDq9vIIcMn73">
+                <!--source src="samplevideo.ogv" type="video/ogg"/-->
+                <source src="https://drive.google.com/uc?export=download&id=1f-Ltw7tIjhyr7IRxbx8_pwTO7R8GCb-8" 
+                type="audio/mp4"/>
+                <object>
+                    <p>Video is not supported by this browser.</p>
+                </object>
+            </video>
+
+            <p>Take My Breath away song.</p>
+            <audio controls>
+                <source src="https://drive.google.com/uc?export=download&id=1Cxb8A-plLyhAxAdJQ6wTBvA9jldxv36g" type="audio/mp3"/>
+                <!--source src="sample.ogg" type="audio/ogg"/-->
+                <p>Your browser does not support HTML5 audio.</p>
+            </audio><br>            
+
+            <video controls height="400" width="600" 
+                poster="https://drive.google.com/uc?export=download&id=1QdnN9r6reKgIk03MZAqmf1_eGvpreVsl">
+                <!--source src="samplevideo.ogv" type="video/ogg"/-->
+                <source src="https://drive.google.com/uc?export=download&id=1oAt_7A3ozyXXTSSCA-3sgn8OiRb5QjyM" 
+                type="audio/mp4"/>
+                <object>
+                    <p>Video is not supported by this browser.</p>
+                </object>
+            </video>
+            
+            <p>Falco Jeanny.</p>
+            <audio controls>
+                <source src="https://drive.google.com/uc?export=download&id=1lNeukJ1oEOtHu2VRzycaJGX5GeJ5amAu" type="audio/mp3"/>
+                <!--source src="sample.ogg" type="audio/ogg"/-->
+                <p>Your browser does not support HTML5 audio.</p>
+            </audio>
+
+        </section>
+                
+        <hr>
+
+        <section>
+            <h2>Using the Geolocation API</h2>
+            <p>
+                Location services have become a large part of most people’s lives. From routing and
+                navigation to just finding nearby points of interest or checking into their favorite social
+                community sites, more and more people are using some form of location services. Location
+                services depend on the Global Positioning System (GPS), IP addresses, and other device
+                characteristics. You can take advantage of geolocation in web applications by leveraging
+                browsers that support the Geolocation API.
+                You can get a reference to the Geolocation API from the window.navigator property, as
+                follows:                
+            </p>
+            <code>
+                var geoLocator = window.navigator.geolocation;
+            </code><br><br>
+            <p>
+                This code saves a reference to the Geolocation API in a variable to provide shorthand
+                access to the API during future use. A good practice is to ensure that the client’s browser
+                supports the Geolocation API by making sure that the reference is actually present.
+                The Geolocation API supports three key methods that you use to interact with it:                
+            </p>
+            <ul>
+                <li><em>Geolocation.getCurrentPosition(): </em>Determines the device's current location and gives back a GeolocationPosition object with the data.</li>
+                <li><em>Geolocation.watchPosition(): </em>Returns a long value representing the newly established callback function to be invoked whenever the device location changes.</li>
+                <li><em>Geolocation.clearWatch(): </em>Removes the particular handler previously installed using watchPosition().</li>
+            </ul>
+
+            <h4>
+                Using the getCurrentPosition method                
+            </h4>
+            <p>
+                Here’s an example of using the getCurrentPosition method:                
+            </p>
+            <code>
+                getCurrentPosition(positionCallback, [positionErrorCallback], [positionOptions]);
+            </code>
+
+            <p>
+                You use getCurrentPosition to get exactly what its name indicates—the current position
+                of the user or the device in which the application is running. This method takes one required
+                parameter and two optional parameters. The first parameter is a callback method that the API
+                calls after the current position is determined. The second parameter is optional, but it’s also a
+                callback function called when an error occurs. The callback method you specify here should
+                handle any errors that can occur when trying to get the current position. The last optional
+                parameter is a special object called PositionOptions, which lets you set some special options
+                that control how the getCurrentPosition method behaves. Table below lists the possible values.                
+            </p>
+            <strong>Properties available on the PositionOptions object:</strong>
+            <ul>
+                <li><em>enableHighAccuracy: </em>This causes the method to be more resource intensive if set to true. The
+                    default is false. If true, the getCurrentPosition method tries to get as close
+                    as it can to the actual location.</li>
+                <li><em>timeout: </em>This specifies a timeout period for how long the getCurrentPosition method
+                    can take to complete. This number is measured in milliseconds and defaults
+                    to zero. A value of zero represents infinite.</li>
+                <li><em>maximumAge: </em>If this is set, the API is being told to use a cached result if available, rather
+                    than make a new call to get the current position. The default is zero, so a
+                    new call is always be made. If maximumAge is set to a value and the cache
+                    isn’t older than the allowable age, the cached copy is used. This value is
+                    measured in milliseconds.</li>        
+            </ul>
+
+            <p>The example below illustrates the getCurrentPosition API. 
+                When the code runs in the browser, some interesting things can happen. First, browser
+                security starts; users are asked whether they want to allow this application to determine their
+                location.                
+            </p>
+
+            <div id="geoResults">
+                <p id="currentPos">Current Location is:</p>
+            </div>
+            <button onclick="getPos()">Get Location</button>
+            <p>
+                If the user chooses to allow the application to proceed, everything is great. Otherwise, the
+                method throws an exception.
+                For purposes of demonstrating the code, select Allow For This Site from the drop-down list
+                so that the page can proceed. It might take a few seconds, but the call returns and shows a
+                message box that a position object exists as passed to the success callback method.
+                Both the success and error callback methods receive one parameter from the Geolocation
+                API. The success method receives a position object, whereas the error method receives
+                an error object. The position object exposes two properties: coords and timestamp. The
+                timestamp property indicates the time at which the coords were received. The coords property
+                is itself a coordinates object that contains the latitude, longitude, altitude, heading, and speed
+                of the device’s current position and/or relative to the last position acquired. The positionError
+                object contains two properties: one for the code and one for the message. You can use these
+                objects in Listing above by adding the following fragments:                                
+            </p>
+
+            <strong>Using the watchPosition method:</strong>
+            <p>
+                The second method available on the geolocation object is the watchPosition method, which
+                provides a built-in mechanism that continuously polls for the current position. Here’s an
+                example of using the method:                
+            </p>
+            <code>
+                geoLocator.watchPosition(successCallBack,errorCallback,positionOptions);
+            </code>
+            <p>
+                The watchPosition method takes the same set of parameters as the getCurrentPosition
+                method but returns a watchPosition object:                
+            </p>
+            <code>
+                var watcher = geoLocator.watchPosition...
+            </code>
+
+            <p>
+                After running this code, the watcher variable holds a reference to the watchPosition
+                instance being invoked, which can be useful later. The method calls the success callback
+                method every time the Geolocation API detects a new location. The polling continues forever
+                unless it you stop it. This is where the watcher object comes in handy; you can cancel polling by
+                calling the clearWatch method. You could call this method in either the success or the error
+                callback—for example, to cancel polling when you have captured enough position information
+                or when you want to pause polling for a period of time:                                
+            </p>
+
+            <code>
+                geoLocator.clearWatch(watcher);
+            </code><br><br>
+            <button onclick="startWatch()">Start Watch</button>
+            <button onclick="stopWatch()">Stop Watch</button>
+            <div id="watchPositions">
+                <p>Positions retrieved from watcher:</p>                
+            </div>
+        </section>    
+
+        <section>
+            <h2>References</h2>
+            <ul>
+                <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Geolocation" target="_blank">Geolocation API</a> </li>    
+                <li><a href="https://w3c.github.io/geolocation-api/#dom-navigator-geolocation" target="_blank">Geolocation API</a> </li>    
+                <li><a href="https://sites.google.com/site/gdocs2direct/" target="_blank">Create Google Drive link.</a> </li>                
+                <li><a href="https://www.codemag.com/Article/2011031/Using-Geolocation-and-Google-Maps" target="_blank">Using Geolocation and Google Maps.</a> </li>                
+            </ul>
         </section>
 
     </article>

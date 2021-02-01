@@ -1,0 +1,50 @@
+{
+	"folders": [
+		{
+			"name": "css",
+			"path": "css"
+		},
+		{
+			"name": "fonts",
+			"path": "fonts"
+		},
+		{
+			"name": "images",
+			"path": "images"
+		},
+		{
+			"name": "inc",
+			"path": "inc"
+		},
+		{
+			"name": "js",
+			"path": "js"
+		},
+		{
+			"name": "resources",
+			"path": "resources"
+		},
+		{
+			"name": "gallery website",
+			"path": "gallery website"
+		},
+		{
+			"path": "70-480-course"
+		},
+		{
+			"path": "coursera-course"
+		},
+		{
+			"path": "website-snippets"
+		},
+		{
+			"path": "NodeJs"
+		},
+		{
+			"path": "Resume"
+		},
+		{
+			"path": "Bootstrap 4 Sites"
+		}
+	]
+}

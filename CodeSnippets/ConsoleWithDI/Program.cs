@@ -43,6 +43,21 @@ namespace ConsoleWithDI
                 .UseSerilog()
                 .Build();
 
+            Exercises.GeneralExercises generalExercises = new Exercises.GeneralExercises();
+            generalExercises.Run().Wait();
+
+            //Test ShuffleString method 
+            /* const string inputString = "0123456789";
+            string result;
+            for(int i = 0; i < 100; i++)
+            {
+                result = ShuffleString(inputString);
+                Console.WriteLine(result);
+            } */
+
+            Console.ReadLine();
+            return;
+
             string pwd = default;
             char[] charset = { 'A', 'A', 'b', '*', '-', 'c', 'F', 'G', 'h', 'k', 'K', '&', '$', '@', '!', '4', '7' }; 
             RandomStringGenerator randomStringGenerator = new RandomStringGenerator();
@@ -52,11 +67,8 @@ namespace ConsoleWithDI
                 Console.WriteLine(pwd);
             }
 
-
             //Console.WriteLine($" {charset.Length} == {(charset.Distinct()).Count()}") ;
 
-            Console.ReadLine();
-            return;
             /*chars explained 
             https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/char 
             https://docs.microsoft.com/en-us/dotnet/api/system.char?view=netcore-3.1
@@ -115,8 +127,6 @@ namespace ConsoleWithDI
             }
 
             //Nuget project to generate random strings
-            //RandomString.RandomGenerator randomGenerator = new RandomString.RandomGenerator();
-
 
             Console.ReadLine();
             return;
@@ -310,7 +320,7 @@ namespace ConsoleWithDI
             chars = Charset.GetCharacters(AllowedCharacters.Space);
             Console.WriteLine(new string(chars));
             
-            chars = Charset.GetCharacters(AllowedCharacters.Specials);
+            chars = Charset.GetCharacters(AllowedCharacters.SpecialChars);
             Console.WriteLine(new string(chars));
             
             chars = Charset.GetCharacters(AllowedCharacters.Minus);
@@ -611,6 +621,26 @@ namespace ConsoleWithDI
                 Console.WriteLine("\nKS test failed\n");
                 failedCounter++;
             }
+        }
+
+        /* The Fisher-Yates algorithms orders the array in place with a cost of of O(n). */
+        private static string ShuffleString(string inputString)
+        {
+            Random _randomGenerator = new Random();
+            int randomIndex;
+            char temp;
+
+            /* Copies the characters in this instance to a Unicode character array. */
+            char[] inputCharArray = inputString.ToCharArray();
+            for (int i = inputCharArray.Length - 1; i > 0; i--)
+            {
+                randomIndex = _randomGenerator.Next(0, i + 1);
+                temp = inputCharArray[i];
+                inputCharArray[i] = inputCharArray[randomIndex];
+                inputCharArray[randomIndex] = temp;
+            }
+
+            return new string(inputCharArray);
         }
     }
 }

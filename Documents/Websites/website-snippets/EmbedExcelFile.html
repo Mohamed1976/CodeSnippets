@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=windows-1252" />
+        <title>How to Embed an Excel File on a Web Page using plain HTML.</title>
+        <meta name=viewport content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <h1>How to Embed an Excel File on a Web Page using plain HTML.</h1>
+
+        <article>
+            <section>
+                <h2>Introduction</h2>
+                <p>
+                    Using the Microsoft API allows the embedding of Excel files very easily online and gives many features. 
+                    It is not recommended to do it any other way. And the code is extremely simple. It is shown below.                    
+                </p>
+
+                <code>
+                    &lt;iframe src='https://view.officeapps.live.com/op/embed.aspx?src=specify path here' width='100%' height='565px' frameborder='0'&gt; &lt;/iframe&gt;
+                </code>
+
+                <h2>Microsoft Office Viewer</h2>
+                <p>
+                    Only files under 10 MB can be previewed with the Microsoft Office Viewer.
+                </p>
+                <ul>
+                    <li>Office Viewer Link: https://view.officeapps.live.com/op/view.aspx?src=[OFFICE_FILE_URL]</li>
+                    <li>Office Viewer Embedded Link: https://view.officeapps.live.com/op/embed.aspx?src=[OFFICE_FILE_URL]</li>
+                </ul>
+
+                <p>Microsoft Office Viewer only previews office document types, listed below:</p>
+
+                <ol>
+                    <li>Microsoft Word (.DOCX, .DOCM, .DOTM, .DOTX, .DOC)</li>
+                    <li>Microsoft Excel (.XLSX, .XLSB, .XLS, .XLSM)</li>
+                    <li>Microsoft PowerPoint (.PPTX, .PPSX, .PPT, .PPS, .PPTM, .POTM, .PPAM, .POTX, .PPSM)</li>
+                </ol>
+
+            </section>
+            <section>
+                <h2>Excel Example</h2>
+                <iframe src='https://view.officeapps.live.com/op/embed.aspx?src=http://www.learningaboutelectronics.com/Articles/Example.xlsx' 
+                width='100%' height='565px' frameborder='1px'> </iframe>                
+            </section>
+
+            <section>
+                <h2>Word Document, doc stored on github.</h2>
+                <iframe src='https://view.officeapps.live.com/op/embed.aspx?src=https://github.com/poychang/blog.poychang.net/raw/master/assets/post-files/THIS-IS-WORD.docx' 
+                width='100%' height='565px' frameborder='1px'> </iframe>                
+            </section>
+
+
+            <section>
+                <h2>Word Document, doc stored on github using google viewer.</h2>
+                <iframe src='https://docs.google.com/viewer?embedded=true&url=https://github.com/poychang/blog.poychang.net/raw/master/assets/post-files/THIS-IS-WORD.docx' 
+                width='100%' height='565px' frameborder='1px'> </iframe>                
+            </section>
+
+            <section>
+                <h2>Excel Document, doc stored on GOOGLE DRIVE using google viewer.</h2>
+                <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTz5Colon13zOsa9A-IU30mGdFDKcJNLt33PaVEsJcsoZ8qGZ3R2v58Bi0bPAaBpA/pubhtml?widget=true&amp;headers=false" width='100%' height='565px' frameborder='1px'></iframe>
+            </section>
+
+            <section>
+                <h2>References</h2>
+                <ul>
+                    <li><a href="http://www.learningaboutelectronics.com/Articles/How-to-embed-an-excel-file-on-a-web-page-HTML.php" 
+                    target="_blank">How-to-embed-an-excel-file</a></li>
+                    <li><a href="https://blog.poychang.net/apps/online-docs-viewer/office.html" 
+                        target="_blank">Microsoft Office Viewer Example</a></li>
+  
+                    <li><a href="https://stackoverflow.com/questions/27957766/how-do-i-render-a-word-document-doc-docx-in-the-browser-using-javascript" 
+                        target="_blank">You can also use Google Documents Viewer.</a></li>
+
+                    <li><a href="https://cwestblog.com/2020/05/22/embed-office-documents-on-your-site/" 
+                        target="_blank">Embed Office Documents On Your Site.</a></li>
+
+                    <li><a href="https://wcmshelp.ucsc.edu/advanced/embedding-google/index.html" 
+                        target="_blank">Embedding Google Docs, Presentations, Spreadsheets and Forms.</a></li>
+                </ul>
+            </section>        
+        </article>        
+    </body>
+</html>

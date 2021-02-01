@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Implement a callback</title>
+        <script src="js/ajax-utils.js"></script>
+        <!--Making webpages dynamic with jQuery and AJAX -->
+        <script src="../js/jquery-3.5.1.min.js"></script>
+        <script src="js/script08.js"></script>
+    </head>
+    <body>
+        
+        <h1>Implement a callback</h1>
+
+        <ul>
+            <li>WebSockets provide bidirectional communication with a server.</li>
+            <li>WebSockets support both non-secure (ws) and secure (wss) connections to the server.</li>
+            <li>The jQuery AJAX framework provides a mechanism to make asynchronous web requests.</li>
+            <li>You can wire up events by using the jQuery selector syntax.</li>
+        </ul>
+
+        <p>
+            <strong>Callback Functions</strong><br>
+            A callback function is a function that is passed as an argument to another function, to be “called back” 
+            at a later time. A function that accepts other functions as arguments is called a higher-order function , 
+            which contains the logic for when the callback function gets executed. It’s the combination of these two 
+            that allow us to extend our functionality            
+        </p>
+
+        <p>
+            Callbacks are a design pattern to implement when you are working with multiple threads or
+            just needing to have something work asynchronously. The concept of the callback is quite
+            straightforward and is used throughout this book quite heavily. The idea of a callback is to
+            call a function to run but when it’s done, to call back a specified function with usually some
+            sort of result or status of the operation.            
+        </p>
+        <p>
+            Another common use for callbacks is as events. Whenever a DOM event is fired, it’s using
+            a callback pattern. A function is provided as a parameter or property to indicate that when
+            specific things occur, such as a mouseover, to call back to the specified function to run some
+            custom logic related to the end-user action.
+            Many APIs that JavaScript and the browser expose as part of the HTML5 specification
+            involve the use of callbacks. In this objective, the WebSocket API is examined. Also, the use of
+            jQuery is introduced as it applies to making Asynchronous JavaScript and XML (AJAX) calls.
+            The ability to wire up an event and implement a callback using anonymous functions is also
+            discussed. Finally, this objective covers the use of the this pointer.            
+        </p>
+        <p>
+            <strong>Implementing bidirectional communication with the WebSocket API</strong><br>
+            The WebSocket API provides bidirectional communication support to your web applications.
+            WebSocket has greatly simplified the way data can be sent and received. Traditional methods,
+            such as long polling, have existed for a long time and are widely used all over the web today.
+            However, traditional techniques use the heavier HTTP mechanisms, which make the application
+            inherently less efficient. The use of the WebSocket API allows the connection directly to
+            a server over a socket. This is a much lighter weight connection and is fully bidirectional; both
+            binary and text-based data can be sent and received.<br><br>
+            <i>
+                The full implementation of a WebSocket API requires that a webserver have a proper
+                server-side implementation that can accept socket connections. Technologies such as
+                Node.js work well for this purpose. Implementation of such technologies is beyond the
+                scope of this book, and these code samples assume such an implementation exists.                
+            </i>            
+        </p>
+        <p>
+            The use of the WebSocket API is ideal for real-time applications such as messenger/chat
+            applications, server-based games, and more advanced scenarios, such as WebRTC (Web
+            Real-Time Communication) video conferencing. The data transmitted over WebSockets can
+            be text based or binary.            
+        </p>
+        <hr>
+        <h2>WebSocket example</h2>
+        <div style="align-content: center;">
+            <div>
+                <div>
+                    <textarea id="chatWindow" style="height: 300px; width: 300px"></textarea>
+                </div>
+
+                <div>
+                    <input type="text" id="msgSendText" style="width: 300px"/>
+                </div>
+
+                <div>
+                    <button id="Disconnect">Disconnect</button>
+                    <button id="Connect">Connect</button>
+                    <button id="Send">Send</button>
+                </div>
+            </div>
+        </div>
+        <br>
+        <hr>
+        <h2>Making webpages dynamic with jQuery and AJAX</h2>
+        <p>
+            So far throughout the book, you’ve seen some great ways to make webpages dynamic by
+            using JavaScript. JavaScript is the language that the webpage browser understands. In some
+            cases, using plain JavaScript or the standard JavaScript library available in the browser can be
+            cumbersome. This is where jQuery can be helpful. jQuery is a JavaScript library that specializes
+            in working with the DOM to make webpages dynamic.            
+        </p>
+        <p>
+            In traditional
+            web development, when content needs to be updated on a page, a request is made
+            to the server for the page itself where the server-side code can run to get the new content,
+            perhaps from a database, and re-render the page with updated information. The user experience
+            is a flicker as the entire page needs to be refreshed. The use of AJAX has solved this
+            issue by allowing you to make server-side requests via JavaScript without having to request a
+            full page refresh. You can implement AJAX without jQuery; however, because of the popularity
+            and ease of use that jQuery provides, using jQuery to implement this type of functionality
+            is much more desirable.
+            By requesting data from a server with JavaScript via jQuery and AJAX, you can retrieve
+            data behind the scenes and then use the various DOM manipulation techniques that you’ve
+            learned to update specific areas of the page that need to be updated. This prevents the need
+            to send a request for the entire page back to the server and creates a much more pleasant
+            user experience.            
+        </p>
+        <p>
+            <h3>Making webpages dynamic with jQuery and AJAX</h3>
+            So far throughout the book, you’ve seen some great ways to make webpages dynamic by
+            using JavaScript. JavaScript is the language that the webpage browser understands. In some
+            cases, using plain JavaScript or the standard JavaScript library available in the browser can be
+            cumbersome. This is where jQuery can be helpful. jQuery is a JavaScript library that specializes
+            in working with the DOM to make webpages dynamic.
+            In traditional
+            web development, when content needs to be updated on a page, a request is made
+            to the server for the page itself where the server-side code can run to get the new content,
+            perhaps from a database, and re-render the page with updated information. The user experience
+            is a flicker as the entire page needs to be refreshed. The use of AJAX has solved this
+            issue by allowing you to make server-side requests via JavaScript without having to request a
+            full page refresh. You can implement AJAX without jQuery; however, because of the popularity
+            and ease of use that jQuery provides, using jQuery to implement this type of functionality
+            is much more desirable.
+            By requesting data from a server with JavaScript via jQuery and AJAX, you can retrieve
+            data behind the scenes and then use the various DOM manipulation techniques that you’ve
+            learned to update specific areas of the page that need to be updated. This prevents the need
+            to send a request for the entire page back to the server and creates a much more pleasant
+            user experience.
+        </p>
+        <hr>
+        <h2>Ajax example</h2>
+        <div>
+            <div>
+                Enter search term: <input type="text" id="searchFruit"/>
+                <input type="button" id="searchButton" value="Search" />
+            </div>
+            <div>
+                <h1>Results:</h1>
+            </div>
+            <div id="searchResults"></div>
+        </div>
+        <br>
+        <hr>
+        <h3>Event processing/handlers using JQuery</h3>
+        <div>
+            <table>
+                <tr>
+                    <td style="background-color: aqua;" id="door1">Door 1</td>
+                    <td style="background-color: green;" id="door2">Door 2</td>
+                    <td style="background-color: orange;" id="door3">Door 3</td>
+                </tr>
+            </table>
+            <br>
+            <table>
+                <tr id="GameRow">
+                    <td id="door1">Door 1</td>
+                    <td id="door2">Door 2</td>
+                    <td id="door3">Door 3</td>
+                </tr>
+            </table>
+            <br>
+            <table>
+                <tr id="SomeOtherRow">
+                    <td id="cell1">Not a Door 1</td>
+                    <td id="cell2">Not a Door 2</td>
+                    <td id="cell3">Not a Door 3</td>
+                </tr>
+            </table>                        
+        </div>
+        <br>
+        <hr>
+     
+        <p>
+            <h2>Implementing a callback with an anonymous function</h2>
+            Callback functions are used everywhere. The concept of a callback is the basis for how events
+            work. It’s the mechanism by which asynchronous operations return to the caller. In traditional
+            programming languages, a callback is achieved by passing a pointer to a function to another
+            process so that when that process completes or is at specified stages of the process, the
+            function is called to advise the caller of a status of some sort. This could be when the operation
+            completes and could be passing data back to the caller. An example of this would be an
+            asynchronous web service call that returns data. The principle is the same in JavaScript.
+            In JavaScript, functions are considered objects and are often noted as first-class citizens.
+            This means that a variable can be assigned a function, or a function can be passed into another
+            function as a parameter. Seeing functions used in this way is a common convention in
+            JavaScript. Functions used in this way are called anonymous functions.
+            A function is considered anonymous when it doesn’t have a name.    
+
+            The anonymous function declaration must begin with the function keyword, which must
+            be followed by closed parentheses. The parentheses can include zero or more parameters.
+            The parentheses are followed by closed braces in which the code block that makes up the
+            implementation of the function is coded.
+            
+            The only difference between an anonymous function and a named function is the name
+            portion of the function signature. That the anonymous function accepts parameters is an
+            important concept when dealing with callbacks.
+            When working with an API, either your own or a third party’s, functionality often is
+            provided that includes the use of callbacks.                        
+        </p>    
+        <div id="floorDiv">
+            click me        
+        </div>
+
+    </body>
+</html>
