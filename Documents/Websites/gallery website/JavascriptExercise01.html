@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <title>Javascript Exercise 1</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+        <link href='https://fonts.googleapis.com/css?family=Lato:300,400,500' rel='stylesheet' type='text/css'>
+        <link type="text/css" rel="stylesheet" href="css/JavascriptExercise01.css">
+    </head>
+    <body>
+        <h1>Javascript Exercise 1</h1>
+        <article>
+            <h4>The DOM</h4>
+            <p>
+                The DOM stands for Document Object Model. It can simply be understood as a tree of nodes created by the browser. Each of these nodes has its own properties and methods which can be manipulated using JavaScript.
+
+                The ability to manipulate the DOM is one of the most unique and useful abilities of JavaScript.
+                
+                The image below gives a visual representation of what the DOM tree looks like.                
+            </p>
+            <figure>
+                <img src="images/dom.png">
+                <figcaption>
+                    Fig.1: Document object model hierarchy
+                </figcaption>
+            </figure>
+            <p id="master">I love javascript</p>
+            <hr>
+            <p style="font-weight: bolder;">How to Select DOM Elements with the getElementsByClassName() Method.</p>
+            <p>This method returns a collection of all elements in the document with the specified class name.</p>
+            <p class="master2">i love javascript</p>
+            <p class="master2">i love react</p>
+            <h1 class="master2">i want a job</h1>
+            <button id="btn">click me</button>
+            <hr>
+            <p style="font-weight: bolder;">How to Select DOM elements with the getElementsByTagName() Method</p>
+            <p>This method accepts a tag name and returns all the elements of the specified tag name in the order which they appear in the document.</p>            
+            <em>VsCode</em><br>
+            <em>Atom</em><br>
+            <em>Sublime text</em><br><br>
+            <button id="btn2">click me</button>
+            <hr>
+            <p style="font-weight: bolder;">How to Select DOM Elements with CSS Selectors, .querySelector() and .querySelectorAll().</p>
+            <p class="master3" id="master3Id">React</p>
+            <p class="master3">Vue</p>
+            <p class="master3">Angular</p>
+            <button onclick="onclickBtn4(this)">click me</button>
+            <button onclick="onclickBtn5(this)">click me</button>
+            <hr>
+            <section>
+                <h4>Summary of How to Select DOM Elements</h4>
+                <p>
+                    When you need to select a DOM element, you have four different options to choose from, four different ways of doing a particular thing (selecting an element(s)).                    
+                    From your early days of learning HTML you likely understood that elements shouldn't have the same id, that is the id is a unique identifier of an element within the document.
+                </p>
+                <ul>
+                    <li>document.getElementById("specifiedId");</li>
+                    <li>document.getElementsByClassName("specifiedClassName");</li>
+                    <li>document.querySelector("#specifiedId"); or document.querySelector(".specifiedClassName");</li>
+                    <li>document.querySelectorAll("#specifiedId"); or document.querySelectorAll(".specifiedClassName");</li>
+                </ul>
+            </section>
+            <hr>
+            <section>
+                <h4>How to Traverse the Document</h4>
+                <p>
+                    At this stage you'll hopefully agree with me that everything in an HTML document is a node. Also the text inside HTML elements are text nodes.
+
+                    With the HTML DOM, you can navigate the node tree and access nodes in the tree using node relationships we talked about earlier (parent, child(ren), sibling(s) etc).
+                    New nodes can be created, and all nodes can be modified or deleted.
+                    
+                </p>
+                <p style="font-weight: bolder;">A little review:</p>
+                <ul>
+                    <li>Every node has exactly one parent, except the top node (which has no parent).</li>
+                    <li>A node can have a more than one child.</li>
+                    <li>Siblings (brothers or sisters) are nodes with the same parent.</li>
+                </ul>
+                <p>
+                    In this section, we are going to see how to get the parent element, siblings of an element, and children of an element. I will be using the following node properties to achieve these things:
+                </p>
+                <ul>
+                    <li>parentNode</li>
+                    <li>childrenNodes</li>
+                    <li>firstElementChild</li>
+                    <li>lastElementChild</li>
+                    <li>nextElementSibling</li>
+                    <li>previousElementSibling</li>
+                </ul>
+                <hr>
+                <div id="parent">
+                    <div id="firstchild">i am a first child</div>
+                    <p id="secondchild">i am the second child</p>
+                    <h4>i am alive</h4>
+                    <h1>hello world</h1>
+                    <p>i am the last child</p>
+                </div> 
+                <button onclick="onclickBt5()">Click me</button>
+                <hr>
+            </section>
+            <section>
+                <h4>How to Manipulate Elements in the DOM</h4>
+                <ul>
+                    <li>How to create elements</li>                    
+                    <li>How to set the innerHTML/ text content of an element</li>                    
+                    <li>How to append an element</li>
+                    <li>How to insert one element before another</li>
+                    <li>How to replace a child element</li>
+                    <li>How to remove a child element</li>
+                </ul>
+
+                <div id="parent2">
+                    <div id="firstchild2">i am a first child</div>
+                    <p id="secondchild2">i am the second child</p>
+                    <h4>i am alive</h4>
+                    <h1>hello world</h1>
+                    <p>i am the last child</p>
+                </div> 
+                <button onclick="onclickBtn6()">Click me</button>
+            </section>
+            <hr>
+            <section>
+                <h4>How to Insert One Element Before Another</h4>
+                <p>
+                    If you noticed from the console log image above, the appended child div tag was added at the bottom automatically.
+
+                    What if for some reason you want to append it anywhere of your choice? Maybe before the first element or before the fourth element. I am here to tell you that it is very much possible. In the code below we are going to add it before the current first element.
+                    
+                    We are going to be using the insertBefore() JavaScript method which accepts two parameters, the newNode and the existingNode in this order => <span style="background-color: lightgray;">document.insertBefore(newNode, existingNode).</span>                    
+                </p>
+
+                <div id="parent3">
+                    <div id="firstchild3">i am a first child</div>
+                    <p id="secondchild3">i am the second child</p>
+                    <h4>i am alive</h4>
+                    <h1>hello world</h1>
+                    <p>i am the last child</p>
+                </div>
+                <button onclick="onclickBtn7()">Click me</button>                 
+            </section>
+            <hr>
+            <section>
+                <h4>How to Replace a Child Element</h4>
+                <p>
+                    We are going to be using the replaceChild() JavaScript method which accepts two parameters to replace our first element with the newly created one. It works in this order => document.replaceChild(newNode, existingNode).                    
+                </p>
+                <div id="parent4">
+                    <div id="firstchild4">i am a first child</div>
+                    <p id="secondchild4">i am the second child</p>
+                    <h4>i am alive</h4>
+                    <h1>hello world</h1>
+                    <p>i am the last child</p>
+                </div>
+                <button onclick="onclickBtn8()">Click me</button>                 
+            </section>
+            <hr>
+            <section>
+                <h4>How to Remove a Child Element</h4>
+                <p>
+                    We are going to be using the removeChild() JavaScript method which accepts just one parameter ()that is the element you want to remove, which in this case is our original first element. It works in this order => document.removeChild(element)                    
+                </p>
+                <div id="parent5">
+                    <div id="firstchild5">i am a first child</div>
+                    <p id="secondchild5">i am the second child</p>
+                    <h4>i am alive</h4>
+                    <h1>hello world</h1>
+                    <p>i am the last child</p>
+                </div>
+                <button onclick="onclickBtn9()">Click me</button>                                 
+            </section>
+            <hr>
+            <section>
+                <h4>How to Add Styling with CSS, How to Add a CSS Class</h4>
+                <p>
+                    Therefore, for an element to have a style we have to add a CSS class to it. In this case we'll do it with JavaScript.                    
+                    The first thing we are going to do is create the CSS style for the button.
+                    Next, in our JavaScript I will add an event listener to the button so that, when you click it, JavaScript automatically adds the CSS style with a class of "button".                    
+                    <span style="font-weight: bolder;">How to Toggle a Class</span>
+                    Let's say you don't want to remove the CSS style completely. You want a way to toggle between the styled and unstyled button.
+                    Let's say you don't want to remove the CSS style completely. You want a way to toggle between the styled and unstyled button.
+
+                    The classList.toggle() JavaScript method gives you that ability.
+                    
+                    The classList.toggle() method is typically used in most social media platforms like Twitter. It allows you to like a post with a button and unlike it with that same button whenever you want.
+                    
+                    So JavaScript checks if our button has the CSS class.
+                    
+                    If it has the class and you click the button, it REMOVES it. If it doesn't have the class and you click the button, it ADDS it.                
+                </p>
+                <button onclick="onclickBtn10(this)">Add class</button>
+                <button class="buttonStyle" onclick="onclickBtn11(this)">Remove class</button>
+                <button onclick="onclickBtn12(this)">Toggle class</button>
+            </section>
+            <hr>
+            <section>
+                <h4>Event handling, What are HTML events?</h4>
+                <p>
+                    HTML events are "things" that happen to HTML elements like the click of a button, input in a text area, and so on. When an event occurs like the ones above, you can write JavaScript code which we call an event handler that will be executed.
+
+                    These event handlers are JavaScript functions. So when an event occurs on an element, the handler function is executed.                    
+                    <span style="font-weight: bolder;">Event listeners</span>
+                    So far we have been making use of event listeners in basically every example above. This should show how important event listeners are in manipulating the DOM.
+
+                    To add an event listener to an element or any DOM object, we need a method which is addEventListener(). This method is preferred to the old one where we include the event to be handled in the html markup.
+                    
+                    With this the JavaScript is separated from the html markup which makes it cleaner and more readable.
+                    
+                    I like the idea of separate JS, separate CSS, and so on, so if you are like me you would like this event listener.                                    
+                </p>
+                <p>
+                    An event listener accepts 3 parameters.
+                    <ul>
+                        <li>The first one is the type of event, like "click" and so on.</li>
+                        <li>The second parameter is the function to be executed.</li>
+                        <li>The third parameter is a boolean value specifying whether to use event bubbling or event capturing. This parameter is optional.</li>
+                    </ul>
+                    You can add many event handlers to one element.
+                    You can also add many event handlers of the same type to one element, like two "click" events.
+                </p>
+            </section>
+            <hr>
+            <section>
+                <h4>Try/Catch in JavaScript – How to Handle Errors in JS</h4>
+                <p>
+                    A try / catch block is basically used to handle errors in JavaScript. You use this when you don't want an error in your script to break your code.
+
+                    While this might look like something you can easily do with an if statement, try/catch gives you a lot of benefits beyond what an if/else statement can do, some of which you will see below.                    
+                </p>
+                <div  style="background-color: lightgray;max-width: 200px;">
+                <code>
+                    try{<br>
+                    &nbsp;//...<br>
+                    }catch(e){<br>
+                    &nbsp;//...<br>
+                    }
+                </code>
+                </div>
+                <p>
+                    A try statement lets you test a block of code for errors.
+
+                    A catch statement lets you handle that error.
+                    This is basically how a try/catch is constructed. You put your code in the try block, and immediately if there is an error, JavaScript gives the catch statement control and it just does whatever you say. In this case, it alerts you to the error.
+
+                    All JavaScript errors are actually objects that contain two properties: the name (for example, Error, syntaxError, and so on) and the actual error message. That is why when we alert e, we get something like ReferenceError: getData is not defined.
+                    
+                    Like every other object in JavaScript, you can decide to access the values differently, for example e.name(ReferenceError) and e.message(getData is not defined).
+                    
+                    But honestly this is not really different from what JavaScript will do. Although JavaScript will respect you enough to log the error in the console and not show the alert for the whole world to see :).                                       
+                </p>
+
+                <div  style="background-color: lightgray;max-width: 300px;">
+                    <code>
+                        try{<br>
+                        &nbsp;getData(); // getData is not defined <br>
+                        }catch(e){<br>
+                        &nbsp;alert(e);<br>
+                        }
+                    </code>
+                </div><br>
+    
+                <button onclick="onclickBtn14()">Click me</button>
+                <p>
+                    <h4>The throw Statement</h4>
+                    One of the benefits of try/catch is its ability to display your own custom-created error. This is called (throw error).
+
+                    In situations where you don't want this ugly thing that JavaScript displays, you can throw your error (an exception) with the use of the throw statement. This error can be a string, boolean, or object. And if there is an error, the catch statement will display the error you throw.                    
+                </p>
+                <button onclick="onclickBtn13()">Click me</button>
+                <p>
+                    This is nice, right? But we can take it a step further by actually throwing an error with the JavaScript constructor errors.
+
+                    <br><br>Basically JavaScript categorizes errors into six groups:                    
+                </p>
+
+                <ul>
+                    <li><span style="font-weight: bolder;">EvalError</span>  - An error occurred in the eval function.</li>
+                    <li><span style="font-weight: bolder;">RangeError</span> - A number out of range has occurred, for example 1.toPrecision(500). toPrecision basically gives numbers a decimal value, for example 1.000, and a number cannot have 500 of that.</li>
+                    <li><span style="font-weight: bolder;">ReferenceError</span> -  Using a variable that has not been declared
+                    </li>
+                    <li><span style="font-weight: bolder;">syntaxError</span> - When evaluating a code with a syntax error
+                    </li>
+                    <li><span style="font-weight: bolder;">TypeError</span> - If you use a value that is outside the range of expected types: for example 1.toUpperCase()</li>
+                    <li><span style="font-weight: bolder;">URI (Uniform Resource Identifier) Error</span> - A URIError is thrown if you use illegal characters in a URI function.</li>
+                </ul>
+                <p>
+                    So with all this, we could easily throw an error like throw new Error("Hi there"). In this case the name of the error will be Error and the message Hi there. You could even go ahead and create your own custom error constructor, for example: 
+                </p>
+
+                <div  style="background-color: lightgray;max-width: 300px;">
+                    <code>
+                        function CustomError(message){<br> 
+                            &nbsp;this.value ="customError";<br>
+                            &nbsp;this.message=message;<br>
+                        }<br>                        
+                    </code>
+                </div><br>
+                <p>
+                    And you can easily use this anywhere with <span style="font-weight: bolder;">throw new CustomError("data is not defined")</span>.                    
+                </p>
+                <button onclick="onclickBtn15()">Click me</button>
+            </section>
+            <hr>
+            <section>
+                <h4>The Rethrow Error</h4>
+                <p>
+                    The catch statement actually catches all errors that come its way, and sometimes we might not want that. 
+                    In situations like this, you can check for the name of the error, and if it is not what you want, rethrow it:                    
+                    <br><br><button onclick="onclickBtn16()">Click me</button>
+                </p>
+            </section>
+            <hr>
+            <section>
+                <h4>Contact Form Tutorial by Bootstrapious.com</h4>
+                <div class="container">
+
+                    <div class="row">
+            
+                        <div class="col-xl-8 offset-xl-2">
+            
+                            <h1>Contact form Tutorial from
+                                <a href="http://bootstrapious.com" target="_blank">Bootstrapious.com</a>
+                            </h1>
+            
+                            <p class="lead">This is a demo for our tutorial dedicated to crafting working Bootstrap contact form with PHP and AJAX background.
+                                At this part, we will add Google's ReCaptcha too.</p>
+                                            
+                            <form id="contact-form" role="form"
+                                action="javascript:alert('Hello there, I am being submitted');">
+                            <!--form id="contact-form" method="post" action="contact.php" role="form"-->            
+                                <div class="messages"></div>
+            
+                                <div class="controls">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="form_name">Firstname *</label>
+                                                <input id="form_name" type="text" name="name" class="form-control" placeholder="Please enter your firstname *" required="required"
+                                                    data-error="Firstname is required.">
+                                                <div class="help-block with-errors"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="form_lastname">Lastname *</label>
+                                                <input id="form_lastname" type="text" name="surname" class="form-control" placeholder="Please enter your lastname *" required="required"
+                                                    data-error="Lastname is required.">
+                                                <div class="help-block with-errors"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="form_email">Email *</label>
+                                                <input id="form_email" type="email" name="email" class="form-control" placeholder="Please enter your email *" required="required"
+                                                    data-error="Valid email is required.">
+                                                <div class="help-block with-errors"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="form_phone">Phone</label>
+                                                <input id="form_phone" type="tel" name="phone" class="form-control" placeholder="Please enter your phone">
+                                                <div class="help-block with-errors"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="form_message">Message *</label>
+                                        <textarea id="form_message" name="message" class="form-control" placeholder="Message for me *" rows="4" required="required"
+                                            data-error="Please, leave us a message."></textarea>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                        
+                                    <div class="form-group">
+                                        <!--div class="g-recaptcha" data-sitekey="6LfKURIUAAAAAO50vlwWZkyK_G2ywqE52NU7YO0S" data-callback="verifyRecaptchaCallback" data-expired-callback="expiredRecaptchaCallback"></div-->
+                                        <div class="g-recaptcha" data-sitekey="6LfKURIUAAAAAO50vlwWZkyK_G2ywqE52NU7YO0S"></div>
+                                        <input class="form-control d-none" data-recaptcha="true" required data-error="Please complete the Captcha">
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                        
+                                    <input type="submit" class="btn btn-success btn-send" value="Send message">
+            
+                                    <p class="text-muted">
+                                        <strong>*</strong> These fields are required. Contact form template by
+                                        <a href="https://bootstrapious.com/p/bootstrap-recaptcha" target="_blank">Bootstrapious</a>.
+                                    </p>
+            
+                                </div>
+            
+                            </form>
+            
+                        </div>
+                        <!-- /.8 -->
+            
+                    </div>
+                    <!-- /.row-->
+            
+                </div>
+                <!-- /.container-->                
+            </section>
+            <hr>
+            <section>
+                <h4>Date Manipulation</h4>
+                <p>
+                    In theory, handling dates as a developer is as simple as creating, storing, and, if necessary, manipulating dates. But as a Javascript developer, you would know this theory doesn’t hold long after you start working with dates for real. On top of different date-time formats, you have to consider timezone and locale differences.
+                </p>
+                <p>
+                    The Date object in Javascript is the main element when it comes to handling date and time. It records a single point in time as the milliseconds’ number elapsed since the 1st January 1970 00:00:00 (UTC). This date-time combination is known as the epoch time. As far as Javascript is concerned, it’s the beginning of time in the world.                    
+                </p>
+                <button onclick="onclickBtn17()">Click me</button>
+            </section>
+        </article>
+        <hr>
+        <h4>References:</h4>
+        <ul>
+            <li><a href="https://www.freecodecamp.org/news/how-to-manipulate-the-dom-beginners-guide/" target="_blank">How to Manipulate the DOM</a></li>            
+            <li><a href="https://www.freecodecamp.org/news/try-catch-in-javascript/" target="_blank">Try/Catch in JavaScript – How to Handle Errors in JS</a></li>            
+            <li><a href="https://www.freecodecamp.org/news/build-a-bootstrap-form-with-recaptcha-and-php-backend-for-emails-in-30-minutes-17964a374819/" target="_blank">Use ReCaptcha</a></li>            
+            <li><a href="https://bootstrapious.com/p/how-to-build-a-working-bootstrap-contact-form" target="_blank">HOW TO BUILD A WORKING BOOTSTRAP CONTACT FORM</a></li>            
+            <li><a href="https://bootstrapious.com/p/bootstrap-recaptcha" target="_blank">BOOTSTRAP RECAPTCHA FORM TUTORIAL</a></li>            
+            <li><a href="https://www.google.com/recaptcha/admin/create" target="_blank">Google create reCAPTCHA</a></li>            
+            <li><a href="https://bootstrapious.com/tutorial/recaptcha/" target="_blank">Contact form Tutorial from</a></li>            
+            <li><a href="https://github.com/google/recaptcha/tree/master/examples" target="_blank">google recaptcha</a></li>            
+            <li><a href="https://livecodestream.dev/post/date-manipulation-in-javascript-a-complete-guide/" target="_blank">Date Manipulation</a></li>            
+            <li><a href="https://tc39.es/ecma262/#sec-date-time-string-format" target="_blank">Date Time String Format</a></li>            
+            <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl" target="_blank">Date Time Internationalization API</a></li>            
+            <li><a href="https://momentjs.com/" target="_blank">Date manipulation library momentjs</a></li>            
+            <li><a href="https://date-fns.org/" target="_blank">Date manipulation library Date-fns</a></li>            
+            <li><a href="https://github.com/moment/luxon" target="_blank">Date manipulation library luxon</a></li>            
+        </ul>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/luxon/1.26.0/luxon.js"></script>
+        <script src="js/JavascriptExercise01.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <script src='https://www.google.com/recaptcha/api.js'></script>
+        <script src="js/validator.js"></script>
+        <script src="js/contact.js"></script>        
+        <script src="js/moment.js"></script> 
+        <script src="js/moment-with-locales.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js"></script>  
+  
+         
+    </body>
+</html>

@@ -1,0 +1,38 @@
+
+/* body{
+    background-color: hotpink;
+    display: flex;
+    align-items: center;
+} */
+
+.buttonStyle {
+    background-color: blueviolet;
+    width: 200px;
+    border: none;
+    font-size: 2rem;
+    padding: 0.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+body, .form-control {
+    font-family: 'Lato', sans-serif;
+}
+h1{
+    margin-bottom: 40px;
+}
+label {
+    color: #333;
+}
+.btn-send {
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 20px;
+}
+
+
+.help-block.with-errors {
+    color: #ff5050;
+    margin-top: 5px;
+}

@@ -4,7 +4,8 @@ using System.Text;
 
 namespace RandomString.RandomGenerators
 {
-    internal class PseudoRandomGenerator : IRandomGenerator
+    //internal 
+    public class PseudoRandomGenerator : IRandomGenerator
     {
         #region [ Fields ]
 
@@ -20,6 +21,12 @@ namespace RandomString.RandomGenerators
             _pseudoRandomGenerator = new Random();
         }
 
+        public PseudoRandomGenerator(int seed)
+        {
+            Console.WriteLine($"Constructor is called PseudoRandomGenerator(int seed): {seed}");
+            _pseudoRandomGenerator = new Random(seed);
+        }
+
         #endregion
 
         #region [ IRandomGenerator Methods ]
@@ -31,11 +38,23 @@ namespace RandomString.RandomGenerators
 
         public int Next(int maxValue)
         {
+            if (maxValue < 0)
+                throw new ArgumentOutOfRangeException("maxValue", "'maxValue' must be greater than zero.");
+
             return _pseudoRandomGenerator.Next(maxValue);
         }
 
         public int Next(int minValue, int maxValue)
         {
+            if (minValue < 0)
+                throw new ArgumentOutOfRangeException("minValue", "'minValue' must be greater than zero.");
+
+            if (maxValue < 0)
+                throw new ArgumentOutOfRangeException("maxValue", "'maxValue' must be greater than zero.");
+
+            if (minValue > maxValue)
+                throw new ArgumentOutOfRangeException("minValue", "'minValue' cannot be greater than maxValue.");
+
             return _pseudoRandomGenerator.Next(minValue, maxValue);
         }
 

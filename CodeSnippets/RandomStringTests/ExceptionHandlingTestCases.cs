@@ -2,16 +2,147 @@
 using Xunit;
 using RandomString;
 using RandomString.Charset;
+using RandomString.RandomGenerators;
 
 namespace RandomStringTests
 {
     public class ExceptionHandlingTestCases
     {
         private readonly IRandomStringGenerator _randomStringGenerator = null;
+        private readonly IRandomGenerator _pseudoRandomGenerator = null;
+        private readonly IRandomGenerator _cryptoRandomGenerator = null;
 
         public ExceptionHandlingTestCases()
         {
             _randomStringGenerator = new RandomStringGenerator();
+            _pseudoRandomGenerator = new PseudoRandomGenerator();
+            _cryptoRandomGenerator = new CryptoRandomGenerator();
+        }
+
+        [Fact]
+        public void InvalidMaxValuePseudoRandomGeneratorNextMethod()
+        {
+            const string paramName = "maxValue";
+            ArgumentOutOfRangeException expectedException = new ArgumentOutOfRangeException(paramName, "'maxValue' must be greater than zero.");
+
+            ArgumentOutOfRangeException ex = 
+                Assert.Throws<ArgumentOutOfRangeException>(paramName, () =>
+                {
+                    _pseudoRandomGenerator.Next(-1);
+                });
+
+            Assert.Equal(expectedException.Message, ex.Message);
+        }
+
+        [Fact]
+        public void InvalidMaxValueInRangePseudoRandomGeneratorNextMethod()
+        {
+            const string paramName = "maxValue";
+            ArgumentOutOfRangeException expectedException =
+                new ArgumentOutOfRangeException(paramName, "'maxValue' must be greater than zero.");
+
+            ArgumentOutOfRangeException ex =
+                Assert.Throws<ArgumentOutOfRangeException>(paramName, () =>
+                {
+                    _pseudoRandomGenerator.Next(0, -1);
+                });
+
+            Assert.Equal(expectedException.Message, ex.Message);
+        }
+
+        [Fact]
+        public void InvalidMinValueInRangePseudoRandomGeneratorNextMethod()
+        {
+            const string paramName = "minValue";
+            ArgumentOutOfRangeException expectedException =
+                new ArgumentOutOfRangeException(paramName, "'minValue' must be greater than zero.");
+
+            ArgumentOutOfRangeException ex =
+                Assert.Throws<ArgumentOutOfRangeException>(paramName, () =>
+                {
+                    _pseudoRandomGenerator.Next(-1, 1);
+                });
+
+            Assert.Equal(expectedException.Message, ex.Message);
+        }
+
+        [Fact]
+        public void MinValueGreaterThenMaxValuePseudoRandomGeneratorNextMethod()
+        {
+            const string paramName = "minValue";
+            ArgumentOutOfRangeException expectedException =
+                new ArgumentOutOfRangeException(paramName, "'minValue' cannot be greater than maxValue.");
+
+            ArgumentOutOfRangeException ex =
+                Assert.Throws<ArgumentOutOfRangeException>(paramName, () =>
+                {
+                    _pseudoRandomGenerator.Next(11, 10);
+                });
+
+            Assert.Equal(expectedException.Message, ex.Message);
+        }
+
+        [Fact]
+        public void InvalidMaxValueCryptoRandomGeneratorNextMethod()
+        {
+            const string paramName = "maxValue";
+            ArgumentOutOfRangeException expectedException = new ArgumentOutOfRangeException(paramName, "'maxValue' must be greater than zero.");
+
+            ArgumentOutOfRangeException ex =
+                Assert.Throws<ArgumentOutOfRangeException>(paramName, () =>
+                {
+                    _cryptoRandomGenerator.Next(-1);
+                });
+
+            Assert.Equal(expectedException.Message, ex.Message);
+        }
+
+        [Fact]
+        public void InvalidMaxValueInRangeCryptoRandomGeneratorNextMethod()
+        {
+            const string paramName = "maxValue";
+            ArgumentOutOfRangeException expectedException = 
+                new ArgumentOutOfRangeException(paramName, "'maxValue' must be greater than zero.");
+
+            ArgumentOutOfRangeException ex =
+                Assert.Throws<ArgumentOutOfRangeException>(paramName, () =>
+                {
+                    _cryptoRandomGenerator.Next(0, -1);
+                });
+
+            Assert.Equal(expectedException.Message, ex.Message);
+        }
+
+        [Fact]
+        public void InvalidMinValueInRangeCryptoRandomGeneratorNextMethod()
+        {
+            const string paramName = "minValue";
+            ArgumentOutOfRangeException expectedException =
+                new ArgumentOutOfRangeException(paramName, "'minValue' must be greater than zero.");
+
+            ArgumentOutOfRangeException ex =
+                Assert.Throws<ArgumentOutOfRangeException>(paramName, () =>
+                {
+                    _cryptoRandomGenerator.Next(-1, 1);
+                });
+
+            Assert.Equal(expectedException.Message, ex.Message);
+        }
+
+        [Fact]
+        public void MinValueGreaterThenMaxValueCryptoRandomGeneratorNextMethod()
+        {
+            const string paramName = "minValue";
+            ArgumentOutOfRangeException expectedException =
+                new ArgumentOutOfRangeException(paramName, "'minValue' cannot be greater than maxValue.");
+
+            ArgumentOutOfRangeException ex =
+                Assert.Throws<ArgumentOutOfRangeException>(paramName, () =>
+                {
+                    _cryptoRandomGenerator.Next(11, 10);
+                });
+
+            Assert.Equal(expectedException.Message, ex.Message);
         }
 
         [Fact]
@@ -73,7 +204,7 @@ namespace RandomStringTests
             ArgumentException ex = Assert.Throws<ArgumentException>(paramName,
                 () =>
                 {
-                    _randomStringGenerator.Next(0, 0, 0, 0, Common.MaxStringLength + 1, false);
+                    _randomStringGenerator.Next(0, 0, 0, 0, Common.MaxStringLength + 1, AllowedCharacters.All, false);
                 });
 
             Assert.Equal(expectedException.Message, ex.Message);
@@ -90,7 +221,7 @@ namespace RandomStringTests
             ArgumentException ex = Assert.Throws<ArgumentException>(paramName,
                 () =>
                 {
-                    _randomStringGenerator.Next(0, 0, 0, 0, Common.MinStringLength - 1, false);
+                    _randomStringGenerator.Next(0, 0, 0, 0, Common.MinStringLength - 1, AllowedCharacters.All, false);
                 });
 
             Assert.Equal(expectedException.Message, ex.Message);
@@ -106,7 +237,7 @@ namespace RandomStringTests
             ArgumentException ex = Assert.Throws<ArgumentException>(
                 () =>
                 {
-                    _randomStringGenerator.Next(-1, 0, 0, 0, 20, false);
+                    _randomStringGenerator.Next(-1, 0, 0, 0, 20, AllowedCharacters.All, false);
                 });
 
             Assert.Equal(expectedException.Message, ex.Message);
@@ -114,7 +245,7 @@ namespace RandomStringTests
             ex = Assert.Throws<ArgumentException>(
                 () =>
                 {
-                    _randomStringGenerator.Next(0, -1, 0, 0, 20, false);
+                    _randomStringGenerator.Next(0, -1, 0, 0, 20, AllowedCharacters.All, false);
                 });
 
             Assert.Equal(expectedException.Message, ex.Message);
@@ -122,7 +253,7 @@ namespace RandomStringTests
             ex = Assert.Throws<ArgumentException>(
                 () =>
                 {
-                    _randomStringGenerator.Next(0, 0, -1, 0, 20, false);
+                    _randomStringGenerator.Next(0, 0, -1, 0, 20, AllowedCharacters.All, false);
                 });
 
             Assert.Equal(expectedException.Message, ex.Message);
@@ -130,7 +261,7 @@ namespace RandomStringTests
             ex = Assert.Throws<ArgumentException>(
                 () =>
                 {
-                    _randomStringGenerator.Next(0, 0, 0, -1, 20, false);
+                    _randomStringGenerator.Next(0, 0, 0, -1, 20, AllowedCharacters.All, false);
                 });
 
             Assert.Equal(expectedException.Message, ex.Message);
@@ -146,7 +277,7 @@ namespace RandomStringTests
             ArgumentException ex = Assert.Throws<ArgumentException>(
                 () =>
                 {
-                    _randomStringGenerator.Next(5, 5, 5, 6, 20, false);
+                    _randomStringGenerator.Next(5, 5, 5, 6, 20, AllowedCharacters.All, false);
                 });
 
             Assert.Equal(expectedException.Message, ex.Message);
@@ -154,7 +285,7 @@ namespace RandomStringTests
             ex = Assert.Throws<ArgumentException>(
                 () =>
                 {
-                    _randomStringGenerator.Next(5, 5, 6, 5, 20, false);
+                    _randomStringGenerator.Next(5, 5, 6, 5, 20, AllowedCharacters.All, false);
                 });
 
             Assert.Equal(expectedException.Message, ex.Message);
@@ -162,7 +293,7 @@ namespace RandomStringTests
             ex = Assert.Throws<ArgumentException>(
                 () =>
                 {
-                    _randomStringGenerator.Next(5, 6, 5, 5, 20, false);
+                    _randomStringGenerator.Next(5, 6, 5, 5, 20, AllowedCharacters.All, false);
                 });
 
             Assert.Equal(expectedException.Message, ex.Message);
@@ -170,7 +301,7 @@ namespace RandomStringTests
             ex = Assert.Throws<ArgumentException>(
                 () =>
                 {
-                    _randomStringGenerator.Next(6, 5, 5, 5, 20, false);
+                    _randomStringGenerator.Next(6, 5, 5, 5, 20, AllowedCharacters.All, false);
                 });
 
             Assert.Equal(expectedException.Message, ex.Message);

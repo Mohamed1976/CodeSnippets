@@ -5,7 +5,8 @@ using System.Text;
 
 namespace RandomString.Charset
 {
-    internal static class CharsetComposer
+    //internal 
+    public static class CharsetComposer
     {
         #region [ Fields ]
 

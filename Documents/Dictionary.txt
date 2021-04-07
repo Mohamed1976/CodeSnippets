@@ -160,4 +160,39 @@ ES6		ECMAScript 6
 SPA		Single-page application
 cors	Cross-origin resource sharing
 DOM		Document Object Model
-IDE		Integrated Development Environment (such as Visual Studio)	
+IDE		Integrated Development Environment (such as Visual Studio)
+IAAS	Infrastructure as a service
+PAAS	Platform as a service
+SAAS	Software as a service
+Private Cloud	On premise cloud, the company self maintenance the infrastructure   
+Public Cloud	Example such as Azure
+hybride cloud	A combination of private and public cloud, used to easily scale capacity.
+SLA		service-level agreement, guarantees a certain level of availability as a percentage. 
+BCDR	Business Continuity and Disaster Recovery
+ARM		Azure Resource Manager, the ARM API is your interface to the world of Azure 
+API		application programming interface
+ZRS		Zone Redundant Storage
+ACI		Azure Container Instances
+AKS		Azure Kubernetes Service
+WVD		Windows Virtual Desktop 
+CIDR	classless inter-domain routing
+MSEE	Microsoft Enterprise Edge router
+DMS		Azure Database Migration Service
+C2D messaging 	called cloud-to-device
+D2C messaging	device-to-cloud
+DPS		IoT Hub Device Provisioning Service
+MCU		microprocessor unit
+DMS		Data Movement Service
+NSGs	Network Security Groups
+HSMs	Hardware security modules
+OPEX	operational expenditure
+CAPEX 	capital expenditure
+LRS		Locally Redundant Storage
+GRS		Geo-redundant storage
+Compliance:
+HIPAA	Health Insurance Portability and Accountability Act
+	
+	
+	
+	
+	

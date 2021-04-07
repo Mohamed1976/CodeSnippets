@@ -10,7 +10,7 @@ namespace RandomString
         string Next(AllowedCharacters allowedCharacters, int length, bool excludeSimilarLookingCharacters);
 
         string Next(int minUpperCaseLetters, int minLowerCaseLetters, int minDigits, int minSpecialChars, 
-            int length, bool excludeSimilarLookingCharacters);
+            int length, AllowedCharacters fillRest, bool excludeSimilarLookingCharacters);
 
         string Next(char[] allowedCharacters, int length);
     }

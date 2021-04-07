@@ -4,7 +4,8 @@ using System.Text;
 
 namespace RandomString.RandomGenerators
 {
-    internal interface IRandomGenerator: IDisposable
+    //internal 
+    public interface IRandomGenerator: IDisposable
     {
         int Next();
         int Next(int maxValue);

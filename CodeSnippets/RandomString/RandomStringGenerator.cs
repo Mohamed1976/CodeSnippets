@@ -99,7 +99,7 @@ namespace RandomString
                 _randomGenerator = new CryptoRandomGenerator();
             }
             else {
-                _randomGenerator = new PseudoRandomGenerator();  
+                _randomGenerator = new PseudoRandomGenerator(Guid.NewGuid().GetHashCode());  
             }
         }
 
@@ -132,6 +132,10 @@ namespace RandomString
             if (length < Common.MinStringLength || length > Common.MaxStringLength)
                 throw new ArgumentException(Common.STRING_LENGTH_EXCEEDS_RANGE, nameof(length));
 
+            if (allowedCharacters == AllowedCharacters.Minus || allowedCharacters == AllowedCharacters.Space 
+                || allowedCharacters == AllowedCharacters.Underscore)
+                throw new ArgumentException("Please make sure that the charset(s) selected contain more than one character.", nameof(allowedCharacters));
+
             /* Get chosen charset. */
             charset = CharsetComposer.GetCharacters(allowedCharacters, excludeSimilarLookingCharacters);
 
@@ -143,7 +147,7 @@ namespace RandomString
 
         //Add FillRest = CharType.LowerCase | UpperCase | Digits;
         public string Next(int minUpperCaseLetters, int minLowerCaseLetters, int minDigits, 
-            int minSpecialChars, int length, bool excludeSimilarLookingCharacters)
+            int minSpecialChars, int length, AllowedCharacters fillRest, bool excludeSimilarLookingCharacters)
         {
             int nrOfPreSpecifiedChars;
             string randomString = string.Empty;
@@ -160,7 +164,14 @@ namespace RandomString
             if(nrOfPreSpecifiedChars > length)
                 throw new ArgumentException(Common.MINIMUM_PARAMETER_EXCEEDS_LENGTH);
 
-            if(minUpperCaseLetters > 0)
+            if (nrOfPreSpecifiedChars < length && fillRest == AllowedCharacters.None)
+                throw new ArgumentException(Common.NO_CHARSET_SPECIFIED, nameof(fillRest));
+
+            if(nrOfPreSpecifiedChars == 0 && (fillRest == AllowedCharacters.Minus || 
+                fillRest == AllowedCharacters.Space || fillRest == AllowedCharacters.Underscore))
+                throw new ArgumentException("Please make sure that the charset(s) selected contain more than one character.", nameof(fillRest));
+
+            if (minUpperCaseLetters > 0)
             {
                 charset = CharsetComposer.GetCharacters(AllowedCharacters.UpperCaseLetters, 
                     excludeSimilarLookingCharacters);
@@ -191,10 +202,7 @@ namespace RandomString
             /* The rest of the characters can be chosen from the complete set, Letters, digits and special symbols. */
             if(length > nrOfPreSpecifiedChars)
             {
-                charset = CharsetComposer.GetCharacters(AllowedCharacters.UpperCaseLetters | 
-                    AllowedCharacters.LowerCaseLetters | AllowedCharacters.Digits | 
-                    AllowedCharacters.SpecialChars, excludeSimilarLookingCharacters);
-
+                charset = CharsetComposer.GetCharacters(fillRest, excludeSimilarLookingCharacters);
                 randomString += GetRandomString(charset, length - nrOfPreSpecifiedChars);
             }
 

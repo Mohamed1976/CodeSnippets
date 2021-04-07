@@ -5,7 +5,8 @@ using System.Text;
 
 namespace RandomString.RandomGenerators
 {
-    internal class CryptoRandomGenerator : IRandomGenerator
+    //internal 
+    public class CryptoRandomGenerator : IRandomGenerator
     {
         #region [ Fields ]
 
@@ -21,6 +22,7 @@ namespace RandomString.RandomGenerators
         {
             _cryptoRandomGenerator = RandomNumberGenerator.Create();
             _uintBuffer = new byte[sizeof(uint)];
+            Console.WriteLine("Constructor CryptoRandomGenerator");
         }
 
         #endregion
@@ -35,7 +37,7 @@ namespace RandomString.RandomGenerators
         public int Next(int maxValue)
         {
             if (maxValue < 0)
-                throw new ArgumentOutOfRangeException("maxValue");
+                throw new ArgumentOutOfRangeException("maxValue", "'maxValue' must be greater than zero.");
 
             return Next(0, maxValue);
         }
@@ -44,11 +46,16 @@ namespace RandomString.RandomGenerators
         {
             int randomVal = -1;
 
-            if (minValue > maxValue)
-            {
-                throw new ArgumentOutOfRangeException();
-            }
-            else if (maxValue > minValue)
+            if (minValue < 0)
+                throw new ArgumentOutOfRangeException("minValue", "'minValue' must be greater than zero.");
+
+            if (maxValue < 0)
+                throw new ArgumentOutOfRangeException("maxValue", "'maxValue' must be greater than zero.");
+
+            if(minValue > maxValue)
+                throw new ArgumentOutOfRangeException("minValue", "'minValue' cannot be greater than maxValue.");
+            
+            if (maxValue > minValue)
             {
                 long diff = maxValue - minValue;
 

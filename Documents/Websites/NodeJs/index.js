@@ -38,6 +38,7 @@ console.log("The written has the following contents:");
 console.log(fs.readFileSync("programming.txt", "utf8"));
 let people = 10000;
 console.log("You need %s pizzas for %s people", howManyPizza(people), people);
+console.log(`##${howManyPizza(people)}, ${people}`);
 //You need 3750 pizzas for 10000 people
 
 const place = `World`;
